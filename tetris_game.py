@@ -9,6 +9,8 @@ from PyQt5.QtGui import QPainter, QColor
 from tetris_model import BOARD_DATA, Shape
 from tetris_ai import TETRIS_AI
 
+import time
+
 # TETRIS_AI = None
 
 class Tetris(QMainWindow):
@@ -23,7 +25,7 @@ class Tetris(QMainWindow):
 
     def initUI(self):
         self.gridSize = 22
-        self.speed = 10
+        self.speed = 800 # block drop speed
 
         self.timer = QBasicTimer()
         self.setFocusPolicy(Qt.StrongFocus)
@@ -102,7 +104,8 @@ class Tetris(QMainWindow):
                     k += 1
             # lines = BOARD_DATA.dropDown()
             lines = BOARD_DATA.moveDown()
-            self.tboard.score += lines
+            self.tboard.score += lines # update current score
+
             if self.lastShape != BOARD_DATA.currentShape:
                 self.nextMove = None
                 self.lastShape = BOARD_DATA.currentShape
@@ -180,7 +183,7 @@ class SidePanel(QFrame):
 
 class Board(QFrame):
     msg2Statusbar = pyqtSignal(str)
-    speed = 10
+    speed = 800 # block drop speed
 
     def __init__(self, parent, gridSize):
         super().__init__(parent)
@@ -190,6 +193,7 @@ class Board(QFrame):
 
     def initBoard(self):
         self.score = 0
+        self.start_time = time.time() 
         BOARD_DATA.clear()
 
     def paintEvent(self, event):
@@ -213,7 +217,10 @@ class Board(QFrame):
         painter.drawLine(self.width(), 0, self.width(), self.height())
 
     def updateData(self):
-        self.msg2Statusbar.emit(str(self.score))
+        score_str = str(self.score)
+        elapsed_time = round(time.time() - self.start_time, 3)
+        elapsed_time_str = str(elapsed_time)
+        self.msg2Statusbar.emit("score:" + score_str + ", elapsed_time[s]:" + elapsed_time_str ) # print string to status bar
         self.update()
 
 
