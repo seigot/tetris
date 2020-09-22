@@ -3,6 +3,7 @@
 
 import random
 
+# Shape manager
 class Shape(object):
     shapeNone = 0
     shapeI = 1
@@ -12,6 +13,35 @@ class Shape(object):
     shapeO = 5
     shapeS = 6
     shapeZ = 7
+
+    # shape1 : ****
+    #          ----
+    #          ----
+    #
+    # shape2 : -*--
+    #          -*--
+    #          -**-
+    #
+    # shape3 : --*-
+    #          --*-
+    #          -**-
+    #
+    # shape4 : -*--
+    #          -**-
+    #          -*--
+    #
+    # shape5 : -**-
+    #          -**-
+    #          ----
+    #
+    # shape6 : -**-
+    #          **--
+    #          ----
+    #
+    # shape7 : **--
+    #          -**-
+    #          ----
+    #
 
     shapeCoord = (
         ((0, 0), (0, 0), (0, 0), (0, 0)),
@@ -65,19 +95,20 @@ class Shape(object):
         return (minX, maxX, minY, maxY)
 
 
+# board manager
 class BoardData(object):
+
     width = 10
     height = 22
 
     def __init__(self):
-        self.backBoard = [0] * BoardData.width * BoardData.height
+        self.backBoard = [0] * BoardData.width * BoardData.height # initialize board matrix
 
         self.currentX = -1
         self.currentY = -1
         self.currentDirection = 0
-        self.currentShape = Shape()
-        self.nextShape = Shape(random.randint(1, 7))
-
+        self.currentShape = Shape() # initial current shape data
+        self.nextShape = Shape(random.randint(1, 7)) # initial next shape data
         self.shapeStat = [0] * 8
 
     def getData(self):
@@ -97,7 +128,7 @@ class BoardData(object):
             self.currentY = -minY
             self.currentDirection = 0
             self.currentShape = self.nextShape
-            self.nextShape = Shape(random.randint(1, 7))
+            self.nextShape = Shape(random.randint(1, 7)) # next shape data
             result = True
         else:
             self.currentShape = Shape()
@@ -120,6 +151,8 @@ class BoardData(object):
         return True
 
     def moveDown(self):
+        # move piece, 1 block
+        # and return the number of lines which is removed in this function.
         lines = 0
         if self.tryMoveCurrent(self.currentDirection, self.currentX, self.currentY + 1):
             self.currentY += 1
@@ -130,6 +163,8 @@ class BoardData(object):
         return lines
 
     def dropDown(self):
+        # drop piece, immediately
+        # and return the number of lines which is removed in this function.
         while self.tryMoveCurrent(self.currentDirection, self.currentX, self.currentY + 1):
             self.currentY += 1
         self.mergePiece()

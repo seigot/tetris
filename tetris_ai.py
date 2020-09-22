@@ -10,7 +10,9 @@ import numpy as np
 class TetrisAI(object):
 
     def nextMove(self):
+        # calculate next drop position --->
         t1 = datetime.now()
+
         if BOARD_DATA.currentShape == Shape.shapeNone:
             return None
 
@@ -19,7 +21,6 @@ class TetrisAI(object):
         _, _, minY, _ = BOARD_DATA.nextShape.getBoundingOffsets(0)
         nextY = -minY
 
-        # print("=======")
         strategy = None
         if BOARD_DATA.currentShape.shape in (Shape.shapeI, Shape.shapeZ, Shape.shapeS):
             d0Range = (0, 1)
@@ -47,6 +48,8 @@ class TetrisAI(object):
                         if not strategy or strategy[2] < score:
                             strategy = (d0, x0, score)
         print("===", datetime.now() - t1)
+        # calculate next drop position <---
+
         return strategy
 
     def calcNextDropDist(self, data, d0, xRange):
