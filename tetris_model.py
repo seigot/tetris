@@ -153,27 +153,27 @@ class BoardData(object):
     def moveDown(self):
         # move piece, 1 block
         # and return the number of lines which is removed in this function.
-        lines = 0
+        removedlines = 0
         if self.tryMoveCurrent(self.currentDirection, self.currentX, self.currentY + 1):
             self.currentY += 1
         else:
             self.mergePiece()
-            lines = self.removeFullLines()
+            removedlines = self.removeFullLines()
             self.createNewPiece()
-        return lines
+        return removedlines
 
     def dropDown(self):
         # drop piece, immediately
         # and return the number of lines which is removed in this function.
-        dropdownscore = 0
+        dropdownlines = 0
         while self.tryMoveCurrent(self.currentDirection, self.currentX, self.currentY + 1):
             self.currentY += 1
-            dropdownscore += 1
+            dropdownlines += 1
 
         self.mergePiece()
-        lines = self.removeFullLines()
+        removedlines = self.removeFullLines()
         self.createNewPiece()
-        return lines, dropdownscore
+        return removedlines, dropdownlines
 
     def moveLeft(self):
         if self.tryMoveCurrent(self.currentDirection, self.currentX - 1, self.currentY):

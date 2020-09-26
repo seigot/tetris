@@ -103,8 +103,8 @@ class Tetris(QMainWindow):
                         BOARD_DATA.moveRight()
                     k += 1
             # lines = BOARD_DATA.dropDown()
-            lines = BOARD_DATA.moveDown()
-            self.UpdateScore(lines, 0)
+            removedlines = BOARD_DATA.moveDown()
+            self.UpdateScore(removedlines, 0)
 
             if self.lastShape != BOARD_DATA.currentShape:
                 self.nextMove = None
@@ -113,19 +113,20 @@ class Tetris(QMainWindow):
         else:
             super(Tetris, self).timerEvent(event)
 
-    def UpdateScore(self, lines, dropdownscore):
+    def UpdateScore(self, removedlines, dropdownlines):
         # calculate and update current score
         # reference: gameboy tetris. http://www.din.or.jp/~koryan/tetris/d-gb1.htm
-        if lines == 1:
+        if removedlines == 1:
             linescore = 40
-        elif lines == 2:
+        elif removedlines == 2:
             linescore = 100
-        elif lines == 3:
+        elif removedlines == 3:
             linescore = 300
-        elif lines == 4:
+        elif removedlines == 4:
             linescore = 1200
         else:
             linescore = 0
+        dropdownscore = dropdownlines
         self.tboard.score += ( linescore + dropdownscore )
 
     def keyPressEvent(self, event):
@@ -148,8 +149,8 @@ class Tetris(QMainWindow):
         elif key == Qt.Key_Up:
             BOARD_DATA.rotateLeft()
         elif key == Qt.Key_Space:
-            lines, dropdownscore = BOARD_DATA.dropDown()
-            self.UpdateScore(lines, dropdownscore)
+            removedlines, dropdownlines = BOARD_DATA.dropDown()
+            self.UpdateScore(removedlines, dropdownlines)
         else:
             super(Tetris, self).keyPressEvent(event)
 
