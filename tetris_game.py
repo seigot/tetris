@@ -193,6 +193,7 @@ class Board(QFrame):
 
     def initBoard(self):
         self.score = 0
+        self.gameover_cnt = 0
         self.start_time = time.time() 
         BOARD_DATA.clear()
 
@@ -218,9 +219,10 @@ class Board(QFrame):
 
     def updateData(self):
         score_str = str(self.score)
+        gameover_cnt_str = str(self.gameover_cnt)
         elapsed_time = round(time.time() - self.start_time, 3)
         elapsed_time_str = str(elapsed_time)
-        self.msg2Statusbar.emit("score:" + score_str + ", elapsed_time[s]:" + elapsed_time_str ) # print string to status bar
+        self.msg2Statusbar.emit("score:" + score_str + ", gameover:" + gameover_cnt_str + ", time[s]:" + elapsed_time_str ) # print string to status bar
         self.update()
 
 
