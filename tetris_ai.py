@@ -9,6 +9,22 @@ import numpy as np
 
 class TetrisAI(object):
 
+    # use following data from board
+    # BOARD_DATA.currentShape
+    # BOARD_DATA.currentDirection
+    # BOARD_DATA.currentY
+    # BOARD_DATA.currentShape.shape
+    # BOARD_DATA.nextShape.getBoundingOffsets(0)
+    # BOARD_DATA.nextShape.shape 
+    # BOARD_DATA.width
+    # BOARD_DATA.height
+    # BOARD_DATA.nextShape.getBoundingOffsets(d1)
+    # BOARD_DATA.nextShape.getCoords(d0, x0, 0):
+    # BOARD_DATA.getData()).reshape((BOARD_DATA.height, BOARD_DATA.width))
+    # BOARD_DATA.currentShape, d0, x0)
+    # shape.getCoords(direction, x0, 0):
+    # and score, time, gaveover_cnt data..
+
     def nextMove(self):
         # calculate next drop position --->
         t1 = datetime.now()
