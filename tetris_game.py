@@ -25,7 +25,7 @@ class Tetris(QMainWindow):
 
     def initUI(self):
         self.gridSize = 22
-        self.speed = 800 # block drop speed
+        self.speed = 1000 # block drop speed
 
         self.timer = QBasicTimer()
         self.setFocusPolicy(Qt.StrongFocus)
@@ -113,20 +113,20 @@ class Tetris(QMainWindow):
         else:
             super(Tetris, self).timerEvent(event)
 
-    def UpdateScore(self, lines, dropscore):
+    def UpdateScore(self, lines, dropdownscore):
         # calculate and update current score
         # reference: gameboy tetris. http://www.din.or.jp/~koryan/tetris/d-gb1.htm
         if lines == 1:
-            score = 40
+            linescore = 40
         elif lines == 2:
-            score = 100
+            linescore = 100
         elif lines == 3:
-            score = 300
+            linescore = 300
         elif lines == 4:
-            score = 1200
+            linescore = 1200
         else:
-            score = 0
-        self.tboard.score += score
+            linescore = 0
+        self.tboard.score += ( linescore + dropdownscore )
 
     def keyPressEvent(self, event):
         if not self.isStarted or BOARD_DATA.currentShape == Shape.shapeNone:
@@ -148,8 +148,8 @@ class Tetris(QMainWindow):
         elif key == Qt.Key_Up:
             BOARD_DATA.rotateLeft()
         elif key == Qt.Key_Space:
-            lines = BOARD_DATA.dropDown()
-            self.UpdateScore(lines, 0)
+            lines, dropdownscore = BOARD_DATA.dropDown()
+            self.UpdateScore(lines, dropdownscore)
         else:
             super(Tetris, self).keyPressEvent(event)
 
@@ -199,7 +199,7 @@ class SidePanel(QFrame):
 
 class Board(QFrame):
     msg2Statusbar = pyqtSignal(str)
-    speed = 800 # block drop speed
+    speed = 1000 # block drop speed
 
     def __init__(self, parent, gridSize):
         super().__init__(parent)
