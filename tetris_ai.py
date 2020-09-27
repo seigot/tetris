@@ -26,13 +26,15 @@ class TetrisAI(object):
     # and score, time, gaveover_cnt data..
 
     def nextMove(self):
-        # calculate next drop position --->
+
         t1 = datetime.now()
 
+        # error return
         if BOARD_DATA.currentShape == Shape.shapeNone:
             print("shape none")
             return None
 
+        # get current status
         currentDirection = BOARD_DATA.currentDirection
         currentY = BOARD_DATA.currentY
         _, _, minY, _ = BOARD_DATA.nextShape.getBoundingOffsets(0)
@@ -57,6 +59,7 @@ class TetrisAI(object):
         else:
             d1Range = (0, 1, 2, 3)
 
+        # search nextMove -->
         for d0 in d0Range:
             minX, maxX, _, _ = BOARD_DATA.currentShape.getBoundingOffsets(d0)
             for x0 in range(-minX, BOARD_DATA.width - maxX):
@@ -71,8 +74,9 @@ class TetrisAI(object):
                         if not strategy or LatestScore < score:
                             strategy = (d0, x0, 0)
                             LatestScore = score
+        # search nextMove <--
+
         print("===", datetime.now() - t1)
-        # calculate next drop position <---
 
         return strategy
 
