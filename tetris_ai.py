@@ -9,20 +9,21 @@ import numpy as np
 
 class TetrisAI(object):
 
+    # Todo: collect followings to .json file...
     # use following data from board
     # BOARD_DATA.currentShape
     # BOARD_DATA.currentDirection
     # BOARD_DATA.currentY
     # BOARD_DATA.currentShape.shape
-    # BOARD_DATA.nextShape.getBoundingOffsets(0)
     # BOARD_DATA.nextShape.shape 
     # BOARD_DATA.width
     # BOARD_DATA.height
-    # BOARD_DATA.nextShape.getBoundingOffsets(d1)
-    # BOARD_DATA.nextShape.getCoords(d0, x0, 0):
-    # BOARD_DATA.getData()).reshape((BOARD_DATA.height, BOARD_DATA.width))
-    # BOARD_DATA.currentShape, d0, x0)
-    # shape.getCoords(direction, x0, 0):
+    # BOARD_DATA.nextShape.getBoundingOffsets(0) !!! how to get?
+    # BOARD_DATA.nextShape.getBoundingOffsets(d1) !!! how to get?
+    # BOARD_DATA.nextShape.getCoords(d0, x0, 0): !!! how to get?
+    # BOARD_DATA.getData()).reshape((BOARD_DATA.height, BOARD_DATA.width)) !!! how to get?
+    # shape.getCoords(direction, x0, 0): !!! how to get?
+    # BOARD_DATA.currentShape, d0, x0) !!! how to get?
     # and score, time, gaveover_cnt data..
 
     def nextMove(self):
