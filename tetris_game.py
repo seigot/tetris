@@ -88,13 +88,21 @@ class Tetris(QMainWindow):
 
     def timerEvent(self, event):
         if event.timerId() == self.timer.timerId():
+            y_operation = -1
+
             if TETRIS_AI and not self.nextMove:
+                # get 
+                # nextMove[0] : shape direction operation
+                # nextMove[1] : x_operation (x move value)
+                # nextMove[2] : y_operation (flag 0: move down, 1:drop down)
                 self.nextMove = TETRIS_AI.nextMove()
             if self.nextMove:
+                # shape direction operation
                 k = 0
                 while BOARD_DATA.currentDirection != self.nextMove[0] and k < 4:
                     BOARD_DATA.rotateRight()
                     k += 1
+                # x operatiox
                 k = 0
                 while BOARD_DATA.currentX != self.nextMove[1] and k < 5:
                     if BOARD_DATA.currentX > self.nextMove[1]:
@@ -102,9 +110,17 @@ class Tetris(QMainWindow):
                     elif BOARD_DATA.currentX < self.nextMove[1]:
                         BOARD_DATA.moveRight()
                     k += 1
+                # y operation
+                y_operation = self.nextMove[2]
+
             # lines = BOARD_DATA.dropDown()
-            removedlines = BOARD_DATA.moveDown()
-            self.UpdateScore(removedlines, 0)
+            if y_operation == 1: # dropdown
+                removedlines, dropdownlines = BOARD_DATA.dropDown()
+            else:
+                removedlines = BOARD_DATA.moveDown()
+                dropdownlines = 0
+
+            self.UpdateScore(removedlines, dropdownlines)
 
             if self.lastShape != BOARD_DATA.currentShape:
                 self.nextMove = None

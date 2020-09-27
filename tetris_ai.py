@@ -30,6 +30,7 @@ class TetrisAI(object):
         t1 = datetime.now()
 
         if BOARD_DATA.currentShape == Shape.shapeNone:
+            print("shape none")
             return None
 
         currentDirection = BOARD_DATA.currentDirection
@@ -38,6 +39,9 @@ class TetrisAI(object):
         nextY = -minY
 
         strategy = None
+        LatestScore = 0
+
+        # check current shape direction range
         if BOARD_DATA.currentShape.shape in (Shape.shapeI, Shape.shapeZ, Shape.shapeS):
             d0Range = (0, 1)
         elif BOARD_DATA.currentShape.shape == Shape.shapeO:
@@ -45,6 +49,7 @@ class TetrisAI(object):
         else:
             d0Range = (0, 1, 2, 3)
 
+        # check next shape direction range
         if BOARD_DATA.nextShape.shape in (Shape.shapeI, Shape.shapeZ, Shape.shapeS):
             d1Range = (0, 1)
         elif BOARD_DATA.nextShape.shape == Shape.shapeO:
@@ -61,8 +66,11 @@ class TetrisAI(object):
                     dropDist = self.calcNextDropDist(board, d1, range(-minX, BOARD_DATA.width - maxX))
                     for x1 in range(-minX, BOARD_DATA.width - maxX):
                         score = self.calculateScore(np.copy(board), d1, x1, dropDist)
-                        if not strategy or strategy[2] < score:
-                            strategy = (d0, x0, score)
+                        #if not strategy or strategy[2] < score:
+                        #    strategy = (d0, x0, score)
+                        if not strategy or LatestScore < score:
+                            strategy = (d0, x0, 0)
+                            LatestScore = score
         print("===", datetime.now() - t1)
         # calculate next drop position <---
 
