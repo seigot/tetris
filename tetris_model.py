@@ -178,20 +178,36 @@ class BoardData(object):
     def moveLeft(self):
         if self.tryMoveCurrent(self.currentDirection, self.currentX - 1, self.currentY):
             self.currentX -= 1
+        else:
+            print("failed to moveLeft..")
+            return False
+        return True
 
     def moveRight(self):
         if self.tryMoveCurrent(self.currentDirection, self.currentX + 1, self.currentY):
             self.currentX += 1
+        else:
+            print("failed to moveRight..")
+            return False
+        return True
 
     def rotateRight(self):
         if self.tryMoveCurrent((self.currentDirection + 1) % 4, self.currentX, self.currentY):
             self.currentDirection += 1
             self.currentDirection %= 4
+        else:
+            print("failed to rotateRight..")
+            return False
+        return True
 
     def rotateLeft(self):
         if self.tryMoveCurrent((self.currentDirection - 1) % 4, self.currentX, self.currentY):
             self.currentDirection -= 1
             self.currentDirection %= 4
+        else:
+            print("failed to rotateLeft..")
+            return False
+        return True
 
     def removeFullLines(self):
         newBackBoard = [0] * BoardData.width * BoardData.height

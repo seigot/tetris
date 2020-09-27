@@ -81,6 +81,11 @@ class Tetris(QMainWindow):
 
         self.updateWindow()
 
+    def resetfield(self):
+        # self.tboard.score = 0
+        self.tboard.reset_cnt += 1
+        BOARD_DATA.clear()
+
     def updateWindow(self):
         self.tboard.updateData()
         self.sidePanel.updateData()
@@ -100,15 +105,27 @@ class Tetris(QMainWindow):
                 # shape direction operation
                 k = 0
                 while BOARD_DATA.currentDirection != self.nextMove[0] and k < 4:
-                    BOARD_DATA.rotateRight()
+                    ret = BOARD_DATA.rotateRight()
+                    if ret == False:
+                        print("cannot rotateRight, reset field")
+                        self.resetfield()
+                        break
                     k += 1
                 # x operatiox
                 k = 0
                 while BOARD_DATA.currentX != self.nextMove[1] and k < 5:
                     if BOARD_DATA.currentX > self.nextMove[1]:
-                        BOARD_DATA.moveLeft()
+                        ret = BOARD_DATA.moveLeft()
+                        if ret == False:
+                            print("cannot moveLeft, reset field")
+                            self.resetfield()
+                            break
                     elif BOARD_DATA.currentX < self.nextMove[1]:
-                        BOARD_DATA.moveRight()
+                        ret = BOARD_DATA.moveRight()
+                        if ret == False:
+                            print("cannot moveRight, reset field")
+                            self.resetfield()
+                            break
                     k += 1
                 # y operation
                 y_operation = self.nextMove[2]
@@ -226,7 +243,7 @@ class Board(QFrame):
 
     def initBoard(self):
         self.score = 0
-        self.gameover_cnt = 0
+        self.reset_cnt = 0
         self.start_time = time.time() 
         BOARD_DATA.clear()
 
@@ -252,10 +269,10 @@ class Board(QFrame):
 
     def updateData(self):
         score_str = str(self.score)
-        gameover_cnt_str = str(self.gameover_cnt)
+        reset_cnt_str = str(self.reset_cnt)
         elapsed_time = round(time.time() - self.start_time, 3)
         elapsed_time_str = str(elapsed_time)
-        self.msg2Statusbar.emit("score:" + score_str + ", gameover:" + gameover_cnt_str + ", time[s]:" + elapsed_time_str ) # print string to status bar
+        self.msg2Statusbar.emit("score:" + score_str + ", gameover:" + reset_cnt_str + ", time[s]:" + elapsed_time_str ) # print string to status bar
         self.update()
 
 
