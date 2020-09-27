@@ -59,12 +59,12 @@ class TetrisAI(object):
         else:
             d1Range = (0, 1, 2, 3)
 
-        # search nextMove -->
-        for d0 in d0Range:
+        # search best strategy -->
+        for d0 in d0Range: # current shape direction range
             minX, maxX, _, _ = BOARD_DATA.currentShape.getBoundingOffsets(d0)
-            for x0 in range(-minX, BOARD_DATA.width - maxX):
+            for x0 in range(-minX, BOARD_DATA.width - maxX): # x operation range
                 board = self.calcStep1Board(d0, x0)
-                for d1 in d1Range:
+                for d1 in d1Range: # next shape direction range
                     minX, maxX, _, _ = BOARD_DATA.nextShape.getBoundingOffsets(d1)
                     dropDist = self.calcNextDropDist(board, d1, range(-minX, BOARD_DATA.width - maxX))
                     for x1 in range(-minX, BOARD_DATA.width - maxX):
@@ -74,7 +74,7 @@ class TetrisAI(object):
                         if not strategy or LatestScore < score:
                             strategy = (d0, x0, 0)
                             LatestScore = score
-        # search nextMove <--
+        # search best strategy <--
 
         print("===", datetime.now() - t1)
 
