@@ -35,6 +35,9 @@ class TetrisAI(object):
             print("shape none")
             return None
 
+        BoardStatus = BOARD_DATA.getBoardStatus()
+        print(BoardStatus)
+
         # get current status
         currentDirection = BOARD_DATA.currentDirection
         currentY = BOARD_DATA.currentY

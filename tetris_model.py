@@ -111,6 +111,38 @@ class BoardData(object):
         self.nextShape = Shape(random.randint(1, 7)) # initial next shape data
         self.shapeStat = [0] * 8
 
+    def getBoardStatus(self):
+        # return current Board status.
+        # define status data.
+        status = {"board":
+                      {
+                        "width": "none",
+                        "height": "none",
+                        "backboard": "none"
+                      },
+                  "shape":
+                      {
+                        "currentX":"none",
+                        "currentY":"none",
+                        "currentDirection":"none",
+                        "currentShape":"none",
+                        "nextShape":"none",
+                        "shapeStat":"none",
+                      },
+                  }
+        # update status
+        status["board"]["width"] = BoardData.width
+        status["board"]["height"] = BoardData.height
+        status["board"]["backboard"] = self.getData()
+        status["shape"]["currentX"] = self.currentX
+        status["shape"]["currentY"] = self.currentY
+        status["shape"]["currentDirection"] = self.currentDirection
+        status["shape"]["currentShape"] = self.currentShape
+        status["shape"]["nextShape"] = self.nextShape
+        status["shape"]["shapeStat"] = self.shapeStat
+
+        return status
+
     def getData(self):
         return self.backBoard[:]
 
