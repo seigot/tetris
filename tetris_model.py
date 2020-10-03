@@ -118,7 +118,7 @@ class BoardData(object):
                       {
                         "width": "none",
                         "height": "none",
-                        "backboard": "none"
+                        "backboard": "none",
                       },
                   "shape":
                       {
@@ -128,6 +128,19 @@ class BoardData(object):
                         "currentShape":"none",
                         "nextShape":"none",
                         "shapeStat":"none",
+                      },
+                  "judge_info":
+                      {
+                        "elapsed_time":"none",
+                        "gameover_count":"none",
+                        "your_score":"none",
+                      },
+                  "general":
+                      {
+                        "1line_score":"none",
+                        "2line_score":"none",
+                        "3line_score":"none",
+                        "4line_score":"none",
                       },
                   }
         # update status
