@@ -145,9 +145,12 @@ class Tetris(QMainWindow):
 
             self.UpdateScore(removedlines, dropdownlines)
 
-            if self.lastShape != BOARD_DATA.currentShape:
-                self.nextMove = None
-                self.lastShape = BOARD_DATA.currentShape
+            # update nextMove everytime.
+            self.nextMove = None
+            #if self.lastShape != BOARD_DATA.currentShape:
+            #    self.nextMove = None
+            #    self.lastShape = BOARD_DATA.currentShape
+
             self.updateWindow()
         else:
             super(Tetris, self).timerEvent(event)
