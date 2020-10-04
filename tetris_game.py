@@ -173,6 +173,7 @@ class Tetris(QMainWindow):
             linescore = 0
         dropdownscore = dropdownlines
         self.tboard.score += ( linescore + dropdownscore )
+        self.tboard.line += removedlines
 
     def keyPressEvent(self, event):
         if not self.isStarted or BOARD_DATA.currentShape == Shape.shapeNone:
@@ -255,6 +256,7 @@ class Board(QFrame):
 
     def initBoard(self):
         self.score = 0
+        self.line = 0
         self.reset_cnt = 0
         self.start_time = time.time() 
         BOARD_DATA.clear()
@@ -281,10 +283,11 @@ class Board(QFrame):
 
     def updateData(self):
         score_str = str(self.score)
+        line_str = str(self.line)
         reset_cnt_str = str(self.reset_cnt)
         elapsed_time = round(time.time() - self.start_time, 3)
         elapsed_time_str = str(elapsed_time)
-        self.msg2Statusbar.emit("score:" + score_str + ", gameover:" + reset_cnt_str + ", time[s]:" + elapsed_time_str ) # print string to status bar
+        self.msg2Statusbar.emit("score:" + score_str + ",line:" + line_str + ", gameover:" + reset_cnt_str + ", time[s]:" + elapsed_time_str ) # print string to status bar
         self.update()
 
 
