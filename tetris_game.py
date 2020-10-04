@@ -280,6 +280,10 @@ class Tetris(QMainWindow):
             BOARD_DATA.moveRight()
         elif key == Qt.Key_Up:
             BOARD_DATA.rotateLeft()
+        elif key == Qt.Key_M:
+            removedlines = BOARD_DATA.moveDown()
+            dropdownlines = 0
+            self.UpdateScore(removedlines, dropdownlines)
         elif key == Qt.Key_Space:
             removedlines, dropdownlines = BOARD_DATA.dropDown()
             self.UpdateScore(removedlines, dropdownlines)
