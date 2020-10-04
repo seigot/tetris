@@ -15,6 +15,7 @@ import time
 
 class Tetris(QMainWindow):
 
+    # reference: gameboy tetris. http://www.din.or.jp/~koryan/tetris/d-gb1.htm
     LINE_SCORE_1 = 40
     LINE_SCORE_2 = 100
     LINE_SCORE_3 = 300
@@ -164,7 +165,6 @@ class Tetris(QMainWindow):
 
     def UpdateScore(self, removedlines, dropdownlines):
         # calculate and update current score
-        # reference: gameboy tetris. http://www.din.or.jp/~koryan/tetris/d-gb1.htm
         if removedlines == 1:
             linescore = Tetris.LINE_SCORE_1
         elif removedlines == 2:
@@ -187,6 +187,7 @@ class Tetris(QMainWindow):
                         "width": "none",
                         "height": "none",
                         "backboard": "none",
+                        "shapeStat":"none",
                       },
                   "shape":
                       {
@@ -195,7 +196,6 @@ class Tetris(QMainWindow):
                         "currentDirection":"none",
                         "currentShape":"none",
                         "nextShape":"none",
-                        "shapeStat":"none",
                       },
                   "judge_info":
                       {
@@ -218,12 +218,12 @@ class Tetris(QMainWindow):
         status["board"]["width"] = BOARD_DATA.width
         status["board"]["height"] = BOARD_DATA.height
         status["board"]["backboard"] = BOARD_DATA.getData()
+        status["board"]["shapeStat"] = BOARD_DATA.shapeStat
         status["shape"]["currentX"] = BOARD_DATA.currentX
         status["shape"]["currentY"] = BOARD_DATA.currentY
         status["shape"]["currentDirection"] = BOARD_DATA.currentDirection
         status["shape"]["currentShape"] = BOARD_DATA.currentShape
         status["shape"]["nextShape"] = BOARD_DATA.nextShape
-        status["shape"]["shapeStat"] = BOARD_DATA.shapeStat
         ## judge_info
         status["judge_info"]["elapsed_time"] = round(time.time() - self.tboard.start_time, 3)
         status["judge_info"]["gameover_count"] = self.tboard.reset_cnt
