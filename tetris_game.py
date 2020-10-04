@@ -110,7 +110,7 @@ class Tetris(QMainWindow):
             if self.nextMove:
                 # shape direction operation
                 next_x = self.nextMove["strategy"]["x"]
-                next_y = self.nextMove["strategy"]["y"]
+                y_operation = self.nextMove["strategy"]["y_operation"]
                 next_direction = self.nextMove["strategy"]["direction"]
                 k = 0
                 while BOARD_DATA.currentDirection != next_direction and k < 4:
@@ -142,8 +142,6 @@ class Tetris(QMainWindow):
                                 self.resetfield()
                             break
                     k += 1
-                # y operation
-                y_operation = next_y
 
             # lines = BOARD_DATA.dropDown()
             if y_operation == 1: # dropdown

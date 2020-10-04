@@ -12,12 +12,13 @@ class TetrisAI(object):
     # Todo: collect followings to .json file...
     # use following data from board
 
+    # shape.getCoords(direction, x0, 0): !!! how to get?
+    # shape.shapeNone
     # BOARD_DATA.currentShape.getBoundingOffsets() ## get minx,max,miny...
     # BOARD_DATA.nextShape.getBoundingOffsets(0) !!! how to get?  ## get minx,max,miny...
     # BOARD_DATA.nextShape.getBoundingOffsets(d1) !!! how to get?
     # BOARD_DATA.nextShape.getCoords(d0, x0, 0): !!! how to get?
     # BOARD_DATA.getData()).reshape((BOARD_DATA.height, BOARD_DATA.width)) !!! how to get?
-    # shape.getCoords(direction, x0, 0): !!! how to get?
     # BOARD_DATA.currentShape, d0, x0) !!! how to get?
 
 
@@ -29,11 +30,13 @@ class TetrisAI(object):
         print("=================================================>")
         pprint.pprint(TetrisStatus, width = 56, compact = True)
 
+        # get data from TetrisStatus
+        d0Range = TetrisStatus["shape"]["currentShape"]["direction_range"]
+        d1Range = TetrisStatus["shape"]["nextShape"]["direction_range"]
+
         # search best strategy -->
         strategy = None
         LatestScore = 0
-        d0Range = TetrisStatus["shape"]["currentShape"]["direction_range"]
-        d1Range = TetrisStatus["shape"]["nextShape"]["direction_range"]
         for d0 in d0Range: # current shape direction range
             minX, maxX, _, _ = BOARD_DATA.currentShape.getBoundingOffsets(d0)
             for x0 in range(-minX, BOARD_DATA.width - maxX): # x operation range
@@ -55,12 +58,12 @@ class TetrisAI(object):
         nextMove = {"strategy":
                       {
                         "x": "none",
-                        "y": "none",
+                        "y_operation": "none",
                         "direction": "none",
                       },
                    }
         nextMove["strategy"]["x"] = strategy[1]
-        nextMove["strategy"]["y"] = strategy[2]
+        nextMove["strategy"]["y_operation"] = strategy[2]
         nextMove["strategy"]["direction"] = strategy[0]
         return nextMove
 
