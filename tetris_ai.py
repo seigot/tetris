@@ -5,7 +5,7 @@ from tetris_model import BOARD_DATA, Shape
 import math
 from datetime import datetime
 import numpy as np
-
+import pprint
 
 class TetrisAI(object):
 
@@ -31,7 +31,9 @@ class TetrisAI(object):
         t1 = datetime.now()
 
         # print TetrisStatus
-        print(TetrisStatus)
+        # print(TetrisStatus)
+        print("=================================================>")
+        pprint.pprint(TetrisStatus, width = 56, compact = True)
 
         # error return
         if BOARD_DATA.currentShape == Shape.shapeNone:
