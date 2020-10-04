@@ -103,8 +103,11 @@ class Tetris(QMainWindow):
                 self.nextMove = TETRIS_AI.nextMove()
             if self.nextMove:
                 # shape direction operation
+                next_x = self.nextMove["strategy"]["x"]
+                next_y = self.nextMove["strategy"]["y"]
+                next_direction = self.nextMove["strategy"]["direction"]
                 k = 0
-                while BOARD_DATA.currentDirection != self.nextMove[0] and k < 4:
+                while BOARD_DATA.currentDirection != next_direction and k < 4:
                     ret = BOARD_DATA.rotateRight()
                     if ret == False:
                         print("cannot rotateRight")
@@ -115,8 +118,8 @@ class Tetris(QMainWindow):
                     k += 1
                 # x operatiox
                 k = 0
-                while BOARD_DATA.currentX != self.nextMove[1] and k < 5:
-                    if BOARD_DATA.currentX > self.nextMove[1]:
+                while BOARD_DATA.currentX != next_x and k < 5:
+                    if BOARD_DATA.currentX > next_x:
                         ret = BOARD_DATA.moveLeft()
                         if ret == False:
                             print("cannot moveLeft")
@@ -124,7 +127,7 @@ class Tetris(QMainWindow):
                                 print("reset field.")
                                 self.resetfield()
                             break
-                    elif BOARD_DATA.currentX < self.nextMove[1]:
+                    elif BOARD_DATA.currentX < next_x:
                         ret = BOARD_DATA.moveRight()
                         if ret == False:
                             print("cannot moveRight")
@@ -134,7 +137,7 @@ class Tetris(QMainWindow):
                             break
                     k += 1
                 # y operation
-                y_operation = self.nextMove[2]
+                y_operation = next_y
 
             # lines = BOARD_DATA.dropDown()
             if y_operation == 1: # dropdown

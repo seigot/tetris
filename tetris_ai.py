@@ -81,8 +81,18 @@ class TetrisAI(object):
         # search best strategy <--
 
         print("===", datetime.now() - t1)
-
-        return strategy
+        # return nextMove
+        nextMove = {"strategy":
+                      {
+                        "x": "none",
+                        "y": "none",
+                        "direction": "none",
+                      },
+                   }
+        nextMove["strategy"]["x"] = strategy[1]
+        nextMove["strategy"]["y"] = strategy[2]
+        nextMove["strategy"]["direction"] = strategy[0]
+        return nextMove
 
     def calcNextDropDist(self, data, d0, xRange):
         res = {}
