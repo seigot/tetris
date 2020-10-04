@@ -105,6 +105,7 @@ class Tetris(QMainWindow):
             if TETRIS_AI and not self.nextMove:
                 # get nextMove from TetrisAI
                 TetrisStatus = self.getTetrisStatus()
+                
                 self.nextMove = TETRIS_AI.nextMove(TetrisStatus)
             if self.nextMove:
                 # shape direction operation
@@ -180,8 +181,8 @@ class Tetris(QMainWindow):
         self.tboard.line += removedlines
 
     def getTetrisStatus(self):
-        # return current Board status.                                                                                                                                                             
-        # define status data.                                                                                                                                                                      
+        # return current Board status.
+        # define status data.
         status = {"board":
                       {
                         "width": "none",
@@ -195,9 +196,11 @@ class Tetris(QMainWindow):
                         "currentDirection":"none",
                         "currentShape":{
                            "shape":"none",
+                           "direction_range":"none",
                         },
                         "nextShape":{
                            "shape":"none",
+                           "direction_range":"none",
                         },
                         "shapeStat":"none",
                       },
@@ -238,7 +241,23 @@ class Tetris(QMainWindow):
         status["shape"]["currentY"] = BOARD_DATA.currentY
         status["shape"]["currentDirection"] = BOARD_DATA.currentDirection
         status["shape"]["currentShape"]["shape"] = BOARD_DATA.currentShape.shape
+        ### current shape
+        if BOARD_DATA.currentShape.shape in (Shape.shapeI, Shape.shapeZ, Shape.shapeS):
+            Range = (0, 1)
+        elif BOARD_DATA.currentShape.shape == Shape.shapeO:
+            Range = (0,)
+        else:
+            Range = (0, 1, 2, 3)
+        status["shape"]["currentShape"]["direction_range"] = Range
+        ### next shape
         status["shape"]["nextShape"]["shape"] = BOARD_DATA.nextShape.shape
+        if BOARD_DATA.nextShape.shape in (Shape.shapeI, Shape.shapeZ, Shape.shapeS):
+            Range = (0, 1)
+        elif BOARD_DATA.nextShape.shape == Shape.shapeO:
+            Range = (0,)
+        else:
+            Range = (0, 1, 2, 3)
+        status["shape"]["nextShape"]["direction_range"] = Range
         status["shape"]["shapeStat"] = BOARD_DATA.shapeStat
         ## judge_info
         status["judge_info"]["elapsed_time"] = round(time.time() - self.tboard.start_time, 3)
@@ -258,6 +277,9 @@ class Tetris(QMainWindow):
         status["general"]["shape_info"]["shapeO"] = Shape.shapeO
         status["general"]["shape_info"]["shapeS"] = Shape.shapeS
         status["general"]["shape_info"]["shapeZ"] = Shape.shapeZ
+
+        if BOARD_DATA.currentShape == Shape.shapeNone:
+            print("warning: current shape is none !!!")
 
         return status
 

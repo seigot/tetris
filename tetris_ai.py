@@ -11,61 +11,29 @@ class TetrisAI(object):
 
     # Todo: collect followings to .json file...
     # use following data from board
-    # BOARD_DATA.currentShape
-    # BOARD_DATA.currentDirection
-    # BOARD_DATA.currentY
-    # BOARD_DATA.currentShape.shape
-    # BOARD_DATA.nextShape.shape 
-    # BOARD_DATA.width
-    # BOARD_DATA.height
-    # BOARD_DATA.nextShape.getBoundingOffsets(0) !!! how to get?
+
+    # BOARD_DATA.currentShape.getBoundingOffsets() ## get minx,max,miny...
+    # BOARD_DATA.nextShape.getBoundingOffsets(0) !!! how to get?  ## get minx,max,miny...
     # BOARD_DATA.nextShape.getBoundingOffsets(d1) !!! how to get?
     # BOARD_DATA.nextShape.getCoords(d0, x0, 0): !!! how to get?
     # BOARD_DATA.getData()).reshape((BOARD_DATA.height, BOARD_DATA.width)) !!! how to get?
     # shape.getCoords(direction, x0, 0): !!! how to get?
     # BOARD_DATA.currentShape, d0, x0) !!! how to get?
-    # and score, time, gaveover_cnt data..
+
 
     def nextMove(self, TetrisStatus):
 
         t1 = datetime.now()
 
         # print TetrisStatus
-        # print(TetrisStatus)
         print("=================================================>")
         pprint.pprint(TetrisStatus, width = 56, compact = True)
 
-        # error return
-        if BOARD_DATA.currentShape == Shape.shapeNone:
-            print("shape none")
-            return None
-
-        # get current status
-        currentDirection = BOARD_DATA.currentDirection
-        currentY = BOARD_DATA.currentY
-        _, _, minY, _ = BOARD_DATA.nextShape.getBoundingOffsets(0)
-        nextY = -minY
-
+        # search best strategy -->
         strategy = None
         LatestScore = 0
-
-        # check current shape direction range
-        if BOARD_DATA.currentShape.shape in (Shape.shapeI, Shape.shapeZ, Shape.shapeS):
-            d0Range = (0, 1)
-        elif BOARD_DATA.currentShape.shape == Shape.shapeO:
-            d0Range = (0,)
-        else:
-            d0Range = (0, 1, 2, 3)
-
-        # check next shape direction range
-        if BOARD_DATA.nextShape.shape in (Shape.shapeI, Shape.shapeZ, Shape.shapeS):
-            d1Range = (0, 1)
-        elif BOARD_DATA.nextShape.shape == Shape.shapeO:
-            d1Range = (0,)
-        else:
-            d1Range = (0, 1, 2, 3)
-
-        # search best strategy -->
+        d0Range = TetrisStatus["shape"]["currentShape"]["direction_range"]
+        d1Range = TetrisStatus["shape"]["nextShape"]["direction_range"]
         for d0 in d0Range: # current shape direction range
             minX, maxX, _, _ = BOARD_DATA.currentShape.getBoundingOffsets(d0)
             for x0 in range(-minX, BOARD_DATA.width - maxX): # x operation range
@@ -82,9 +50,8 @@ class TetrisAI(object):
                             LatestScore = score
         # search best strategy <--
 
-        print("===", datetime.now() - t1)
-
         # return nextMove
+        print("===", datetime.now() - t1)
         nextMove = {"strategy":
                       {
                         "x": "none",
