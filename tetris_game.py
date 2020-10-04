@@ -187,15 +187,19 @@ class Tetris(QMainWindow):
                         "width": "none",
                         "height": "none",
                         "backboard": "none",
-                        "shapeStat":"none",
                       },
                   "shape":
                       {
                         "currentX":"none",
                         "currentY":"none",
                         "currentDirection":"none",
-                        "currentShape":"none",
-                        "nextShape":"none",
+                        "currentShape":{
+                           "shape":"none",
+                        },
+                        "nextShape":{
+                           "shape":"none",
+                        },
+                        "shapeStat":"none",
                       },
                   "judge_info":
                       {
@@ -211,19 +215,31 @@ class Tetris(QMainWindow):
                           "2":"none",
                           "3":"none",
                           "4":"none",
-                        }
+                        },
+                        "shape_info": {
+                          "shapeNone":"none",
+                          "shapeI":"none",
+                          "shapeL":"none",
+                          "shapeJ":"none",
+                          "shapeT":"none",
+                          "shapeO":"none",
+                          "shapeS":"none",
+                          "shapeZ":"none",
+                        },
                       },
                   }
         # update status
+        ## board
         status["board"]["width"] = BOARD_DATA.width
         status["board"]["height"] = BOARD_DATA.height
         status["board"]["backboard"] = BOARD_DATA.getData()
-        status["board"]["shapeStat"] = BOARD_DATA.shapeStat
+        ## shape
         status["shape"]["currentX"] = BOARD_DATA.currentX
         status["shape"]["currentY"] = BOARD_DATA.currentY
         status["shape"]["currentDirection"] = BOARD_DATA.currentDirection
-        status["shape"]["currentShape"] = BOARD_DATA.currentShape
-        status["shape"]["nextShape"] = BOARD_DATA.nextShape
+        status["shape"]["currentShape"]["shape"] = BOARD_DATA.currentShape.shape
+        status["shape"]["nextShape"]["shape"] = BOARD_DATA.nextShape.shape
+        status["shape"]["shapeStat"] = BOARD_DATA.shapeStat
         ## judge_info
         status["judge_info"]["elapsed_time"] = round(time.time() - self.tboard.start_time, 3)
         status["judge_info"]["gameover_count"] = self.tboard.reset_cnt
@@ -234,6 +250,14 @@ class Tetris(QMainWindow):
         status["general"]["line_score"]["2"] = Tetris.LINE_SCORE_2
         status["general"]["line_score"]["3"] = Tetris.LINE_SCORE_3
         status["general"]["line_score"]["4"] = Tetris.LINE_SCORE_4
+        status["general"]["shape_info"]["shapeNone"] = Shape.shapeNone
+        status["general"]["shape_info"]["shapeI"] = Shape.shapeI
+        status["general"]["shape_info"]["shapeL"] = Shape.shapeL
+        status["general"]["shape_info"]["shapeJ"] = Shape.shapeJ
+        status["general"]["shape_info"]["shapeT"] = Shape.shapeT
+        status["general"]["shape_info"]["shapeO"] = Shape.shapeO
+        status["general"]["shape_info"]["shapeS"] = Shape.shapeS
+        status["general"]["shape_info"]["shapeZ"] = Shape.shapeZ
 
         return status
 
