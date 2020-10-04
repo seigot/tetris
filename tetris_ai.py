@@ -26,17 +26,17 @@ class TetrisAI(object):
     # BOARD_DATA.currentShape, d0, x0) !!! how to get?
     # and score, time, gaveover_cnt data..
 
-    def nextMove(self):
+    def nextMove(self, TetrisStatus):
 
         t1 = datetime.now()
+
+        # print TetrisStatus
+        print(TetrisStatus)
 
         # error return
         if BOARD_DATA.currentShape == Shape.shapeNone:
             print("shape none")
             return None
-
-        BoardStatus = BOARD_DATA.getBoardStatus()
-        print(BoardStatus)
 
         # get current status
         currentDirection = BOARD_DATA.currentDirection
@@ -81,6 +81,7 @@ class TetrisAI(object):
         # search best strategy <--
 
         print("===", datetime.now() - t1)
+
         # return nextMove
         nextMove = {"strategy":
                       {

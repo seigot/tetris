@@ -14,6 +14,12 @@ import time
 # TETRIS_AI = None
 
 class Tetris(QMainWindow):
+
+    LINE_SCORE_1 = 40
+    LINE_SCORE_2 = 100
+    LINE_SCORE_3 = 300
+    LINE_SCORE_4 = 1200
+
     def __init__(self):
         super().__init__()
         self.isStarted = False
@@ -96,11 +102,9 @@ class Tetris(QMainWindow):
             y_operation = -1
 
             if TETRIS_AI and not self.nextMove:
-                # get 
-                # nextMove[0] : shape direction operation
-                # nextMove[1] : x_operation (x move value)
-                # nextMove[2] : y_operation (flag 0: move down, 1:drop down)
-                self.nextMove = TETRIS_AI.nextMove()
+                # get nextMove from TetrisAI
+                TetrisStatus = self.getTetrisStatus()
+                self.nextMove = TETRIS_AI.nextMove(TetrisStatus)
             if self.nextMove:
                 # shape direction operation
                 next_x = self.nextMove["strategy"]["x"]
@@ -162,18 +166,76 @@ class Tetris(QMainWindow):
         # calculate and update current score
         # reference: gameboy tetris. http://www.din.or.jp/~koryan/tetris/d-gb1.htm
         if removedlines == 1:
-            linescore = 40
+            linescore = Tetris.LINE_SCORE_1
         elif removedlines == 2:
-            linescore = 100
+            linescore = Tetris.LINE_SCORE_2
         elif removedlines == 3:
-            linescore = 300
+            linescore = Tetris.LINE_SCORE_3
         elif removedlines == 4:
-            linescore = 1200
+            linescore = Tetris.LINE_SCORE_4
         else:
             linescore = 0
         dropdownscore = dropdownlines
         self.tboard.score += ( linescore + dropdownscore )
         self.tboard.line += removedlines
+
+    def getTetrisStatus(self):
+        # return current Board status.                                                                                                                                                             
+        # define status data.                                                                                                                                                                      
+        status = {"board":
+                      {
+                        "width": "none",
+                        "height": "none",
+                        "backboard": "none",
+                      },
+                  "shape":
+                      {
+                        "currentX":"none",
+                        "currentY":"none",
+                        "currentDirection":"none",
+                        "currentShape":"none",
+                        "nextShape":"none",
+                        "shapeStat":"none",
+                      },
+                  "judge_info":
+                      {
+                        "elapsed_time":"none",
+                        "gameover_count":"none",
+                        "score":"none",
+                        "line":"none",
+                      },
+                  "general":
+                      {
+                        "line_score": {
+                          "1":"none",
+                          "2":"none",
+                          "3":"none",
+                          "4":"none",
+                        }
+                      },
+                  }
+        # update status
+        status["board"]["width"] = BOARD_DATA.width
+        status["board"]["height"] = BOARD_DATA.height
+        status["board"]["backboard"] = BOARD_DATA.getData()
+        status["shape"]["currentX"] = BOARD_DATA.currentX
+        status["shape"]["currentY"] = BOARD_DATA.currentY
+        status["shape"]["currentDirection"] = BOARD_DATA.currentDirection
+        status["shape"]["currentShape"] = BOARD_DATA.currentShape
+        status["shape"]["nextShape"] = BOARD_DATA.nextShape
+        status["shape"]["shapeStat"] = BOARD_DATA.shapeStat
+        ## judge_info
+        status["judge_info"]["elapsed_time"] = round(time.time() - self.tboard.start_time, 3)
+        status["judge_info"]["gameover_count"] = self.tboard.reset_cnt
+        status["judge_info"]["score"] = self.tboard.score
+        status["judge_info"]["line"] = self.tboard.line
+        ## general
+        status["general"]["line_score"]["1"] = Tetris.LINE_SCORE_1
+        status["general"]["line_score"]["2"] = Tetris.LINE_SCORE_2
+        status["general"]["line_score"]["3"] = Tetris.LINE_SCORE_3
+        status["general"]["line_score"]["4"] = Tetris.LINE_SCORE_4
+
+        return status
 
     def keyPressEvent(self, event):
         if not self.isStarted or BOARD_DATA.currentShape == Shape.shapeNone:
@@ -294,5 +356,5 @@ class Board(QFrame):
 if __name__ == '__main__':
     # random.seed(32)
     app = QApplication([])
-    tetris = Tetris()
+    TETRIS_MANEGER = Tetris()
     sys.exit(app.exec_())
