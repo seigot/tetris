@@ -179,6 +179,8 @@ class Tetris(QMainWindow):
         dropdownscore = dropdownlines
         self.tboard.score += ( linescore + dropdownscore )
         self.tboard.line += removedlines
+        if removedlines > 0:
+            self.tboard.lineStat[removedlines - 1] += 1
 
     def getTetrisStatus(self):
         # return current Board status.
@@ -202,7 +204,6 @@ class Tetris(QMainWindow):
                            "shape":"none",
                            "direction_range":"none",
                         },
-                        "shapeStat":"none",
                       },
                   "judge_info":
                       {
@@ -211,7 +212,7 @@ class Tetris(QMainWindow):
                         "score":"none",
                         "line":"none",
                       },
-                  "general":
+                  "debug_info":
                       {
                         "line_score": {
                           "1":"none",
@@ -229,6 +230,8 @@ class Tetris(QMainWindow):
                           "shapeS":"none",
                           "shapeZ":"none",
                         },
+                        "lineStat":"none",
+                        "shapeStat":"none",
                       },
                   }
         # update status
@@ -258,25 +261,26 @@ class Tetris(QMainWindow):
         else:
             Range = (0, 1, 2, 3)
         status["shape"]["nextShape"]["direction_range"] = Range
-        status["shape"]["shapeStat"] = BOARD_DATA.shapeStat
         ## judge_info
         status["judge_info"]["elapsed_time"] = round(time.time() - self.tboard.start_time, 3)
         status["judge_info"]["gameover_count"] = self.tboard.reset_cnt
         status["judge_info"]["score"] = self.tboard.score
         status["judge_info"]["line"] = self.tboard.line
-        ## general
-        status["general"]["line_score"]["1"] = Tetris.LINE_SCORE_1
-        status["general"]["line_score"]["2"] = Tetris.LINE_SCORE_2
-        status["general"]["line_score"]["3"] = Tetris.LINE_SCORE_3
-        status["general"]["line_score"]["4"] = Tetris.LINE_SCORE_4
-        status["general"]["shape_info"]["shapeNone"] = Shape.shapeNone
-        status["general"]["shape_info"]["shapeI"] = Shape.shapeI
-        status["general"]["shape_info"]["shapeL"] = Shape.shapeL
-        status["general"]["shape_info"]["shapeJ"] = Shape.shapeJ
-        status["general"]["shape_info"]["shapeT"] = Shape.shapeT
-        status["general"]["shape_info"]["shapeO"] = Shape.shapeO
-        status["general"]["shape_info"]["shapeS"] = Shape.shapeS
-        status["general"]["shape_info"]["shapeZ"] = Shape.shapeZ
+        ## debug_info
+        status["debug_info"]["lineStat"] = self.tboard.lineStat
+        status["debug_info"]["shapeStat"] = BOARD_DATA.shapeStat
+        status["debug_info"]["line_score"]["1"] = Tetris.LINE_SCORE_1
+        status["debug_info"]["line_score"]["2"] = Tetris.LINE_SCORE_2
+        status["debug_info"]["line_score"]["3"] = Tetris.LINE_SCORE_3
+        status["debug_info"]["line_score"]["4"] = Tetris.LINE_SCORE_4
+        status["debug_info"]["shape_info"]["shapeNone"] = Shape.shapeNone
+        status["debug_info"]["shape_info"]["shapeI"] = Shape.shapeI
+        status["debug_info"]["shape_info"]["shapeL"] = Shape.shapeL
+        status["debug_info"]["shape_info"]["shapeJ"] = Shape.shapeJ
+        status["debug_info"]["shape_info"]["shapeT"] = Shape.shapeT
+        status["debug_info"]["shape_info"]["shapeO"] = Shape.shapeO
+        status["debug_info"]["shape_info"]["shapeS"] = Shape.shapeS
+        status["debug_info"]["shape_info"]["shapeZ"] = Shape.shapeZ
 
         if BOARD_DATA.currentShape == Shape.shapeNone:
             print("warning: current shape is none !!!")
@@ -369,6 +373,7 @@ class Board(QFrame):
     def initBoard(self):
         self.score = 0
         self.line = 0
+        self.lineStat = [0, 0, 0, 0]
         self.reset_cnt = 0
         self.start_time = time.time() 
         BOARD_DATA.clear()
