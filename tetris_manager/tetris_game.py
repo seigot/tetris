@@ -100,6 +100,8 @@ class Tetris(QMainWindow):
 
     def timerEvent(self, event):
         if event.timerId() == self.timer.timerId():
+            next_x = 0
+            next_y = 0
             y_operation = -1
 
             if TETRIS_AI and not self.nextMove:
