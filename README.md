@@ -51,9 +51,10 @@ If you want a pause, just press *P* key. The right panel shows the next shape.
 
 記載予定
 
-# Play rules
+# 参考
 
+[https://github.com/LoveDaisy/tetris_game](https://github.com/LoveDaisy/tetris_game)
 
-### Finally
+# Finnaly
 
 ~ HAVE FUN ~
