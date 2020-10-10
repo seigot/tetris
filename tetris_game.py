@@ -110,6 +110,7 @@ class Tetris(QMainWindow):
             if self.nextMove:
                 # shape direction operation
                 next_x = self.nextMove["strategy"]["x"]
+                next_y = self.nextMove["strategy"]["y"]
                 y_operation = self.nextMove["strategy"]["y_operation"]
                 next_direction = self.nextMove["strategy"]["direction"]
                 k = 0
@@ -144,11 +145,22 @@ class Tetris(QMainWindow):
                     k += 1
 
             # lines = BOARD_DATA.dropDown()
+            dropdownlines = 0
+            removedlines = 0
             if y_operation == 1: # dropdown
                 removedlines, dropdownlines = BOARD_DATA.dropDown()
             else:
-                removedlines = BOARD_DATA.moveDown()
-                dropdownlines = 0
+                #removedlines, movedownlines = BOARD_DATA.moveDown()
+                k = 0
+                while True:
+                    removedlines, movedownlines = BOARD_DATA.moveDown()
+                    if movedownlines < 1:
+                        # if already dropped
+                        break
+                    k += 1
+                    if k >= next_y:
+                        # if already movedown next_y block
+                        break
 
             self.UpdateScore(removedlines, dropdownlines)
 
@@ -339,9 +351,8 @@ class Tetris(QMainWindow):
         elif key == Qt.Key_Up:
             BOARD_DATA.rotateLeft()
         elif key == Qt.Key_M:
-            removedlines = BOARD_DATA.moveDown()
-            dropdownlines = 0
-            self.UpdateScore(removedlines, dropdownlines)
+            removedlines, movedownlines = BOARD_DATA.moveDown()
+            self.UpdateScore(removedlines, 0)
         elif key == Qt.Key_Space:
             removedlines, dropdownlines = BOARD_DATA.dropDown()
             self.UpdateScore(removedlines, dropdownlines)
