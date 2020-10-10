@@ -65,12 +65,14 @@ class TetrisAI(object):
         nextMove = {"strategy":
                       {
                         "x": "none",
-                        "y_operation": "none",
+                        "y": "none",
+                        "y_operation": "none",  # 0:movedown, 1:dropdown
                         "direction": "none",
                       },
                    }
         nextMove["strategy"]["x"] = strategy[1]
-        nextMove["strategy"]["y_operation"] = strategy[2]
+        nextMove["strategy"]["y"] = strategy[2]
+        nextMove["strategy"]["y_operation"] = 0
         nextMove["strategy"]["direction"] = strategy[0]
         return nextMove
 
