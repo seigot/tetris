@@ -20,7 +20,8 @@ class TetrisAI(object):
     # BOARD_DATA.nextShape.getCoords(d0, x0, 0): !!! how to get?
     # BOARD_DATA.getData()).reshape((BOARD_DATA.height, BOARD_DATA.width)) !!! how to get?
     # BOARD_DATA.currentShape, d0, x0) !!! how to get?
-    
+
+    board_backboard = 0
     board_data_width = 0
     board_data_height = 0
     ShapeNone_index = 0
@@ -38,6 +39,7 @@ class TetrisAI(object):
         # get data from TetrisStatus
         d0Range = TetrisStatus["shape"]["currentShape"]["direction_range"]
         d1Range = TetrisStatus["shape"]["nextShape"]["direction_range"]
+        self.board_backboard = TetrisStatus["board"]["backboard"]
         self.board_data_width = TetrisStatus["board"]["width"]
         self.board_data_height = TetrisStatus["board"]["height"]
         self.ShapeNone_index = TetrisStatus["debug_info"]["shape_info"]["shapeNone"]["index"]
@@ -92,7 +94,7 @@ class TetrisAI(object):
         return res
 
     def calcStep1Board(self, d0, x0):
-        board = np.array(BOARD_DATA.getData()).reshape((self.board_data_height, self.board_data_width))
+        board = np.array(self.board_backboard).reshape((self.board_data_height, self.board_data_width))
         self.dropDown(board, self.CurrentShape_class, d0, x0)
         return board
 
