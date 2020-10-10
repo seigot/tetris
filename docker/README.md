@@ -2,17 +2,17 @@
 
 ## run
 
-step0. dockerをインストールする
+### step0. dockerをインストールする
 
 [Install Docker Engine on Ubuntu](https://docs.docker.com/engine/install/ubuntu)
 
-step1. dockerコンテナを取得する
+### step1. dockerコンテナを起動する
 
 ```
 sudo docker run -p 6080:80 --shm-size=512m seigott/tetris_game_docker
 ```
 
-step2. ブラウザからdockerコンテナにアクセスする
+### step2. ブラウザからdockerコンテナにアクセスする
 
 ```
 http://127.0.0.1:6081
