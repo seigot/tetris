@@ -195,11 +195,13 @@ class Tetris(QMainWindow):
                         "currentY":"none",
                         "currentDirection":"none",
                         "currentShape":{
-                           "shape":"none",
+                           "class":"none",
+                           "index":"none",
                            "direction_range":"none",
                         },
                         "nextShape":{
-                           "shape":"none",
+                           "class":"none",
+                           "index":"none",
                            "direction_range":"none",
                         },
                       },
@@ -265,7 +267,8 @@ class Tetris(QMainWindow):
         status["shape"]["currentX"] = BOARD_DATA.currentX
         status["shape"]["currentY"] = BOARD_DATA.currentY
         status["shape"]["currentDirection"] = BOARD_DATA.currentDirection
-        status["shape"]["currentShape"]["shape"] = BOARD_DATA.currentShape.shape
+        status["shape"]["currentShape"]["class"] = BOARD_DATA.currentShape
+        status["shape"]["currentShape"]["index"] = BOARD_DATA.currentShape.shape
         ### current shape
         if BOARD_DATA.currentShape.shape in (Shape.shapeI, Shape.shapeZ, Shape.shapeS):
             Range = (0, 1)
@@ -275,7 +278,8 @@ class Tetris(QMainWindow):
             Range = (0, 1, 2, 3)
         status["shape"]["currentShape"]["direction_range"] = Range
         ### next shape
-        status["shape"]["nextShape"]["shape"] = BOARD_DATA.nextShape.shape
+        status["shape"]["nextShape"]["class"] = BOARD_DATA.nextShape
+        status["shape"]["nextShape"]["index"] = BOARD_DATA.nextShape.shape
         if BOARD_DATA.nextShape.shape in (Shape.shapeI, Shape.shapeZ, Shape.shapeS):
             Range = (0, 1)
         elif BOARD_DATA.nextShape.shape == Shape.shapeO:
