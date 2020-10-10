@@ -1,46 +1,47 @@
 # Tetris Game
 
-It is a python implementatino of Tetris Game, and a simple AI to play game automatically.
+テトリスを操作してスコアを競うゲームです
 
-Need python3, PyQt5 and NumPy to be installed.
-
-* `tetris_game.py` is the main application.
-* `tetris_model.py` is the data model for this game.
-* `tetris_ai.py` is the AI part.
-
-Run `tetris_game.py` from command line and you start to play or watch the AI playing.
+## 実行方法
 
 ```shell
-$ python3 tetris_game.py
+bash start.sh
 ```
 
-### Play manually
+## 実行環境
 
-If you want play by yourself, you should uncomment this line in `tetris_game.py`:
+* Need python3, PyQt5 and NumPy to be installed.
 
-```python
-# TETRIS_AI = None
+```
+# install pyqt5 and NumPy
+sudo apt-get install -y python3-pip
+sudo apt-get install -y python3-pyqt5
+pip3 install --upgrade pip
+pip3 install numpy
 ```
 
-Or just comment this line:
+## ファイル構成
 
-```python
-from tetris_ai import TETRIS_AI
-```
+* `tetris_game.py` : ゲーム管理用プログラム
+* `tetris_model.py` : ボード管理用プログラム
+* `tetris_ai.py` : ゲーム制御用プログラム（テトリスの操作は、このファイルを編集して下さい。）
 
-Current config could be too fast for human player. So you may want make it slower, by changing value of `Tetris.speed` defined here:
+## ファイル構成　詳細
 
-```python
-class Tetris(QMainWindow):
-    ...
-    def initUI(self):
-        ...
-        self.speed = 10
-```
+記載予定
+
+## Play manually
+
+Play just like classical Tetris Game. 
+You use *up* key to rotate a shape, *left* key to move left and *right* key to move right. 
+Also you can use *space* key to drop down current shape immediately and *m* key to just movedown.
+If you want a pause, just press *P* key. The right panel shows the next shape.
 
 ### Play rules
 
-Just like classical Tetris Game. You use *up* key to rotate a shape, *left* key to move left and *right* key to move right. Also you can use *space* key to drop down current shape immediately. If you want a pause, just press *P* key. The right panel shows the next shape.
+記載予定
+
+## Finally
 
 ~ HAVE FUN ~
 
