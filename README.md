@@ -8,7 +8,7 @@
 bash start.sh
 ```
 
-![Screenshot](doc/pics/screenshot_01.png)
+![Screenshot](doc/pics/screenshot_02.png)
 
 ## 実行環境
 
