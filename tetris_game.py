@@ -295,7 +295,7 @@ class Tetris(QMainWindow):
         status["debug_info"]["line_score"]["2"] = Tetris.LINE_SCORE_2
         status["debug_info"]["line_score"]["3"] = Tetris.LINE_SCORE_3
         status["debug_info"]["line_score"]["4"] = Tetris.LINE_SCORE_4
-        status["debug_info"]["shape_info"]["shapeNone"] = Shape.shapeNone
+        status["debug_info"]["shape_info"]["shapeNone"]["index"] = Shape.shapeNone
         status["debug_info"]["shape_info"]["shapeI"]["index"] = Shape.shapeI
         status["debug_info"]["shape_info"]["shapeI"]["color"] = "red"
         status["debug_info"]["shape_info"]["shapeL"]["index"] = Shape.shapeL

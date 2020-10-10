@@ -23,6 +23,7 @@ class TetrisAI(object):
     
     board_data_width = 0
     board_data_height = 0
+    ShapeNone_index = 0
 
     def nextMove(self, TetrisStatus):
 
@@ -37,6 +38,7 @@ class TetrisAI(object):
         d1Range = TetrisStatus["shape"]["nextShape"]["direction_range"]
         self.board_data_width = TetrisStatus["board"]["width"]
         self.board_data_height = TetrisStatus["board"]["height"]
+        self.ShapeNone_index = TetrisStatus["debug_info"]["shape_info"]["shapeNone"]["index"]
 
         # search best strategy -->
         strategy = None
@@ -78,7 +80,7 @@ class TetrisAI(object):
                 res[x0] = self.board_data_height - 1
             for x, y in BOARD_DATA.nextShape.getCoords(d0, x0, 0):
                 yy = 0
-                while yy + y < self.board_data_height and (yy + y < 0 or data[(y + yy), x] == Shape.shapeNone):
+                while yy + y < self.board_data_height and (yy + y < 0 or data[(y + yy), x] == self.ShapeNone_index):
                     yy += 1
                 yy -= 1
                 if yy < res[x0]:
@@ -94,7 +96,7 @@ class TetrisAI(object):
         dy = self.board_data_height - 1
         for x, y in shape.getCoords(direction, x0, 0):
             yy = 0
-            while yy + y < self.board_data_height and (yy + y < 0 or data[(y + yy), x] == Shape.shapeNone):
+            while yy + y < self.board_data_height and (yy + y < 0 or data[(y + yy), x] == self.ShapeNone_index):
                 yy += 1
             yy -= 1
             if yy < dy:
@@ -125,7 +127,7 @@ class TetrisAI(object):
             hasHole = False
             hasBlock = False
             for x in range(width):
-                if step1Board[y, x] == Shape.shapeNone:
+                if step1Board[y, x] == self.ShapeNone_index:
                     hasHole = True
                     holeCandidates[x] += 1
                 else:
