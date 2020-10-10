@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from tetris_model import BOARD_DATA, Shape
+from tetris_model import BOARD_DATA
 import math
 from datetime import datetime
 import numpy as np
