@@ -8,6 +8,8 @@
 bash start.sh
 ```
 
+![Screenshot](doc/pics/screenshot_01.png)
+
 ## 実行環境
 
 * Need python3, PyQt5 and NumPy to be installed.
@@ -20,19 +22,19 @@ pip3 install --upgrade pip
 pip3 install numpy
 ```
 
-### 仮想環境
-
-`docker.README.md` にdockerを用いた環境構築手順を記載
-
 ## ファイル構成
 
 * `tetris_game.py` : ゲーム管理用プログラム
 * `tetris_model.py` : ボード管理用プログラム
 * `tetris_ai.py` : ゲーム制御用プログラム（テトリスの操作は、このファイルを編集して下さい。）
 
-### 詳細
+#### 詳細
 
 記載予定
+
+#### docker環境
+
+`docker/README.md` にdocker環境構築手順を記載
 
 ## How to play manually
 
@@ -49,8 +51,9 @@ If you want a pause, just press *P* key. The right panel shows the next shape.
 
 記載予定
 
+# Play rules
+
+
 ### Finally
 
 ~ HAVE FUN ~
-
-![Screenshot](doc/pics/screenshot_01.png)
