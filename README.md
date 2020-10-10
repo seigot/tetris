@@ -20,28 +20,36 @@ pip3 install --upgrade pip
 pip3 install numpy
 ```
 
+### 仮想環境
+
+`docker.README.md` にdockerを用いた環境構築手順を記載
+
 ## ファイル構成
 
 * `tetris_game.py` : ゲーム管理用プログラム
 * `tetris_model.py` : ボード管理用プログラム
 * `tetris_ai.py` : ゲーム制御用プログラム（テトリスの操作は、このファイルを編集して下さい。）
 
-## ファイル構成　詳細
+### 詳細
 
 記載予定
 
-## Play manually
+## How to play manually
 
 Play just like classical Tetris Game. 
 You use *up* key to rotate a shape, *left* key to move left and *right* key to move right. 
 Also you can use *space* key to drop down current shape immediately and *m* key to just movedown.
 If you want a pause, just press *P* key. The right panel shows the next shape.
 
-### Play rules
+# Play rules
 
 記載予定
 
-## Finally
+## Score
+
+記載予定
+
+### Finally
 
 ~ HAVE FUN ~
 
