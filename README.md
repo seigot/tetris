@@ -24,9 +24,10 @@ pip3 install numpy
 
 ## ファイル構成
 
-* `tetris_game.py` : ゲーム管理用プログラム
-* `tetris_model.py` : ボード管理用プログラム
+* `tetris_manager/tetris_game.py` : ゲーム管理用プログラム
+* `tetris_manager/tetris_model.py` : ボード管理用プログラム
 * `tetris_ai.py` : ゲーム制御用プログラム（テトリスの操作は、このファイルを編集して下さい。）
+* `start.sh` : ゲーム開始用スクリプト
 
 #### 詳細
 
