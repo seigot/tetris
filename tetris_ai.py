@@ -75,6 +75,8 @@ class TetrisAI(object):
         nextMove["strategy"]["y_operation"] = 0
         nextMove["strategy"]["direction"] = strategy[0]
         print(nextMove)
+        # if play manually, return None
+        # return None
         return nextMove
 
     def calcNextDropDist(self, data, d0, xRange):
