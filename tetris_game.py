@@ -106,7 +106,7 @@ class Tetris(QMainWindow):
                 # get nextMove from TetrisAI
                 TetrisStatus = self.getTetrisStatus()
                 
-                self.nextMove = TETRIS_AI.nextMove(TetrisStatus)
+                self.nextMove = TETRIS_AI.GetNextMove(TetrisStatus)
             if self.nextMove:
                 # shape direction operation
                 next_x = self.nextMove["strategy"]["x"]

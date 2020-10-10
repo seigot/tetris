@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from tetris_model import BOARD_DATA
 import math
 from datetime import datetime
 import numpy as np
@@ -9,18 +8,7 @@ import pprint
 
 class TetrisAI(object):
 
-    # Todo: collect followings to .json file...
-    # use following data from board
-
-    # shape.getCoords(direction, x0, 0): !!! how to get?
-    # shape.shapeNone
-    # BOARD_DATA.currentShape.getBoundingOffsets() ## get minx,max,miny...
-    # BOARD_DATA.nextShape.getBoundingOffsets(0) !!! how to get?  ## get minx,max,miny...
-    # BOARD_DATA.nextShape.getBoundingOffsets(d1) !!! how to get?
-    # BOARD_DATA.nextShape.getCoords(d0, x0, 0): !!! how to get?
-    # BOARD_DATA.getData()).reshape((BOARD_DATA.height, BOARD_DATA.width)) !!! how to get?
-    # BOARD_DATA.currentShape, d0, x0) !!! how to get?
-
+    # init parameter
     board_backboard = 0
     board_data_width = 0
     board_data_height = 0
@@ -28,7 +16,14 @@ class TetrisAI(object):
     CurrentShape_class = 0
     NextShape_class = 0
 
-    def nextMove(self, TetrisStatus):
+    # GetNextMove is main function.
+    # input
+    #    TetrisStatus : this data include all field status, 
+    #                   in detail see the internal TetrisStatus data.
+    # output
+    #    nextMove : this data include next shape position and the other,
+    #
+    def GetNextMove(self, TetrisStatus):
 
         t1 = datetime.now()
 
