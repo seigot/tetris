@@ -219,14 +219,38 @@ class Tetris(QMainWindow):
                           "4":"none",
                         },
                         "shape_info": {
-                          "shapeNone":"none",
-                          "shapeI":"none",
-                          "shapeL":"none",
-                          "shapeJ":"none",
-                          "shapeT":"none",
-                          "shapeO":"none",
-                          "shapeS":"none",
-                          "shapeZ":"none",
+                          "shapeNone": {
+                             "index" : "none",
+                             "color" : "none",
+                          },
+                          "shapeI": {
+                             "index" : "none",
+                             "color" : "none",
+                          },
+                          "shapeL": {
+                             "index" : "none",
+                             "color" : "none",
+                          },
+                          "shapeJ": {
+                             "index" : "none",
+                             "color" : "none",
+                          },
+                          "shapeT": {
+                             "index" : "none",
+                             "color" : "none",
+                          },
+                          "shapeO": {
+                             "index" : "none",
+                             "color" : "none",
+                          },
+                          "shapeS": {
+                             "index" : "none",
+                             "color" : "none",
+                          },
+                          "shapeZ": {
+                             "index" : "none",
+                             "color" : "none",
+                          },
                         },
                         "lineStat":"none",
                         "shapeStat":"none",
@@ -272,14 +296,20 @@ class Tetris(QMainWindow):
         status["debug_info"]["line_score"]["3"] = Tetris.LINE_SCORE_3
         status["debug_info"]["line_score"]["4"] = Tetris.LINE_SCORE_4
         status["debug_info"]["shape_info"]["shapeNone"] = Shape.shapeNone
-        status["debug_info"]["shape_info"]["shapeI"] = Shape.shapeI
-        status["debug_info"]["shape_info"]["shapeL"] = Shape.shapeL
-        status["debug_info"]["shape_info"]["shapeJ"] = Shape.shapeJ
-        status["debug_info"]["shape_info"]["shapeT"] = Shape.shapeT
-        status["debug_info"]["shape_info"]["shapeO"] = Shape.shapeO
-        status["debug_info"]["shape_info"]["shapeS"] = Shape.shapeS
-        status["debug_info"]["shape_info"]["shapeZ"] = Shape.shapeZ
-
+        status["debug_info"]["shape_info"]["shapeI"]["index"] = Shape.shapeI
+        status["debug_info"]["shape_info"]["shapeI"]["color"] = "red"
+        status["debug_info"]["shape_info"]["shapeL"]["index"] = Shape.shapeL
+        status["debug_info"]["shape_info"]["shapeL"]["color"] = "green"
+        status["debug_info"]["shape_info"]["shapeJ"]["index"] = Shape.shapeJ
+        status["debug_info"]["shape_info"]["shapeJ"]["color"] = "purple"
+        status["debug_info"]["shape_info"]["shapeT"]["index"] = Shape.shapeT
+        status["debug_info"]["shape_info"]["shapeT"]["color"] = "gold"
+        status["debug_info"]["shape_info"]["shapeO"]["index"] = Shape.shapeO
+        status["debug_info"]["shape_info"]["shapeO"]["color"] = "pink"
+        status["debug_info"]["shape_info"]["shapeS"]["index"] = Shape.shapeS
+        status["debug_info"]["shape_info"]["shapeS"]["color"] = "blue"
+        status["debug_info"]["shape_info"]["shapeZ"]["index"] = Shape.shapeZ
+        status["debug_info"]["shape_info"]["shapeZ"]["color"] = "yellow"
         if BOARD_DATA.currentShape == Shape.shapeNone:
             print("warning: current shape is none !!!")
 
