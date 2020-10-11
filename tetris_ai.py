@@ -32,8 +32,8 @@ class TetrisAI(object):
         pprint.pprint(TetrisStatus, width = 56, compact = True)
 
         # get data from TetrisStatus
-        d0Range = TetrisStatus["shape"]["currentShape"]["direction_range"]
-        d1Range = TetrisStatus["shape"]["nextShape"]["direction_range"]
+        CurrentShapeDirectionRange = TetrisStatus["shape"]["currentShape"]["direction_range"]
+        NextShapeDirectionRange = TetrisStatus["shape"]["nextShape"]["direction_range"]
         self.board_backboard = TetrisStatus["board"]["backboard"]
         self.board_data_width = TetrisStatus["board"]["width"]
         self.board_data_height = TetrisStatus["board"]["height"]
@@ -44,11 +44,11 @@ class TetrisAI(object):
         # search best strategy -->
         strategy = None
         LatestScore = 0
-        for d0 in d0Range: # current shape direction range
+        for d0 in CurrentShapeDirectionRange: # current shape direction range
             minX, maxX, _, _ = self.CurrentShape_class.getBoundingOffsets(d0)
             for x0 in range(-minX, self.board_data_width - maxX): # x operation range
                 board = self.calcStep1Board(d0, x0)
-                for d1 in d1Range: # next shape direction range
+                for d1 in NextShapeDirectionRange: # next shape direction range
                     minX, maxX, _, _ = self.NextShape_class.getBoundingOffsets(d1)
                     dropDist = self.calcNextDropDist(board, d1, range(-minX, self.board_data_width - maxX))
                     for x1 in range(-minX, self.board_data_width - maxX):
