@@ -26,7 +26,7 @@ Terminalを立ち上げて以下を実行
 
 ```
 cd ~/tetris_game
-python3 tetris_game.py
+bash start.sh
 ```
 
 ## build

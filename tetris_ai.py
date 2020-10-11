@@ -41,24 +41,27 @@ class TetrisAI(object):
         self.CurrentShape_class = TetrisStatus["shape"]["currentShape"]["class"]
         self.NextShape_class = TetrisStatus["shape"]["nextShape"]["class"]
 
-        # search best strategy -->
+        # search best nextMove -->
         strategy = None
         LatestScore = 0
-        for d0 in CurrentShapeDirectionRange: # current shape direction range
+        for d0 in CurrentShapeDirectionRange:
+            # get CurrentShape X range when direction "d0"
             minX, maxX, _, _ = self.CurrentShape_class.getBoundingOffsets(d0)
-            for x0 in range(-minX, self.board_data_width - maxX): # x operation range
+            for x0 in range(-minX, self.board_data_width - maxX):
+                # temporally drop and get board when direction "d0" and "x0"
                 board = self.calcStep1Board(d0, x0)
-                for d1 in NextShapeDirectionRange: # next shape direction range
+                for d1 in NextShapeDirectionRange:
+                    # get NextShape X range when direction "d1"
                     minX, maxX, _, _ = self.NextShape_class.getBoundingOffsets(d1)
+                    # get dropDist to caluculate post process effectively
                     dropDist = self.calcNextDropDist(board, d1, range(-minX, self.board_data_width - maxX))
                     for x1 in range(-minX, self.board_data_width - maxX):
+                        # calculate score with the conbination "d0,x0" and "d1,x1"
                         score = self.calculateScore(np.copy(board), d1, x1, dropDist)
-                        #if not strategy or strategy[2] < score:
-                        #    strategy = (d0, x0, score)
                         if not strategy or LatestScore < score:
                             strategy = (d0, x0, 0)
                             LatestScore = score
-        # search best strategy <--
+        # search best nextMove <--
 
         # return nextMove
         print("===", datetime.now() - t1)
@@ -107,7 +110,6 @@ class TetrisAI(object):
             yy -= 1
             if yy < dy:
                 dy = yy
-        # print("dropDown: shape {0}, direction {1}, x0 {2}, dy {3}".format(shape.shape, direction, x0, dy))
         self.dropDownByDist(data, Shape_class, direction, x0, dy)
 
     def dropDownByDist(self, data, Shape_class, direction, x0, dist):
@@ -115,27 +117,28 @@ class TetrisAI(object):
             data[y + dist, x] = Shape_class.shape
 
     def calculateScore(self, step1Board, d1, x1, dropDist):
-        # print("calculateScore")
         t1 = datetime.now()
         width = self.board_data_width
         height = self.board_data_height
 
+        # temporally drop and get board with direction "d1" and "x1"
         self.dropDownByDist(step1Board, self.NextShape_class, d1, x1, dropDist[x1])
-        # print(datetime.now() - t1)
 
         # Term 1: lines to be removed
-        fullLines, nearFullLines = 0, 0
+        fullLines = 0
         roofY = [0] * width
         holeCandidates = [0] * width
         holeConfirm = [0] * width
         vHoles, vBlocks = 0, 0
+        ## check all line on board
         for y in range(height - 1, -1, -1):
             hasHole = False
             hasBlock = False
             for x in range(width):
+                ## check if hole exists
                 if step1Board[y, x] == self.ShapeNone_index:
                     hasHole = True
-                    holeCandidates[x] += 1
+                    holeCandidates[x] += 1 # just candidates
                 else:
                     hasBlock = True
                     roofY[x] = height - y
@@ -145,8 +148,10 @@ class TetrisAI(object):
                     if holeConfirm[x] > 0:
                         vBlocks += 1
             if not hasBlock:
+                # no block line (and ofcourse no hole)
                 break
             if not hasHole and hasBlock:
+                # filled with block
                 fullLines += 1
         vHoles = sum([x ** .7 for x in holeConfirm])
         maxHeight = max(roofY) - fullLines
@@ -167,8 +172,17 @@ class TetrisAI(object):
         maxDy = max(roofY) - min(roofY)
         # print(datetime.now() - t1)
 
-        score = fullLines * 1.8 - vHoles * 1.0 - vBlocks * 0.5 - maxHeight ** 1.5 * 0.02 \
-            - stdY * 0.0 - stdDY * 0.01 - absDy * 0.2 - maxDy * 0.3
+        # score Evaluation
+        score = 0
+        score = score + fullLines * 1.8            # try     to delete line 
+        score = score - vHoles * 1.0               # try not to make hole
+        score = score - vBlocks * 0.5              # try not to set block
+        score = score - maxHeight ** 1.5 * 0.02    # try     to make maxheight smaller
+        score = score - stdY * 0.0                 # statistical data
+        score = score - stdDY * 0.01               # statistical data
+        score = score - absDy * 0.2                # statistical data
+        score = score - maxDy * 0.3                # statistical data
+
         # print(score, fullLines, vHoles, vBlocks, maxHeight, stdY, stdDY, absDy, roofY, d0, x0, d1, x1)
         return score
 
