@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import random
-import time
 
 # Shape manager
 class Shape(object):
@@ -103,17 +102,18 @@ class BoardData(object):
     height = 22
 
     def __init__(self):
-        seed = time.time() * 10000000 # 0
-        random.seed(seed)
-
         self.backBoard = [0] * BoardData.width * BoardData.height # initialize board matrix
 
         self.currentX = -1
         self.currentY = -1
         self.currentDirection = 0
         self.currentShape = Shape() # initial current shape data
-        self.nextShape = Shape(random.randint(1, 7)) # initial next shape data
+        self.nextShape = None
         self.shapeStat = [0] * 8
+
+    def init_randomseed(self, num):
+        seed = num
+        random.seed(seed)
 
     def getData(self):
         return self.backBoard[:]
@@ -125,6 +125,9 @@ class BoardData(object):
         return self.currentShape.getCoords(self.currentDirection, self.currentX, self.currentY)
 
     def createNewPiece(self):
+        if self.nextShape == None:
+            self.nextShape = Shape(random.randint(1, 7)) # initial next shape data
+
         minX, maxX, minY, maxY = self.nextShape.getBoundingOffsets(0)
         result = False
         if self.tryMoveCurrent(0, 5, -minY):

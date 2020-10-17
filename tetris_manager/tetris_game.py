@@ -38,7 +38,9 @@ class Tetris(QMainWindow):
         self.setFocusPolicy(Qt.StrongFocus)
 
         hLayout = QHBoxLayout()
-        self.tboard = Board(self, self.gridSize)
+
+        random_seed = time.time() * 10000000 # 0
+        self.tboard = Board(self, self.gridSize, random_seed)
         hLayout.addWidget(self.tboard)
 
         self.sidePanel = SidePanel(self, self.gridSize)
@@ -409,19 +411,20 @@ class Board(QFrame):
     msg2Statusbar = pyqtSignal(str)
     speed = 1000 # block drop speed
 
-    def __init__(self, parent, gridSize):
+    def __init__(self, parent, gridSize, random_seed):
         super().__init__(parent)
         self.setFixedSize(gridSize * BOARD_DATA.width, gridSize * BOARD_DATA.height)
         self.gridSize = gridSize
-        self.initBoard()
+        self.initBoard(random_seed)
 
-    def initBoard(self):
+    def initBoard(self, random_seed_Nextshape):
         self.score = 0
         self.line = 0
         self.lineStat = [0, 0, 0, 0]
         self.reset_cnt = 0
         self.start_time = time.time() 
         BOARD_DATA.clear()
+        BOARD_DATA.init_randomseed(random_seed_Nextshape)
 
     def paintEvent(self, event):
         painter = QPainter(self)
