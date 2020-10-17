@@ -35,7 +35,7 @@ pip3 install numpy
 
 #### docker環境
 
-`docker/README.md` にdocker環境構築手順を記載
+[docker/README.md](docker/README.md) にdocker環境構築手順を記載
 
 ## How to play manually
 
@@ -55,6 +55,10 @@ If you want a pause, just press *P* key. The right panel shows the next shape.
 # 参考
 
 [https://github.com/LoveDaisy/tetris_game](https://github.com/LoveDaisy/tetris_game)
+
+# LICENCE
+
+[LICENCE](LICENCE)
 
 # Finnaly
 
