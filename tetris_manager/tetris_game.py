@@ -9,9 +9,17 @@ from PyQt5.QtGui import QPainter, QColor
 from tetris_model import BOARD_DATA, Shape
 from tetris_controller import TETRIS_CONTROLLER
 
+from argparse import ArgumentParser
 import time
 
 # TETRIS_CONTROLLER = None
+
+def get_option(random_seed):
+    argparser = ArgumentParser()
+    argparser.add_argument('-s', '--seed', type=int,
+                           default=random_seed,
+                           help='Specify random seed')
+    return argparser.parse_args()
 
 class Tetris(QMainWindow):
 
@@ -28,6 +36,11 @@ class Tetris(QMainWindow):
         self.nextMove = None
         self.lastShape = Shape.shapeNone
 
+        self.random_seed = time.time() * 10000000 # 0
+        args = get_option(self.random_seed)
+        if args.seed >= 0:
+            self.random_seed = args.seed
+
         self.initUI()
 
     def initUI(self):
@@ -39,8 +52,8 @@ class Tetris(QMainWindow):
 
         hLayout = QHBoxLayout()
 
-        random_seed = time.time() * 10000000 # 0
-        self.tboard = Board(self, self.gridSize, random_seed)
+        random_seed_Nextshape = self.random_seed
+        self.tboard = Board(self, self.gridSize, random_seed_Nextshape)
         hLayout.addWidget(self.tboard)
 
         self.sidePanel = SidePanel(self, self.gridSize)
