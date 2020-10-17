@@ -33,22 +33,34 @@ pip3 install numpy
 
 記載予定
 
-#### docker環境
+#### サンプルコード
 
-[docker/README.md](docker/README.md) にdocker環境構築手順を記載
+記載予定
 
-## How to play manually
+#### How to play manually
 
 Play just like classical Tetris Game. 
 You use *up* key to rotate a shape, *left* key to move left and *right* key to move right. 
 Also you can use *space* key to drop down current shape immediately and *m* key to just movedown.
 If you want a pause, just press *P* key. The right panel shows the next shape.
 
+#### docker環境
+
+[docker/README.md](docker/README.md) にdocker環境構築手順を記載
+
 # Play rules
 
 記載予定
 
-## Score
+#### Score
+
+記載予定
+
+#### game level
+
+記載予定
+
+#### level 1
 
 記載予定
 
