@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import random
+import time
 
 # Shape manager
 class Shape(object):
@@ -102,6 +103,9 @@ class BoardData(object):
     height = 22
 
     def __init__(self):
+        seed = time.time() * 10000000 # 0
+        random.seed(seed)
+
         self.backBoard = [0] * BoardData.width * BoardData.height # initialize board matrix
 
         self.currentX = -1
