@@ -1,6 +1,6 @@
 # Tetris Game docker
 
-## run
+## 実行方法
 
 ### step0. dockerをインストールする
 
@@ -29,7 +29,7 @@ cd ~/tetris_game
 bash start.sh
 ```
 
-## build for debug
+## build for update docker container
 
 ```
 docker build -t seigott/tetris_game_docker .
