@@ -56,9 +56,9 @@ If you want a pause, just press *P* key. The right panel shows the next shape.
 
 [https://github.com/LoveDaisy/tetris_game](https://github.com/LoveDaisy/tetris_game)
 
-# LICENCE
+# LICENSE
 
-[LICENCE](LICENCE)
+[LICENSE](LICENSE)
 
 # Finnaly
 
