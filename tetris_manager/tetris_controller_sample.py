@@ -6,7 +6,7 @@ from datetime import datetime
 import numpy as np
 import pprint
 
-class TetrisAI(object):
+class TetrisController(object):
 
     # init parameter
     board_backboard = 0
@@ -187,5 +187,5 @@ class TetrisAI(object):
         return score
 
 
-TETRIS_AI = TetrisAI()
+TETRIS_CONTROLLER = TetrisController()
 

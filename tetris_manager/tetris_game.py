@@ -7,11 +7,11 @@ from PyQt5.QtCore import Qt, QBasicTimer, pyqtSignal
 from PyQt5.QtGui import QPainter, QColor
 
 from tetris_model import BOARD_DATA, Shape
-from tetris_ai import TETRIS_AI
+from tetris_controller import TETRIS_CONTROLLER
 
 import time
 
-# TETRIS_AI = None
+# TETRIS_CONTROLLER = None
 
 class Tetris(QMainWindow):
 
@@ -104,11 +104,11 @@ class Tetris(QMainWindow):
             next_y = 0
             y_operation = -1
 
-            if TETRIS_AI and not self.nextMove:
-                # get nextMove from TetrisAI
+            if TETRIS_CONTROLLER and not self.nextMove:
+                # get nextMove from TetrisController
                 TetrisStatus = self.getTetrisStatus()
                 
-                self.nextMove = TETRIS_AI.GetNextMove(TetrisStatus)
+                self.nextMove = TETRIS_CONTROLLER.GetNextMove(TetrisStatus)
             if self.nextMove:
                 # shape direction operation
                 next_x = self.nextMove["strategy"]["x"]
