@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import sys, random
+import sys
 from PyQt5.QtWidgets import QMainWindow, QFrame, QDesktopWidget, QApplication, QHBoxLayout, QLabel
 from PyQt5.QtCore import Qt, QBasicTimer, pyqtSignal
 from PyQt5.QtGui import QPainter, QColor
@@ -454,7 +454,6 @@ class Board(QFrame):
 
 
 if __name__ == '__main__':
-    # random.seed(32)
     app = QApplication([])
     TETRIS_MANEGER = Tetris()
     sys.exit(app.exec_())
