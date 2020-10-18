@@ -37,6 +37,8 @@ pip3 install numpy
 
 記載予定
 
+[doc/pics/20201017.png](doc/pics/20201017.png)
+
 ## サンプルコード
 
 [こちらのプログラム](tetris_manager/tetris_controller_sample.py)を参考に、簡単な自動操作が可能です
