@@ -37,7 +37,7 @@ pip3 install numpy
 
 記載予定
 
-[doc/pics/20201017.png](doc/pics/20201017.png)
+![Screenshot](doc/pics/20201017.png)
 
 ## サンプルコード
 
