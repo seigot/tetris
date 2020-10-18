@@ -45,6 +45,8 @@ pip3 install numpy
 
 [こちらのプログラム](tetris_manager/tetris_controller_manual_sample.py)を参考に、手動操作が可能です
 
+|  操作キー  |  動作  |
+| ---- | ---- |
 |  *up* key  |  回転  |
 |  *left* key  |  左に移動  |
 |  *right* key   |  右に移動  |
