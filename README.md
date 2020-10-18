@@ -56,7 +56,7 @@ If you want a pause, just press *P* key. The right panel shows the next shape.
 
 加点
 
-| 項目 | 得点 |
+|  項目  |  得点  |
 | ---- | ---- |
 |  1ライン消し  |  + 40点  |
 |  2ライン消し  |  + 100点  |
@@ -66,7 +66,7 @@ If you want a pause, just press *P* key. The right panel shows the next shape.
 
 減点
 
-| 項目 | 得点 |
+|  項目  |  得点  |
 | ---- | ---- |
 |  gameover  |  - xxx点  |
 
