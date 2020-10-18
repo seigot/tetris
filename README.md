@@ -39,7 +39,7 @@ pip3 install numpy
 
 ## サンプルコード
 
-[こちらのプログラム](tetris_manager/tetris_controller_sample.py)を参考
+[こちらのプログラム](tetris_manager/tetris_controller_sample.py)を参考に、簡単な自動操作が可能です
 
 #### How to play manually
 
