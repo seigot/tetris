@@ -56,16 +56,11 @@ If you want a pause, just press *P* key. The right panel shows the next shape.
 
 加点
 
-|  TH  |  TH  |
-| ---- | ---- |
-|  TD  |  TD  |
-|  TD  |  TD  |
-
 |  項目  |  得点  |
 | ---- | ---- |
 |  1ライン消し  |  + 40点  |
 |  2ライン消し  |  + 100点  |
-|  3ライン消し  |  + 400点  |
+|  3ライン消し  |  + 300点  |
 |  4ライン消し  |  + 1200点  |
 |  落下ボーナス  |  + 落下したブロック数を得点に加算  |
 
@@ -77,11 +72,11 @@ If you want a pause, just press *P* key. The right panel shows the next shape.
 
 #### game level
 
-記載予定
-
-#### level 1
-
-記載予定
+|     |  level0  |  level1  |  level2  |  level3  | 
+| --- | --- | --- | --- | --- | 
+|  制限時間  |  なし  |  300秒  |  300秒  |  300秒  | 
+|  次のブロック  |  固定  |  固定  |  ランダム  |  ランダム  | 
+|  初期ブロック  |  なし  |  なし  |  なし  |  あり  | 
 
 # 参考
 
