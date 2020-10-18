@@ -165,7 +165,10 @@ class Tetris(QMainWindow):
                 self.nextMove = TETRIS_CONTROLLER.GetNextMove(TetrisStatus)
                 if self.manual == "y":
                     # ignore nextMove, for manual controll
-                    self.nextMove = None
+                    self.nextMove["strategy"]["x"] = BOARD_DATA.currentX
+                    self.nextMove["strategy"]["y"] = 1
+                    self.nextMove["strategy"]["y_operation"] = 0
+                    self.nextMove["strategy"]["direction"] = BOARD_DATA.currentDirection
 
             if self.nextMove:
                 # shape direction operation
