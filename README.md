@@ -88,12 +88,12 @@ pip3 install numpy
 
 # 参考
 
-[https://github.com/LoveDaisy/tetris_game](https://github.com/LoveDaisy/tetris_game)
+[https://github.com/LoveDaisy/tetris_game](https://github.com/LoveDaisy/tetris_game) <br>
 [http://zetcode.com/gui/pyqt5/tetris/](http://zetcode.com/gui/pyqt5/tetris/)
 
 # LICENSE
 
-[LICENSE](LICENSE)
+[MIT LICENSE](LICENSE)
 
 # Finnaly
 
