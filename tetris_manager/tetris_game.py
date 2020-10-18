@@ -14,8 +14,11 @@ import time
 
 # TETRIS_CONTROLLER = None
 
-def get_option(random_seed, obstacle_height, obstacle_probability):
+def get_option(game_time, random_seed, obstacle_height, obstacle_probability):
     argparser = ArgumentParser()
+    argparser.add_argument('--game_time', type=int,
+                           default=game_time,
+                           help='Specify game time')
     argparser.add_argument('--seed', type=int,
                            default=random_seed,
                            help='Specify random seed')
@@ -42,12 +45,16 @@ class Tetris(QMainWindow):
         self.nextMove = None
         self.lastShape = Shape.shapeNone
 
+        self.game_time = -1
         self.random_seed = time.time() * 10000000 # 0
         self.obstacle_height = 0
         self.obstacle_probability = 0
-        args = get_option(self.random_seed,
+        args = get_option(self.game_time,
+                          self.random_seed,
                           self.obstacle_height,
                           self.obstacle_probability)
+        if args.game_time >= 0:
+            self.game_time = args.game_time
         if args.seed >= 0:
             self.random_seed = args.seed
         if args.obstacle_height >= 0:
@@ -68,6 +75,7 @@ class Tetris(QMainWindow):
 
         random_seed_Nextshape = self.random_seed
         self.tboard = Board(self, self.gridSize,
+                            self.game_time,
                             random_seed_Nextshape,
                             self.obstacle_height,
                             self.obstacle_probability)
@@ -441,10 +449,11 @@ class Board(QFrame):
     msg2Statusbar = pyqtSignal(str)
     speed = 1000 # block drop speed
 
-    def __init__(self, parent, gridSize, random_seed, obstacle_height, obstacle_probability):
+    def __init__(self, parent, gridSize, game_time, random_seed, obstacle_height, obstacle_probability):
         super().__init__(parent)
         self.setFixedSize(gridSize * BOARD_DATA.width, gridSize * BOARD_DATA.height)
         self.gridSize = gridSize
+        self.game_time = game_time
         self.initBoard(random_seed, obstacle_height, obstacle_probability)
 
     def initBoard(self, random_seed_Nextshape, obstacle_height, obstacle_probability):
@@ -483,9 +492,20 @@ class Board(QFrame):
         reset_cnt_str = str(self.reset_cnt)
         elapsed_time = round(time.time() - self.start_time, 3)
         elapsed_time_str = str(elapsed_time)
-        self.msg2Statusbar.emit("score:" + score_str + ",line:" + line_str + ", gameover:" + reset_cnt_str + ", time[s]:" + elapsed_time_str ) # print string to status bar
+        status_str = "score:" + score_str + ",line:" + line_str + ",gameover:" + reset_cnt_str + ",time[s]:" + elapsed_time_str
+        # print string to status bar
+        self.msg2Statusbar.emit(status_str)
         self.update()
 
+        if self.game_time >= 0 and elapsed_time > self.game_time:
+            # finish game.
+            print("game finish!! elapsed time: " + elapsed_time_str + "/game_time: " + str(self.game_time))
+            print("")
+            print("##### YOUR_RESULT #####")
+            print(status_str)
+            print("##### ###### #####")
+            print("")
+            sys.exit(app.exec_())
 
 if __name__ == '__main__':
     app = QApplication([])
