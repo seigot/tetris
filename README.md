@@ -1,6 +1,6 @@
 # Tetris Game
 
-プログラム学習を目的とした、テトリスを操作してスコアを競うゲーム
+プログラム学習を目的とした、テトリスを操作してスコアを競うゲームです
 
 ## 実行方法
 
@@ -50,7 +50,7 @@ If you want a pause, just press *P* key. The right panel shows the next shape.
 
 # Play rules
 
-制限時間内の獲得スコアを計算できます
+制限時間内の獲得スコアを評価することが可能です
 
 ## Score
 
