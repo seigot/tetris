@@ -22,7 +22,7 @@ class TetrisController(object):
     #                   in detail see the internal TetrisStatus data.
     # output
     #    nextMove : this data include next shape position and the other,
-    #
+    #               if return None, do nothing to nextMove.
     def GetNextMove(self, TetrisStatus):
 
         t1 = datetime.now()
