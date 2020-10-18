@@ -4,16 +4,13 @@
 
 ### step0. dockerをインストールする
 
-```
-ex. ubuntu <br>
+ubuntu <br>
 [Install Docker Engine on Ubuntu](https://docs.docker.com/engine/install/ubuntu) <br>
-ex. mac <br>
+mac <br>
 [Install Docker Desktop on Mac](https://docs.docker.com/docker-for-mac/install/) <br>
-ex. windows <br>
+windows <br>
 [Install Docker Desktop on Windows](https://docs.docker.com/docker-for-windows/install/) <br>
-```
 
-reference. <br>
 [Install Docker Engine](https://docs.docker.com/engine/install/) <br>
 
 ### step1. dockerコンテナを起動する
