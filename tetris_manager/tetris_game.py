@@ -14,11 +14,17 @@ import time
 
 # TETRIS_CONTROLLER = None
 
-def get_option(random_seed):
+def get_option(random_seed, obstacle_height, obstacle_probability):
     argparser = ArgumentParser()
-    argparser.add_argument('-s', '--seed', type=int,
+    argparser.add_argument('--seed', type=int,
                            default=random_seed,
                            help='Specify random seed')
+    argparser.add_argument('--obstacle_height', type=int,
+                           default=obstacle_height,
+                           help='Specify obstacle height')
+    argparser.add_argument('--obstacle_probability', type=int,
+                           default=obstacle_probability,
+                           help='Specify obstacle probability')
     return argparser.parse_args()
 
 class Tetris(QMainWindow):
@@ -37,9 +43,17 @@ class Tetris(QMainWindow):
         self.lastShape = Shape.shapeNone
 
         self.random_seed = time.time() * 10000000 # 0
-        args = get_option(self.random_seed)
+        self.obstacle_height = 0
+        self.obstacle_probability = 0
+        args = get_option(self.random_seed,
+                          self.obstacle_height,
+                          self.obstacle_probability)
         if args.seed >= 0:
             self.random_seed = args.seed
+        if args.obstacle_height >= 0:
+            self.obstacle_height = args.obstacle_height
+        if args.obstacle_probability >= 0:
+            self.obstacle_probability = args.obstacle_probability
 
         self.initUI()
 
@@ -53,7 +67,10 @@ class Tetris(QMainWindow):
         hLayout = QHBoxLayout()
 
         random_seed_Nextshape = self.random_seed
-        self.tboard = Board(self, self.gridSize, random_seed_Nextshape)
+        self.tboard = Board(self, self.gridSize,
+                            random_seed_Nextshape,
+                            self.obstacle_height,
+                            self.obstacle_probability)
         hLayout.addWidget(self.tboard)
 
         self.sidePanel = SidePanel(self, self.gridSize)
@@ -424,13 +441,13 @@ class Board(QFrame):
     msg2Statusbar = pyqtSignal(str)
     speed = 1000 # block drop speed
 
-    def __init__(self, parent, gridSize, random_seed):
+    def __init__(self, parent, gridSize, random_seed, obstacle_height, obstacle_probability):
         super().__init__(parent)
         self.setFixedSize(gridSize * BOARD_DATA.width, gridSize * BOARD_DATA.height)
         self.gridSize = gridSize
-        self.initBoard(random_seed)
+        self.initBoard(random_seed, obstacle_height, obstacle_probability)
 
-    def initBoard(self, random_seed_Nextshape):
+    def initBoard(self, random_seed_Nextshape, obstacle_height, obstacle_probability):
         self.score = 0
         self.line = 0
         self.lineStat = [0, 0, 0, 0]
@@ -438,6 +455,7 @@ class Board(QFrame):
         self.start_time = time.time() 
         BOARD_DATA.clear()
         BOARD_DATA.init_randomseed(random_seed_Nextshape)
+        BOARD_DATA.init_obstacle_parameter(obstacle_height, obstacle_probability)
 
     def paintEvent(self, event):
         painter = QPainter(self)

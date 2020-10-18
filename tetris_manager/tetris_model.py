@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import random
+import random as randomShape
+import random as randomObstacle
+import random as randomObstaclePiece
 
 # Shape manager
 class Shape(object):
@@ -110,10 +112,18 @@ class BoardData(object):
         self.currentShape = Shape() # initial current shape data
         self.nextShape = None
         self.shapeStat = [0] * 8
+        self.obstacle_height = 0
+        self.obstacle_probability = 0
 
     def init_randomseed(self, num):
         seed = num
-        random.seed(seed)
+        randomShape.seed(seed)
+        randomObstacle.seed(seed)
+        randomObstaclePiece.seed(seed)
+
+    def init_obstacle_parameter(self, height, probability):
+        self.obstacle_height = height
+        self.obstacle_probability = probability
 
     def getData(self):
         return self.backBoard[:]
@@ -126,7 +136,7 @@ class BoardData(object):
 
     def createNewPiece(self):
         if self.nextShape == None:
-            self.nextShape = Shape(random.randint(1, 7)) # initial next shape data
+            self.nextShape = Shape(randomShape.randint(1, 7)) # initial next shape data
 
         minX, maxX, minY, maxY = self.nextShape.getBoundingOffsets(0)
         result = False
@@ -135,7 +145,7 @@ class BoardData(object):
             self.currentY = -minY
             self.currentDirection = 0
             self.currentShape = self.nextShape
-            self.nextShape = Shape(random.randint(1, 7)) # next shape data
+            self.nextShape = Shape(randomShape.randint(1, 7)) # next shape data
             result = True
         else:
             self.currentShape = Shape()
@@ -249,6 +259,25 @@ class BoardData(object):
         self.currentDirection = 0
         self.currentShape = Shape()
         self.backBoard = [0] * BoardData.width * BoardData.height
+        self.addobstacle()
 
+    def addobstacle(self):
+        obstacle_height = self.obstacle_height
+        obstacle_probability = self.obstacle_probability
+
+        for y in range(BoardData.height):
+            line_obstacle_cnt = 0
+            for x in range(BoardData.width):
+
+                if y < (BoardData.height - obstacle_height):
+                    continue
+                if line_obstacle_cnt >= (BoardData.width - 1):
+                    continue
+
+                # create obstacle
+                tmp_num = randomObstacle.randint(1, 100)
+                if tmp_num <= obstacle_probability:
+                    self.backBoard[x + y * BoardData.width] = randomObstaclePiece.randint(1, 7)
+                    line_obstacle_cnt += 1
 
 BOARD_DATA = BoardData()
