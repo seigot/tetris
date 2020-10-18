@@ -35,8 +35,8 @@ pip3 install numpy
 
 ## 詳細
 
-以下図のような構成になっています。<br>
-ボード制御用プログラムは、ゲーム管理用プログラムから定期的に呼び出されるので、ボード情報を参照しつつ次の動作を決定して下さい。 <br>
+以下のような構成になっています。<br>
+ボード制御用プログラムは、管理プログラムから定期的に呼び出されるので、ボード情報から次の動作を決定して下さい。 <br>
 
 ![Screenshot](doc/pics/20201017-3.png)
 
@@ -46,7 +46,7 @@ pip3 install numpy
 
 [こちらのプログラム](tetris_manager/tetris_controller_sample.py)を参考に、簡単な自動操作が可能です
 
-#### How to play manually
+## How to play manually
 
 *-m*オプションに"y"を与えることで、手動操作が可能です
 
