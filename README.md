@@ -48,7 +48,7 @@ pip3 install numpy
 
 ## How to play manually
 
-*-m*オプションに"y"を与えることで、手動操作が可能です
+実行時、以下のようにオプションを与えることで、手動操作が可能です
 
 ```shell
 bash start.sh -m "y"
