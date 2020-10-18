@@ -1,6 +1,6 @@
 # Tetris Game
 
-テトリスを操作してスコアを競うゲームです
+プログラム学習を目的とした、テトリスを操作してスコアを競うゲーム
 
 ## 実行方法
 
@@ -50,9 +50,9 @@ If you want a pause, just press *P* key. The right panel shows the next shape.
 
 # Play rules
 
-制限時間内の獲得スコアを競うつもりです
+制限時間内の獲得スコアを計算できます
 
-#### Score
+## Score
 
 加点
 
@@ -70,13 +70,14 @@ If you want a pause, just press *P* key. The right panel shows the next shape.
 | ---- | ---- |
 |  gameover  |  - xxx点  |
 
-#### game level
+## game level
 
 |     |  level0  |  level1  |  level2  |  level3  | 
 | --- | --- | --- | --- | --- | 
 |  制限時間  |  なし  |  300秒  |  300秒  |  300秒  | 
 |  次のブロック  |  固定  |  固定  |  ランダム  |  ランダム  | 
 |  初期ブロック  |  なし  |  なし  |  なし  |  あり  | 
+|  実行方法  | bash start.sh | bash start.sh -l1 | bash start.sh -l2  | bash start.sh -l3 | 
 
 # 参考
 
