@@ -14,11 +14,14 @@ import time
 
 # TETRIS_CONTROLLER = None
 
-def get_option(game_time, random_seed, obstacle_height, obstacle_probability):
+def get_option(game_time, drop_speed, random_seed, obstacle_height, obstacle_probability):
     argparser = ArgumentParser()
     argparser.add_argument('--game_time', type=int,
                            default=game_time,
-                           help='Specify game time')
+                           help='Specify game time(s)')
+    argparser.add_argument('--drop_speed', type=int,
+                           default=drop_speed,
+                           help='Specify drop_speed(s)')
     argparser.add_argument('--seed', type=int,
                            default=random_seed,
                            help='Specify random seed')
@@ -46,15 +49,19 @@ class Tetris(QMainWindow):
         self.lastShape = Shape.shapeNone
 
         self.game_time = -1
+        self.drop_speed = 1000
         self.random_seed = time.time() * 10000000 # 0
         self.obstacle_height = 0
         self.obstacle_probability = 0
         args = get_option(self.game_time,
+                          self.drop_speed,
                           self.random_seed,
                           self.obstacle_height,
                           self.obstacle_probability)
         if args.game_time >= 0:
             self.game_time = args.game_time
+        if args.drop_speed >= 0:
+            self.drop_speed = args.drop_speed
         if args.seed >= 0:
             self.random_seed = args.seed
         if args.obstacle_height >= 0:
@@ -66,7 +73,7 @@ class Tetris(QMainWindow):
 
     def initUI(self):
         self.gridSize = 22
-        self.speed = 1000 # block drop speed
+        self.speed = self.drop_speed # block drop speed
 
         self.timer = QBasicTimer()
         self.setFocusPolicy(Qt.StrongFocus)
@@ -447,7 +454,6 @@ class SidePanel(QFrame):
 
 class Board(QFrame):
     msg2Statusbar = pyqtSignal(str)
-    speed = 1000 # block drop speed
 
     def __init__(self, parent, gridSize, game_time, random_seed, obstacle_height, obstacle_probability):
         super().__init__(parent)
