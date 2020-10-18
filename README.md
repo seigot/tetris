@@ -50,11 +50,25 @@ If you want a pause, just press *P* key. The right panel shows the next shape.
 
 # Play rules
 
-記載予定
+制限時間内の獲得スコアを競うつもりです
 
 #### Score
 
-記載予定
+加点
+
+| 項目 | 得点 |
+| ---- | ---- |
+|  1ライン消し  |  + 40点  |
+|  2ライン消し  |  + 100点  |
+|  3ライン消し  |  + 400点  |
+|  4ライン消し  |  + 1200点  |
+|  落下ボーナス  |  + 落下したブロック数を得点に加算  |
+
+減点
+
+| 項目 | 得点 |
+| ---- | ---- |
+|  gameover  |  - xxx点  |
 
 #### game level
 
