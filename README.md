@@ -39,10 +39,14 @@ pip3 install numpy
 
 #### How to play manually
 
-Play just like classical Tetris Game. 
-You use *up* key to rotate a shape, *left* key to move left and *right* key to move right. 
-Also you can use *space* key to drop down current shape immediately and *m* key to just movedown.
-If you want a pause, just press *P* key. The right panel shows the next shape.
+[こちらのプログラム](tetris_manager/tetris_controller_manual_sample.py)を参考に、手動操作が可能です
+
+|  *up* key  |  回転  |
+|  *left* key  |  左に移動  |
+|  *right* key   |  右に移動  |
+|  *m* key  |  下に移動  |
+|  *space* key  |  落下  |
+|  *P* key  |  pause  |
 
 #### docker環境
 
@@ -78,6 +82,7 @@ If you want a pause, just press *P* key. The right panel shows the next shape.
 |  次のブロック  |  固定  |  固定  |  ランダム  |  ランダム  | 
 |  初期ブロック  |  なし  |  なし  |  なし  |  あり  | 
 |  実行方法  | bash start.sh | bash start.sh -l1 | bash start.sh -l2  | bash start.sh -l3 | 
+|  フレーム更新頻度  |  約1秒  |  約1秒  |  約1秒  |  約1秒  | 
 
 # 参考
 
