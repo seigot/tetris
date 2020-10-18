@@ -2,15 +2,18 @@
 
 ## default level
 VALUE_L="0"
+IS_MANUAL_CONTROLL="n"
 
 ## get args level setting
-while getopts l: OPT
+while getopts l:m: OPT
 do
   case $OPT in
     "l" ) VALUE_L="$OPTARG" ;;
+    "m" ) IS_MANUAL_CONTROLL="$OPTARG" ;;
   esac
 done
 echo "level: $VALUE_L"
+echo "is_manual_controll: $IS_MANUAL_CONTROLL"
 
 ## set field parameter for level 1
 GAME_TIME="300"          # game time (s)
@@ -29,4 +32,4 @@ esac
 echo "game_time: $GAME_TIME"
 
 ## start game
-python3 tetris_manager/tetris_game.py --game_time ${GAME_TIME} --seed ${RANDOM_SEED} --obstacle_height ${OBSTACLE_HEIGHT} --obstacle_probability ${OBSTACLE_PROBABILITY} --drop_speed ${DROP_SPEED}
+python3 tetris_manager/tetris_game.py --game_time ${GAME_TIME} --seed ${RANDOM_SEED} --obstacle_height ${OBSTACLE_HEIGHT} --obstacle_probability ${OBSTACLE_PROBABILITY} --drop_speed ${DROP_SPEED} --manual ${IS_MANUAL_CONTROLL}

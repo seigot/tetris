@@ -14,10 +14,13 @@ import time
 
 # TETRIS_CONTROLLER = None
 
-def get_option(game_time, drop_speed, random_seed, obstacle_height, obstacle_probability):
+def get_option(game_time, manual, drop_speed, random_seed, obstacle_height, obstacle_probability):
     argparser = ArgumentParser()
     argparser.add_argument('--game_time', type=int,
                            default=game_time,
+                           help='Specify game time(s)')
+    argparser.add_argument('--manual',
+                           default=manual,
                            help='Specify game time(s)')
     argparser.add_argument('--drop_speed', type=int,
                            default=drop_speed,
@@ -49,17 +52,21 @@ class Tetris(QMainWindow):
         self.lastShape = Shape.shapeNone
 
         self.game_time = -1
+        self.manual = None
         self.drop_speed = 1000
         self.random_seed = time.time() * 10000000 # 0
         self.obstacle_height = 0
         self.obstacle_probability = 0
         args = get_option(self.game_time,
+                          self.manual,
                           self.drop_speed,
                           self.random_seed,
                           self.obstacle_height,
                           self.obstacle_probability)
         if args.game_time >= 0:
             self.game_time = args.game_time
+        if args.manual == "y":
+            self.manual = args.manual
         if args.drop_speed >= 0:
             self.drop_speed = args.drop_speed
         if args.seed >= 0:
@@ -156,6 +163,10 @@ class Tetris(QMainWindow):
                 TetrisStatus = self.getTetrisStatus()
                 
                 self.nextMove = TETRIS_CONTROLLER.GetNextMove(TetrisStatus)
+                if self.manual == "y":
+                    # ignore nextMove, for manual controll
+                    self.nextMove = None
+
             if self.nextMove:
                 # shape direction operation
                 next_x = self.nextMove["strategy"]["x"]
