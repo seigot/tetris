@@ -56,6 +56,11 @@ If you want a pause, just press *P* key. The right panel shows the next shape.
 
 加点
 
+|  TH  |  TH  |
+| ---- | ---- |
+|  TD  |  TD  |
+|  TD  |  TD  |
+
 |  項目  |  得点  |
 | ---- | ---- |
 |  1ライン消し  |  + 40点  |
