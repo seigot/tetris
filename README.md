@@ -22,6 +22,10 @@ pip3 install --upgrade pip
 pip3 install numpy
 ```
 
+#### docker環境
+
+[docker/README.md](docker/README.md) にお試しdocker環境の構築手順を記載
+
 ## ファイル構成
 
 * `tetris_manager/tetris_game.py` : ゲーム管理用プログラム
@@ -29,13 +33,13 @@ pip3 install numpy
 * `tetris_controller.py` : ゲーム制御用プログラム（テトリスの操作は、このファイルを編集して下さい。）
 * `start.sh` : ゲーム開始用スクリプト
 
-#### 詳細
+## 詳細
 
 記載予定
 
-#### サンプルコード
+## サンプルコード
 
-記載予定
+[こちらのプログラム](tetris_manager/tetris_controller_sample.py)を参考
 
 #### How to play manually
 
@@ -47,10 +51,6 @@ pip3 install numpy
 |  *m* key  |  下に移動  |
 |  *space* key  |  落下  |
 |  *P* key  |  pause  |
-
-#### docker環境
-
-[docker/README.md](docker/README.md) にdocker環境構築手順を記載
 
 # Play rules
 
@@ -87,6 +87,7 @@ pip3 install numpy
 # 参考
 
 [https://github.com/LoveDaisy/tetris_game](https://github.com/LoveDaisy/tetris_game)
+[http://zetcode.com/gui/pyqt5/tetris/](http://zetcode.com/gui/pyqt5/tetris/)
 
 # LICENSE
 
