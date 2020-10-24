@@ -1,6 +1,6 @@
 # Tetris Game
 
-プログラム学習を目的とした、テトリスを操作してスコアを競うゲームです
+プログラム学習を目的とした、ブロックを操作してスコアを競うゲームです
 
 ## 実行方法
 
@@ -30,7 +30,7 @@ pip3 install numpy
 
 * `game_manager/tetris_game.py` : ゲーム管理用プログラム
 * `game_manager/tetris_model.py` : ボード管理用プログラム
-* `tetris_controller.py` : ボード制御用プログラム（テトリスの操作は、このファイルを編集して下さい。）
+* `tetris_controller.py` : ボード制御用プログラム（ブロックの操作は、このファイルを編集して下さい。）
 * `start.sh` : ゲーム開始用スクリプト
 
 ## 詳細
@@ -44,7 +44,7 @@ pip3 install numpy
 
 ## サンプルコード
 
-[こちらのプログラム](tetris_manager/tetris_controller_sample.py)を参考に、簡単な自動操作が可能です
+[こちらのプログラム](game_manager/tetris_controller_sample.py)を参考に、簡単な自動操作が可能です
 
 ## How to play manually
 
