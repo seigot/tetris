@@ -184,7 +184,7 @@ class Tetris(QMainWindow):
                         print("cannot rotateRight")
                         break
                     k += 1
-                # x operatiox
+                # x operation
                 k = 0
                 while BOARD_DATA.currentX != next_x and k < 5:
                     if BOARD_DATA.currentX > next_x:
@@ -224,9 +224,10 @@ class Tetris(QMainWindow):
                 print("reset field.")
                 self.resetfield()
 
-            # update nextMove everytime.
+            # init nextMove
             self.nextMove = None
 
+            # update window
             self.updateWindow()
         else:
             super(Tetris, self).timerEvent(event)
@@ -389,6 +390,8 @@ class Tetris(QMainWindow):
         return status
 
     def keyPressEvent(self, event):
+        # for manual control
+
         if not self.isStarted or BOARD_DATA.currentShape == Shape.shapeNone:
             super(Tetris, self).keyPressEvent(event)
             return
