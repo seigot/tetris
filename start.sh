@@ -32,4 +32,4 @@ esac
 echo "game_time: $GAME_TIME"
 
 ## start game
-python3 tetris_manager/tetris_game.py --game_time ${GAME_TIME} --seed ${RANDOM_SEED} --obstacle_height ${OBSTACLE_HEIGHT} --obstacle_probability ${OBSTACLE_PROBABILITY} --drop_speed ${DROP_SPEED} --manual ${IS_MANUAL_CONTROLL}
+python3 game_manager/tetris_game.py --game_time ${GAME_TIME} --seed ${RANDOM_SEED} --obstacle_height ${OBSTACLE_HEIGHT} --obstacle_probability ${OBSTACLE_PROBABILITY} --drop_speed ${DROP_SPEED} --manual ${IS_MANUAL_CONTROLL}
