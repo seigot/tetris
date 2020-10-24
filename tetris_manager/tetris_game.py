@@ -122,10 +122,8 @@ class Tetris(QMainWindow):
         self.isStarted = True
         self.tboard.score = 0
         BOARD_DATA.clear()
-
-        self.tboard.msg2Statusbar.emit(str(self.tboard.score))
-
         BOARD_DATA.createNewPiece()
+        self.tboard.msg2Statusbar.emit(str(self.tboard.score))
         self.timer.start(self.speed, self)
 
     def pause(self):
@@ -146,6 +144,7 @@ class Tetris(QMainWindow):
         # self.tboard.score = 0
         self.tboard.reset_cnt += 1
         BOARD_DATA.clear()
+        BOARD_DATA.createNewPiece()
 
     def updateWindow(self):
         self.tboard.updateData()
@@ -153,6 +152,8 @@ class Tetris(QMainWindow):
         self.update()
 
     def timerEvent(self, event):
+        # callback function for user control
+
         if event.timerId() == self.timer.timerId():
             next_x = 0
             next_y = 0
@@ -207,13 +208,12 @@ class Tetris(QMainWindow):
                             break
                     k += 1
 
-            # lines = BOARD_DATA.dropDown()
+            # dropdown/movedown lines
             dropdownlines = 0
             removedlines = 0
             if y_operation == 1: # dropdown
                 removedlines, dropdownlines = BOARD_DATA.dropDown()
-            else:
-                #removedlines, movedownlines = BOARD_DATA.moveDown()
+            else: # movedown, with next_y lines
                 k = 0
                 while True:
                     removedlines, movedownlines = BOARD_DATA.moveDown()
@@ -227,11 +227,14 @@ class Tetris(QMainWindow):
 
             self.UpdateScore(removedlines, dropdownlines)
 
+            # check reset
+            #if BOARD_DATA.currentY < 1:
+            #    # if Piece cannot movedown and stack, reset field 
+            #    print("reset field.")
+            #    self.resetfield()
+
             # update nextMove everytime.
             self.nextMove = None
-            #if self.lastShape != BOARD_DATA.currentShape:
-            #    self.nextMove = None
-            #    self.lastShape = BOARD_DATA.currentShape
 
             self.updateWindow()
         else:
