@@ -227,11 +227,11 @@ class Tetris(QMainWindow):
 
             self.UpdateScore(removedlines, dropdownlines)
 
-            # check reset
-            #if BOARD_DATA.currentY < 1:
-            #    # if Piece cannot movedown and stack, reset field 
-            #    print("reset field.")
-            #    self.resetfield()
+            # check reset field
+            if BOARD_DATA.currentY < 1:
+                # if Piece cannot movedown and stack, reset field
+                print("reset field.")
+                self.resetfield()
 
             # update nextMove everytime.
             self.nextMove = None
