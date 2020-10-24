@@ -38,11 +38,11 @@ def get_option(game_time, manual, drop_speed, random_seed, obstacle_height, obst
 
 class Tetris(QMainWindow):
 
-    # reference: gameboy tetris. http://www.din.or.jp/~koryan/tetris/d-gb1.htm
-    LINE_SCORE_1 = 40
-    LINE_SCORE_2 = 100
-    LINE_SCORE_3 = 300
-    LINE_SCORE_4 = 1200
+    # a[n] = n^2 - n + 1
+    LINE_SCORE_1 = 100
+    LINE_SCORE_2 = 300
+    LINE_SCORE_3 = 700
+    LINE_SCORE_4 = 1300
 
     def __init__(self):
         super().__init__()
