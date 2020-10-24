@@ -43,6 +43,7 @@ class Tetris(QMainWindow):
     LINE_SCORE_2 = 300
     LINE_SCORE_3 = 700
     LINE_SCORE_4 = 1300
+    GAMEOVER_SCORE = -500
 
     def __init__(self):
         super().__init__()
@@ -143,6 +144,7 @@ class Tetris(QMainWindow):
     def resetfield(self):
         # self.tboard.score = 0
         self.tboard.reset_cnt += 1
+        self.tboard.score += Tetris.GAMEOVER_SCORE
         BOARD_DATA.clear()
         BOARD_DATA.createNewPiece()
 
@@ -289,6 +291,7 @@ class Tetris(QMainWindow):
                           "2":"none",
                           "3":"none",
                           "4":"none",
+                          "gameover":"none",
                         },
                         "shape_info": {
                           "shapeNone": {
@@ -369,6 +372,7 @@ class Tetris(QMainWindow):
         status["debug_info"]["line_score"]["2"] = Tetris.LINE_SCORE_2
         status["debug_info"]["line_score"]["3"] = Tetris.LINE_SCORE_3
         status["debug_info"]["line_score"]["4"] = Tetris.LINE_SCORE_4
+        status["debug_info"]["line_score"]["gameover"] = Tetris.GAMEOVER_SCORE
         status["debug_info"]["shape_info"]["shapeNone"]["index"] = Shape.shapeNone
         status["debug_info"]["shape_info"]["shapeI"]["index"] = Shape.shapeI
         status["debug_info"]["shape_info"]["shapeI"]["color"] = "red"

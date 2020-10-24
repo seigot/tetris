@@ -83,7 +83,7 @@ bash start.sh -m "y"
 
 |  項目  |  得点  |
 | ---- | ---- |
-|  gameover  |  - xxx点  |
+|  gameover  |  - 500点  |
 
 ## game level
 
