@@ -182,9 +182,6 @@ class Tetris(QMainWindow):
                     ret = BOARD_DATA.rotateRight()
                     if ret == False:
                         print("cannot rotateRight")
-                        if BOARD_DATA.currentY <= 1:
-                            print("reset field.")
-                            self.resetfield()
                         break
                     k += 1
                 # x operatiox
@@ -194,17 +191,11 @@ class Tetris(QMainWindow):
                         ret = BOARD_DATA.moveLeft()
                         if ret == False:
                             print("cannot moveLeft")
-                            if BOARD_DATA.currentY <= 1:
-                                print("reset field.")
-                                self.resetfield()
                             break
                     elif BOARD_DATA.currentX < next_x:
                         ret = BOARD_DATA.moveRight()
                         if ret == False:
                             print("cannot moveRight")
-                            if BOARD_DATA.currentY <= 1:
-                                print("reset field.")
-                                self.resetfield()
                             break
                     k += 1
 
