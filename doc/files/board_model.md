@@ -18,7 +18,7 @@
 <br>
 |     |  フィールド  |  配列データ  |
 | --- | --- | --- |
-| データ | ![Screenshot](../pics/field_data.png) | ![Screenshot](../pics/matrix_data.png) |
+| データ | ![Screenshot](../pics/field_dat.png) | ![Screenshot](../pics/matrix_dat.png) |
 
 ## ボード情報に格納されているデータ
 
