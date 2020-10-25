@@ -6,8 +6,8 @@ from PyQt5.QtWidgets import QMainWindow, QFrame, QDesktopWidget, QApplication, Q
 from PyQt5.QtCore import Qt, QBasicTimer, pyqtSignal
 from PyQt5.QtGui import QPainter, QColor
 
-from tetris_model import BOARD_DATA, Shape
-from tetris_controller import TETRIS_CONTROLLER
+from game_model import BOARD_DATA, Shape
+from game_controller import TETRIS_CONTROLLER
 
 from argparse import ArgumentParser
 import time
