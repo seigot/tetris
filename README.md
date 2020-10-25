@@ -77,6 +77,7 @@ bash start.sh -m y
 |  *right* key   |  右に移動  |
 |  *m* key  |  下に移動  |
 |  *space* key  |  落下  |
+|  *P* key  |  Pause  |
 
 # Play rules
 
