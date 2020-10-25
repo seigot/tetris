@@ -265,13 +265,13 @@ class Game_Manager(QMainWindow):
     def getGameStatus(self):
         # return current Board status.
         # define status data.
-        status = {"board":
+        status = {"field_info":
                       {
                         "width": "none",
                         "height": "none",
                         "backboard": "none",
                       },
-                  "shape":
+                  "block_info":
                       {
                         "currentX":"none",
                         "currentY":"none",
@@ -343,15 +343,15 @@ class Game_Manager(QMainWindow):
                   }
         # update status
         ## board
-        status["board"]["width"] = BOARD_DATA.width
-        status["board"]["height"] = BOARD_DATA.height
-        status["board"]["backboard"] = BOARD_DATA.getData()
+        status["field_info"]["width"] = BOARD_DATA.width
+        status["field_info"]["height"] = BOARD_DATA.height
+        status["field_info"]["backboard"] = BOARD_DATA.getData()
         ## shape
-        status["shape"]["currentX"] = BOARD_DATA.currentX
-        status["shape"]["currentY"] = BOARD_DATA.currentY
-        status["shape"]["currentDirection"] = BOARD_DATA.currentDirection
-        status["shape"]["currentShape"]["class"] = BOARD_DATA.currentShape
-        status["shape"]["currentShape"]["index"] = BOARD_DATA.currentShape.shape
+        status["block_info"]["currentX"] = BOARD_DATA.currentX
+        status["block_info"]["currentY"] = BOARD_DATA.currentY
+        status["block_info"]["currentDirection"] = BOARD_DATA.currentDirection
+        status["block_info"]["currentShape"]["class"] = BOARD_DATA.currentShape
+        status["block_info"]["currentShape"]["index"] = BOARD_DATA.currentShape.shape
         ### current shape
         if BOARD_DATA.currentShape.shape in (Shape.shapeI, Shape.shapeZ, Shape.shapeS):
             Range = (0, 1)
@@ -359,17 +359,17 @@ class Game_Manager(QMainWindow):
             Range = (0,)
         else:
             Range = (0, 1, 2, 3)
-        status["shape"]["currentShape"]["direction_range"] = Range
+        status["block_info"]["currentShape"]["direction_range"] = Range
         ### next shape
-        status["shape"]["nextShape"]["class"] = BOARD_DATA.nextShape
-        status["shape"]["nextShape"]["index"] = BOARD_DATA.nextShape.shape
+        status["block_info"]["nextShape"]["class"] = BOARD_DATA.nextShape
+        status["block_info"]["nextShape"]["index"] = BOARD_DATA.nextShape.shape
         if BOARD_DATA.nextShape.shape in (Shape.shapeI, Shape.shapeZ, Shape.shapeS):
             Range = (0, 1)
         elif BOARD_DATA.nextShape.shape == Shape.shapeO:
             Range = (0,)
         else:
             Range = (0, 1, 2, 3)
-        status["shape"]["nextShape"]["direction_range"] = Range
+        status["block_info"]["nextShape"]["direction_range"] = Range
         ## judge_info
         status["judge_info"]["elapsed_time"] = round(time.time() - self.tboard.start_time, 3)
         status["judge_info"]["gameover_count"] = self.tboard.reset_cnt

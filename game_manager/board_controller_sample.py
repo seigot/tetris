@@ -32,14 +32,14 @@ class Board_Controller(object):
         pprint.pprint(GameStatus, width = 56, compact = True)
 
         # get data from GameStatus
-        CurrentShapeDirectionRange = GameStatus["shape"]["currentShape"]["direction_range"]
-        NextShapeDirectionRange = GameStatus["shape"]["nextShape"]["direction_range"]
-        self.board_backboard = GameStatus["board"]["backboard"]
-        self.board_data_width = GameStatus["board"]["width"]
-        self.board_data_height = GameStatus["board"]["height"]
+        CurrentShapeDirectionRange = GameStatus["block_info"]["currentShape"]["direction_range"]
+        NextShapeDirectionRange = GameStatus["block_info"]["nextShape"]["direction_range"]
+        self.board_backboard = GameStatus["field_info"]["backboard"]
+        self.board_data_width = GameStatus["field_info"]["width"]
+        self.board_data_height = GameStatus["field_info"]["height"]
         self.ShapeNone_index = GameStatus["debug_info"]["shape_info"]["shapeNone"]["index"]
-        self.CurrentShape_class = GameStatus["shape"]["currentShape"]["class"]
-        self.NextShape_class = GameStatus["shape"]["nextShape"]["class"]
+        self.CurrentShape_class = GameStatus["block_info"]["currentShape"]["class"]
+        self.NextShape_class = GameStatus["block_info"]["nextShape"]["class"]
 
         # search best nextMove -->
         strategy = None
