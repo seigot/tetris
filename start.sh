@@ -3,13 +3,15 @@
 ## default level
 VALUE_L="0"
 IS_MANUAL_CONTROLL="n"
+IS_SAMPLE_CONTROLL="n"
 
 ## get args level setting
-while getopts l:m: OPT
+while getopts l:m:s: OPT
 do
   case $OPT in
     "l" ) VALUE_L="$OPTARG" ;;
     "m" ) IS_MANUAL_CONTROLL="$OPTARG" ;;
+    "s" ) IS_SAMPLE_CONTROLL="$OPTARG" ;;
   esac
 done
 echo "level: $VALUE_L"
@@ -32,4 +34,4 @@ esac
 echo "game_time: $GAME_TIME"
 
 ## start game
-python3 game_manager/game_manager.py --game_time ${GAME_TIME} --seed ${RANDOM_SEED} --obstacle_height ${OBSTACLE_HEIGHT} --obstacle_probability ${OBSTACLE_PROBABILITY} --drop_speed ${DROP_SPEED} --manual ${IS_MANUAL_CONTROLL}
+python3 game_manager/game_manager.py --game_time ${GAME_TIME} --seed ${RANDOM_SEED} --obstacle_height ${OBSTACLE_HEIGHT} --obstacle_probability ${OBSTACLE_PROBABILITY} --drop_speed ${DROP_SPEED} --manual ${IS_MANUAL_CONTROLL} --use_sample ${IS_SAMPLE_CONTROLL}

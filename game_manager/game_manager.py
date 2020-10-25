@@ -8,18 +8,22 @@ from PyQt5.QtGui import QPainter, QColor
 
 from board_model import BOARD_DATA, Shape
 from board_controller import BOARD_CONTROLLER
+from board_controller_sample import BOARD_CONTROLLER_SAMPLE
 
 from argparse import ArgumentParser
 import time
 
-def get_option(game_time, manual, drop_speed, random_seed, obstacle_height, obstacle_probability):
+def get_option(game_time, manual, use_sample, drop_speed, random_seed, obstacle_height, obstacle_probability):
     argparser = ArgumentParser()
     argparser.add_argument('--game_time', type=int,
                            default=game_time,
                            help='Specify game time(s)')
     argparser.add_argument('--manual',
                            default=manual,
-                           help='Specify game time(s)')
+                           help='Specify if manual control')
+    argparser.add_argument('--use_sample',
+                           default=use_sample,
+                           help='Specify if use sample')
     argparser.add_argument('--drop_speed', type=int,
                            default=drop_speed,
                            help='Specify drop_speed(s)')
@@ -52,12 +56,14 @@ class Game_Manager(QMainWindow):
 
         self.game_time = -1
         self.manual = None
+        self.use_sample = None
         self.drop_speed = 1000
         self.random_seed = time.time() * 10000000 # 0
         self.obstacle_height = 0
         self.obstacle_probability = 0
         args = get_option(self.game_time,
                           self.manual,
+                          self.use_sample,
                           self.drop_speed,
                           self.random_seed,
                           self.obstacle_height,
@@ -66,6 +72,8 @@ class Game_Manager(QMainWindow):
             self.game_time = args.game_time
         if args.manual == "y":
             self.manual = args.manual
+        if args.use_sample == "y":
+            self.use_sample = args.use_sample
         if args.drop_speed >= 0:
             self.drop_speed = args.drop_speed
         if args.seed >= 0:
@@ -163,7 +171,11 @@ class Game_Manager(QMainWindow):
                 # get nextMove from GameController
                 GameStatus = self.getGameStatus()
                 
-                self.nextMove = BOARD_CONTROLLER.GetNextMove(GameStatus)
+                if self.use_sample == "y":
+                    self.nextMove = BOARD_CONTROLLER_SAMPLE.GetNextMove(GameStatus)
+                else:
+                    self.nextMove = BOARD_CONTROLLER.GetNextMove(GameStatus)
+
                 if self.manual == "y":
                     # ignore nextMove, for manual controll
                     self.nextMove["strategy"]["x"] = BOARD_DATA.currentX

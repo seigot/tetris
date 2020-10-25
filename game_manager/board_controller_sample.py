@@ -80,6 +80,8 @@ class Board_Controller(object):
         print(nextMove)
         # if play manually, return None
         # return None
+
+        print("###### SAMPLE CODE ######")
         return nextMove
 
     def calcNextDropDist(self, data, d0, xRange):
@@ -187,5 +189,5 @@ class Board_Controller(object):
         return score
 
 
-BOARD_CONTROLLER = Board_Controller()
+BOARD_CONTROLLER_SAMPLE = Board_Controller()
 
