@@ -138,11 +138,13 @@ class BoardData(object):
 
     def getNewShapeIndex(self):
         if self.random_seed == 0:
+            # static value
             nextShapeIndex = self.nextShapeIndexCnt
             self.nextShapeIndexCnt += 1
             if self.nextShapeIndexCnt >= (7+1):
                 self.nextShapeIndexCnt = 1
         else:
+            # random value
             nextShapeIndex = np_randomShape.random.randint(1, 7)
         return nextShapeIndex
 
