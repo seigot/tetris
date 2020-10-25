@@ -59,7 +59,7 @@ class Board_Controller(object):
                         # calculate score with the conbination "d0,x0" and "d1,x1"
                         score = self.calculateScore(np.copy(board), d1, x1, dropDist)
                         if not strategy or LatestScore < score:
-                            strategy = (d0, x0, 0)
+                            strategy = (d0, x0, 0, 0)
                             LatestScore = score
         # search best nextMove <--
 
@@ -75,8 +75,8 @@ class Board_Controller(object):
                    }
         nextMove["strategy"]["direction"] = strategy[0]
         nextMove["strategy"]["x"] = strategy[1]
-        nextMove["strategy"]["y_operation"] = 0
-        nextMove["strategy"]["y_moveblocknum"] = strategy[2]
+        nextMove["strategy"]["y_operation"] = strategy[2]
+        nextMove["strategy"]["y_moveblocknum"] = strategy[3]
         print(nextMove)
         # if play manually, return None
         # return None
