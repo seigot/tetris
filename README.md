@@ -51,7 +51,7 @@ bash start.sh
 
 ![Screenshot](doc/pics/20201017-3.png)
 
-詳細は[こちら](doc/files/board_detail.md)に追記予定、もしくはサンプルコードを参照下さい。<br>
+詳細は[こちら](doc/files/board_model.md)に追記予定、もしくはサンプルコードを参照下さい。<br>
 
 ## サンプルコード
 
