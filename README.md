@@ -102,12 +102,14 @@ bash start.sh -m y
 
 ## game level
 
+実行時、オプションを与えることで、難易度（レベル）を指定できます。<br>
+
 |     |  level0  |  level1  |  level2  |  level3  | 
 | --- | --- | --- | --- | --- | 
+|  実行方法  | bash start.sh | bash start.sh -l1 | bash start.sh -l2  | bash start.sh -l3 | 
 |  制限時間  |  なし  |  300秒  |  300秒  |  300秒  | 
 |  次のブロック  |  固定  |  固定  |  ランダム  |  ランダム  | 
 |  初期ブロック  |  なし  |  なし  |  なし  |  あり  | 
-|  実行方法  | bash start.sh | bash start.sh -l1 | bash start.sh -l2  | bash start.sh -l3 | 
 |  フレーム更新頻度  |  約1秒  |  約1秒  |  約1秒  |  約1秒  | 
 
 # 参考
