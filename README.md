@@ -24,12 +24,12 @@ pip3 install numpy
 
 ```shell
 git clone https://github.com/seigot/tetris_game
-cd tetris_game
 ```
 
 ゲーム開始用スクリプトを実行
 
 ```shell
+cd tetris_game
 bash start.sh
 ```
 
