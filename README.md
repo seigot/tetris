@@ -56,12 +56,11 @@ bash start.sh
 ## サンプルコード
 
 実行時、以下のようにオプションを与えることで、サンプルコードの実行が可能です
+サンプルコードは[こちら](game_manager/board_controller_sample.py)を参照下さい。
 
 ```shell
 bash start.sh -s y
 ```
-
-サンプルコードは[こちら](game_manager/board_controller_sample.py)を参照下さい。
 
 ## How to play manually
 
