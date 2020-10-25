@@ -18,12 +18,12 @@ class Board_Controller(object):
 
     # GetNextMove is main function.
     # input
-    #    GameStatus : this data include all field status, 
+    #    nextMove : nextMove structure which is empty.
+    #    GameStatus : block/field/judge/debug information. 
     #                 in detail see the internal GameStatus data.
     # output
-    #    nextMove : this data include next shape position and the other,
-    #               if return None, do nothing to nextMove.
-    def GetNextMove(self, GameStatus):
+    #    nextMove : nextMove structure which includes next shape position and the other.
+    def GetNextMove(self, nextMove, GameStatus):
 
         t1 = datetime.now()
 
@@ -63,24 +63,12 @@ class Board_Controller(object):
                             LatestScore = score
         # search best nextMove <--
 
-        # return nextMove
         print("===", datetime.now() - t1)
-        nextMove = {"strategy":
-                      {
-                        "direction": "none",    # next shape direction ( 0 - 3 )
-                        "x": "none",            # next x position (range: 0 - (witdh-1) )
-                        "y_operation": "none",  # movedown or dropdown (0:movedown, 1:dropdown)
-                        "y_moveblocknum": "none", # amount of next y movement
-                      },
-                   }
         nextMove["strategy"]["direction"] = strategy[0]
         nextMove["strategy"]["x"] = strategy[1]
         nextMove["strategy"]["y_operation"] = strategy[2]
         nextMove["strategy"]["y_moveblocknum"] = strategy[3]
         print(nextMove)
-        # if play manually, return None
-        # return None
-
         print("###### SAMPLE CODE ######")
         return nextMove
 

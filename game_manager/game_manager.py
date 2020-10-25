@@ -168,13 +168,22 @@ class Game_Manager(QMainWindow):
             y_operation = -1
 
             if BOARD_CONTROLLER and not self.nextMove:
+                # nextMove data structure
+                nextMove = {"strategy":
+                                {
+                                  "direction": "none",    # next shape direction ( 0 - 3 )
+                                  "x": "none",            # next x position (range: 0 - (witdh-1) )
+                                  "y_operation": "none",  # movedown or dropdown (0:movedown, 1:dropdown)
+                                  "y_moveblocknum": "none", # amount of next y movement
+                                  },
+                            }
                 # get nextMove from GameController
                 GameStatus = self.getGameStatus()
-                
+
                 if self.use_sample == "y":
-                    self.nextMove = BOARD_CONTROLLER_SAMPLE.GetNextMove(GameStatus)
+                    self.nextMove = BOARD_CONTROLLER_SAMPLE.GetNextMove(nextMove, GameStatus)
                 else:
-                    self.nextMove = BOARD_CONTROLLER.GetNextMove(GameStatus)
+                    self.nextMove = BOARD_CONTROLLER.GetNextMove(nextMove, GameStatus)
 
                 if self.manual == "y":
                     # ignore nextMove, for manual controll
