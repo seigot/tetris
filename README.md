@@ -14,6 +14,12 @@ pip3 install --upgrade pip
 pip3 install numpy
 ```
 
+* その他、パッケージのインストール
+
+```
+sudo apt-get install -y git
+```
+
 #### docker環境
 
 [docker/README.md](docker/README.md) にお試しdocker環境の構築手順を記載
