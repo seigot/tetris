@@ -103,7 +103,7 @@ class Game_Manager(QMainWindow):
         self.start()
 
         self.center()
-        self.setWindowTitle('Game_Manager')
+        self.setWindowTitle('Tetris')
         self.show()
 
         self.setFixedSize(self.tboard.width() + self.sidePanel.width(),
