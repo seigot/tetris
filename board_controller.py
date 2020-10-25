@@ -67,16 +67,16 @@ class Board_Controller(object):
         print("===", datetime.now() - t1)
         nextMove = {"strategy":
                       {
-                        "x": "none",            # amount of next x movement (range: 0 - (witdh-1) )
-                        "y": "none",            # amount of next y movement (range: 0 - (height-1) )
-                        "y_operation": "none",  # movedown or dropdown (0:movedown, 1:dropdown)
                         "direction": "none",    # next shape direction ( 0 - 3 )
+                        "x": "none",            # next x position (range: 0 - (witdh-1) )
+                        "y_operation": "none",  # movedown or dropdown (0:movedown, 1:dropdown)
+                        "y_moveblocknum": "none", # amount of next y movement (range: 0 - (height-1) )
                       },
                    }
-        nextMove["strategy"]["x"] = strategy[1]
-        nextMove["strategy"]["y"] = strategy[2]
-        nextMove["strategy"]["y_operation"] = 0
         nextMove["strategy"]["direction"] = strategy[0]
+        nextMove["strategy"]["x"] = strategy[1]
+        nextMove["strategy"]["y_operation"] = 0
+        nextMove["strategy"]["y_moveblocknum"] = strategy[2]
         print(nextMove)
         # if play manually, return None
         # return None

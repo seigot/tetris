@@ -164,7 +164,7 @@ class Game_Manager(QMainWindow):
 
         if event.timerId() == self.timer.timerId():
             next_x = 0
-            next_y = 0
+            next_y_moveblocknum = 0
             y_operation = -1
 
             if BOARD_CONTROLLER and not self.nextMove:
@@ -186,7 +186,7 @@ class Game_Manager(QMainWindow):
             if self.nextMove:
                 # shape direction operation
                 next_x = self.nextMove["strategy"]["x"]
-                next_y = self.nextMove["strategy"]["y"]
+                next_y_moveblocknum = self.nextMove["strategy"]["y_moveblocknum"]
                 y_operation = self.nextMove["strategy"]["y_operation"]
                 next_direction = self.nextMove["strategy"]["direction"]
                 k = 0
@@ -216,7 +216,7 @@ class Game_Manager(QMainWindow):
             removedlines = 0
             if y_operation == 1: # dropdown
                 removedlines, dropdownlines = BOARD_DATA.dropDown()
-            else: # movedown, with next_y lines
+            else: # movedown, with next_y_moveblocknum lines
                 k = 0
                 while True:
                     removedlines, movedownlines = BOARD_DATA.moveDown()
@@ -224,8 +224,8 @@ class Game_Manager(QMainWindow):
                         # if already dropped
                         break
                     k += 1
-                    if k >= next_y:
-                        # if already movedown next_y block
+                    if k >= next_y_moveblocknum:
+                        # if already movedown next_y_moveblocknum block
                         break
 
             self.UpdateScore(removedlines, dropdownlines)
