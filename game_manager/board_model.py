@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import random as randomShape
-import random as randomObstacle
-import random as randomObstaclePiece
+import numpy as np_randomShape
+import numpy as np_randomObstacle
+import numpy as np_randomObstaclePiece
 
 # Shape manager
 class Shape(object):
@@ -117,9 +117,9 @@ class BoardData(object):
 
     def init_randomseed(self, num):
         seed = num
-        randomShape.seed(seed)
-        randomObstacle.seed(seed)
-        randomObstaclePiece.seed(seed)
+        np_randomShape.random.seed(seed)
+        np_randomObstacle.random.seed(seed)
+        np_randomObstaclePiece.random.seed(seed)
 
     def init_obstacle_parameter(self, height, probability):
         self.obstacle_height = height
@@ -136,7 +136,7 @@ class BoardData(object):
 
     def createNewPiece(self):
         if self.nextShape == None:
-            self.nextShape = Shape(randomShape.randint(1, 7)) # initial next shape data
+            self.nextShape = Shape(np_randomShape.random.randint(1, 7)) # initial next shape data
 
         minX, maxX, minY, maxY = self.nextShape.getBoundingOffsets(0)
         result = False
@@ -145,7 +145,7 @@ class BoardData(object):
             self.currentY = -minY
             self.currentDirection = 0
             self.currentShape = self.nextShape
-            self.nextShape = Shape(randomShape.randint(1, 7)) # next shape data
+            self.nextShape = Shape(np_randomShape.random.randint(1, 7)) # next shape data
             result = True
         else:
             self.currentShape = Shape()
@@ -275,7 +275,7 @@ class BoardData(object):
                     continue
 
                 # create obstacle
-                tmp_num = randomObstacle.randint(1, 100)
+                tmp_num = np_randomObstacle.random.randint(1, 100)
                 if tmp_num <= obstacle_probability:
                     self.backBoard[x + y * BoardData.width] = randomObstaclePiece.randint(1, 7)
                     line_obstacle_cnt += 1
