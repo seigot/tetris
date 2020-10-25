@@ -2,14 +2,6 @@
 
 プログラミング学習を目的とした、ブロックを操作してスコアを競うゲームです
 
-## 実行方法
-
-```shell
-bash start.sh
-```
-
-![Screenshot](doc/pics/screenshot_02.png)
-
 ## 実行環境
 
 * Need python3, PyQt5 and NumPy to be installed.
@@ -25,6 +17,14 @@ pip3 install numpy
 #### docker環境
 
 [docker/README.md](docker/README.md) にお試しdocker環境の構築手順を記載
+
+## 実行方法
+
+```shell
+bash start.sh
+```
+
+![Screenshot](doc/pics/screenshot_02.png)
 
 ## ファイル構成
 
