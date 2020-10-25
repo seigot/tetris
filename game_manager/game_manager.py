@@ -6,8 +6,8 @@ from PyQt5.QtWidgets import QMainWindow, QFrame, QDesktopWidget, QApplication, Q
 from PyQt5.QtCore import Qt, QBasicTimer, pyqtSignal
 from PyQt5.QtGui import QPainter, QColor
 
-from game_model import BOARD_DATA, Shape
-from game_controller import GAME_CONTROLLER
+from board_model import BOARD_DATA, Shape
+from board_controller import BOARD_CONTROLLER
 
 from argparse import ArgumentParser
 import time
@@ -159,11 +159,11 @@ class Game_Manager(QMainWindow):
             next_y = 0
             y_operation = -1
 
-            if GAME_CONTROLLER and not self.nextMove:
+            if BOARD_CONTROLLER and not self.nextMove:
                 # get nextMove from GameController
                 GameStatus = self.getGameStatus()
                 
-                self.nextMove = GAME_CONTROLLER.GetNextMove(GameStatus)
+                self.nextMove = BOARD_CONTROLLER.GetNextMove(GameStatus)
                 if self.manual == "y":
                     # ignore nextMove, for manual controll
                     self.nextMove["strategy"]["x"] = BOARD_DATA.currentX

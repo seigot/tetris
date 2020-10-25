@@ -6,7 +6,7 @@ from datetime import datetime
 import numpy as np
 import pprint
 
-class GameController(object):
+class Board_Controller(object):
 
     # init parameter
     board_backboard = 0
@@ -187,5 +187,5 @@ class GameController(object):
         return score
 
 
-GAME_CONTROLLER = GameController()
+BOARD_CONTROLLER = Board_Controller()
 
