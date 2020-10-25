@@ -51,7 +51,7 @@ pip3 install numpy
 実行時、以下のようにオプションを与えることで、手動操作が可能です
 
 ```shell
-bash start.sh -m "y"
+bash start.sh -m y
 ```
 
 |  操作キー  |  動作  |
@@ -61,7 +61,6 @@ bash start.sh -m "y"
 |  *right* key   |  右に移動  |
 |  *m* key  |  下に移動  |
 |  *space* key  |  落下  |
-|  *P* key  |  pause  |
 
 # Play rules
 
