@@ -37,7 +37,7 @@
 |     |  ShapeI  |  ShapeL  |  ShapeJ  |  ShapeT  |  ShapeO  |  ShapeS  |  ShapeZ  |
 | --- | --- | --- | --- | --- | --- | --- | --- | 
 | index値 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 
-| 初期形状 | <img src="attach:../pics/ShapeI.png"> | - | - | - | - | - | - | 
+| 初期形状 | ![Screenshot](../pics/ShapeI.png) | ![Screenshot](../pics/ShapeL.png) | ![Screenshot](../pics/ShapeJ.png) | ![Screenshot](../pics/ShapeT.png) | ![Screenshot](../pics/ShapeO.png) | ![Screenshot](../pics/ShapeS.png) | ![Screenshot](../pics/ShapeZ.png) | 
 | １周の回転に必要な回数 | 2 | 4 | 4 | 4 | 1 | 2 | 2 | 
 
 ## ボード情報に格納されているデータ
