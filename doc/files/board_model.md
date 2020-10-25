@@ -4,13 +4,13 @@
 詳細は[コード上](../../../board_controller.py)のGameStatusデータをログ出力することで確認可能です。
 
 ```
-* field_info : フィールドの情報
-* block_info : ブロックの情報
+* field_info : フィールド情報
+* block_info : ブロック情報
 * judge_info : 審判情報
 * debug_info : デバッグ情報
 ```
 
-# フィールドの情報
+# フィールド情報
 
 ## フィールドの定義
 幅10×高さ22ブロック分のフィールドを、一次元配列として定義しています。<br>
@@ -21,18 +21,19 @@
 | --- | --- | --- |
 | データ | ![Screenshot](../pics/field_data.png) | ![Screenshot](../pics/matrix_data.png) |
 
-## ボード情報に格納されているデータ
+## フィールド情報に格納されているデータ
 
-各座標にブロックが有るか無いかを管理しています。
+上記の一次元配列の各座標にブロックが有るか無いかを管理しています。
 
 ```
 * `0以外` : ブロック有り
 * `0` : ブロック無し
 ```
 
-ブロックが有る場合は、各ブロックのIndex値を格納しています。
+ブロックが有る場合は、各ブロックのIndex値を格納しています。<br>
+Index値はブロック情報を参照下さい。
 
-# ブロックの情報
+# ブロック情報
 
 ## ブロックの定義
 ブロックは７種類あり、Index値と初期形状を以下の通り定義しています。<br>
@@ -45,9 +46,13 @@
 | 初期形状 | ![Screenshot](../pics/ShapeI.png) | ![Screenshot](../pics/ShapeL.png) | ![Screenshot](../pics/ShapeJ.png) | ![Screenshot](../pics/ShapeT.png) | ![Screenshot](../pics/ShapeO.png) | ![Screenshot](../pics/ShapeS.png) | ![Screenshot](../pics/ShapeZ.png) | 
 | １周の回転に必要な回数 | 2 | 4 | 4 | 4 | 1 | 2 | 2 | 
 
-## ボード情報に格納されているデータ
+## ブロック情報に格納されているデータ
 
-現在のブロックのx座標とy座標、及び、現在のブロックと次のブロックのIndex値を格納しています。<br>
+主に以下を格納しています。
+
+* `現在のブロックのx座標とy座標` : 座標はフィールド情報を参照
+* `現在のブロックのIndex値` : Index値は上記表を参照
+* `次のブロックのIndex値` : Index値は上記表を参照
 
 # 審判情報
 
