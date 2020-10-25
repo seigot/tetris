@@ -70,7 +70,7 @@ class Board_Controller(object):
                         "direction": "none",    # next shape direction ( 0 - 3 )
                         "x": "none",            # next x position (range: 0 - (witdh-1) )
                         "y_operation": "none",  # movedown or dropdown (0:movedown, 1:dropdown)
-                        "y_moveblocknum": "none", # amount of next y movement (range: 0 - (height-1) )
+                        "y_moveblocknum": "none", # amount of next y movement
                       },
                    }
         nextMove["strategy"]["direction"] = strategy[0]
