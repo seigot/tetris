@@ -28,9 +28,9 @@ pip3 install numpy
 
 ## ファイル構成
 
-* `game_manager/tetris_game.py` : ゲーム管理用プログラム
-* `game_manager/tetris_model.py` : ボード管理用プログラム
-* `tetris_controller.py` : ボード制御用プログラム（ブロックの操作は、このファイルを編集して下さい。）
+* `game_manager/game_manager.py` : ゲーム管理用プログラム
+* `game_manager/game_model.py` : ボード管理用プログラム
+* `game_controller.py` : ボード制御用プログラム（ブロックの操作は、このファイルを編集して下さい。）
 * `start.sh` : ゲーム開始用スクリプト
 
 ## 詳細
@@ -44,7 +44,7 @@ pip3 install numpy
 
 ## サンプルコード
 
-[こちらのプログラム](game_manager/tetris_controller_sample.py)を参考に、簡単な自動操作が可能です
+[こちらのプログラム](game_manager/game_controller_sample.py)を参考に、簡単な自動操作が可能です
 
 ## How to play manually
 
