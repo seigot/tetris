@@ -114,12 +114,14 @@ class BoardData(object):
         self.shapeStat = [0] * 8
         self.obstacle_height = 0
         self.obstacle_probability = 0
+        self.random_seed = 0
+        self.nextShapeIndexCnt = 1
 
     def init_randomseed(self, num):
-        seed = num
-        np_randomShape.random.seed(seed)
-        np_randomObstacle.random.seed(seed)
-        np_randomObstaclePiece.random.seed(seed)
+        self.random_seed = int(num % (2**32-1))
+        np_randomShape.random.seed(self.random_seed)
+        np_randomObstacle.random.seed(self.random_seed)
+        np_randomObstaclePiece.random.seed(self.random_seed)
 
     def init_obstacle_parameter(self, height, probability):
         self.obstacle_height = height
@@ -134,9 +136,19 @@ class BoardData(object):
     def getCurrentShapeCoord(self):
         return self.currentShape.getCoords(self.currentDirection, self.currentX, self.currentY)
 
+    def getNewShapeIndex(self):
+        if self.random_seed == 0:
+            nextShapeIndex = self.nextShapeIndexCnt
+            self.nextShapeIndexCnt += 1
+            if self.nextShapeIndexCnt >= (7+1):
+                self.nextShapeIndexCnt = 1
+        else:
+            nextShapeIndex = np_randomShape.random.randint(1, 7)
+        return nextShapeIndex
+
     def createNewPiece(self):
         if self.nextShape == None:
-            self.nextShape = Shape(np_randomShape.random.randint(1, 7)) # initial next shape data
+            self.nextShape = Shape(self.getNewShapeIndex()) # initial next shape data
 
         minX, maxX, minY, maxY = self.nextShape.getBoundingOffsets(0)
         result = False
@@ -145,7 +157,7 @@ class BoardData(object):
             self.currentY = -minY
             self.currentDirection = 0
             self.currentShape = self.nextShape
-            self.nextShape = Shape(np_randomShape.random.randint(1, 7)) # next shape data
+            self.nextShape = Shape(self.getNewShapeIndex())
             result = True
         else:
             self.currentShape = Shape()
@@ -277,7 +289,7 @@ class BoardData(object):
                 # create obstacle
                 tmp_num = np_randomObstacle.random.randint(1, 100)
                 if tmp_num <= obstacle_probability:
-                    self.backBoard[x + y * BoardData.width] = randomObstaclePiece.randint(1, 7)
+                    self.backBoard[x + y * BoardData.width] = np_randomObstaclePiece.random.randint(1, 7)
                     line_obstacle_cnt += 1
 
 BOARD_DATA = BoardData()
