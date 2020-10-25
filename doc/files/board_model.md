@@ -4,10 +4,10 @@
 詳細は[コード上](../../../board_controller.py)のGameStatusデータをログ出力することで確認可能です。
 
 ```
-* `field_info` : フィールドの情報
-* `block_info` : ブロックの情報
-* `judge_info` : 審判情報
-* `debug_info` : デバッグ情報
+* field_info : フィールドの情報
+* block_info : ブロックの情報
+* judge_info : 審判情報
+* debug_info : デバッグ情報
 ```
 
 # フィールドの情報
@@ -33,8 +33,9 @@
 ブロックは７種類あり、Index値と初期形状を以下の通り定義しています。<br>
 横移動と回転が可能です。回転は時計回りに回転します。<br>
 
-|     |  Shape  |  Shape  |  Shape  |  Shape  |  Shape  |  Shape  |  Shape  |
+|     |  ShapeI  |  ShapeL  |  ShapeJ  |  ShapeT  |  ShapeO  |  ShapeS  |  ShapeZ  |
 | --- | --- | --- | --- | --- | --- | --- | --- | 
+| index値 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 
 
 ## ボード情報に格納されているデータ
 
