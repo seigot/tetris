@@ -6,7 +6,7 @@ from datetime import datetime
 import numpy as np
 import pprint
 
-class TetrisController(object):
+class GameController(object):
 
     # init parameter
     board_backboard = 0
@@ -18,28 +18,28 @@ class TetrisController(object):
 
     # GetNextMove is main function.
     # input
-    #    TetrisStatus : this data include all field status, 
-    #                   in detail see the internal TetrisStatus data.
+    #    GameStatus : this data include all field status, 
+    #                 in detail see the internal GameStatus data.
     # output
     #    nextMove : this data include next shape position and the other,
     #               if return None, do nothing to nextMove.
-    def GetNextMove(self, TetrisStatus):
+    def GetNextMove(self, GameStatus):
 
         t1 = datetime.now()
 
-        # print TetrisStatus
+        # print GameStatus
         print("=================================================>")
-        pprint.pprint(TetrisStatus, width = 56, compact = True)
+        pprint.pprint(GameStatus, width = 56, compact = True)
 
-        # get data from TetrisStatus
-        CurrentShapeDirectionRange = TetrisStatus["shape"]["currentShape"]["direction_range"]
-        NextShapeDirectionRange = TetrisStatus["shape"]["nextShape"]["direction_range"]
-        self.board_backboard = TetrisStatus["board"]["backboard"]
-        self.board_data_width = TetrisStatus["board"]["width"]
-        self.board_data_height = TetrisStatus["board"]["height"]
-        self.ShapeNone_index = TetrisStatus["debug_info"]["shape_info"]["shapeNone"]["index"]
-        self.CurrentShape_class = TetrisStatus["shape"]["currentShape"]["class"]
-        self.NextShape_class = TetrisStatus["shape"]["nextShape"]["class"]
+        # get data from GameStatus
+        CurrentShapeDirectionRange = GameStatus["shape"]["currentShape"]["direction_range"]
+        NextShapeDirectionRange = GameStatus["shape"]["nextShape"]["direction_range"]
+        self.board_backboard = GameStatus["board"]["backboard"]
+        self.board_data_width = GameStatus["board"]["width"]
+        self.board_data_height = GameStatus["board"]["height"]
+        self.ShapeNone_index = GameStatus["debug_info"]["shape_info"]["shapeNone"]["index"]
+        self.CurrentShape_class = GameStatus["shape"]["currentShape"]["class"]
+        self.NextShape_class = GameStatus["shape"]["nextShape"]["class"]
 
         # search best nextMove -->
         strategy = None
@@ -187,5 +187,5 @@ class TetrisController(object):
         return score
 
 
-TETRIS_CONTROLLER = TetrisController()
+GAME_CONTROLLER = GameController()
 

@@ -7,12 +7,10 @@ from PyQt5.QtCore import Qt, QBasicTimer, pyqtSignal
 from PyQt5.QtGui import QPainter, QColor
 
 from game_model import BOARD_DATA, Shape
-from game_controller import TETRIS_CONTROLLER
+from game_controller import GAME_CONTROLLER
 
 from argparse import ArgumentParser
 import time
-
-# TETRIS_CONTROLLER = None
 
 def get_option(game_time, manual, drop_speed, random_seed, obstacle_height, obstacle_probability):
     argparser = ArgumentParser()
@@ -36,7 +34,7 @@ def get_option(game_time, manual, drop_speed, random_seed, obstacle_height, obst
                            help='Specify obstacle probability')
     return argparser.parse_args()
 
-class Tetris(QMainWindow):
+class Game_Manager(QMainWindow):
 
     # a[n] = n^2 - n + 1
     LINE_SCORE_1 = 100
@@ -105,7 +103,7 @@ class Tetris(QMainWindow):
         self.start()
 
         self.center()
-        self.setWindowTitle('Tetris')
+        self.setWindowTitle('Game_Manager')
         self.show()
 
         self.setFixedSize(self.tboard.width() + self.sidePanel.width(),
@@ -144,7 +142,7 @@ class Tetris(QMainWindow):
     def resetfield(self):
         # self.tboard.score = 0
         self.tboard.reset_cnt += 1
-        self.tboard.score += Tetris.GAMEOVER_SCORE
+        self.tboard.score += Game_Manager.GAMEOVER_SCORE
         BOARD_DATA.clear()
         BOARD_DATA.createNewPiece()
 
@@ -161,11 +159,11 @@ class Tetris(QMainWindow):
             next_y = 0
             y_operation = -1
 
-            if TETRIS_CONTROLLER and not self.nextMove:
-                # get nextMove from TetrisController
-                TetrisStatus = self.getTetrisStatus()
+            if GAME_CONTROLLER and not self.nextMove:
+                # get nextMove from GameController
+                GameStatus = self.getGameStatus()
                 
-                self.nextMove = TETRIS_CONTROLLER.GetNextMove(TetrisStatus)
+                self.nextMove = GAME_CONTROLLER.GetNextMove(GameStatus)
                 if self.manual == "y":
                     # ignore nextMove, for manual controll
                     self.nextMove["strategy"]["x"] = BOARD_DATA.currentX
@@ -232,18 +230,18 @@ class Tetris(QMainWindow):
             # update window
             self.updateWindow()
         else:
-            super(Tetris, self).timerEvent(event)
+            super(Game_Manager, self).timerEvent(event)
 
     def UpdateScore(self, removedlines, dropdownlines):
         # calculate and update current score
         if removedlines == 1:
-            linescore = Tetris.LINE_SCORE_1
+            linescore = Game_Manager.LINE_SCORE_1
         elif removedlines == 2:
-            linescore = Tetris.LINE_SCORE_2
+            linescore = Game_Manager.LINE_SCORE_2
         elif removedlines == 3:
-            linescore = Tetris.LINE_SCORE_3
+            linescore = Game_Manager.LINE_SCORE_3
         elif removedlines == 4:
-            linescore = Tetris.LINE_SCORE_4
+            linescore = Game_Manager.LINE_SCORE_4
         else:
             linescore = 0
         dropdownscore = dropdownlines
@@ -252,7 +250,7 @@ class Tetris(QMainWindow):
         if removedlines > 0:
             self.tboard.lineStat[removedlines - 1] += 1
 
-    def getTetrisStatus(self):
+    def getGameStatus(self):
         # return current Board status.
         # define status data.
         status = {"board":
@@ -368,11 +366,11 @@ class Tetris(QMainWindow):
         ## debug_info
         status["debug_info"]["lineStat"] = self.tboard.lineStat
         status["debug_info"]["shapeStat"] = BOARD_DATA.shapeStat
-        status["debug_info"]["line_score"]["1"] = Tetris.LINE_SCORE_1
-        status["debug_info"]["line_score"]["2"] = Tetris.LINE_SCORE_2
-        status["debug_info"]["line_score"]["3"] = Tetris.LINE_SCORE_3
-        status["debug_info"]["line_score"]["4"] = Tetris.LINE_SCORE_4
-        status["debug_info"]["line_score"]["gameover"] = Tetris.GAMEOVER_SCORE
+        status["debug_info"]["line_score"]["1"] = Game_Manager.LINE_SCORE_1
+        status["debug_info"]["line_score"]["2"] = Game_Manager.LINE_SCORE_2
+        status["debug_info"]["line_score"]["3"] = Game_Manager.LINE_SCORE_3
+        status["debug_info"]["line_score"]["4"] = Game_Manager.LINE_SCORE_4
+        status["debug_info"]["line_score"]["gameover"] = Game_Manager.GAMEOVER_SCORE
         status["debug_info"]["shape_info"]["shapeNone"]["index"] = Shape.shapeNone
         status["debug_info"]["shape_info"]["shapeI"]["index"] = Shape.shapeI
         status["debug_info"]["shape_info"]["shapeI"]["color"] = "red"
@@ -397,7 +395,7 @@ class Tetris(QMainWindow):
         # for manual control
 
         if not self.isStarted or BOARD_DATA.currentShape == Shape.shapeNone:
-            super(Tetris, self).keyPressEvent(event)
+            super(Game_Manager, self).keyPressEvent(event)
             return
 
         key = event.key()
@@ -421,7 +419,7 @@ class Tetris(QMainWindow):
             removedlines, dropdownlines = BOARD_DATA.dropDown()
             self.UpdateScore(removedlines, dropdownlines)
         else:
-            super(Tetris, self).keyPressEvent(event)
+            super(Game_Manager, self).keyPressEvent(event)
 
         self.updateWindow()
 
@@ -530,5 +528,5 @@ class Board(QFrame):
 
 if __name__ == '__main__':
     app = QApplication([])
-    TETRIS_MANEGER = Tetris()
+    GAME_MANEGER = Game_Manager()
     sys.exit(app.exec_())
