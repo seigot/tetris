@@ -188,7 +188,7 @@ class Game_Manager(QMainWindow):
                 if self.manual == "y":
                     # ignore nextMove, for manual controll
                     self.nextMove["strategy"]["x"] = BOARD_DATA.currentX
-                    self.nextMove["strategy"]["y"] = 1
+                    self.nextMove["strategy"]["y_moveblocknum"] = 1
                     self.nextMove["strategy"]["y_operation"] = 0
                     self.nextMove["strategy"]["direction"] = BOARD_DATA.currentDirection
 
