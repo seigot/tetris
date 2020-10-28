@@ -6,15 +6,26 @@
 
 #### Mac環境
 
-[install_mac.md](./doc/files/install_mac.md)に実行環境構築手順を記載
+Finder→Application→Utility→Terminalから、ターミナル画面を起動して以下コマンドを実行する。
+
+```
+# install pyqt5 and NumPy
+brew install python3
+pip3 install pyqt5
+pip3 install numpy
+# install other packages
+brew install git
+```
+
+[doc/files/install_mac.md](./doc/files/install_mac.md)に上記手順を記載
 
 #### Ubuntu環境
 
-[install_ubuntu.md](./doc/files/install_ubuntu.md)に実行環境構築手順を記載
+[doc/files/install_ubuntu.md](./doc/files/install_ubuntu.md)に手順を記載
 
 #### docker環境
 
-[docker/README.md](docker/README.md) にdocker環境の構築手順を記載
+[docker/README.md](docker/README.md)に手順を記載
 
 ## 実行方法
 
