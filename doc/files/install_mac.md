@@ -1,6 +1,8 @@
 # 実行環境(Macの場合)
 
-Need python3, PyQt5 and NumPy to be installed.
+Finder→Application→Utility→Terminalから、ターミナル画面を起動して以下コマンドを実行する。<br>
+
+Need python3, PyQt5 and NumPy to be installed.<br>
 
 ```
 # install pyqt5 and NumPy
