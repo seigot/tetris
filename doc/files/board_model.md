@@ -5,7 +5,7 @@
 
 # ボード情報
 ボード情報には以下が含まれます。<br>
-詳細は[コード上](../../../board_controller.py)のGameStatusをログ出力することで確認可能です。
+詳細は[サンプルコード](../../../game_manager/board_controller_sample.py)のように、GameStatusをログ出力することで確認可能です。
 
 ```
 * field_info : フィールド情報
