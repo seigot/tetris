@@ -6,11 +6,11 @@
 
 #### Mac環境
 
-[install_mac.md](./doc/files/install_mac.md)に実行環境構築手順を参照
+[install_mac.md](./doc/files/install_mac.md)に実行環境構築手順を記載
 
 #### Ubuntu環境
 
-[install_ubuntu.md](./doc/files/install_ubuntu.md)に実行環境構築手順をを参照
+[install_ubuntu.md](./doc/files/install_ubuntu.md)に実行環境構築手順を記載
 
 #### docker環境
 
