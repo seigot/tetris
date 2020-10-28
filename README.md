@@ -127,7 +127,7 @@ bash start.sh -m y
 ## 次のブロックのランダム性
 
 次のブロックの番号は、現在はランダム関数を使ってランダムに選択しています。<br>
-しかし、[こちらの記事](https://gigazine.net/news/20191116-tetris-algorithm/)によると選択方法が方式がありそうです。<br>
+しかし、[こちらの記事](https://gigazine.net/news/20191116-tetris-algorithm/)によると選択方式が色々ありそうです。<br>
 有識者の方からアドバイス頂けると嬉しいです。<br>
 
 * 参考：次のブロック選択処理 [game_manager.py](game_manager/game_manager.py)
