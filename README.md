@@ -139,8 +139,8 @@ nextShapeIndex = np_randomShape.random.randint(1, 7)
 # 参考
 
 [https://github.com/LoveDaisy/tetris_game](https://github.com/LoveDaisy/tetris_game) <br>
-[http://zetcode.com/gui/pyqt5/tetris/](http://zetcode.com/gui/pyqt5/tetris/)
-[テトリスの歴史を「ブロックが落ちるルール」の進化から学ぶ](https://gigazine.net/news/20191116-tetris-algorithm/)
+[http://zetcode.com/gui/pyqt5/tetris/](http://zetcode.com/gui/pyqt5/tetris/)<br>
+[テトリスの歴史を「ブロックが落ちるルール」の進化から学ぶ](https://gigazine.net/news/20191116-tetris-algorithm/)<br>
 
 # LICENSE
 
