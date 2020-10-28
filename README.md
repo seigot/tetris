@@ -4,12 +4,17 @@
 
 ## 実行環境
 
-[実行環境(Ubuntuの場合)](./doc/files/install_ubuntu.md)
-[実行環境(Macの場合)](./doc/files/install_mac.md)
+#### Mac環境
+
+[install_mac.md](./doc/files/install_mac.md)に実行環境構築手順を参照
+
+#### Ubuntu環境
+
+[install_ubuntu.md](./doc/files/install_ubuntu.md)に実行環境構築手順をを参照
 
 #### docker環境
 
-[docker/README.md](docker/README.md) にお試しdocker環境の構築手順を記載
+[docker/README.md](docker/README.md) にdocker環境の構築手順を記載
 
 ## 実行方法
 
