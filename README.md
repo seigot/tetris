@@ -136,6 +136,10 @@ bash start.sh -m y
 nextShapeIndex = np_randomShape.random.randint(1, 7)
 ```
 
+# FAQ
+
+[doc/files/FAQ.md](doc/files/FAQ.md)を参照下さい。
+
 # 参考
 
 [https://github.com/LoveDaisy/tetris_game](https://github.com/LoveDaisy/tetris_game) <br>
