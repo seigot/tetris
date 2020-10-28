@@ -6,7 +6,7 @@
 
 #### Mac環境
 
-Finder→Application→Utility→Terminalから、ターミナル画面を起動して以下コマンドを実行する。
+Finder→Application→Utility→Terminalから、ターミナルを起動して以下コマンドを実行する。
 
 ```
 # install pyqt5 and NumPy
