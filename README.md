@@ -124,10 +124,23 @@ bash start.sh -m y
 |  フレーム更新頻度  |  約1秒  |  約1秒  |  約1秒  |  約1秒  | 
 |  備考  |  練習用  |  -  |  -  |  -  | 
 
+## 次のブロックのランダム性
+
+次のブロックの番号は、ランダム関数を使って選択しています。<br>
+[こちらの記事](https://gigazine.net/news/20191116-tetris-algorithm/)によると、色々方式がありそうです。<br>
+有識者の方からアドバイス頂けると嬉しいです。<br>
+
+* 参考：次のブロック選択処理 [game_manager.py](game_manager/game_manager.py)
+
+```
+nextShapeIndex = np_randomShape.random.randint(1, 7)
+```
+
 # 参考
 
 [https://github.com/LoveDaisy/tetris_game](https://github.com/LoveDaisy/tetris_game) <br>
 [http://zetcode.com/gui/pyqt5/tetris/](http://zetcode.com/gui/pyqt5/tetris/)
+[テトリスの歴史を「ブロックが落ちるルール」の進化から学ぶ](https://gigazine.net/news/20191116-tetris-algorithm/)
 
 # LICENSE
 
