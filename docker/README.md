@@ -31,8 +31,19 @@ cd ~/tetris_game
 bash start.sh
 ```
 
-## build for update docker container
+## [開発用] build for update docker container
+
+[Dockerfile](./Dockerfile)を更新して以下を実行する
 
 ```
 docker build -t seigott/tetris_game_docker .
 ```
+
+コンテナ登録は以下
+
+```
+docker login
+docker push seigott/tetris_game_docker
+docker logout
+```
+
