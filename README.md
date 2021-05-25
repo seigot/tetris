@@ -32,6 +32,7 @@ brew install git
 本リポジトリを取得
 
 ```shell
+cd $HOME
 git clone https://github.com/seigot/tetris_game
 ```
 
