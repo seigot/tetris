@@ -6,7 +6,7 @@ from datetime import datetime
 import numpy as np
 import pprint
 
-class Board_Controller(object):
+class Block_Controller(object):
 
     # init parameter
     board_backboard = 0
@@ -29,7 +29,7 @@ class Board_Controller(object):
 
         # print GameStatus
         print("=================================================>")
-        pprint.pprint(GameStatus, width = 56, compact = True)
+        pprint.pprint(GameStatus, width = 61, compact = True)
 
         # search best nextMove -->
         # random sample
@@ -44,5 +44,5 @@ class Board_Controller(object):
         print(nextMove)
         return nextMove
 
-BOARD_CONTROLLER = Board_Controller()
+BLOCK_CONTROLLER = Block_Controller()
 
