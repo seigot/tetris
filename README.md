@@ -59,9 +59,9 @@ bash start.sh
 以下のような構成になっています。<br>
 ブロック操作用プログラムは、管理プログラムから定期的に呼び出されるので、ボード情報から次の動作を決定して下さい。 <br>
 
-![Screenshot](doc/pics/20201017-3.png)
+![Screenshot](doc/pics/block.png)
 
-詳細は[こちら](doc/files/board_model.md)に追記予定、もしくはサンプルコードを参照下さい。<br>
+詳細は[こちら](doc/files/board_model.md)に記載、もしくはサンプルコードを参照下さい。<br>
 
 ## サンプルコード
 
