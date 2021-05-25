@@ -51,7 +51,7 @@ bash start.sh
 
 * `game_manager/game_manager.py` : ゲーム管理用プログラム
 * `game_manager/board_model.py` : ボード管理用プログラム
-* `board_controller.py` : ボード制御用プログラム（ブロックの操作は、このファイルを編集して下さい。）
+* `block_controller.py` : ブロック操作用プログラム（ブロックの操作は、このファイルを更新して下さい。）
 * `start.sh` : ゲーム開始用スクリプト
 
 #### 詳細
