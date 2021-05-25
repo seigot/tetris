@@ -35,7 +35,7 @@ class Block_Controller(object):
         # random sample
         nextMove["strategy"]["direction"] = np.random.randint(0,4)
         nextMove["strategy"]["x"] = np.random.randint(0,9)
-        nextMove["strategy"]["y_operation"] = 0
+        nextMove["strategy"]["y_operation"] = np.random.randint(0,2)
         nextMove["strategy"]["y_moveblocknum"] = np.random.randint(1,8)
         # search best nextMove <--
 
