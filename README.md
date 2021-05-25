@@ -139,7 +139,7 @@ nextShapeIndex = np_randomShape.random.randint(1, 7)
 
 # コード作成のはじめかた
 
-#### 本リポジトリのfork
+### 本リポジトリのfork
 
 まず、Githubアカウントを取得して本リポジトリを自リポジトリにforkして下さい。
 
@@ -150,7 +150,12 @@ nextShapeIndex = np_randomShape.random.randint(1, 7)
 > 2. ページの右上にある [Fork] をクリックします。 <br>
 > 参考：[リポジトリをフォークする](https://docs.github.com/ja/free-pro-team@latest/github/getting-started-with-github/fork-a-repo) <br>
 
-#### 自リポジトリのバイナリを公式リリースする
+### 実行
+
+`実行方法`を参考に実行環境の構築をして下さい。
+環境構築の完了後、ブロック操作用プログラム`block_controller.py`を更新していってください。
+
+### 自リポジトリのバイナリを公式リリースする
 
 提出時、自リポジトリのバイナリを公式リリースする場合は、Githubリリースの機能を使うと簡単なのでお勧めです。
 
@@ -158,7 +163,7 @@ nextShapeIndex = np_randomShape.random.randint(1, 7)
 > [リポジトリのリリースを管理する](https://docs.github.com/ja/free-pro-team@latest/github/administering-a-repository/managing-releases-in-a-repository) <br>
 > 7.オプションで、コンパイルされたプログラムなどのバイナリファイルをリリースに含めるには、ドラッグアンドドロップするかバイナリボックスで手動で選択します。 <br>
 
-#### 本リポジトリの最新バージョン取り込み
+### 本リポジトリの最新バージョン取り込み
 
 今後、本リポジトリもバージョンアップしていく予定です。<br>
 本リポジトリのバージョンアップを取り込む場合は、forkしたリポジトリにて以下を実行して下さい。<br>
@@ -173,7 +178,7 @@ git push                                                   # 変更を反映
 
 参考：[github で fork したリポジトリで本家に追従する](https://please-sleep.cou929.nu/track-original-at-forked-repo.html)
 
-#### Pull Requestを送る（Optional）
+### Pull Requestを送る（Optional）
 
 本リポジトリへ修正リクエストを送ることが可能です。詳しくは参考をご参照下さい。<br>
 <br>
@@ -185,7 +190,7 @@ git push                                                   # 変更を反映
 [[実践] はじめてのPull Requestをやってみよう](https://qiita.com/wataryooou/items/8dce6b6d5f54ab2cef04)<br>
 [【GitHub】Pull Requestの手順](https://qiita.com/aipacommander/items/d61d21988a36a4d0e58b)<br>
 
-#### FAQ
+### FAQ
 
 [doc/files/FAQ.md](doc/files/FAQ.md)を参照下さい。
 
