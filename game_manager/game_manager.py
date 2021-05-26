@@ -55,6 +55,7 @@ class Game_Manager(QMainWindow):
         self.lastShape = Shape.shapeNone
 
         self.game_time = -1
+        self.block_index = 0
         self.manual = None
         self.use_sample = None
         self.drop_speed = 1000
@@ -168,6 +169,10 @@ class Game_Manager(QMainWindow):
             y_operation = -1
 
             if BLOCK_CONTROLLER and not self.nextMove:
+                # update CurrentBlockIndex
+                if BOARD_DATA.currentY <= 1:
+                    self.block_index = self.block_index + 1
+
                 # nextMove data structure
                 nextMove = {"strategy":
                                 {
@@ -302,6 +307,7 @@ class Game_Manager(QMainWindow):
                         "gameover_count":"none",
                         "score":"none",
                         "line":"none",
+                        "block_index":"none",
                       },
                   "debug_info":
                       {
@@ -384,6 +390,7 @@ class Game_Manager(QMainWindow):
         status["judge_info"]["gameover_count"] = self.tboard.reset_cnt
         status["judge_info"]["score"] = self.tboard.score
         status["judge_info"]["line"] = self.tboard.line
+        status["judge_info"]["block_index"] = self.block_index
         ## debug_info
         status["debug_info"]["lineStat"] = self.tboard.lineStat
         status["debug_info"]["shapeStat"] = BOARD_DATA.shapeStat
