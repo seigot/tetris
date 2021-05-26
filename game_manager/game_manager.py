@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import QMainWindow, QFrame, QDesktopWidget, QApplication, Q
 from PyQt5.QtCore import Qt, QBasicTimer, pyqtSignal
 from PyQt5.QtGui import QPainter, QColor
 
-from board_model import BOARD_DATA, Shape
+from board_manager import BOARD_DATA, Shape
 from block_controller import BLOCK_CONTROLLER
 from block_controller_sample import BLOCK_CONTROLLER_SAMPLE
 

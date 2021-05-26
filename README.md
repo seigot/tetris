@@ -50,7 +50,7 @@ bash start.sh
 #### ファイル一覧
 
 * `game_manager/game_manager.py` : ゲーム管理用プログラム
-* `game_manager/board_model.py` : ボード管理用プログラム
+* `game_manager/board_manager.py` : ボード管理用プログラム
 * `block_controller.py` : ブロック操作用プログラム（ブロックの操作は、このファイルを更新して下さい。）
 * `start.sh` : ゲーム開始用スクリプト
 
@@ -61,7 +61,7 @@ bash start.sh
 
 ![Screenshot](doc/pics/block.png)
 
-詳細は[こちら](doc/files/board_model.md)に記載、もしくはサンプルコードを参照下さい。<br>
+詳細は[こちら](doc/files/board_manager.md)に記載、もしくはサンプルコードを参照下さい。<br>
 
 ## サンプルコード
 
