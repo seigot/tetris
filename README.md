@@ -66,7 +66,7 @@ bash start.sh
 ## サンプルコード
 
 実行時、以下のようにオプションを与えることで、サンプルコードの実行が可能です。<br>
-サンプルコードは[こちら](game_manager/board_controller_sample.py)を参照下さい。<br>
+サンプルコードは[こちら](game_manager/block_controller_sample.py)を参照下さい。<br>
 
 ```shell
 bash start.sh -s y
