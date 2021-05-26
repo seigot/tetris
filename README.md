@@ -63,19 +63,10 @@ bash start.sh
 
 詳細
 - [ブロック操作用プログラムについての説明](doc/files/block_controller.md) <br>
-- [ボード管理用プログラムについての説明](doc/files/board_manager.md)（作成中） <br>
-- [ゲーム管理用プログラムについての説明](doc/files/game_manager.md)（作成中） <br>
+- [ボード管理用プログラムについての説明](doc/files/board_manager.md)（執筆中） <br>
+- [ゲーム管理用プログラムについての説明](doc/files/game_manager.md)（執筆中） <br>
 
-## サンプルコード
-
-実行時、以下のようにオプションを与えることで、サンプルコードの実行が可能です。<br>
-サンプルコードは[こちら](game_manager/block_controller_sample.py)を参照下さい。<br>
-
-```shell
-bash start.sh -s y
-```
-
-## How to play manually
+## 手動操作
 
 実行時、以下のようにオプションを与えることで、手動操作が可能です。
 
@@ -91,6 +82,15 @@ bash start.sh -m y
 |  *m* key  |  下に移動  |
 |  *space* key  |  落下  |
 |  *P* key  |  Pause  |
+
+## スコアアタック用サンプルコード
+
+実行時、以下のようにオプションを与えることで、スコアアタック用サンプルコードの実行が可能です。<br>
+サンプルコードは[こちら](game_manager/block_controller_sample.py)を参照下さい。<br>
+
+```shell
+bash start.sh -s y
+```
 
 # Play rules
 
@@ -127,18 +127,6 @@ bash start.sh -m y
 |  フィールドの初期ブロック  |  なし  |  なし  |  あり  | 
 |  フレーム更新頻度  |  約1秒  |  約1秒  |  約1秒  | 
 |  備考  |  今回利用  |  -  |  -  | 
-
-## 次のブロックのランダム性
-
-次のブロックのランダム性は、現在はrandom関数の出力に依存しています。<br>
-しかし、[こちらの記事](https://gigazine.net/news/20191116-tetris-algorithm/)によると選択方式が色々ありそうです。<br>
-有識者の方からアドバイス頂けると嬉しいです。<br>
-
-* 参考：次のブロック選択処理 [game_manager.py](game_manager/game_manager.py)
-
-```
-nextShapeIndex = np_randomShape.random.randint(1, 7)
-```
 
 # コード作成のはじめかた
 
@@ -197,12 +185,34 @@ git push                                                   # 変更を反映
 
 [doc/files/FAQ.md](doc/files/FAQ.md)を参照下さい。
 
-
 # 参考
 
 [https://github.com/LoveDaisy/tetris_game](https://github.com/LoveDaisy/tetris_game) <br>
 [http://zetcode.com/gui/pyqt5/tetris/](http://zetcode.com/gui/pyqt5/tetris/)<br>
 [テトリスの歴史を「ブロックが落ちるルール」の進化から学ぶ](https://gigazine.net/news/20191116-tetris-algorithm/)<br>
+
+# 今後の課題
+
+## 次のブロックのランダム性
+
+次のブロックのランダム性は、現在はrandom関数の出力に依存しています。<br>
+しかし、[こちらの記事](https://gigazine.net/news/20191116-tetris-algorithm/)によると選択方式が色々ありそうです。<br>
+有識者の方からアドバイス頂けると嬉しいです。<br>
+
+* 参考：次のブロック選択処理 [game_manager.py](game_manager/game_manager.py)
+
+```
+nextShapeIndex = np_randomShape.random.randint(1, 7)
+```
+
+## 対戦モード実装
+準備中
+
+## AI実装
+準備中
+
+## 自動評価
+準備中
 
 # LICENSE
 
