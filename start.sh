@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ## default level
-VALUE_L="0"
+VALUE_L="1"
 IS_MANUAL_CONTROLL="n"
 IS_SAMPLE_CONTROLL="n"
 
@@ -18,7 +18,7 @@ echo "level: $VALUE_L"
 echo "is_manual_controll: $IS_MANUAL_CONTROLL"
 
 ## set field parameter for level 1
-GAME_TIME="300"          # game time (s)
+GAME_TIME="180"          # game time (s)
 DROP_SPEED="1000"        # drop speed (s)
 RANDOM_SEED="0"          # random seed for field
 OBSTACLE_HEIGHT="0"      # obstacle height (blocks)
