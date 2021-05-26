@@ -1,6 +1,6 @@
 # ブロック操作用プログラムについて
 
-[ブロック操作用プログラム](https://github.com/seigot/tetris_game/blob/master/block_controller.py)では、ボード情報から次の動作を決定します。<br>
+[ブロック操作用プログラム](https://github.com/seigot/tetris_game/blob/master/block_controller.py)では、ボード情報からブロックの次の動作を決定します。<br>
 このファイルの`def GetNextMove`関数にて、ボード情報`GameStatus`を入力として受け取り、次の動作決定用のデータ`nextMove`を返す事でブロックが動く仕様になっています。<br>
 <br>
 以下は、ボード情報`GameStatus`、次の動作決定用のデータ`nextMove`について記載します。<br>
