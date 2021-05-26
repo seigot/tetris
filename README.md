@@ -61,7 +61,10 @@ bash start.sh
 
 ![Screenshot](doc/pics/block.png)
 
-詳細は[こちら](doc/files/board_manager.md)に記載、もしくはサンプルコードを参照下さい。<br>
+詳細
+- [ブロック操作用プログラムについての説明](doc/files/block_controller.md)に記載 <br>
+- [ボード管理用プログラムについての説明](doc/files/board_manager.md)に記載（作成中） <br>
+- [ゲーム管理用プログラムについての説明](doc/files/game_manager.md)に記載（作成中） <br>
 
 ## サンプルコード
 
