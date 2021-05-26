@@ -32,6 +32,9 @@ case $VALUE_L in
     * ) echo "invalid level: $VALUE_L"; exit 1;;
 esac
 echo "game_time: $GAME_TIME"
+echo "RANDOM_SEED: $RANDOM_SEED"
+echo "OBSTACLE_HEIGHT: ${OBSTACLE_HEIGHT}"
+echo "OBSTACLE_PROBABILITY: ${OBSTACLE_PROBABILITY}"
 
 ## start game
 python3 game_manager/game_manager.py --game_time ${GAME_TIME} --seed ${RANDOM_SEED} --obstacle_height ${OBSTACLE_HEIGHT} --obstacle_probability ${OBSTACLE_PROBABILITY} --drop_speed ${DROP_SPEED} --manual ${IS_MANUAL_CONTROLL} --use_sample ${IS_SAMPLE_CONTROLL}
