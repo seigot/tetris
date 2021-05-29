@@ -304,6 +304,7 @@ class Game_Manager(QMainWindow):
                   "judge_info":
                       {
                         "elapsed_time":"none",
+                        "game_time":"none",
                         "gameover_count":"none",
                         "score":"none",
                         "line":"none",
@@ -387,6 +388,7 @@ class Game_Manager(QMainWindow):
         status["block_info"]["nextShape"]["direction_range"] = Range
         ## judge_info
         status["judge_info"]["elapsed_time"] = round(time.time() - self.tboard.start_time, 3)
+        status["judge_info"]["game_time"] = self.game_time
         status["judge_info"]["gameover_count"] = self.tboard.reset_cnt
         status["judge_info"]["score"] = self.tboard.score
         status["judge_info"]["line"] = self.tboard.line
