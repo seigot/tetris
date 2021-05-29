@@ -86,7 +86,7 @@ bash start.sh -m y
 ## スコアアタック用サンプルコード
 
 実行時、以下のようにオプションを与えることで、スコアアタック用サンプルコードの実行が可能です。<br>
-サンプルコードは[こちら](game_manager/block_controller_sample.py)を参照下さい。<br>
+サンプルコードについて[ブロック操作用サンプルプログラム](https://github.com/seigot/tetris_game/blob/master/game_manager/block_controller_sample.py)を参照下さい。<br>
 
 ```shell
 bash start.sh -s y
