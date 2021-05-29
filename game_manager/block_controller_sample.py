@@ -100,6 +100,7 @@ class Block_Controller(object):
     def dropDown(self, board, Shape_class, direction, x):
         dy = self.board_data_height - 1
         coordArray = self.getShapeCoordArray(Shape_class, direction, x, 0)
+        # update dy
         for _x, _y in coordArray:
             _yy = 0
             while _yy + _y < self.board_data_height and (_yy + _y < 0 or board[(_y + _yy), _x] == self.ShapeNone_index):
@@ -107,6 +108,7 @@ class Block_Controller(object):
             _yy -= 1
             if _yy < dy:
                 dy = _yy
+        # get new board
         _board = self.dropDownWithDy(board, Shape_class, direction, x, dy)
         return _board
 
