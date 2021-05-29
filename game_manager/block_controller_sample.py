@@ -56,7 +56,8 @@ class Block_Controller(object):
                 # get board data, as if dropdown block with candidate direction and x location. 
                 board = self.getBoard(self.board_backboard, self.CurrentShape_class, direction0, x0)
 
-                EvalValue = self.calcEvaluationValue(board)
+                # evaluate board
+                EvalValue = self.calcEvaluationValueSample(board)
                 if EvalValue > LatestEvalValue:
                     # update best move
                     strategy = (direction0, x0, 1, 1)
@@ -66,7 +67,7 @@ class Block_Controller(object):
                 ###  x1Min, x1Max = self.getSearchXRange(self.NextShape_class, direction1)
                 ###  for x1 in range(x1Min, x1Max):
                 ###        board2 = self.getBoard(board, self.NextShape_class, direction1, x1)
-                ###        EvalValue = self.calcEvaluationValue(board2)
+                ###        EvalValue = self.calcEvaluationValueSample(board2)
                 ###        if EvalValue > LatestEvalValue:
                 ###            strategy = (direction0, x0, 1, 1)
                 ###            LatestEvalValue = EvalValue
@@ -88,7 +89,7 @@ class Block_Controller(object):
         return xMin, xMax
 
     def getShapeCoordArray(self, Shape_class, direction, x, y):
-        coordArray = Shape_class.getCoords(direction, x, y)
+        coordArray = Shape_class.getCoords(direction, x, y) # get coordinate array with given Shape, x, y, direction
         return coordArray
 
     def getBoard(self, board_backboard, Shape_class, direction, x):
@@ -106,17 +107,17 @@ class Block_Controller(object):
             _yy -= 1
             if _yy < dy:
                 dy = _yy
-        _board = self.dropDownByDist(board, Shape_class, direction, x, dy)
+        _board = self.dropDownWithDy(board, Shape_class, direction, x, dy)
         return _board
 
-    def dropDownByDist(self, board, Shape_class, direction, x, dy):
+    def dropDownWithDy(self, board, Shape_class, direction, x, dy):
         _board = board
         coordArray = self.getShapeCoordArray(Shape_class, direction, x, 0)
         for _x, _y in coordArray:
             _board[_y + dy, _x] = Shape_class.shape
         return _board
 
-    def calcEvaluationValue(self, board):
+    def calcEvaluationValueSample(self, board):
 
         width = self.board_data_width
         height = self.board_data_height
@@ -125,7 +126,7 @@ class Block_Controller(object):
         ## lines to be removed
         fullLines = 0
         ## number of holes or blocks in the line.
-        vHoles, vBlocks = 0, 0
+        nHoles, nIsolatedBlocks = 0, 0
         ## how blocks are accumlated
         BlockMaxY = [0] * width
         holeCandidates = [0] * width
@@ -151,7 +152,7 @@ class Block_Controller(object):
                         holeConfirm[x] += holeCandidates[x]  # update number of holes in target column..
                         holeCandidates[x] = 0                # reset
                     if holeConfirm[x] > 0:
-                        vBlocks += 1                         # update number of isolated blocks
+                        nIsolatedBlocks += 1                         # update number of isolated blocks
 
             if hasBlock == False:
                 # no block line (and ofcourse no hole)
@@ -160,7 +161,7 @@ class Block_Controller(object):
                 # filled with block
                 fullLines += 1
 
-        vHoles += sum([abs(x) for x in holeConfirm])
+        nHoles += sum([abs(x) for x in holeConfirm])
 
         ### absolute differencial value of MaxY
         BlockMaxDy = [BlockMaxY[i] - BlockMaxY[i+1] for i in range(len(BlockMaxY) - 1)]
@@ -186,15 +187,15 @@ class Block_Controller(object):
         # calc Evaluation Value
         score = 0
         score = score + fullLines * 10.0           # try to delete line 
-        score = score - vHoles * 1.0               # try not to make hole
-        score = score - vBlocks * 1.0              # try not to make isolated block
+        score = score - nHoles * 1.0               # try not to make hole
+        score = score - nIsolatedBlocks * 1.0      # try not to make isolated block
         score = score - absDy * 1.0                # try to put block smoothly
         #score = score - maxDy * 0.3                # maxDy
         #score = score - maxHeight * 5              # maxHeight
         #score = score - stdY * 1.0                 # statistical data
         #score = score - stdDY * 0.01               # statistical data
 
-        # print(score, fullLines, vHoles, vBlocks, maxHeight, stdY, stdDY, absDy, BlockMaxY)
+        # print(score, fullLines, nHoles, nIsolatedBlocks, maxHeight, stdY, stdDY, absDy, BlockMaxY)
         return score
 
 
