@@ -29,38 +29,45 @@ class Block_Controller(object):
 
         # print GameStatus
         print("=================================================>")
-        pprint.pprint(GameStatus, width = 56, compact = True)
+        pprint.pprint(GameStatus, width = 61, compact = True)
 
         # get data from GameStatus
+        # current shape info
         CurrentShapeDirectionRange = GameStatus["block_info"]["currentShape"]["direction_range"]
+        self.CurrentShape_class = GameStatus["block_info"]["currentShape"]["class"]
+        # next shape info
         NextShapeDirectionRange = GameStatus["block_info"]["nextShape"]["direction_range"]
+        self.NextShape_class = GameStatus["block_info"]["nextShape"]["class"]
+        # current board info
         self.board_backboard = GameStatus["field_info"]["backboard"]
+        # default board definition
         self.board_data_width = GameStatus["field_info"]["width"]
         self.board_data_height = GameStatus["field_info"]["height"]
         self.ShapeNone_index = GameStatus["debug_info"]["shape_info"]["shapeNone"]["index"]
-        self.CurrentShape_class = GameStatus["block_info"]["currentShape"]["class"]
-        self.NextShape_class = GameStatus["block_info"]["nextShape"]["class"]
 
         # search best nextMove -->
         strategy = None
-        LatestScore = 0
-        for d0 in CurrentShapeDirectionRange:
-            # get CurrentShape X range when direction "d0"
-            minX, maxX, _, _ = self.CurrentShape_class.getBoundingOffsets(d0)
+        LatestEvalValue = -100000
+        # search with current block Shape
+        for direction0 in CurrentShapeDirectionRange:
+            # search with x range
+            minX, maxX, _, _ = self.CurrentShape_class.getBoundingOffsets(direction0)
             for x0 in range(-minX, self.board_data_width - maxX):
-                # temporally drop and get board when direction "d0" and "x0"
-                board = self.calcStep1Board(d0, x0)
-                for d1 in NextShapeDirectionRange:
-                    # get NextShape X range when direction "d1"
-                    minX, maxX, _, _ = self.NextShape_class.getBoundingOffsets(d1)
-                    # get dropDist to caluculate post process effectively
-                    dropDist = self.calcNextDropDist(board, d1, range(-minX, self.board_data_width - maxX))
-                    for x1 in range(-minX, self.board_data_width - maxX):
-                        # calculate score with the conbination "d0,x0" and "d1,x1"
-                        score = self.calculateScore(np.copy(board), d1, x1, dropDist)
-                        if not strategy or LatestScore < score:
-                            strategy = (d0, x0, 0, 0)
-                            LatestScore = score
+                # get board data, as if dropdown block with candidate direction and x location. 
+                board = self.calcBoard(self.board_backboard, self.CurrentShape_class, direction0, x0)
+                EvalValue = self.calculateEvalValue(board)
+                if EvalValue > LatestEvalValue:
+                    strategy = (direction0, x0, 1, 1)
+                    LatestEvalValue = EvalValue
+
+                #for direction1 in NextShapeDirectionRange:
+                #    minX, maxX, _, _ = self.NextShape_class.getBoundingOffsets(direction1)
+                #    for x1 in range(-minX, self.board_data_width - maxX):
+                #        board2 = self.calcBoard(board, self.NextShape_class, direction1, x1)
+                #        EvalValue = self.calculateEvalValue(board2)
+                #        if EvalValue > LatestEvalValue:
+                #            strategy = (direction0, x0, 1, 1)
+                #            LatestEvalValue = EvalValue
         # search best nextMove <--
 
         print("===", datetime.now() - t1)
@@ -72,108 +79,108 @@ class Block_Controller(object):
         print("###### SAMPLE CODE ######")
         return nextMove
 
-    def calcNextDropDist(self, data, d0, xRange):
-        res = {}
-        for x0 in xRange:
-            if x0 not in res:
-                res[x0] = self.board_data_height - 1
-            for x, y in self.NextShape_class.getCoords(d0, x0, 0):
-                yy = 0
-                while yy + y < self.board_data_height and (yy + y < 0 or data[(y + yy), x] == self.ShapeNone_index):
-                    yy += 1
-                yy -= 1
-                if yy < res[x0]:
-                    res[x0] = yy
-        return res
+    def calcBoard(self, board_backboard, Shape_class, direction, x):
+        board = np.array(board_backboard).reshape((self.board_data_height, self.board_data_width))
+        _board = self.dropDown(board, Shape_class, direction, x)
+        return _board
 
-    def calcStep1Board(self, d0, x0):
-        board = np.array(self.board_backboard).reshape((self.board_data_height, self.board_data_width))
-        self.dropDown(board, self.CurrentShape_class, d0, x0)
-        return board
-
-    def dropDown(self, data, Shape_class, direction, x0):
+    def dropDown(self, board, Shape_class, direction, x):
         dy = self.board_data_height - 1
-        for x, y in Shape_class.getCoords(direction, x0, 0):
-            yy = 0
-            while yy + y < self.board_data_height and (yy + y < 0 or data[(y + yy), x] == self.ShapeNone_index):
-                yy += 1
-            yy -= 1
-            if yy < dy:
-                dy = yy
-        self.dropDownByDist(data, Shape_class, direction, x0, dy)
+        for _x, _y in Shape_class.getCoords(direction, x, 0):
+            _yy = 0
+            while _yy + _y < self.board_data_height and (_yy + _y < 0 or board[(_y + _yy), _x] == self.ShapeNone_index):
+                _yy += 1
+            _yy -= 1
+            if _yy < dy:
+                dy = _yy
+        _board = self.dropDownByDist(board, Shape_class, direction, x, dy)
+        return _board
 
-    def dropDownByDist(self, data, Shape_class, direction, x0, dist):
-        for x, y in Shape_class.getCoords(direction, x0, 0):
-            data[y + dist, x] = Shape_class.shape
+    def dropDownByDist(self, board, Shape_class, direction, x, dy):
+        _board = board
+        for _x, _y in Shape_class.getCoords(direction, x, 0):
+            _board[_y + dy, _x] = Shape_class.shape
+        return _board
 
-    def calculateScore(self, step1Board, d1, x1, dropDist):
-        t1 = datetime.now()
+    def calculateEvalValue(self, board):
+
         width = self.board_data_width
         height = self.board_data_height
 
-        # temporally drop and get board with direction "d1" and "x1"
-        self.dropDownByDist(step1Board, self.NextShape_class, d1, x1, dropDist[x1])
-
-        # Term 1: lines to be removed
+        # evaluation paramters
+        ## lines to be removed
         fullLines = 0
-        roofY = [0] * width
+        ## number of holes or blocks in the line.
+        vHoles, vBlocks = 0, 0
+        ## how blocks are accumlated
+        BlockMaxY = [0] * width
         holeCandidates = [0] * width
         holeConfirm = [0] * width
-        vHoles, vBlocks = 0, 0
-        ## check all line on board
-        for y in range(height - 1, -1, -1):
+
+        ### check board
+        # each y line
+        for y in range(height - 1, 0, -1):
             hasHole = False
             hasBlock = False
+            # each x line
             for x in range(width):
-                ## check if hole exists
-                if step1Board[y, x] == self.ShapeNone_index:
+                ## check if hole or block..
+                if board[y, x] == self.ShapeNone_index:
+                    # hole
                     hasHole = True
-                    holeCandidates[x] += 1 # just candidates
+                    holeCandidates[x] += 1  # just candidates in each column..
                 else:
+                    # block
                     hasBlock = True
-                    roofY[x] = height - y
+                    BlockMaxY[x] = height - y    # update blockMaxY
                     if holeCandidates[x] > 0:
-                        holeConfirm[x] += holeCandidates[x]
-                        holeCandidates[x] = 0
+                        holeConfirm[x] += holeCandidates[x]  # update number of holes in target column..
+                        holeCandidates[x] = 0                # reset
                     if holeConfirm[x] > 0:
-                        vBlocks += 1
-            if not hasBlock:
+                        vBlocks += 1                         # update number of isolated blocks
+
+            if hasBlock == False:
                 # no block line (and ofcourse no hole)
-                break
-            if not hasHole and hasBlock:
+                continue
+            if hasBlock == True and hasHole == False:
                 # filled with block
                 fullLines += 1
-        vHoles = sum([x ** .7 for x in holeConfirm])
-        maxHeight = max(roofY) - fullLines
-        # print(datetime.now() - t1)
 
-        roofDy = [roofY[i] - roofY[i+1] for i in range(len(roofY) - 1)]
+        vHoles += sum([abs(x) for x in holeConfirm])
 
-        if len(roofY) <= 0:
+        ### absolute differencial value of MaxY
+        BlockMaxDy = [BlockMaxY[i] - BlockMaxY[i+1] for i in range(len(BlockMaxY) - 1)]
+        absDy = sum([abs(x) for x in BlockMaxDy])
+        ### maxDy
+        maxDy = max(BlockMaxY) - min(BlockMaxY)
+        ### maxHeight
+        maxHeight = max(BlockMaxY) - fullLines
+
+        # statistical data
+        ### stdY
+        if len(BlockMaxY) <= 0:
             stdY = 0
         else:
-            stdY = math.sqrt(sum([y ** 2 for y in roofY]) / len(roofY) - (sum(roofY) / len(roofY)) ** 2)
-        if len(roofDy) <= 0:
+            stdY = math.sqrt(sum([y ** 2 for y in BlockMaxY]) / len(BlockMaxY) - (sum(BlockMaxY) / len(BlockMaxY)) ** 2)
+        ### stdDY
+        if len(BlockMaxDy) <= 0:
             stdDY = 0
         else:
-            stdDY = math.sqrt(sum([y ** 2 for y in roofDy]) / len(roofDy) - (sum(roofDy) / len(roofDy)) ** 2)
+            stdDY = math.sqrt(sum([y ** 2 for y in BlockMaxDy]) / len(BlockMaxDy) - (sum(BlockMaxDy) / len(BlockMaxDy)) ** 2)
 
-        absDy = sum([abs(x) for x in roofDy])
-        maxDy = max(roofY) - min(roofY)
-        # print(datetime.now() - t1)
 
-        # score Evaluation
+        # calc Evaluation Value
         score = 0
-        score = score + fullLines * 1.8            # try     to delete line 
+        score = score + fullLines * 10.0           # try to delete line 
         score = score - vHoles * 1.0               # try not to make hole
-        score = score - vBlocks * 0.5              # try not to set block
-        score = score - maxHeight ** 1.5 * 0.02    # try     to make maxheight smaller
-        score = score - stdY * 0.0                 # statistical data
-        score = score - stdDY * 0.01               # statistical data
-        score = score - absDy * 0.2                # statistical data
-        score = score - maxDy * 0.3                # statistical data
+        score = score - vBlocks * 1.0              # try not to make isolated block
+        score = score - absDy * 1.0                # try to put block smoothly
+        #score = score - maxDy * 0.3                # maxDy
+        #score = score - maxHeight * 5              # maxHeight
+        #score = score - stdY * 1.0                 # statistical data
+        #score = score - stdDY * 0.01               # statistical data
 
-        # print(score, fullLines, vHoles, vBlocks, maxHeight, stdY, stdDY, absDy, roofY, d0, x0, d1, x1)
+        # print(score, fullLines, vHoles, vBlocks, maxHeight, stdY, stdDY, absDy, BlockMaxY)
         return score
 
 
