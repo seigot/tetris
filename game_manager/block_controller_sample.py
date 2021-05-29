@@ -51,23 +51,25 @@ class Block_Controller(object):
         # search with current block Shape
         for direction0 in CurrentShapeDirectionRange:
             # search with x range
-            minX, maxX, _, _ = self.CurrentShape_class.getBoundingOffsets(direction0)
-            for x0 in range(-minX, self.board_data_width - maxX):
+            x0Min, x0Max = self.getSearchXRange(self.CurrentShape_class, direction0)
+            for x0 in range(x0Min, x0Max):
                 # get board data, as if dropdown block with candidate direction and x location. 
-                board = self.calcBoard(self.board_backboard, self.CurrentShape_class, direction0, x0)
-                EvalValue = self.calculateEvalValue(board)
+                board = self.getBoard(self.board_backboard, self.CurrentShape_class, direction0, x0)
+
+                EvalValue = self.calcEvaluationValue(board)
                 if EvalValue > LatestEvalValue:
+                    # update best move
                     strategy = (direction0, x0, 1, 1)
                     LatestEvalValue = EvalValue
 
-                #for direction1 in NextShapeDirectionRange:
-                #    minX, maxX, _, _ = self.NextShape_class.getBoundingOffsets(direction1)
-                #    for x1 in range(-minX, self.board_data_width - maxX):
-                #        board2 = self.calcBoard(board, self.NextShape_class, direction1, x1)
-                #        EvalValue = self.calculateEvalValue(board2)
-                #        if EvalValue > LatestEvalValue:
-                #            strategy = (direction0, x0, 1, 1)
-                #            LatestEvalValue = EvalValue
+                ###for direction1 in NextShapeDirectionRange:
+                ###  x1Min, x1Max = self.getSearchXRange(self.NextShape_class, direction1)
+                ###  for x1 in range(x1Min, x1Max):
+                ###        board2 = self.getBoard(board, self.NextShape_class, direction1, x1)
+                ###        EvalValue = self.calcEvaluationValue(board2)
+                ###        if EvalValue > LatestEvalValue:
+                ###            strategy = (direction0, x0, 1, 1)
+                ###            LatestEvalValue = EvalValue
         # search best nextMove <--
 
         print("===", datetime.now() - t1)
@@ -79,14 +81,25 @@ class Block_Controller(object):
         print("###### SAMPLE CODE ######")
         return nextMove
 
-    def calcBoard(self, board_backboard, Shape_class, direction, x):
+    def getSearchXRange(self, Shape_class, direction):
+        minX, maxX, _, _ = Shape_class.getBoundingOffsets(direction) # get shape x offsets as relative value
+        xMin = -1 * minX
+        xMax = self.board_data_width - maxX
+        return xMin, xMax
+
+    def getShapeCoordArray(self, Shape_class, direction, x, y):
+        coordArray = Shape_class.getCoords(direction, x, y)
+        return coordArray
+
+    def getBoard(self, board_backboard, Shape_class, direction, x):
         board = np.array(board_backboard).reshape((self.board_data_height, self.board_data_width))
         _board = self.dropDown(board, Shape_class, direction, x)
         return _board
 
     def dropDown(self, board, Shape_class, direction, x):
         dy = self.board_data_height - 1
-        for _x, _y in Shape_class.getCoords(direction, x, 0):
+        coordArray = self.getShapeCoordArray(Shape_class, direction, x, 0)
+        for _x, _y in coordArray:
             _yy = 0
             while _yy + _y < self.board_data_height and (_yy + _y < 0 or board[(_y + _yy), _x] == self.ShapeNone_index):
                 _yy += 1
@@ -98,11 +111,12 @@ class Block_Controller(object):
 
     def dropDownByDist(self, board, Shape_class, direction, x, dy):
         _board = board
-        for _x, _y in Shape_class.getCoords(direction, x, 0):
+        coordArray = self.getShapeCoordArray(Shape_class, direction, x, 0)
+        for _x, _y in coordArray:
             _board[_y + dy, _x] = Shape_class.shape
         return _board
 
-    def calculateEvalValue(self, board):
+    def calcEvaluationValue(self, board):
 
         width = self.board_data_width
         height = self.board_data_height
