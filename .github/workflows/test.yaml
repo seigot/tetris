@@ -39,6 +39,11 @@ jobs:
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
       - name: Display Python version
         run: python -c "import sys; print(sys.version)"
+      # xvfbのインストールと起動
+      - name: Xvfb install and run
+        run: |
+          sudo apt-get install -y xvfb
+          Xvfb -ac ${{ env.DISPLAY }} -screen 0 1280x780x24 &
       - name: tetris_game
         run: |
           git clone https://github.com/seigot/tetris_game
