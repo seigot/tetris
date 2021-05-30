@@ -111,7 +111,7 @@ class BoardData(object):
         self.currentDirection = 0
         self.currentShape = Shape() # initial current shape data
         self.nextShape = None
-        self.shapeStat = [0] * 8
+        self.shape_info_stat = [0] * 8
         self.obstacle_height = 0
         self.obstacle_probability = 0
         self.random_seed = 0
@@ -167,7 +167,7 @@ class BoardData(object):
             self.currentY = -1
             self.currentDirection = 0
             result = False
-        self.shapeStat[self.currentShape.shape] += 1
+        self.shape_info_stat[self.currentShape.shape] += 1
         return result
 
     def tryMoveCurrent(self, direction, x, y):

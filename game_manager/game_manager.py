@@ -281,7 +281,7 @@ class Game_Manager(QMainWindow):
         self.tboard.score += ( linescore + dropdownscore )
         self.tboard.line += removedlines
         if removedlines > 0:
-            self.tboard.lineStat[removedlines - 1] += 1
+            self.tboard.line_score_stat[removedlines - 1] += 1
 
     def getGameStatus(self):
         # return current Board status.
@@ -360,8 +360,8 @@ class Game_Manager(QMainWindow):
                              "color" : "none",
                           },
                         },
-                        "lineStat":"none",
-                        "shapeStat":"none",
+                        "line_score_stat":"none",
+                        "shape_info_stat":"none",
                       },
                   }
         # update status
@@ -401,8 +401,8 @@ class Game_Manager(QMainWindow):
         status["judge_info"]["line"] = self.tboard.line
         status["judge_info"]["block_index"] = self.block_index
         ## debug_info
-        status["debug_info"]["lineStat"] = self.tboard.lineStat
-        status["debug_info"]["shapeStat"] = BOARD_DATA.shapeStat
+        status["debug_info"]["line_score_stat"] = self.tboard.line_score_stat
+        status["debug_info"]["shape_info_stat"] = BOARD_DATA.shape_info_stat
         status["debug_info"]["line_score"]["1"] = Game_Manager.LINE_SCORE_1
         status["debug_info"]["line_score"]["2"] = Game_Manager.LINE_SCORE_2
         status["debug_info"]["line_score"]["3"] = Game_Manager.LINE_SCORE_3
@@ -537,7 +537,7 @@ class Board(QFrame):
     def initBoard(self, random_seed_Nextshape, obstacle_height, obstacle_probability):
         self.score = 0
         self.line = 0
-        self.lineStat = [0, 0, 0, 0]
+        self.line_score_stat = [0, 0, 0, 0]
         self.reset_cnt = 0
         self.start_time = time.time() 
         BOARD_DATA.clear()
