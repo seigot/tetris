@@ -583,7 +583,8 @@ class Board(QFrame):
                 GameStatusJson = GAME_MANEGER.getGameStatusJson()
                 f.write(GameStatusJson)
 
-            sys.exit(app.exec_())
+            #sys.exit(app.exec_())
+            sys.exit(0)
 
 if __name__ == '__main__':
     app = QApplication([])
