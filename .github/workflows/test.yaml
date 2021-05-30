@@ -54,3 +54,4 @@ jobs:
           jq . $HOME/result.json
           SCORE=`jq ."judge_info"."score" $HOME/result.json`
           echo "SCORE: $SCORE"
+          if [ $SCORE -lt 1000 ]; then echo "error";exit 1; fi
