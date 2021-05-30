@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import math
 from datetime import datetime
 import numpy as np
 import pprint
