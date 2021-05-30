@@ -14,7 +14,7 @@ from argparse import ArgumentParser
 import time
 import json
 
-def get_option(game_time, manual, use_sample, drop_speed, random_seed, obstacle_height, obstacle_probability):
+def get_option(game_time, manual, use_sample, drop_speed, random_seed, obstacle_height, obstacle_probability, resultlogjson):
     argparser = ArgumentParser()
     argparser.add_argument('--game_time', type=int,
                            default=game_time,
@@ -37,6 +37,9 @@ def get_option(game_time, manual, use_sample, drop_speed, random_seed, obstacle_
     argparser.add_argument('--obstacle_probability', type=int,
                            default=obstacle_probability,
                            help='Specify obstacle probability')
+    argparser.add_argument('--resultlogjson', type=str,
+                           default=resultlogjson,
+                           help='result json log file path')
     return argparser.parse_args()
 
 class Game_Manager(QMainWindow):
@@ -63,13 +66,15 @@ class Game_Manager(QMainWindow):
         self.random_seed = time.time() * 10000000 # 0
         self.obstacle_height = 0
         self.obstacle_probability = 0
+        self.resultlogjson = ""
         args = get_option(self.game_time,
                           self.manual,
                           self.use_sample,
                           self.drop_speed,
                           self.random_seed,
                           self.obstacle_height,
-                          self.obstacle_probability)
+                          self.obstacle_probability,
+                          self.resultlogjson)
         if args.game_time >= 0:
             self.game_time = args.game_time
         if args.manual == "y":
@@ -84,7 +89,8 @@ class Game_Manager(QMainWindow):
             self.obstacle_height = args.obstacle_height
         if args.obstacle_probability >= 0:
             self.obstacle_probability = args.obstacle_probability
-
+        if len(args.resultlogjson) != 0:
+            self.resultlogjson = args.resultlogjson
         self.initUI()
 
     def initUI(self):
@@ -578,10 +584,13 @@ class Board(QFrame):
             print("##### ###### #####")
             print("")
 
-            log_file_path = "game_result.json"
-            with open(log_file_path, "w") as f:
-                GameStatusJson = GAME_MANEGER.getGameStatusJson()
-                f.write(GameStatusJson)
+            log_file_path = GAME_MANEGER.resultlogjson
+            if len(log_file_path) != 0:
+                with open(log_file_path, "w") as f:
+                    print("##### OUTPUT_RESULT_LOG_FILE #####")
+                    print(log_file_path)
+                    GameStatusJson = GAME_MANEGER.getGameStatusJson()
+                    f.write(GameStatusJson)
 
             #sys.exit(app.exec_())
             sys.exit(0)
