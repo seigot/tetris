@@ -1,5 +1,5 @@
 name: Python package
-
+      
 on: [push]
 
 jobs:
@@ -35,5 +35,8 @@ jobs:
       - name: Display Python version
         run: python -c "import sys; print(sys.version)"
       - name: tetris_game
-        run: git clone https://github.com/seigot/tetris_game
-
+        run: |
+	  git clone https://github.com/seigot/tetris_game
+	  cd tetris_game
+	  timeout 5 bash start.sh -s y
+	  jq game_result.json
