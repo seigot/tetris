@@ -145,7 +145,7 @@ bash start.sh -s y
 ### 実行
 
 `実行方法`を参考に実行環境の構築をして下さい。<br>
-環境構築の完了後、ブロック操作用プログラム`block_controller.py`を更新していってください。<br>
+環境構築の完了後、ブロック操作用プログラム[`block_controller.py`](https://github.com/seigot/tetris_game/blob/master/block_controller.py)を更新していってください。<br>
 
 ### 自リポジトリのバイナリを公式リリースする
 
@@ -198,7 +198,7 @@ git push                                                   # 変更を反映
 
 次のブロックのランダム性は、現在はrandom関数の出力に依存しています。<br>
 しかし、[こちらの記事](https://gigazine.net/news/20191116-tetris-algorithm/)によると選択方式が色々ありそうです。<br>
-有識者の方からアドバイス頂けると嬉しいです。<br>
+有識者の方からアドバイス頂けると助かります。<br>
 
 * 参考：次のブロック選択処理 [game_manager.py](game_manager/game_manager.py)
 
