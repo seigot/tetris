@@ -49,4 +49,7 @@ jobs:
           git clone https://github.com/seigot/tetris_game
           cd tetris_game
           bash start.sh -s y -t 3
-
+          # check result
+          export GAME_RESULT_JSON="game_result.json"
+          jq . ${GAME_RESULT_JSON}
+          SCORE=`jq ."judge_info"."score" ${GAME_RESULT_JSON}
