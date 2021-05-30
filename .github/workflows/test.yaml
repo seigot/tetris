@@ -48,5 +48,5 @@ jobs:
         run: |
           git clone https://github.com/seigot/tetris_game
           cd tetris_game
-          timeout 3 bash start.sh -s y
+          bash start.sh -s y -t 3
 

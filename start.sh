@@ -1,24 +1,25 @@
 #!/bin/bash
 
-## default level
+## default value
 VALUE_L="1"
 IS_MANUAL_CONTROLL="n"
 IS_SAMPLE_CONTROLL="n"
+GAME_TIME="180"          # game time (s)
 
 ## get args level setting
-while getopts l:m:s: OPT
+while getopts l:m:s:t: OPT
 do
   case $OPT in
     "l" ) VALUE_L="$OPTARG" ;;
     "m" ) IS_MANUAL_CONTROLL="$OPTARG" ;;
     "s" ) IS_SAMPLE_CONTROLL="$OPTARG" ;;
+    "t" ) GAME_TIME="$OPTARG" ;;
   esac
 done
 echo "level: $VALUE_L"
 echo "is_manual_controll: $IS_MANUAL_CONTROLL"
 
 ## set field parameter for level 1
-GAME_TIME="180"          # game time (s)
 DROP_SPEED="1000"        # drop speed (s)
 RANDOM_SEED="0"          # random seed for field
 OBSTACLE_HEIGHT="0"      # obstacle height (blocks)
