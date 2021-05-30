@@ -86,7 +86,7 @@ bash start.sh -m y
 ## スコアアタック用サンプルコード
 
 実行時、以下のようにオプションを与えることで、スコアアタック用サンプルコードの実行が可能です。<br>
-サンプルコードについて[ブロック操作用サンプルプログラム](https://github.com/seigot/tetris_game/blob/master/game_manager/block_controller_sample.py)を参照下さい。<br>
+サンプルコードについて[ブロック操作用サンプルプログラム](https://github.com/seigot/tetris_game/blob/master/doc/files/block_controller_sample.md)を参照下さい。<br>
 
 ```shell
 bash start.sh -s y
@@ -126,7 +126,7 @@ bash start.sh -s y
 |  ブロックの順番  |  固定(1-7まで順番に繰り返し)  |  ランダム  |  ランダム  | 
 |  フィールドの初期ブロック  |  なし  |  なし  |  あり  | 
 |  フレーム更新頻度  |  約1秒  |  約1秒  |  約1秒  | 
-|  備考  |  今回利用  |  -  |  -  | 
+|  備考  |  今回のスコアアタック用  |  -  |  -  | 
 
 # コード作成のはじめかた
 
@@ -160,10 +160,10 @@ bash start.sh -s y
 本リポジトリのバージョンアップを取り込む場合は、forkしたリポジトリにて以下を実行して下さい。<br>
 
 ```
-git checkout main                                          # ローカルのmainブランチに移動
+git checkout master                                        # ローカルのmainブランチに移動
 git remote add upstream https://github.com/seigot/tetris_game  # fork元のリポジトリをupstream という名前でリモートリポジトリに登録（名前はなんでもいい。登録済みならスキップ）
 git fetch upstream                                         # upstream から最新のコードをfetch
-git merge upstream/main                                    # upstream/main を ローカルのmaster にmerge
+git merge upstream/master                                  # upstream/main を ローカルのmaster にmerge
 git push                                                   # 変更を反映
 ```
 
