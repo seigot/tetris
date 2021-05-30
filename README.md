@@ -1,3 +1,4 @@
+[![test](https://github.com/seigot/tetris_game/actions/workflows/test.yaml/badge.svg)](https://github.com/seigot/tetris_game/actions/workflows/test.yaml)
 # Tetris Game
 
 プログラミング学習を目的とした、ブロックを操作してスコアを競うゲームです。<br>
