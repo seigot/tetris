@@ -53,16 +53,17 @@ class Block_Controller(object):
             # search with x range
             x0Min, x0Max = self.getSearchXRange(self.CurrentShape_class, direction0)
             for x0 in range(x0Min, x0Max):
-                # get board data, as if dropdown block with candidate direction and x location. 
+                # get board data, as if dropdown block
                 board = self.getBoard(self.board_backboard, self.CurrentShape_class, direction0, x0)
 
                 # evaluate board
                 EvalValue = self.calcEvaluationValueSample(board)
+                # update best move
                 if EvalValue > LatestEvalValue:
-                    # update best move
                     strategy = (direction0, x0, 1, 1)
                     LatestEvalValue = EvalValue
 
+                ###test
                 ###for direction1 in NextShapeDirectionRange:
                 ###  x1Min, x1Max = self.getSearchXRange(self.NextShape_class, direction1)
                 ###  for x1 in range(x1Min, x1Max):
@@ -83,21 +84,34 @@ class Block_Controller(object):
         return nextMove
 
     def getSearchXRange(self, Shape_class, direction):
-        minX, maxX, _, _ = Shape_class.getBoundingOffsets(direction) # get shape x offsets as relative value
+        #
+        # get x range from shape direction.
+        #
+        minX, maxX, _, _ = Shape_class.getBoundingOffsets(direction) # get shape x offsets[minX,maxX] as relative value.
         xMin = -1 * minX
         xMax = self.board_data_width - maxX
         return xMin, xMax
 
     def getShapeCoordArray(self, Shape_class, direction, x, y):
-        coordArray = Shape_class.getCoords(direction, x, y) # get coordinate array with given Shape, x, y, direction
+        #
+        # get coordinate array by given shape.
+        #
+        coordArray = Shape_class.getCoords(direction, x, y) # get array from shape direction, x, y.
         return coordArray
 
     def getBoard(self, board_backboard, Shape_class, direction, x):
+        # 
+        # get new board.
+        # 
         board = np.array(board_backboard).reshape((self.board_data_height, self.board_data_width))
         _board = self.dropDown(board, Shape_class, direction, x)
         return _board
 
     def dropDown(self, board, Shape_class, direction, x):
+        # 
+        # internal function of getBoard.
+        # -- drop down the shape on the board.
+        # 
         dy = self.board_data_height - 1
         coordArray = self.getShapeCoordArray(Shape_class, direction, x, 0)
         # update dy
@@ -113,6 +127,9 @@ class Block_Controller(object):
         return _board
 
     def dropDownWithDy(self, board, Shape_class, direction, x, dy):
+        #
+        # internal function of dropDown.
+        #
         _board = board
         coordArray = self.getShapeCoordArray(Shape_class, direction, x, 0)
         for _x, _y in coordArray:
@@ -120,7 +137,9 @@ class Block_Controller(object):
         return _board
 
     def calcEvaluationValueSample(self, board):
-
+        #
+        # sample function of evaluate board.
+        #
         width = self.board_data_width
         height = self.board_data_height
 
@@ -149,12 +168,12 @@ class Block_Controller(object):
                 else:
                     # block
                     hasBlock = True
-                    BlockMaxY[x] = height - y    # update blockMaxY
+                    BlockMaxY[x] = height - y                # update blockMaxY
                     if holeCandidates[x] > 0:
                         holeConfirm[x] += holeCandidates[x]  # update number of holes in target column..
                         holeCandidates[x] = 0                # reset
                     if holeConfirm[x] > 0:
-                        nIsolatedBlocks += 1                         # update number of isolated blocks
+                        nIsolatedBlocks += 1                 # update number of isolated blocks
 
             if hasBlock == False:
                 # no block line (and ofcourse no hole)
