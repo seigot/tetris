@@ -1,6 +1,7 @@
 # Tetris Game
 
-プログラミング学習を目的とした、ブロックを操作してスコアを競うゲームです
+プログラミング学習を目的とした、ブロックを操作してスコアを競うゲームです。<br>
+[FAQ](https://github.com/seigot/tetris_game/blob/master/doc/files/FAQ.md)はこちら。
 
 ## 実行環境準備
 
