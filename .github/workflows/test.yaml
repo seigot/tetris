@@ -1,10 +1,16 @@
 name: Python package
       
-on: [push, pull_request]
-    paths-ignore:
-      - '.gitignore'
-      - 'LICENSE'
-      - '**.md'
+on: 
+    push:
+        paths-ignore:
+          - '.gitignore'
+          - 'LICENSE'
+          - '**.md'
+    pull_request:
+        paths-ignore:
+          - '.gitignore'
+          - 'LICENSE'
+          - '**.md'
 
 # 環境変数
 env:
