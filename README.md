@@ -1,6 +1,7 @@
 # Tetris Game
 
-プログラミング学習を目的とした、ブロックを操作してスコアを競うゲームです
+プログラミング学習を目的とした、ブロックを操作してスコアを競うゲームです。<br>
+[FAQ](https://github.com/seigot/tetris_game/blob/master/doc/files/FAQ.md)はこちら。
 
 ## 実行環境準備
 
@@ -86,7 +87,7 @@ bash start.sh -m y
 ## スコアアタック用サンプルコード
 
 実行時、以下のようにオプションを与えることで、スコアアタック用サンプルコードの実行が可能です。<br>
-サンプルコードは[こちら](game_manager/block_controller_sample.py)を参照下さい。<br>
+サンプルコードについて[ブロック操作用サンプルプログラム](https://github.com/seigot/tetris_game/blob/master/doc/files/block_controller_sample.md)を参照下さい。<br>
 
 ```shell
 bash start.sh -s y
@@ -126,7 +127,7 @@ bash start.sh -s y
 |  ブロックの順番  |  固定(1-7まで順番に繰り返し)  |  ランダム  |  ランダム  | 
 |  フィールドの初期ブロック  |  なし  |  なし  |  あり  | 
 |  フレーム更新頻度  |  約1秒  |  約1秒  |  約1秒  | 
-|  備考  |  今回利用  |  -  |  -  | 
+|  備考  |  今回のスコアアタック用  |  -  |  -  | 
 
 # コード作成のはじめかた
 
@@ -144,7 +145,7 @@ bash start.sh -s y
 ### 実行
 
 `実行方法`を参考に実行環境の構築をして下さい。<br>
-環境構築の完了後、ブロック操作用プログラム`block_controller.py`を更新していってください。<br>
+環境構築の完了後、ブロック操作用プログラム[`block_controller.py`](https://github.com/seigot/tetris_game/blob/master/block_controller.py)を更新していってください。<br>
 
 ### 自リポジトリのバイナリを公式リリースする
 
@@ -160,10 +161,10 @@ bash start.sh -s y
 本リポジトリのバージョンアップを取り込む場合は、forkしたリポジトリにて以下を実行して下さい。<br>
 
 ```
-git checkout main                                          # ローカルのmainブランチに移動
+git checkout master                                        # ローカルのmainブランチに移動
 git remote add upstream https://github.com/seigot/tetris_game  # fork元のリポジトリをupstream という名前でリモートリポジトリに登録（名前はなんでもいい。登録済みならスキップ）
 git fetch upstream                                         # upstream から最新のコードをfetch
-git merge upstream/main                                    # upstream/main を ローカルのmaster にmerge
+git merge upstream/master                                  # upstream/main を ローカルのmaster にmerge
 git push                                                   # 変更を反映
 ```
 
@@ -197,7 +198,7 @@ git push                                                   # 変更を反映
 
 次のブロックのランダム性は、現在はrandom関数の出力に依存しています。<br>
 しかし、[こちらの記事](https://gigazine.net/news/20191116-tetris-algorithm/)によると選択方式が色々ありそうです。<br>
-有識者の方からアドバイス頂けると嬉しいです。<br>
+有識者の方からアドバイス頂けると助かります。<br>
 
 * 参考：次のブロック選択処理 [game_manager.py](game_manager/game_manager.py)
 
