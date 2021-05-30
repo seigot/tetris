@@ -12,6 +12,7 @@ from block_controller_sample import BLOCK_CONTROLLER_SAMPLE
 
 from argparse import ArgumentParser
 import time
+import json
 
 def get_option(game_time, manual, use_sample, drop_speed, random_seed, obstacle_height, obstacle_probability):
     argparser = ArgumentParser()
@@ -421,6 +422,28 @@ class Game_Manager(QMainWindow):
 
         return status
 
+    def getGameStatusJson(self):
+        status = {
+                  "judge_info":
+                      {
+                        "elapsed_time":"none",
+                        "game_time":"none",
+                        "gameover_count":"none",
+                        "score":"none",
+                        "line":"none",
+                        "block_index":"none",
+                      },
+                  }
+        # update status
+        ## judge_info
+        status["judge_info"]["elapsed_time"] = round(time.time() - self.tboard.start_time, 3)
+        status["judge_info"]["game_time"] = self.game_time
+        status["judge_info"]["gameover_count"] = self.tboard.reset_cnt
+        status["judge_info"]["score"] = self.tboard.score
+        status["judge_info"]["line"] = self.tboard.line
+        status["judge_info"]["block_index"] = self.block_index
+        return json.dumps(status)
+
     def keyPressEvent(self, event):
         # for manual control
 
@@ -554,6 +577,12 @@ class Board(QFrame):
             print(status_str)
             print("##### ###### #####")
             print("")
+
+            log_file_path = "game_result.json"
+            with open(log_file_path, "w") as f:
+                GameStatusJson = GAME_MANEGER.getGameStatusJson()
+                f.write(GameStatusJson)
+
             sys.exit(app.exec_())
 
 if __name__ == '__main__':
