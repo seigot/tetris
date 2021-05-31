@@ -147,7 +147,7 @@ class Block_Controller(object):
         fullLines = 0
         ## number of holes or blocks in the line.
         nHoles, nIsolatedBlocks = 0, 0
-        ## absolute value of differencial y
+        ## absolute differencial value of MaxY
         absDy = 0
         ## how blocks are accumlated
         BlockMaxY = [0] * width
