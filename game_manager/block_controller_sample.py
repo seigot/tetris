@@ -178,12 +178,15 @@ class Block_Controller(object):
                     if holeConfirm[x] > 0:
                         nIsolatedBlocks += 1                 # update number of isolated blocks
 
-            if hasBlock == False:
-                # no block line (and ofcourse no hole)
-                continue
             if hasBlock == True and hasHole == False:
                 # filled with block
                 fullLines += 1
+            elif hasBlock == True and hasHole == True:
+                # do nothing
+                pass
+            elif hasBlock == False:
+                # no block line (and ofcourse no hole)
+                pass
 
         # nHoles
         for x in holeConfirm:
