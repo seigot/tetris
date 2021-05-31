@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import math
 from datetime import datetime
 import numpy as np
 import pprint
@@ -187,22 +186,22 @@ class Block_Controller(object):
         ### absolute differencial value of MaxY
         BlockMaxDy = [BlockMaxY[i] - BlockMaxY[i+1] for i in range(len(BlockMaxY) - 1)]
         absDy = sum([abs(x) for x in BlockMaxDy])
-        ### maxDy
-        maxDy = max(BlockMaxY) - min(BlockMaxY)
-        ### maxHeight
-        maxHeight = max(BlockMaxY) - fullLines
+        #### maxDy
+        #maxDy = max(BlockMaxY) - min(BlockMaxY)
+        #### maxHeight
+        #maxHeight = max(BlockMaxY) - fullLines
 
-        # statistical data
-        ### stdY
-        if len(BlockMaxY) <= 0:
-            stdY = 0
-        else:
-            stdY = math.sqrt(sum([y ** 2 for y in BlockMaxY]) / len(BlockMaxY) - (sum(BlockMaxY) / len(BlockMaxY)) ** 2)
-        ### stdDY
-        if len(BlockMaxDy) <= 0:
-            stdDY = 0
-        else:
-            stdDY = math.sqrt(sum([y ** 2 for y in BlockMaxDy]) / len(BlockMaxDy) - (sum(BlockMaxDy) / len(BlockMaxDy)) ** 2)
+        ## statistical data
+        #### stdY
+        #if len(BlockMaxY) <= 0:
+        #    stdY = 0
+        #else:
+        #    stdY = math.sqrt(sum([y ** 2 for y in BlockMaxY]) / len(BlockMaxY) - (sum(BlockMaxY) / len(BlockMaxY)) ** 2)
+        #### stdDY
+        #if len(BlockMaxDy) <= 0:
+        #    stdDY = 0
+        #else:
+        #    stdDY = math.sqrt(sum([y ** 2 for y in BlockMaxDy]) / len(BlockMaxDy) - (sum(BlockMaxDy) / len(BlockMaxDy)) ** 2)
 
 
         # calc Evaluation Value
