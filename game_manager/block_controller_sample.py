@@ -147,6 +147,8 @@ class Block_Controller(object):
         fullLines = 0
         ## number of holes or blocks in the line.
         nHoles, nIsolatedBlocks = 0, 0
+        ## absolute value of differencial y
+        absDy = 0
         ## how blocks are accumlated
         BlockMaxY = [0] * width
         holeCandidates = [0] * width
@@ -181,11 +183,18 @@ class Block_Controller(object):
                 # filled with block
                 fullLines += 1
 
-        nHoles += sum([abs(x) for x in holeConfirm])
+        # nHoles
+        for x in holeConfirm:
+            nHoles += abs(x)
 
         ### absolute differencial value of MaxY
-        BlockMaxDy = [BlockMaxY[i] - BlockMaxY[i+1] for i in range(len(BlockMaxY) - 1)]
-        absDy = sum([abs(x) for x in BlockMaxDy])
+        BlockMaxDy = []
+        for i in range(len(BlockMaxY) - 1):
+            val = BlockMaxY[i] - BlockMaxY[i+1]
+            BlockMaxDy += [val]
+        for x in BlockMaxDy:
+            absDy += abs(x)
+
         #### maxDy
         #maxDy = max(BlockMaxY) - min(BlockMaxY)
         #### maxHeight
