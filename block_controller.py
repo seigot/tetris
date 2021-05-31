@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
-import numpy as np
 import pprint
+import random
 
 class Block_Controller(object):
 
@@ -32,10 +32,10 @@ class Block_Controller(object):
 
         # search best nextMove -->
         # random sample
-        nextMove["strategy"]["direction"] = np.random.randint(0,4)
-        nextMove["strategy"]["x"] = np.random.randint(0,9)
+        nextMove["strategy"]["direction"] = random.randint(0,4)
+        nextMove["strategy"]["x"] = random.randint(0,9)
         nextMove["strategy"]["y_operation"] = 1
-        nextMove["strategy"]["y_moveblocknum"] = np.random.randint(1,8)
+        nextMove["strategy"]["y_moveblocknum"] = random.randint(1,8)
         # search best nextMove <--
 
         # return nextMove
