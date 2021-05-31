@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
-import numpy as np
 import pprint
+import copy
 
 class Block_Controller(object):
 
@@ -101,8 +101,10 @@ class Block_Controller(object):
     def getBoard(self, board_backboard, Shape_class, direction, x):
         # 
         # get new board.
-        # 
-        board = np.array(board_backboard).reshape((self.board_data_height, self.board_data_width))
+        #
+        # copy backboard data to make new board.
+        # if not, original backboard data will be updated later.
+        board = copy.deepcopy(board_backboard)
         _board = self.dropDown(board, Shape_class, direction, x)
         return _board
 
@@ -116,7 +118,7 @@ class Block_Controller(object):
         # update dy
         for _x, _y in coordArray:
             _yy = 0
-            while _yy + _y < self.board_data_height and (_yy + _y < 0 or board[(_y + _yy), _x] == self.ShapeNone_index):
+            while _yy + _y < self.board_data_height and (_yy + _y < 0 or board[(_y + _yy) * self.board_data_width + _x] == self.ShapeNone_index):
                 _yy += 1
             _yy -= 1
             if _yy < dy:
@@ -132,7 +134,7 @@ class Block_Controller(object):
         _board = board
         coordArray = self.getShapeCoordArray(Shape_class, direction, x, 0)
         for _x, _y in coordArray:
-            _board[_y + dy, _x] = Shape_class.shape
+            _board[(_y + dy) * self.board_data_width + _x] = Shape_class.shape
         return _board
 
     def calcEvaluationValueSample(self, board):
@@ -162,7 +164,7 @@ class Block_Controller(object):
             # each x line
             for x in range(width):
                 ## check if hole or block..
-                if board[y, x] == self.ShapeNone_index:
+                if board[y * self.board_data_width + x] == self.ShapeNone_index:
                     # hole
                     hasHole = True
                     holeCandidates[x] += 1  # just candidates in each column..
