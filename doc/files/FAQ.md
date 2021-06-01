@@ -37,6 +37,15 @@ bash start.sh
 
 --> テトリスが表示されればOK
 
-`E: ロック /var/lib/dpkg/lock-frontend が取得できませんでした - open (11: リソースが一時的に利用できません)`のエラーが出た場合は[こちらのサイト](https://marginalia.hatenablog.com/entry/2019/07/03/133854)参照
+## `sudo apt install`時に`E: ロック /var/lib/dpkg/lock-frontend が取得できませんでした - open (11: リソースが一時的に利用できません)`のエラーが出る
+
+[こちらのサイト](https://marginalia.hatenablog.com/entry/2019/07/03/133854)参照<br>
+以下で解決するはず
+
+```
+$ sudo rm /var/lib/apt/lists/lock
+$ sudo rm /var/lib/dpkg/lock
+$ sudo rm /var/lib/dpkg/lock-frontend
+```
 
 ### 以下、順次追記
