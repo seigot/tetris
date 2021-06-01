@@ -61,7 +61,7 @@ jobs:
         run: |
           git clone https://github.com/seigot/tetris_game
           cd tetris_game
-          bash start.sh -t 3 -f $HOME/result.json
+          bash start.sh -s y -t 3 -f $HOME/result.json
           # check result
           jq . $HOME/result.json
           SCORE=`jq ."judge_info"."score" $HOME/result.json`
