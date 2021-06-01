@@ -10,9 +10,10 @@
 |  ubuntu18.04,20.04  |  [こちら](https://github.com/seigot/tetris_game/blob/master/doc/files/install_ubuntu.md)  |
 |  Mac  |  [こちら](https://github.com/seigot/tetris_game/blob/master/doc/files/install_mac.md)  |
 |  Windows+Docker  |  [こちら](https://github.com/seigot/tetris_game/blob/master/docker/README.md)  |
-|  JetsonNano  |  -  |
-|  RaspberryPi  |  -  |
+|  JetsonNano  |  （動作未確認だがおそらく動くはず）  |
+|  RaspberryPi  |  （動作未確認だがおそらく動くはず）  |
 |  Windows+GoogleChrome+ubuntu-free-online-linux  |  [chrome webstore URL](https://chrome.google.com/webstore/detail/ubuntu-free-online-linux/pmaonbjcobmgkemldgcedmpbmmncpbgi?hl=ja)  |
+|  AWS  |  EC2 4CPU 8GBメモリ 20GBストレージ、GPU環境で動作確認済（課金に注意）  |
 
 ## `Windows+GoogleChrome+ubuntu-free-online-linux`の環境構築について
 
