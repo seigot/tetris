@@ -119,7 +119,6 @@ bash start.sh -s y
 ## game level
 
 実行時、オプションを与えることで、難易度（レベル）を指定できます。<br>
-[各レベルの参考スコア](doc/files/reference_score.md)
 
 |     |  level1  |  level2  |  level3  | 
 | --- | --- | --- | --- | 
@@ -129,6 +128,8 @@ bash start.sh -s y
 |  フィールドの初期ブロック  |  なし  |  なし  |  あり  | 
 |  フレーム更新頻度  |  約1秒  |  約1秒  |  約1秒  | 
 |  備考  |  今回のスコアアタック用  |  -  |  -  | 
+
+[各レベルの参考スコア](doc/files/reference_score.md)
 
 # コード作成のはじめかた
 
