@@ -49,4 +49,7 @@ $ sudo rm /var/lib/dpkg/lock
 $ sudo rm /var/lib/dpkg/lock-frontend
 ```
 
+## サンプルプログラム（`bash start.sh -s y`で動くやつ）の中身はどうなってるのか
+[こちら](https://github.com/seigot/tetris_game/blob/master/doc/files/block_controller_sample.md)で解説
+
 ### 以下、順次追記
