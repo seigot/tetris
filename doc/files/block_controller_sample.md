@@ -36,8 +36,6 @@
 - 同様に、高さにばらつきが少ないほど良い。<br>
 
 しかしサンプルプログラムの方法では盤面に穴が残る事がまだまだ多い。<br>
-先行文献によると他パラメータも利用しており改良の余地がある事は間違いない。<br>
-[ニューラルネットワークと遺伝的アルゴリズムを用いた テトリスコントローラの開発](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwiKn83IqIPxAhWSK5QKHUWVC0cQFjACegQIAxAD&url=https%3A%2F%2Fipsj.ixsq.nii.ac.jp%2Fej%2F%3Faction%3Drepository_action_common_download%26item_id%3D109968%26item_no%3D1%26attribute_id%3D1%26file_no%3D1&usg=AOvVaw0ic6uDC29wGYWl8KKIL8P3)
 
 # サンプルプログラムの課題
 
@@ -51,4 +49,6 @@
 - 最適解を人が考える必要がある。
   - AIのように自ら学習する方が楽に最適解を得られる可能性がある。
 
-上記を解決するとより高いスコアが獲得できると思われる。
+上記を解決するとより高いスコアが獲得できると思われる。<br>
+以下の先行文献によるとサンプルプログラムで採用しているパラメータ以外も利用しており、改良の余地がある事は間違いない。<br>
+[ニューラルネットワークと遺伝的アルゴリズムを用いた テトリスコントローラの開発](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwiKn83IqIPxAhWSK5QKHUWVC0cQFjACegQIAxAD&url=https%3A%2F%2Fipsj.ixsq.nii.ac.jp%2Fej%2F%3Faction%3Drepository_action_common_download%26item_id%3D109968%26item_no%3D1%26attribute_id%3D1%26file_no%3D1&usg=AOvVaw0ic6uDC29wGYWl8KKIL8P3)
