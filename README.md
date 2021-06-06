@@ -116,10 +116,10 @@ bash start.sh -s y
 | ---- | ---- |  ---- |
 |  gameover  |  - 500点  | ブロック出現時にフィールドが埋まっていたらgameover
 
-
 ## game level
 
 実行時、オプションを与えることで、難易度（レベル）を指定できます。<br>
+[各レベルの参考スコア](doc/files/reference_score.md)
 
 |     |  level1  |  level2  |  level3  | 
 | --- | --- | --- | --- | 
