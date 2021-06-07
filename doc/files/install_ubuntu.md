@@ -1,4 +1,4 @@
-# 実行環境(Ubuntuの場合)
+# 実行環境(Ubuntu/JetsonNanoの場合)
 
 Need python3, PyQt5 and NumPy to be installed.
 
