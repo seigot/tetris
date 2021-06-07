@@ -29,6 +29,10 @@ brew install git
 
 [docker/README.md](docker/README.md)に手順を記載
 
+#### windows環境
+
+[doc/files/install_windows.md](./doc/files/install_windows.md)に手順を記載
+
 ## 実行方法
 
 本リポジトリを取得
