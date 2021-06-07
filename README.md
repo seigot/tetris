@@ -21,17 +21,17 @@ brew install git
 
 [doc/files/install_mac.md](./doc/files/install_mac.md)に上記手順を記載
 
-#### Ubuntu環境
+#### Ubuntu/JetsonNano環境
 
 [doc/files/install_ubuntu.md](./doc/files/install_ubuntu.md)に手順を記載
-
-#### docker環境
-
-[docker/README.md](docker/README.md)に手順を記載
 
 #### windows環境
 
 [doc/files/install_windows.md](./doc/files/install_windows.md)に手順を記載
+
+#### docker環境
+
+[docker/README.md](docker/README.md)に手順を記載
 
 ## 実行方法
 
