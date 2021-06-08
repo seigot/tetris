@@ -7,7 +7,8 @@ docker for windowsを使います。<br>
 
 ### step1. パワーシェル上でコンテナを起動する<br>
 
-パワーシェルを起動して以下実行<br>
+`Windowsボタン`からパワーシェルを起動して以下実行する。<br>
+コンテナのダウンロード〜起動が完了するまで少し待つ。<br>
 
 ```
 docker run -p 6080:80 --shm-size=512m seigott/tetris_game_docker
@@ -29,3 +30,5 @@ Terminalを立ち上げて以下を実行
 cd ~/tetris_game
 bash start.sh
 ```
+
+注意）パワーシェルを閉じたり電源OFFするとコンテナも終了します。作成中データが失われないよう注意してください。
