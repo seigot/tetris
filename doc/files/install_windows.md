@@ -7,7 +7,7 @@ docker for windowsを使います。<br>
 
 ### step1. パワーシェル上でコンテナを起動する<br>
 
-`Windowsボタン`からパワーシェルを起動して以下実行する。<br>
+`Windowsボタン`から`Windows PowerShell`を起動してterminalから以下実行する。<br>
 コンテナのダウンロード〜起動が完了するまで少し待つ。<br>
 
 ```
