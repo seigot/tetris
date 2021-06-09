@@ -15,3 +15,5 @@ pip3 install numpy
 ```
 sudo apt-get install -y git
 ```
+
+その後は、実行方法を参照
