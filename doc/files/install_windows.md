@@ -3,7 +3,9 @@ docker for windowsを使います。<br>
 
 ### step0. DockerDesktopのインストール 
 
-[DockerDeskop](https://docs.docker.com/docker-for-windows/install) をインストール<br>
+以下を参照する。<br>
+[DockerDeskop](https://docs.docker.com/docker-for-windows/install) <br>
+[Windows10用Windows Subsystem for Linuxのインストール ガイド](https://docs.microsoft.com/ja-jp/windows/wsl/install-win10)
 
 ### step1. パワーシェル上でコンテナを起動する<br>
 
