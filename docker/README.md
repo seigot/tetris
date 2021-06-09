@@ -14,10 +14,23 @@
 sudo docker run -p 6080:80 --shm-size=512m seigott/tetris_game_docker
 ```
 
+もしリモートログインしながらコンテナ起動し続けたい場合、上記の代わりに以下を実行する。<br>
+（terminalからバックグラウンド実行）<br>
+
+```
+sudo nohup docker run -p 6080:80 --shm-size=512m seigott/tetris_game_docker &
+```
+
 ### step2. ブラウザからdockerコンテナにアクセスする
 
 ```
 localhost:6080
+```
+
+リモート環境でdockerコンテナ起動している場合は、上記の代わりに以下を実行する。<br>
+
+```
+${IP_ADDRESS}:6080
 ```
 
 アクセスできたら以下により動作検証する
