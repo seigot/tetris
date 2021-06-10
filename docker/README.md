@@ -10,15 +10,23 @@
 
 ### step1. dockerコンテナを起動する
 
+以下を実行する。
+
 ```
 sudo docker run -p 6080:80 --shm-size=512m seigott/tetris_game_docker
 ```
 
-もしリモートログインしながらコンテナ起動し続けたい場合、上記の代わりに以下を実行する。<br>
+もしリモートログインしながらdockerコンテナ起動し続けたい場合、上記の代わりに以下を実行する。<br>
 （terminalからバックグラウンド実行）<br>
 
 ```
 sudo nohup docker run -p 6080:80 --shm-size=512m seigott/tetris_game_docker &
+```
+
+もし`pytorch(v1.4)`インストール済dockerコンテナを使いたい場合、上記の代わりに以下を実行する。<br>
+
+```
+sudo docker run -p 6080:80 --shm-size=512m seigott/tetris_game_docker:pytorchv1.4
 ```
 
 ### step2. ブラウザからdockerコンテナにアクセスする
