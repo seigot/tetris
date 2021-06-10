@@ -72,6 +72,9 @@ $ python3 -c 'import torch; print(torch.__version__) '
 1.4.0
 ```
 
+ソフト環境は以下スクリプトで構築しています。(散らかっててすみません)<br>
+[auto_setup_for_Linux.sh](https://github.com/seigot/tetris_game/blob/master/docker/auto_setup_for_Linux.sh)<br>
+
 ## Windows Docker install時のトラブルシューティング
 
 ```
