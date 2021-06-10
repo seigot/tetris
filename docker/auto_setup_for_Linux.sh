@@ -165,8 +165,7 @@ function install_opencv(){
 }
 
 function setup_this_repository(){
-    #mkdir -p ~/Images_from_rosbag
-    mkdir -p ~/catkin_ws/src
+    mkdir -p ~/Images_from_rosbag
     cd ~/catkin_ws/src
 
     if [ -d "./ai_race" ]; then
@@ -203,6 +202,6 @@ install_torch
 install_sklearn
 install_numpy
 install_opencv
-setup_this_repository
+#setup_this_repository
 check_lib_version
 echo "finish install"

@@ -2,7 +2,7 @@
 
 HOME=/home/ubuntu
 source $HOME/.bashrc
-source /opt/ros/kinetic/setup.bash
+source /opt/ros/melodic/setup.bash
 
 function install_package(){
     echo "install packages"
