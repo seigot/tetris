@@ -72,4 +72,33 @@ $ python3 -c 'import torch; print(torch.__version__) '
 1.4.0
 ```
 
+## Windows Docker install時のトラブルシューティング
+
+```
+①BIOSのCPU関連設定
+　Docker for Windowsをインストールして起動すると、
+　「An error occurred Hardware assisted virtualization and data execution protection
+　  must be enabled in the BIOS.」と出てくる。
+　⇒ 以下サイトの「1. BIOS設定の確認」をすることでエラー解消
+　　 https://qiita.com/LemonmanNo39/items/b1b104e7fb609464727b
+
+②WSLのインストール
+　Dockerを起動したところ、①は解消されたが以下のメッセージが表示される。
+　「WSL2 installation is incomplete」
+　⇒ 以下を参考にしてWSL2をインストールする。
+　　 https://docs.microsoft.com/ja-jp/windows/wsl/install-win10
+　　 ※ Docker for Windowsをインストールするときに一緒にWSLも入れられたっぽい
+ 
+③ Dockerイメージの取得途中で死ぬ
+自宅のネットワーク回線が貧弱なのか、下記コマンドでイメージを持ってくる途中で止まる。
+docker run -p 6080:80 --shm-size=512m seigott/tetris_game_docker
+
+⇒ Docker for Windowsを起動して、ウィンドウ上部の"歯車(設定)ボタン"、"Docker Engine"をクリック。
+　 configファイルに、「"max-concurrent-download":1」を追記。
+　※これでデフォルトの3並列ダウンロードが直列になる
+ 
+④ Dockerイメージの取得途中で、「docker: unauthorized authentication required」と出て死ぬ
+⇒ windows power shellを管理者権限で実行してコマンドを叩くといけたっぽい。
+```
+
 ### 以下、順次追記
