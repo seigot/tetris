@@ -101,4 +101,21 @@ docker run -p 6080:80 --shm-size=512m seigott/tetris_game_docker
 ⇒ windows power shellを管理者権限で実行してコマンドを叩くといけたっぽい。
 ```
 
+## pytorch v1.4 インストール方法
+
+ubuntu18.04環境では、以下のようにしてインストールできることを確認済
+
+```
+function install_torch(){
+    ### pytorch from pip image (v1.4)
+    sudo apt-get install -y libopenblas-base libopenmpi-dev
+    sudo apt-get -y install libjpeg-dev zlib1g-dev libpython3-dev libavcodec-dev libavformat-dev libswscale-dev
+    
+    #python -m pip install https://download.pytorch.org/whl/cu101/torch-1.4.0-cp27-cp27mu-linux_x86_64.whl
+    python -m pip install torchvision==0.2.2
+    pip3 install torch==1.4.0 torchvision==0.2.2
+    pip install 'pillow<7'
+}
+```
+
 ### 以下、順次追記
