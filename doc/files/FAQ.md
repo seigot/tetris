@@ -106,7 +106,8 @@ docker run -p 6080:80 --shm-size=512m seigott/tetris_game_docker
 
 ## pytorch v1.4 インストール方法
 
-ubuntu18.04環境では、以下のようにしてインストールできることを確認済
+ubuntu18.04環境では、以下のようにしてインストールできることを確認済<br>
+[pytorch v1.4 インストール済のDocker環境（お試し版）](https://github.com/seigot/tetris_game/blob/master/docker/README.md)を作成しました。追加で必要なものがあればDockerfileを更新して下さい。
 
 ```
 function install_torch(){
