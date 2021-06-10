@@ -52,4 +52,24 @@ $ sudo rm /var/lib/dpkg/lock-frontend
 ## サンプルプログラム（`bash start.sh -s y`で動くやつ）の中身はどうなってるのか
 [こちら](https://github.com/seigot/tetris_game/blob/master/doc/files/block_controller_sample.md)で解説
 
+## スコアアタック時の動作PC環境について
+
+2021/7時点で以下を想定しています。<br>
+PC: [ZBOX Magnux en52060](https://www.zotac.com/jp/product/mini_pcs/magnus-en52060v#spec)<br>
+
+```
+- OS : ubuntu18.04
+- CPU: Intel Core i5
+- Memory: 16GB
+- NVIDIA GeForce RTX 2060
+```
+
+```
+- pythonバージョンは以下
+$ python3 --version 
+Python 3.6.9 
+$ python3 -c 'import torch; print(torch.__version__) ' 
+1.4.0
+```
+
 ### 以下、順次追記
