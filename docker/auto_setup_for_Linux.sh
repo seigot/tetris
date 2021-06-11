@@ -66,10 +66,10 @@ function install_basic_package(){
 
 function install_ros(){
     # check if already install ros
-    if [ ! -z `rosversion -d` ];then
-	echo "ros already installed, skip install ros"
-	return 0
-    fi
+    #if [ ! -z `rosversion -d` ];then
+    #	echo "ros already installed, skip install ros"
+    #	return 0
+    #fi
 
     cd ~
     # sudo rm -rf jetson-nano-tools
@@ -93,8 +93,12 @@ function install_ros(){
     sh -c "echo \"source ~/catkin_ws/devel/setup.bash\" >> ~/.bashrc"
     source ~/.bashrc
     sudo apt-get install -y python-rosdep python-rosinstall python-rosinstall-generator build-essential
-    sudo rosdep init
-    rosdep update
+
+    # 暫定でコメントアウト
+    # Dockerfileの方で実行しているため。本来はここでrosdep initしたい。
+    #sudo rosdep init
+    #rosdep update
+
     echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
     source /opt/ros/melodic/setup.bash
 }
@@ -165,19 +169,45 @@ function install_opencv(){
 }
 
 function setup_this_repository(){
-    mkdir -p ~/Images_from_rosbag
-    cd ~/catkin_ws/src
 
-    if [ -d "./ai_race" ]; then
-	echo "skip ai_race directory already exist.."
-	return 0
-    fi
-    echo "clone sample repository.."
-    git clone http://github.com/seigot/ai_race
-    cd ~/catkin_ws
+    echo "install packages"
+    source /opt/ros/melodic/setup.bash
+
+    sudo apt upgrade -y libignition-math2
+    # gazebo/gzserver setting
+    echo "export QT_X11_NO_MITSHM=1" >> $HOME/.bashrc
+    sudo sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list'
+
+    # setup repository
+    ## git clone
+    pushd ~/catkin_ws/src/
+    git clone http://github.com/kenjirotorii/ai_race
+    cd ai_race
+    git checkout 89a21f0a59961000ef231b7a04c055cf9e2fafbf
+    ## add patch
+    git clone http://github.com/seigot/ai_race ~/tmp/ai_race_tmp
+    patch -p1 < ~/tmp/ai_race_tmp/docker/jetson/kenjirotorii_wheel_robot.urdf.xacro.patch
+    rm -r ~/tmp/ai_race_tmp
+    ## build
+    cd ../..
     catkin build
     source devel/setup.bash
     echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
+    popd
+
+#    mkdir -p ~/Images_from_rosbag
+#    cd ~/catkin_ws/src
+#
+#    if [ -d "./ai_race" ]; then
+#	echo "skip ai_race directory already exist.."
+#	return 0
+#    fi
+#    echo "clone sample repository.."
+#    git clone http://github.com/seigot/ai_race
+#    cd ~/catkin_ws
+#    catkin build
+#    source devel/setup.bash
+#    echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
 }
 
 function check_lib_version(){
@@ -202,6 +232,6 @@ install_torch
 install_sklearn
 install_numpy
 install_opencv
-#setup_this_repository
+setup_this_repository
 check_lib_version
 echo "finish install"
