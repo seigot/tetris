@@ -121,5 +121,8 @@ function install_torch(){
     pip install 'pillow<7'
 }
 ```
+## Dockerはコンテナ終了の度にデータが消えて手間が掛かるので何とかしたい
+[WSL(Windows Subsystem for Linux)を使う場合](./doc/files/install_windows_wsl.md)の手順を用意しました。<br>
+（kyadさんありがとうございます）<br>
 
 ### 以下、順次追記
