@@ -27,7 +27,8 @@ brew install git
 
 #### windows環境
 
-[doc/files/install_windows.md](./doc/files/install_windows.md)に手順を記載
+[WSL(Windows Subsystem for Linux)を使う場合](./doc/files/install_windows_wsl.md)の手順<br>
+[Docker for Windowsを使う場合](./doc/files/install_windows.md)の手順<br>
 
 #### docker環境
 
