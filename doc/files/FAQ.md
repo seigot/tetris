@@ -122,7 +122,7 @@ function install_torch(){
 }
 ```
 ## Dockerはコンテナ終了の度にデータが消えて手間が掛かるので何とかしたい
-[WSL(Windows Subsystem for Linux)を使う場合](./doc/files/install_windows_wsl.md)の手順を用意しました。<br>
+[WSL(Windows Subsystem for Linux)を使う場合](https://github.com/seigot/tetris_game/blob/master/doc/files/install_windows_wsl.md)の手順を用意しました。<br>
 （kyadさんありがとうございます）<br>
 
 ### 以下、順次追記
