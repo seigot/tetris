@@ -78,7 +78,7 @@ class Game_Manager(QMainWindow):
                           self.resultlogjson)
         if args.game_time >= 0:
             self.game_time = args.game_time
-        if args.manual == "y":
+        if args.manual in ("y", "g"):
             self.manual = args.manual
         if args.use_sample == "y":
             self.use_sample = args.use_sample
@@ -198,7 +198,7 @@ class Game_Manager(QMainWindow):
                 else:
                     self.nextMove = BLOCK_CONTROLLER.GetNextMove(nextMove, GameStatus)
 
-                if self.manual == "y":
+                if self.manual in ("y", "g"):
                     # ignore nextMove, for manual controll
                     self.nextMove["strategy"]["x"] = BOARD_DATA.currentX
                     self.nextMove["strategy"]["y_moveblocknum"] = 1
@@ -545,12 +545,12 @@ class Game_Manager(QMainWindow):
             BOARD_DATA.moveLeft()
         elif key == Qt.Key_Right:
             BOARD_DATA.moveRight()
-        elif key == Qt.Key_Up:
+        elif (key == Qt.Key_Up and self.manual == 'y') or (key == Qt.Key_Space and self.manual == 'g'):
             BOARD_DATA.rotateLeft()
         elif key == Qt.Key_M:
             removedlines, movedownlines = BOARD_DATA.moveDown()
             self.UpdateScore(removedlines, 0)
-        elif key == Qt.Key_Space:
+        elif (key == Qt.Key_Space and self.manual == 'y') or (key == Qt.Key_Up and self.manual == 'g'):
             removedlines, dropdownlines = BOARD_DATA.dropDown()
             self.UpdateScore(removedlines, dropdownlines)
         else:
