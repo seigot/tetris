@@ -76,6 +76,9 @@ bash start.sh
 ## 手動操作
 
 実行時、以下のようにオプションを与えることで、手動操作が可能です。
+操作方法は、PC操作準拠とゲーム機コントローラ準拠の2種類を選択できるようにしています。
+
+### PC操作準拠
 
 ```shell
 bash start.sh -m y
@@ -88,6 +91,21 @@ bash start.sh -m y
 |  *right* key   |  右に移動  |
 |  *m* key  |  下に移動  |
 |  *space* key  |  落下  |
+|  *P* key  |  Pause  |
+
+### ゲーム機コントローラ準拠
+
+```shell
+bash start.sh -m g
+```
+
+|  操作キー  |  動作  |
+| ---- | ---- |
+|  *space* key  |  回転  |
+|  *left* key  |  左に移動  |
+|  *right* key   |  右に移動  |
+|  *m* key  |  下に移動  |
+|  *up* key  |  落下  |
 |  *P* key  |  Pause  |
 
 ## スコアアタック用サンプルコード
