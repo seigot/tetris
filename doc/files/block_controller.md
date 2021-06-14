@@ -55,6 +55,12 @@ Index値はブロック情報を参照下さい。
 | 初期形状 | ![Screenshot](../pics/ShapeI.png) | ![Screenshot](../pics/ShapeL.png) | ![Screenshot](../pics/ShapeJ.png) | ![Screenshot](../pics/ShapeT.png) | ![Screenshot](../pics/ShapeO.png) | ![Screenshot](../pics/ShapeS.png) | ![Screenshot](../pics/ShapeZ.png) | 
 | １周の回転に必要な回数 | 2 | 4 | 4 | 4 | 1 | 2 | 2 | 
 
+## ブロックのアライメント
+各ブロックには操作の基準となる点があります。また、基準となる点以外も座標を取得可能です。<br>
+以下は各ブロックの操作の基準点、及び座標について記載します。<br>
+<br>
+記載予定
+
 ## ブロック情報に格納されているデータ
 
 主に以下を格納しています。
