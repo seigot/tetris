@@ -124,5 +124,9 @@ function install_torch(){
 ## Dockerはコンテナ終了の度にデータが消えて手間が掛かるので何とかしたい
 [WSL(Windows Subsystem for Linux)を使う場合](https://github.com/seigot/tetris_game/blob/master/doc/files/install_windows_wsl.md)の手順を用意しました。<br>
 （kyadさんありがとうございます）<br>
+<br>
+追記：cygwin環境構築手順<br>
+[isshy-youさんによる`Cygwin Install for tetris_game`構築手順](https://github.com/isshy-you/tetris_game/wiki/Cygwin-Install-for-tetris_game)<br>
+（isshy-youさんありがとうございます）
 
 ### 以下、順次追記
