@@ -1,0 +1,23 @@
+1.シミュレータ起動
+cd ~/catkin_ws/src/ai_race/scripts
+bash prepare.sh -l 1t
+
+2.強化学習による走行,学習
+cd ~/catkin_ws/src/ai_race/ai_race/reinforcement_learning/scripts
+python car_operation.py
+
+実行後しばらく待つと学習が始まる。
+
+- 備考
+もし1.2.でエラーが出る場合は以下実行して何度か試す
+cd ~/catkin_ws/src/ai_race/scripts
+bash stop.sh
+
+Docker上のCPU環境で学習すると、
+GPUが使えるネイティブ環境と比べて少し不安定になっているようにみえる。
+
+以下環境では動作
+- OS : ubuntu18.04
+- CPU: Intel Core i5
+- Memory: 16GB
+- NVIDIA GeForce RTX 2060
