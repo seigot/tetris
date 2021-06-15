@@ -294,6 +294,7 @@ class Game_Manager(QMainWindow):
                         "width": "none",
                         "height": "none",
                         "backboard": "none",
+                        "withblock": "none", # back board with current block
                       },
                   "block_info":
                       {
@@ -374,6 +375,7 @@ class Game_Manager(QMainWindow):
         status["field_info"]["width"] = BOARD_DATA.width
         status["field_info"]["height"] = BOARD_DATA.height
         status["field_info"]["backboard"] = BOARD_DATA.getData()
+        status["field_info"]["withblock"] = BOARD_DATA.getDataWithCurrentBlock()
         ## shape
         status["block_info"]["currentX"] = BOARD_DATA.currentX
         status["block_info"]["currentY"] = BOARD_DATA.currentY
@@ -535,6 +537,11 @@ class Game_Manager(QMainWindow):
 
         key = event.key()
         
+        # key event handle process.
+        # depends on self.manual, it's better to make key config file.
+        #  "y" : PC keyboard controller
+        #  "g" : game controller. KeyUp, space are different from "y"
+
         if key == Qt.Key_P:
             self.pause()
             return
