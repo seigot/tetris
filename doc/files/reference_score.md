@@ -6,5 +6,5 @@
 | --- | --- | --- | --- |   -  |
 |  random  |  -916  |  -731  |  -4948  |  -  |
 |  sample(bash start.sh -s y)  |  6935  |  6259  |  3737  |  -  |
-|  [kyadさんの無限テトリス作品](https://github.com/kyad/tetris_game/blob/forever-branch/forever.md)  |  -  |  -  |  -  |  20617  |
+|  [kyadさん作の無限テトリス](https://github.com/kyad/tetris_game/blob/forever-branch/forever.md)  |  -  |  -  |  -  |  20617  |
 |  理論値  |  58500+落下ボーナス  |  -  |  -  |  -  |
