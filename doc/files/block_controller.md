@@ -10,7 +10,7 @@
 
 # ボード情報
 ボード情報には以下が含まれます。<br>
-詳細は、[サンプルコード](https://github.com/seigot/tetris_game/blob/master/game_manager/board_controller_sample.py)のようにGameStatusをログ出力することで確認可能です。
+詳細は、[`GameStatus`データ構造](https://github.com/seigot/tetris_game/blob/master/doc/files/GameStatus.md)や、[サンプルコード](https://github.com/seigot/tetris_game/blob/master/game_manager/board_controller_sample.py)のようにGameStatusをログ出力することで確認可能です。
 
 ```
 * field_info : フィールド情報
