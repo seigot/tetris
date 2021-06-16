@@ -167,6 +167,16 @@ bash start.sh -s y
 > 2. ページの右上にある [Fork] をクリックします。 <br>
 > 参考：[リポジトリをフォークする](https://docs.github.com/ja/free-pro-team@latest/github/getting-started-with-github/fork-a-repo) <br>
 
+その後、自リポジトリにforkした`tetris_game`をローカルマシンに取得して下さい。
+
+```
+cd ~
+git clone https://github.com/<yourname>/tetris_game   # "<yourname>"さん（yourname=自分のアカウント名に読みかえて下さい）のリポジトリを取得する場合
+git clone https://github.com/seigot/tetris_game       # このリポジトリを取得する場合
+```
+
+取得後はソースコード変更、変更リポジトリに反映する等してアップデートを進めて下さい。
+
 ### 実行
 
 `実行方法`を参考に実行環境の構築をして下さい。<br>
