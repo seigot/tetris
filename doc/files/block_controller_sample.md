@@ -37,7 +37,7 @@
 - 同様に、穴ぼこや孤立したブロックが少ないほど良い。<br>
 - 同様に、高さにばらつきが少ないほど良い。<br>
 
-![Screenshot](../pics/board_evaluate_method_sample.PNG)
+![Screenshot](../pics/board_evaluate_method_sample2.PNG)
 
 しかしサンプルプログラムの方法では盤面に穴が残る事がまだまだ多い。<br>
 
