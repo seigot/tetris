@@ -124,7 +124,7 @@ Index値はブロック情報を参照下さい。
 * `y_operation` : y座標方向の操作（1:落下、0:移動）
 * `y_moveblocknum` : y座標方向に移動する場合、y座標に何ブロック分移動するか（範囲：1-21）
 
-![Screenshot](../pics/nextMove.PNG)
+![Screenshot](../pics/nextMove2.PNG)
 <br>
 （今後ルール変更がある場合は、ルールに応じて`nextMove`もアップデートしていく予定です。）
 
