@@ -85,8 +85,8 @@
        'direction_range':  現在のブロックが回転できる回数
        'index':            現在のブロックのindex値
 },
-'currentX':                現在のブロックの基準点(x座標)
-'currentY':                現在のブロックの基準点(y座標)
+'currentX':                現在のブロック操作の基準点(x座標)
+'currentY':                現在のブロック操作の基準点(y座標)
 'nextShape': {
         'class':           次のブロックを管理しているクラスのアドレス
         'direction_range': 次のブロックが回転できる回数
@@ -117,11 +117,11 @@
 ```
 'dropdownscore':     落下により獲得したスコアの合計
 'line_score': {      lineを消した時などに獲得できるスコア
-      '1':           1line消した時
-      '2':           2line消した時
-      '3':           3line消した時
-      '4':           4line消した時
-      'gameover':    game overになった時
+      '1':           1line消した時の獲得スコア
+      '2':           2line消した時の獲得スコア
+      '3':           3line消した時の獲得スコア
+      '4':           4line消した時の獲得スコア
+      'gameover':    game overになった時の獲得スコア
 },
 'line_score_stat':   消したlineの統計データ
 'linescore':         lineを消して獲得したスコアの合計
@@ -140,7 +140,7 @@
      },
      'shapeNone': {
           'color':   ShapeNone(ブロックがない状態)の色
-          'index':   ShapeNone(ブロックがない状態)の
+          'index':   ShapeNone(ブロックがない状態)のindex
      },
      'shapeO': {
           'color':   ShapeOの色
@@ -198,11 +198,11 @@
 
 ```
 'block_index':       現在のブロックがゲーム開始時から何番目に登場したブロックか
-'elapsed_time':      経過時間(s)
+'elapsed_time':      ゲーム開始時からの経過時間(s)
 'game_time':         制限時間(s)
-'gameover_count':    ゲームオーバーになった回数
-'line':              消した列の数
-'score':             合計スコア
+'gameover_count':    ゲーム開始時から現在までにゲームオーバーになった回数
+'line':              ゲーム開始時から現在までに消したラインの数
+'score':             ゲーム開始時から現在までに獲得した合計スコア
 ```
 
 具体的には以下のようなデータとなっています。実際に出力してみると分かり易いと思います。
