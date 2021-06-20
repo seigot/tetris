@@ -1,1 +1,1 @@
-Dockerfile.pytorchv1.4
+Dockerfile.latest
