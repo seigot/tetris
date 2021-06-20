@@ -52,6 +52,14 @@ cd ~/tetris_game
 bash start.sh
 ```
 
+## update docker container
+
+以下を実行する。
+
+```
+sudo docker pull seigott/tetris_game_docker
+```
+
 ## [開発用] build for update docker container
 
 [Dockerfile](./Dockerfile)を更新して以下を実行する
