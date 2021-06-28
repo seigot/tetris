@@ -51,7 +51,7 @@ Index値はブロック情報を参照下さい。
 ## ブロックの定義
 ブロックは７種類あり、Index値と初期形状を以下の通り定義しています。<br>
 横移動と回転が可能です。<br>
-回転は反時計回りに回転します。ブロックによって１周の回転に必要な回数が異なります。<br>
+回転は時計回りに回転します。ブロックによって１周の回転に必要な回数が異なります。<br>
 
 |     |  ShapeI  |  ShapeL  |  ShapeJ  |  ShapeT  |  ShapeO  |  ShapeS  |  ShapeZ  |
 | --- | --- | --- | --- | --- | --- | --- | --- | 
@@ -71,12 +71,12 @@ Index値はブロック情報を参照下さい。
 | --- | --- | --- | --- | --- | --- | --- | --- | 
 | 形状0における操作の基準点(x,y) | ![Screenshot](../pics/I11.PNG) | ![Screenshot](../pics/L11.PNG) | ![Screenshot](../pics/J11.PNG) | ![Screenshot](../pics/T11.PNG) | ![Screenshot](../pics/O11.PNG) | ![Screenshot](../pics/S11.PNG) | ![Screenshot](../pics/Z11.PNG) | 
 | 基準点とそれ以外の座標 | (x,y-1),(x,y),(x,y+1),(x,y+2) | (x,y-1),(x,y),(x,y+1),(x+1,y+1) | (x,y-1),(x,y),(x,y+1),(x-1,y+1) | (x,y-1),(x,y),(x+1,y),(x,y+1) | (x,y-1),(x+1,y-1),(x,y),(x+1,y) | (x,y-1),(x+1,y-1),(x-1,y),(x,y) | (x-1,y-1),(x,y-1),(x,y),(x+1,y) | 
-| 形状1における操作の基準点(x,y) | ![Screenshot](../pics/I22.PNG)  | ![Screenshot](../pics/L44.PNG) | ![Screenshot](../pics/J44.PNG) | ![Screenshot](../pics/T44.PNG) | --- | ![Screenshot](../pics/S22.PNG) | ![Screenshot](../pics/Z22.PNG) | 
-| 基準点とそれ以外の座標 | (x-2,y),(x-1,y),(x,y),(x+1,y) | (x+1,y-1),(x-1,y),(x,y),(x+1,y) | (x-1,y),(x,y),(x+1,y),(x+1,y+1) | (x,y-1),(x-1,y),(x,y),(x+1,y) | --- | (x,y-1),(x,y),(x+1,y),(x+1,y+1) | (x+1,y-1),(x,y),(x+1,y),(x,y+1) | 
+| 形状1における操作の基準点(x,y) | ![Screenshot](../pics/I22.PNG) | ![Screenshot](../pics/L22.PNG) | ![Screenshot](../pics/J22.PNG) | ![Screenshot](../pics/T22.PNG) | --- | ![Screenshot](../pics/S22.PNG) | ![Screenshot](../pics/Z22.PNG) | 
+| 基準点とそれ以外の座標 | (x-2,y),(x-1,y),(x,y),(x+1,y) | (x-1,y),(x,y),(x+1,y),(x-1,y+1) | (x-1,y-1),(x-1,y),(x,y),(x+1,y) | (x,y+1),(x-1,y),(x,y),(x+1,y) | --- | (x,y-1),(x,y),(x+1,y),(x+1,y+1) | (x+1,y-1),(x,y),(x+1,y),(x,y+1) | 
 | 形状2における操作の基準点(x,y) | --- | ![Screenshot](../pics/L33.PNG) | ![Screenshot](../pics/J33.PNG) | ![Screenshot](../pics/T33.PNG) | --- | --- | --- | 
 | 基準点とそれ以外の座標 | --- | (x-1,y-1),(x,y-1),(x,y),(x,y+1) | (x,y-1),(x+1,y-1),(x,y),(x,y+1) | (x,y-1),(x-1,y),(x,y),(x,y+1) | --- | --- | --- | 
-| 形状3における操作の基準点(x,y) | --- | ![Screenshot](../pics/L22.PNG) | ![Screenshot](../pics/J22.PNG) | ![Screenshot](../pics/T22.PNG) | --- | --- | --- |
-| 基準点とそれ以外の座標 | --- | (x-1,y),(x,y),(x+1,y),(x-1,y+1) | (x-1,y-1),(x-1,y),(x,y),(x+1,y) | (x,y+1),(x-1,y),(x,y),(x+1,y) | --- | --- | --- | 
+| 形状3における操作の基準点(x,y) | --- | ![Screenshot](../pics/L44.PNG) | ![Screenshot](../pics/J44.PNG) | ![Screenshot](../pics/T44.PNG) | --- | --- | --- |
+| 基準点とそれ以外の座標 | --- | (x+1,y-1),(x-1,y),(x,y),(x+1,y) | (x-1,y),(x,y),(x+1,y),(x+1,y+1) | (x,y-1),(x-1,y),(x,y),(x+1,y) | --- | --- | --- | 
 
 尚、基準点とそれ以外の座標については現在のブロック情報（メソッド`Shape_class.getCoords()`）から取得可能です。<br>
 また、各形状におけるx,y方向の最大長は、現在のブロック情報（メソッド`Shape_class.getBoundingOffsets()`)から取得可能です。<br>
@@ -124,7 +124,7 @@ Index値はブロック情報を参照下さい。
 * `y_operation` : y座標方向の操作（1:落下、0:移動）
 * `y_moveblocknum` : y座標方向に移動する場合、y座標に何ブロック分移動するか（範囲：1-21）
 
-![Screenshot](../pics/nextMove2.PNG)
+![Screenshot](../pics/nextMove.PNG)
 <br>
 （今後ルール変更がある場合は、ルールに応じて`nextMove`もアップデートしていく予定です。）
 
