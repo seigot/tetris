@@ -368,6 +368,9 @@ class Game_Manager(QMainWindow):
                         },
                         "line_score_stat":"none",
                         "shape_info_stat":"none",
+                        "random_seed":"none",
+                        "obstacle_height":"none",
+                        "obstacle_probability":"none"
                       },
                   }
         # update status
@@ -432,6 +435,9 @@ class Game_Manager(QMainWindow):
         status["debug_info"]["shape_info"]["shapeS"]["color"] = "blue"
         status["debug_info"]["shape_info"]["shapeZ"]["index"] = Shape.shapeZ
         status["debug_info"]["shape_info"]["shapeZ"]["color"] = "yellow"
+        status["debug_info"]["random_seed"] = self.random_seed
+        status["debug_info"]["obstacle_height"] = self.obstacle_height
+        status["debug_info"]["obstacle_probability"] = self.obstacle_probability
         if BOARD_DATA.currentShape == Shape.shapeNone:
             print("warning: current shape is none !!!")
 
