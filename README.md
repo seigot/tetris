@@ -247,7 +247,7 @@ git push                                                   # 変更を反映
 * 参考：次のブロック選択処理 [game_manager.py](game_manager/game_manager.py)
 
 ```
-nextShapeIndex = np_randomShape.random.randint(1, 7)
+nextShapeIndex = np_randomShape.random.randint(1, 8)
 ```
 
 ## 対戦モード実装
