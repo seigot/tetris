@@ -666,7 +666,7 @@ class Board(QFrame):
         self.msg2Statusbar.emit(status_str)
         self.update()
 
-        if self.game_time >= 0 and elapsed_time > self.game_time:
+        if self.game_time >= 0 and elapsed_time > self.game_time - 0.5:
             # finish game.
             print("game finish!! elapsed time: " + elapsed_time_str + "/game_time: " + str(self.game_time))
             print("")
