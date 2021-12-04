@@ -150,7 +150,7 @@ bash start.sh -s y
 |  ブロックの順番  |  固定(1-7まで順番に繰り返し)  |  ランダム  |  ランダム  | 
 |  フィールドの初期ブロック  |  なし  |  なし  |  あり  | 
 |  フレーム更新頻度  |  約1秒  |  約1秒  |  約1秒  | 
-|  備考  |  今回のスコアアタック用  |  -  |  -  | 
+|  備考  |  -  |  -  |  -  | 
 
 [各レベルの参考スコア](doc/files/reference_score.md)
 
@@ -233,6 +233,7 @@ git push                                                   # 変更を反映
 # 参考
 
 [https://github.com/LoveDaisy/tetris_game](https://github.com/LoveDaisy/tetris_game) <br>
+[https://github.com/seigot/tetris_game(2021.12時点まで使用)](https://github.com/seigot/tetris_game)
 [http://zetcode.com/gui/pyqt5/tetris/](http://zetcode.com/gui/pyqt5/tetris/)<br>
 [テトリスの歴史を「ブロックが落ちるルール」の進化から学ぶ](https://gigazine.net/news/20191116-tetris-algorithm/)<br>
 
