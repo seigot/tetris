@@ -76,4 +76,5 @@ python game_manager.py  # ここでtetrisが表示されればOK
 [WindowsPowerShellでPythonを利用する](https://bluebirdofoz.hatenablog.com/entry/2019/01/19/141007)  
 [GNU Emacs for Windows再入門](https://emacs-jp.github.io/tips/emacs-for-windows)  
 [visual studio codeをinstall](https://azure.microsoft.com/ja-jp/products/visual-studio-code/)  
-[Windows Subsystem for Linuxが表示されない](https://qiita.com/taraka/items/0b5919ac8ee02d81f7ff)
+[WindowsにBashをインストールする方法](https://lab.sonicmoov.com/development/windows-bash/)  
+[Windows Subsystem for Linuxが表示されない](https://qiita.com/taraka/items/0b5919ac8ee02d81f7ff)  
