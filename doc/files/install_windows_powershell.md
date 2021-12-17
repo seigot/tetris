@@ -69,10 +69,10 @@ python game_manager.py  # ここでtetrisが表示されればOK
 ```
 
 ## 参考
-[git Downloading Git](https://git-scm.com/download/win)
-[Windows 10 と Powershell（WSL含む） で git を利用する](https://qiita.com/kerobot/items/78372640127771f92ee0#git-%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB)
-[Windows版Pythonのインストール](https://www.python.jp/install/windows/install.html)
-[非公式Pythonダウンロードリンク](https://pythonlinks.python.jp/ja/index.html)
-[WindowsPowerShellでPythonを利用する](https://bluebirdofoz.hatenablog.com/entry/2019/01/19/141007)
-[GNU Emacs for Windows再入門](https://emacs-jp.github.io/tips/emacs-for-windows)
-[visual studio codeをinstall](https://azure.microsoft.com/ja-jp/products/visual-studio-code/)
+[git Downloading Git](https://git-scm.com/download/win)  
+[Windows 10 と Powershell（WSL含む） で git を利用する](https://qiita.com/kerobot/items/78372640127771f92ee0#git-%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB)  
+[Windows版Pythonのインストール](https://www.python.jp/install/windows/install.html)  
+[非公式Pythonダウンロードリンク](https://pythonlinks.python.jp/ja/index.html)  
+[WindowsPowerShellでPythonを利用する](https://bluebirdofoz.hatenablog.com/entry/2019/01/19/141007)  
+[GNU Emacs for Windows再入門](https://emacs-jp.github.io/tips/emacs-for-windows)  
+[visual studio codeをinstall](https://azure.microsoft.com/ja-jp/products/visual-studio-code/)  
