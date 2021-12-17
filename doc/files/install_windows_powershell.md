@@ -1,0 +1,78 @@
+# windowsのpowershellを使ってテトリス環境を構築する
+
+### powershellとは
+
+windowsで利用できる、コマンドラインインターフェース。  
+「Windows」＋「S」で検索ボックス"powershell"と入力するとよい。クリックすると起動できる。  
+
+## 1. git のインストール
+
+以下をダウンロードする。
+
+> [git Downloading Git](https://git-scm.com/download/win)  
+> 64-bit Git for Windows Setup  
+
+以下の「Gitのインストール」部分記載の通り、インストールを進める
+
+> Windows 10 と Powershell（WSL含む） で git を利用する  
+> https://qiita.com/kerobot/items/78372640127771f92ee0#git-%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB  
+> > コマンドラインやPowerShellなどからGitのコマンドを利用するため「Git from the command line and also from 3rd-party software」を選択します。
+
+## 2. python のインストール
+
+以下記事を参照し、パッケージのダウンロード～PowerShellの環境設定までを実施する
+
+> [Windows版Pythonのインストール](https://www.python.jp/install/windows/install.html)  
+> PowerShellの環境設定¶  
+> PowerShellでスクリプトの実行を許可しておきます。  
+> スタートメニューで Windows PowerShell | Windows PowerShell を起動し、次のコマンドを実行します。  
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force  
+
+pythonのバージョン3.9.9を使用する場合は、以下のダウンロードリンクからインストーラ(`.exe`)を取得するとよい。  
+
+[非公式Pythonダウンロードリンク](https://pythonlinks.python.jp/ja/index.html)  
+[python-3.9.9-amd64.exe](https://www.python.org/ftp/python/3.9.9/python-3.9.9-amd64.exe)
+
+## 3. powershellからtetrisを実行する
+
+powershellを新たに起動する  
+(「Windows」＋「S」で検索ボックス"powershell"と入力するとよい。クリックすると起動できる。)  
+  
+  
+バージョンを確認する  
+ここでバージョンが何も表示されなければインストールが成功していないため、インストールからやり直す
+  
+```
+git --version
+## ex.) git version 2.34.1.windows.1 と出力される
+python --version
+## ex.) Python 3.9.9 と出力される
+```
+
+必要なパッケージをインストールする
+
+```
+pip install pyqt5
+pip install numpy
+```
+
+以下の通り実行し、tetrisが表示されればOK
+
+```
+cd ~
+mkdir work
+cd work
+git clone https://github.com/seigot/tetris
+cd tetris
+cd game_manager
+python game_manager.py  # ここでtetrisが表示されればOK
+```
+
+## 参考
+[git Downloading Git](https://git-scm.com/download/win)
+[Windows 10 と Powershell（WSL含む） で git を利用する](https://qiita.com/kerobot/items/78372640127771f92ee0#git-%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB)
+[Windows版Pythonのインストール](https://www.python.jp/install/windows/install.html)
+[非公式Pythonダウンロードリンク](https://pythonlinks.python.jp/ja/index.html)
+[WindowsPowerShellでPythonを利用する](https://bluebirdofoz.hatenablog.com/entry/2019/01/19/141007)
+[GNU Emacs for Windows再入門](https://emacs-jp.github.io/tips/emacs-for-windows)
+[visual studio codeをinstall](https://azure.microsoft.com/ja-jp/products/visual-studio-code/)
