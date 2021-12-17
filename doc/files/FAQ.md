@@ -1,15 +1,15 @@
 # FAQ
 
 ## level1ではブロックの順番は固定とのことだが、具体的にはどんな順番になっているのか
-`level1（ブロックの順番固定）`の場合は、[ブロックのindex値](https://github.com/seigot/tetris_game/blob/master/doc/files/block_controller.md#ブロック情報)が`1→2→3→4→5→6→7→1→...`の順番に出現します。
+`level1（ブロックの順番固定）`の場合は、[ブロックのindex値](https://github.com/seigot/tetris/blob/master/doc/files/block_controller.md#ブロック情報)が`1→2→3→4→5→6→7→1→...`の順番に出現します。
 
 ## python実行環境について
 
 |  環境  |  環境構築手順  |
 | ---- | ---- |
-|  ubuntu18.04,20.04  |  [こちら](https://github.com/seigot/tetris_game/blob/master/doc/files/install_ubuntu.md)  |
-|  Mac  |  [こちら](https://github.com/seigot/tetris_game/blob/master/doc/files/install_mac.md)  |
-|  Windows+Docker  |  [こちら](https://github.com/seigot/tetris_game/blob/master/docker/README.md)  |
+|  ubuntu18.04,20.04  |  [こちら](https://github.com/seigot/tetris/blob/master/doc/files/install_ubuntu.md)  |
+|  Mac  |  [こちら](https://github.com/seigot/tetris/blob/master/doc/files/install_mac.md)  |
+|  Windows+Docker  |  [こちら](https://github.com/seigot/tetris/blob/master/docker/README.md)  |
 |  JetsonNano  |  （動作未確認だがおそらく動くはず）  |
 |  RaspberryPi  |  （動作未確認だがおそらく動くはず）  |
 |  Windows+GoogleChrome+ubuntu-free-online-linux  |  [chrome webstore URL](https://chrome.google.com/webstore/detail/ubuntu-free-online-linux/pmaonbjcobmgkemldgcedmpbmmncpbgi?hl=ja)  |
@@ -25,7 +25,7 @@
 　・terminal上で以下コマンドを実行<br>
 ```
 sudo apt install −y git
-git clone http://github.com/seigot/tetris_game
+git clone http://github.com/seigot/tetris
 cd tetris game
 bash doc/files/install_ubuntu.sh
 ```
@@ -50,7 +50,7 @@ $ sudo rm /var/lib/dpkg/lock-frontend
 ```
 
 ## サンプルプログラム（`bash start.sh -s y`で動くやつ）の中身はどうなってるのか
-[こちら](https://github.com/seigot/tetris_game/blob/master/doc/files/block_controller_sample.md)で解説
+[こちら](https://github.com/seigot/tetris/blob/master/doc/files/block_controller_sample.md)で解説
 
 ## スコアアタック時の動作PC環境について
 
@@ -73,7 +73,7 @@ $ python3 -c 'import torch; print(torch.__version__) '
 ```
 
 ソフト環境は以下スクリプトで構築しています。(散らかっててすみません)<br>
-[auto_setup_for_Linux.sh](https://github.com/seigot/tetris_game/blob/master/docker/auto_setup_for_Linux.sh)<br>
+[auto_setup_for_Linux.sh](https://github.com/seigot/tetris/blob/master/docker/auto_setup_for_Linux.sh)<br>
 
 ## Windows Docker install時のトラブルシューティング
 
@@ -94,7 +94,7 @@ $ python3 -c 'import torch; print(torch.__version__) '
  
 ③ Dockerイメージの取得途中で死ぬ
 自宅のネットワーク回線が貧弱なのか、下記コマンドでイメージを持ってくる途中で止まる。
-docker run -p 6080:80 --shm-size=512m seigott/tetris_game_docker
+docker run -p 6080:80 --shm-size=512m seigott/tetris_docker
 
 ⇒ Docker for Windowsを起動して、ウィンドウ上部の"歯車(設定)ボタン"、"Docker Engine"をクリック。
 　 configファイルに、「"max-concurrent-download":1」を追記。
@@ -107,7 +107,7 @@ docker run -p 6080:80 --shm-size=512m seigott/tetris_game_docker
 ## pytorch v1.4 インストール方法
 
 ubuntu18.04環境では、以下のようにしてインストールできることを確認済<br>
-[pytorch v1.4 インストール済のDocker環境（お試し版）](https://github.com/seigot/tetris_game/blob/master/docker/README.md)を作成しました。追加で必要なものがあればDockerfileを更新して下さい。
+[pytorch v1.4 インストール済のDocker環境（お試し版）](https://github.com/seigot/tetris/blob/master/docker/README.md)を作成しました。追加で必要なものがあればDockerfileを更新して下さい。
 
 ```
 function install_torch(){
@@ -122,11 +122,11 @@ function install_torch(){
 }
 ```
 ## Dockerはコンテナ終了の度にデータが消えて手間が掛かるので何とかしたい
-[WSL(Windows Subsystem for Linux)を使う場合](https://github.com/seigot/tetris_game/blob/master/doc/files/install_windows_wsl.md)の手順を用意しました。<br>
+[WSL(Windows Subsystem for Linux)を使う場合](https://github.com/seigot/tetris/blob/master/doc/files/install_windows_wsl.md)の手順を用意しました。<br>
 （kyadさんありがとうございます）<br>
 <br>
 追記：cygwin環境構築手順<br>
-[isshy-youさんによる`Cygwin Install for tetris_game`構築手順](https://github.com/isshy-you/tetris_game/wiki/Cygwin-Install-for-tetris_game)<br>
+[isshy-youさんによる`Cygwin Install for tetris`構築手順](https://github.com/isshy-you/tetris/wiki/Cygwin-Install-for-tetris)<br>
 （isshy-youさんありがとうございます）
 
 ### 以下、順次追記

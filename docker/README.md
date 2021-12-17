@@ -13,20 +13,20 @@
 以下を実行する。
 
 ```
-sudo docker run -p 6080:80 --shm-size=512m seigott/tetris_game_docker
+sudo docker run -p 6080:80 --shm-size=512m seigott/tetris_docker
 ```
 
 もしリモートログインしながらdockerコンテナ起動し続けたい場合、上記の代わりに以下を実行する。<br>
 （terminalからバックグラウンド実行）<br>
 
 ```
-sudo nohup docker run -p 6080:80 --shm-size=512m seigott/tetris_game_docker &
+sudo nohup docker run -p 6080:80 --shm-size=512m seigott/tetris_docker &
 ```
 
 もし`pytorch(v1.4)`インストール済dockerコンテナを使いたい場合、上記の代わりに以下を実行する。<br>
 
 ```
-sudo docker run -p 6080:80 --shm-size=512m seigott/tetris_game_docker:pytorchv1.4
+sudo docker run -p 6080:80 --shm-size=512m seigott/tetris_docker:pytorchv1.4
 ```
 
 ### step2. ブラウザからdockerコンテナにアクセスする
@@ -48,7 +48,7 @@ ${IP_ADDRESS}:6080
 Terminalを立ち上げて以下を実行
 
 ```
-cd ~/tetris_game
+cd ~/tetris
 bash start.sh
 ```
 
@@ -57,7 +57,7 @@ bash start.sh
 以下を実行する。
 
 ```
-sudo docker pull seigott/tetris_game_docker
+sudo docker pull seigott/tetris_docker
 ```
 
 ## [開発用] build for update docker container
@@ -65,14 +65,14 @@ sudo docker pull seigott/tetris_game_docker
 [Dockerfile](./Dockerfile)を更新して以下を実行する
 
 ```
-docker build -t seigott/tetris_game_docker .
+docker build -t seigott/tetris_docker .
 ```
 
 コンテナ登録は以下
 
 ```
 docker login
-docker push seigott/tetris_game_docker
+docker push seigott/tetris_docker
 docker logout
 ```
 

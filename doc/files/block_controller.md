@@ -1,16 +1,16 @@
->本ページでは、[ブロック操作用プログラム](https://github.com/seigot/tetris_game/blob/master/block_controller.py)について説明を追記頂ける方を募集しています。<br>
->説明の追記方法は、[`Pull Requestを送る`](https://github.com/seigot/tetris_game#pull-requestを送るoptional)を参照下さい。<br>
+>本ページでは、[ブロック操作用プログラム](https://github.com/seigot/tetris/blob/master/block_controller.py)について説明を追記頂ける方を募集しています。<br>
+>説明の追記方法は、[`Pull Requestを送る`](https://github.com/seigot/tetris#pull-requestを送るoptional)を参照下さい。<br>
 
 # ブロック操作用プログラムについて
 
-[ブロック操作用プログラム](https://github.com/seigot/tetris_game/blob/master/block_controller.py)では、ボード情報からブロックの次の動作を決定します。<br>
+[ブロック操作用プログラム](https://github.com/seigot/tetris/blob/master/block_controller.py)では、ボード情報からブロックの次の動作を決定します。<br>
 このファイルの`def GetNextMove`関数にて、ボード情報`GameStatus`を入力として受け取り、次の動作決定用のデータ`nextMove`を返す事でブロックが動く仕様になっています。<br>
 <br>
 以下は、ボード情報`GameStatus`、次の動作決定用のデータ`nextMove`について記載します。<br>
 
 # ボード情報
 ボード情報には以下が含まれます。<br>
-詳細は、[`GameStatus`データ構造](https://github.com/seigot/tetris_game/blob/master/doc/files/GameStatus.md)や、[サンプルコード](https://github.com/seigot/tetris_game/blob/master/game_manager/board_controller_sample.py)のようにGameStatusをログ出力することで確認可能です。
+詳細は、[`GameStatus`データ構造](https://github.com/seigot/tetris/blob/master/doc/files/GameStatus.md)や、[サンプルコード](https://github.com/seigot/tetris/blob/master/game_manager/board_controller_sample.py)のようにGameStatusをログ出力することで確認可能です。
 
 ```
 * field_info : フィールド情報
@@ -80,7 +80,7 @@ Index値はブロック情報を参照下さい。
 
 尚、基準点とそれ以外の座標については現在のブロック情報（メソッド`Shape_class.getCoords()`）から取得可能です。<br>
 また、各形状におけるx,y方向の最大長は、現在のブロック情報（メソッド`Shape_class.getBoundingOffsets()`)から取得可能です。<br>
-取得の具体的な実装方法は、[ブロック操作用サンプルプログラム](https://github.com/seigot/tetris_game/blob/master/doc/files/block_controller_sample.md)を参照ください。
+取得の具体的な実装方法は、[ブロック操作用サンプルプログラム](https://github.com/seigot/tetris/blob/master/doc/files/block_controller_sample.md)を参照ください。
 
 ## ブロック出現時の初期位置
 ブロックは、ブロック操作の基準点が座標(5,1)になるように出現します。
@@ -129,4 +129,4 @@ Index値はブロック情報を参照下さい。
 （今後ルール変更がある場合は、ルールに応じて`nextMove`もアップデートしていく予定です。）
 
 # 使用例
-[ブロック操作用サンプルプログラム](https://github.com/seigot/tetris_game/blob/master/doc/files/block_controller_sample.md)を参照ください。
+[ブロック操作用サンプルプログラム](https://github.com/seigot/tetris/blob/master/doc/files/block_controller_sample.md)を参照ください。

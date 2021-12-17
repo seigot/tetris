@@ -1,6 +1,6 @@
 ## `GameStatus`データ構造
 
-[`block_controller.py`](https://github.com/seigot/tetris_game/blob/master/block_controller.py)内の`def GetNextMove(self, nextMove, GameStatus)`で扱う`GameStatus`は辞書型データです。<br>
+[`block_controller.py`](https://github.com/seigot/tetris/blob/master/block_controller.py)内の`def GetNextMove(self, nextMove, GameStatus)`で扱う`GameStatus`は辞書型データです。<br>
 ブロックの動きを決定するための参考データとして以下を格納しています。
 
 ```

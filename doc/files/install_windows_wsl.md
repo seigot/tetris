@@ -64,17 +64,17 @@ Step 2 でインストールしたXサーバを起動する。
 1. スタートメニューやデスクトップのショートカットからVcXsrvを起動する。
 2. 「次へ」を3回押して、「完了」を押すとXサーバが起動する。
 
-## Step 5. tetris_gameの起動
+## Step 5. tetrisの起動
 
 ### ソースコードを取得する（初回のみ必要）
 
 ```
-git clone https://github.com/seigot/tetris_game
+git clone https://github.com/seigot/tetris
 ```
 
-### tetris_gameを実行する
+### tetrisを実行する
 ```
-cd ~/tetris_game
+cd ~/tetris
 bash start.sh
 ```
 

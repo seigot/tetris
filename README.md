@@ -1,8 +1,8 @@
 # Tetris Game
 
 プログラミング学習を目的とした、ブロックを操作してスコアを競うゲームです。<br>
-[FAQ](https://github.com/seigot/tetris_game/blob/master/doc/files/FAQ.md)はこちら。<br>
-[tutorial](https://github.com/seigot/tetris_game_tutorial)はこちら。
+[FAQ](https://github.com/seigot/tetris/blob/master/doc/files/FAQ.md)はこちら。<br>
+[tutorial](https://github.com/seigot/tetris_tutorial)はこちら。
 
 ## 実行環境準備
 
@@ -40,13 +40,13 @@ brew install git
 
 ```shell
 cd $HOME
-git clone https://github.com/seigot/tetris_game
+git clone https://github.com/seigot/tetris
 ```
 
 ゲーム開始用スクリプトを実行
 
 ```shell
-cd tetris_game
+cd tetris
 bash start.sh
 ```
 
@@ -91,7 +91,7 @@ bash start.sh
 ## スコアアタック用サンプルコード
 
 実行時、以下のようにオプションを与えることで、スコアアタック用サンプルコードの実行が可能です。<br>
-サンプルコードについて[ブロック操作用サンプルプログラム](https://github.com/seigot/tetris_game/blob/master/doc/files/block_controller_sample.md)を参照下さい。<br>
+サンプルコードについて[ブロック操作用サンプルプログラム](https://github.com/seigot/tetris/blob/master/doc/files/block_controller_sample.md)を参照下さい。<br>
 
 ```shell
 bash start.sh -s y
@@ -143,22 +143,22 @@ bash start.sh -s y
 > リポジトリのフォークの例 <br>
 > 
 > 0. GitHubアカウントを作成/ログインする。 <br>
-> 1. GitHub で、[https://github.com/seigot/tetris_game](https://github.com/seigot/tetris_game)リポジトリに移動します <br>
+> 1. GitHub で、[https://github.com/seigot/tetris](https://github.com/seigot/tetris)リポジトリに移動します <br>
 > 2. ページの右上にある [Fork] をクリックします。 <br>
 > 参考：[リポジトリをフォークする](https://docs.github.com/ja/free-pro-team@latest/github/getting-started-with-github/fork-a-repo) <br>
 
-その後、自リポジトリにforkした`tetris_game`をローカルマシンに取得して下さい。
+その後、自リポジトリにforkした`tetris`をローカルマシンに取得して下さい。
 
 ```
 cd ~
-git clone https://github.com/<yourname>/tetris_game   # "<yourname>"さん（yourname=自分のアカウント名に読みかえて下さい）のリポジトリを取得する場合
-git clone https://github.com/seigot/tetris_game       # このリポジトリを取得する場合
+git clone https://github.com/<yourname>/tetris   # "<yourname>"さん（yourname=自分のアカウント名に読みかえて下さい）のリポジトリを取得する場合
+git clone https://github.com/seigot/tetris       # このリポジトリを取得する場合
 ```
 
-既に`tetris_game`が存在しており、これを削除したい場合は`rm -f`を実行して下さい。
+既に`tetris`が存在しており、これを削除したい場合は`rm -f`を実行して下さい。
 
 ```
-sudo rm -rf tetris_game
+sudo rm -rf tetris
 ```
 
 取得後はソースコード変更、変更リポジトリに反映する等してアップデートを進めて下さい。
@@ -166,7 +166,7 @@ sudo rm -rf tetris_game
 ### 実行
 
 `実行方法`を参考に実行環境の構築をして下さい。<br>
-環境構築の完了後、ブロック操作用プログラム[`block_controller.py`](https://github.com/seigot/tetris_game/blob/master/block_controller.py)を更新していってください。<br>
+環境構築の完了後、ブロック操作用プログラム[`block_controller.py`](https://github.com/seigot/tetris/blob/master/block_controller.py)を更新していってください。<br>
 
 ### 自リポジトリのバイナリを公式リリースする
 
@@ -186,7 +186,7 @@ sudo rm -rf tetris_game
 
 ```
 git checkout master                                        # ローカルのmainブランチに移動
-git remote add upstream https://github.com/seigot/tetris_game  # fork元のリポジトリをupstream という名前でリモートリポジトリに登録（名前はなんでもいい。登録済みならスキップ）
+git remote add upstream https://github.com/seigot/tetris  # fork元のリポジトリをupstream という名前でリモートリポジトリに登録（名前はなんでもいい。登録済みならスキップ）
 git fetch upstream                                         # upstream から最新のコードをfetch
 git merge upstream/master                                  # upstream/main を ローカルのmaster にmerge
 git push                                                   # 変更を反映
@@ -212,8 +212,8 @@ git push                                                   # 変更を反映
 
 # 参考
 
-[https://github.com/LoveDaisy/tetris_game](https://github.com/LoveDaisy/tetris_game) <br>
-[https://github.com/seigot/tetris_game(2021.12時点まで使用)](https://github.com/seigot/tetris_game)
+[https://github.com/LoveDaisy/tetris](https://github.com/LoveDaisy/tetris) <br>
+[https://github.com/seigot/tetris(2021.12時点まで使用)](https://github.com/seigot/tetris)
 [http://zetcode.com/gui/pyqt5/tetris/](http://zetcode.com/gui/pyqt5/tetris/)<br>
 [テトリスの歴史を「ブロックが落ちるルール」の進化から学ぶ](https://gigazine.net/news/20191116-tetris-algorithm/)<br>
 

@@ -44,7 +44,7 @@ sudo apt-get install -y python3-pyqt5
 pip3 install --upgrade pip
 pip3 install numpy
 cd $HOME
-git clone http://github.com/seigot/tetris_game
+git clone http://github.com/seigot/tetris
 
 
 #コンテナを起動し続ける
