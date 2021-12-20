@@ -23,10 +23,16 @@ windowsで利用できる、コマンドラインインターフェース。
 以下記事を参照し、パッケージのダウンロード～PowerShellの環境設定までを実施する
 
 > [Windows版Pythonのインストール](https://www.python.jp/install/windows/install.html)  
-> PowerShellの環境設定¶  
-> PowerShellでスクリプトの実行を許可しておきます。  
-> スタートメニューで Windows PowerShell | Windows PowerShell を起動し、次のコマンドを実行します。  
-Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force  
+
+特に以下の点を忘れずに実施する。
+
+> > "Add Python 3.x to PATH" をチェックするのを忘れないようにしてください。  
+> > もし忘れたら、あわてず落ち着いてもう一度インストールしましょう。何度でも繰り返して大丈夫です。  
+>
+> > PowerShellの環境設定¶  
+> > PowerShellでスクリプトの実行を許可しておきます。  
+> > スタートメニューで Windows PowerShell | Windows PowerShell を起動し、次のコマンドを実行します。  
+> Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force    
 
 pythonのバージョン3.9.9を使用する場合は、以下のダウンロードリンクからインストーラ(`.exe`)を取得するとよい。  
 
