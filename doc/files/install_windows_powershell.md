@@ -3,7 +3,7 @@
 ### powershellとは
 
 windowsで利用できる、コマンドラインインターフェース。  
-「Windows」＋「S」で検索ボックス"powershell"と入力するとよい。クリックすると起動できる。  
+「Windows」＋「S」で検索ボックス"powershell"と入力すると見つかるはず。クリックして起動する。  
 
 ## 1. git のインストール
 
@@ -36,7 +36,7 @@ pythonのバージョン3.9.9を使用する場合は、以下のダウンロー
 ## 3. powershellからtetrisを実行する
 
 powershellを新たに起動する  
-(「Windows」＋「S」で検索ボックス"powershell"と入力するとよい。クリックすると起動できる。)  
+(「Windows」＋「S」で検索ボックス"powershell"と入力すると見つかるはず。クリックして起動する。)  
   
   
 バージョンを確認する  
@@ -64,8 +64,7 @@ mkdir work
 cd work
 git clone https://github.com/seigot/tetris
 cd tetris
-cd game_manager
-python game_manager.py  # ここでtetrisが表示されればOK
+python start.py  # ここでtetrisが表示されればOK
 ```
 
 ## 参考
