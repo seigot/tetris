@@ -3,7 +3,7 @@
 ### powershellとは
 
 windowsで利用できる、コマンドラインインターフェース。  
-「Windows」＋「S」で検索ボックス"powershell"と入力すると見つかるはず。クリックして起動する。  
+「Windows」＋「S」で検索ボックス"powershell"と入力すると見つかるはず。  
 
 ## 1. git のインストール
 
@@ -42,7 +42,7 @@ pythonのバージョン3.9.9を使用する場合は、以下のダウンロー
 ## 3. powershellからtetrisを実行する
 
 powershellを新たに起動する  
-(「Windows」＋「S」で検索ボックス"powershell"と入力すると見つかるはず。クリックして起動する。)  
+(「Windows」＋「S」で検索ボックス"powershell"と入力すると見つかるはず。見つかったらクリックして起動する。)  
   
   
 バージョンを確認する  
@@ -50,9 +50,9 @@ powershellを新たに起動する
   
 ```
 git --version
-## ex.) git version 2.34.1.windows.1 と出力される
+## ex.) git version 2.34.1.windows.1 等と出力されればOK
 python --version
-## ex.) Python 3.9.9 と出力される
+## ex.) Python 3.9.9 等と出力されればOK
 ```
 
 必要なパッケージをインストールする
