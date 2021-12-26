@@ -45,7 +45,7 @@ pip3 install --upgrade pip
 pip3 install numpy
 cd $HOME
 git clone http://github.com/seigot/tetris
-
+echo "alias python=\"python3\"" >> $HOME/.bashrc
 
 #コンテナを起動し続ける
 #tail -f /dev/null
