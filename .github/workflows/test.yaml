@@ -62,7 +62,7 @@ jobs:
         run: |
           git clone https://github.com/seigot/tetris
           cd tetris
-	  python start.py -s y -t 3 -f $HOME/result.json
+          python start.py -s y -t 3 -f $HOME/result.json
           # check result
           jq . $HOME/result.json
           SCORE=`jq ."judge_info"."score" $HOME/result.json`
