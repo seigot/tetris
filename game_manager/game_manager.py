@@ -666,6 +666,16 @@ class Board(QFrame):
         painter.setPen(QColor(0xCCCCCC))
         painter.drawLine(self.width(), 0, self.width(), self.height())
 
+    def OutputLogData(self, isPrintLog):
+        log_file_path = GAME_MANEGER.resultlogjson
+        if len(log_file_path) != 0:
+            if isPrintLog:
+                print("##### OUTPUT_RESULT_LOG_FILE #####")
+                print(log_file_path)
+            with open(log_file_path, "w") as f:
+                GameStatusJson = GAME_MANEGER.getGameStatusJson()
+                f.write(GameStatusJson)
+
     def updateData(self):
         score_str = str(self.score)
         line_str = str(self.line)
@@ -676,6 +686,7 @@ class Board(QFrame):
         # print string to status bar
         self.msg2Statusbar.emit(status_str)
         self.update()
+        self.OutputLogData(isPrintLog = False)
 
         if self.game_time >= 0 and elapsed_time > self.game_time - 0.5:
             # finish game.
@@ -700,14 +711,7 @@ class Board(QFrame):
 
             print("##### ###### #####")
             print("")
-
-            log_file_path = GAME_MANEGER.resultlogjson
-            if len(log_file_path) != 0:
-                with open(log_file_path, "w") as f:
-                    print("##### OUTPUT_RESULT_LOG_FILE #####")
-                    print(log_file_path)
-                    GameStatusJson = GAME_MANEGER.getGameStatusJson()
-                    f.write(GameStatusJson)
+            self.OutputLogData(isPrintLog = True)
 
             #sys.exit(app.exec_())
             sys.exit(0)

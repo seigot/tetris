@@ -104,6 +104,8 @@ def start():
     print('IS_SAMPLE_CONTROLL :' + str(IS_SAMPLE_CONTROLL))
     print('OBSTACLE_HEIGHT: ' + str(OBSTACLE_HEIGHT))
     print('OBSTACLE_PROBABILITY: ' + str(OBSTACLE_PROBABILITY))
+    print('USER_NAME: ' + str(USER_NAME))
+    print('RESULT_LOG_JSON: ' + str(RESULT_LOG_JSON))
 
     ## start game
     PYTHON_CMD = get_python_cmd()
