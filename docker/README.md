@@ -49,7 +49,7 @@ Terminalを立ち上げて以下を実行
 
 ```
 cd ~/tetris
-bash start.sh
+python start.py
 ```
 
 ## update docker container

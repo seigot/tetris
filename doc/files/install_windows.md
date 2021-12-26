@@ -33,7 +33,7 @@ Terminalを立ち上げて以下を実行
 
 ```
 cd ~/tetris
-bash start.sh
+python start.py
 ```
 
 注意）パワーシェルを閉じたり電源OFFするとコンテナも終了します。作成中データが失われないよう注意してください。

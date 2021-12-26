@@ -75,7 +75,7 @@ git clone https://github.com/seigot/tetris
 ### tetrisを実行する
 ```
 cd ~/tetris
-bash start.sh
+python start.py
 ```
 
 一度実行環境を立ち上げた後の2回目からは、Step 3以降を実行すれば良い。

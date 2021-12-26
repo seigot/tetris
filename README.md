@@ -1,8 +1,8 @@
-# Tetris Game
+# Tetris
 
 プログラミング学習を目的とした、ブロックを操作してスコアを競うゲームです。<br>
 [FAQ](https://github.com/seigot/tetris/blob/master/doc/files/FAQ.md)はこちら。<br>
-[tutorial](https://github.com/seigot/tetris_tutorial)はこちら。
+[tutorial](https://github.com/seigot/tetris_game_tutorial)はこちら。
 
 ## 実行環境準備
 
@@ -48,7 +48,7 @@ git clone https://github.com/seigot/tetris
 
 ```shell
 cd tetris
-bash start.sh
+python start.py
 ```
 
 ![Screenshot](doc/pics/screenshot_02.png)
@@ -59,8 +59,8 @@ bash start.sh
 
 * `game_manager/game_manager.py` : ゲーム管理用プログラム
 * `game_manager/board_manager.py` : ボード管理用プログラム
-* `block_controller.py` : ブロック操作用プログラム（ブロックの操作は、このファイルを更新して下さい。）
-* `start.sh` : ゲーム開始用スクリプト
+* `game_manager/block_controller.py` : ブロック操作用プログラム（ブロックの操作は、このファイルを更新して下さい。）
+* `start.py` : ゲーム開始用スクリプト
 
 #### 詳細
 
@@ -81,7 +81,7 @@ bash start.sh
 
 |  手動操作  |  PC操作準拠  |  ゲーム機コントローラ準拠  |
 | ---- | ---- | ---- |
-|  実行コマンド  |  bash start.sh -m y  |  bash start.sh -m g  |
+|  実行コマンド  |  python start.py -m y  |  python start.py -m g  |
 |  *up* key  |  回転  |  落下  |
 |  *left* key  |  左に移動  |  左に移動  |
 |  *right* key   |  右に移動  |  右に移動  |
@@ -95,7 +95,7 @@ bash start.sh
 サンプルコードについて[ブロック操作用サンプルプログラム](https://github.com/seigot/tetris/blob/master/doc/files/block_controller_sample.md)を参照下さい。<br>
 
 ```shell
-bash start.sh -s y
+python start.py -s y
 ```
 
 # Play rules
@@ -126,7 +126,7 @@ bash start.sh -s y
 
 |     |  level1  |  level2  |  level3  | 
 | --- | --- | --- | --- | 
-|  実行方法  | bash start.sh | bash start.sh -l2  | bash start.sh -l3 | 
+|  実行方法  | python start.py | python start.py -l2  | python start.py -l3 | 
 |  制限時間  |  180秒  |  180秒  |  180秒  | 
 |  ブロックの順番  |  固定(1-7まで順番に繰り返し)  |  ランダム  |  ランダム  | 
 |  フィールドの初期ブロック  |  なし  |  なし  |  あり  | 
@@ -167,7 +167,7 @@ sudo rm -rf tetris
 ### 実行
 
 `実行方法`を参考に実行環境の構築をして下さい。<br>
-環境構築の完了後、ブロック操作用プログラム[`block_controller.py`](https://github.com/seigot/tetris/blob/master/block_controller.py)を更新していってください。<br>
+環境構築の完了後、ブロック操作用プログラム[`block_controller.py`](https://github.com/seigot/tetris/blob/master/game_manager/block_controller.py)を更新していってください。<br>
 
 ### 自リポジトリのバイナリを公式リリースする
 
@@ -213,8 +213,8 @@ git push                                                   # 変更を反映
 
 # 参考
 
-[https://github.com/LoveDaisy/tetris](https://github.com/LoveDaisy/tetris) <br>
-[https://github.com/seigot/tetris(2021.12時点まで使用)](https://github.com/seigot/tetris)
+[https://github.com/LoveDaisy/tetris](https://github.com/LoveDaisy/tetris_game) <br>
+[https://github.com/seigot/tetris(2021.12時点まで使用)](https://github.com/seigot/tetris_game)<br>
 [http://zetcode.com/gui/pyqt5/tetris/](http://zetcode.com/gui/pyqt5/tetris/)<br>
 [テトリスの歴史を「ブロックが落ちるルール」の進化から学ぶ](https://gigazine.net/news/20191116-tetris-algorithm/)<br>
 

@@ -9,6 +9,7 @@
 | ---- | ---- |
 |  ubuntu18.04,20.04  |  [こちら](https://github.com/seigot/tetris/blob/master/doc/files/install_ubuntu.md)  |
 |  Mac  |  [こちら](https://github.com/seigot/tetris/blob/master/doc/files/install_mac.md)  |
+|  Windows+powershell  |  [こちら](https://github.com/seigot/tetris/blob/master/doc/files/install_windows_powershell.md)  |
 |  Windows+Docker  |  [こちら](https://github.com/seigot/tetris/blob/master/docker/README.md)  |
 |  JetsonNano  |  （動作未確認だがおそらく動くはず）  |
 |  RaspberryPi  |  （動作未確認だがおそらく動くはず）  |
@@ -33,7 +34,7 @@ bash doc/files/install_ubuntu.sh
 --> installが成功すればOK
 
 ```
-bash start.sh
+python start.py
 ```
 
 --> テトリスが表示されればOK
@@ -49,7 +50,7 @@ $ sudo rm /var/lib/dpkg/lock
 $ sudo rm /var/lib/dpkg/lock-frontend
 ```
 
-## サンプルプログラム（`bash start.sh -s y`で動くやつ）の中身はどうなってるのか
+## サンプルプログラム（`python start.py -s y`で動くやつ）の中身はどうなってるのか
 [こちら](https://github.com/seigot/tetris/blob/master/doc/files/block_controller_sample.md)で解説
 
 ## スコアアタック時の動作PC環境について
@@ -126,7 +127,7 @@ function install_torch(){
 （kyadさんありがとうございます）<br>
 <br>
 追記：cygwin環境構築手順<br>
-[isshy-youさんによる`Cygwin Install for tetris`構築手順](https://github.com/isshy-you/tetris/wiki/Cygwin-Install-for-tetris)<br>
+[isshy-youさんによる`Cygwin Install for tetris`構築手順](https://github.com/isshy-you/tetris_game/wiki/Cygwin-Install-for-tetris_game)<br>
 （isshy-youさんありがとうございます）
 
 ### 以下、順次追記
