@@ -15,7 +15,7 @@ import time
 import json
 import pprint
 
-def get_option(game_time, manual, use_sample, drop_speed, random_seed, obstacle_height, obstacle_probability, resultlogjson):
+def get_option(game_time, manual, use_sample, drop_speed, random_seed, obstacle_height, obstacle_probability, resultlogjson, user_name):
     argparser = ArgumentParser()
     argparser.add_argument('--game_time', type=int,
                            default=game_time,
@@ -41,6 +41,9 @@ def get_option(game_time, manual, use_sample, drop_speed, random_seed, obstacle_
     argparser.add_argument('--resultlogjson', type=str,
                            default=resultlogjson,
                            help='result json log file path')
+    argparser.add_argument('-u', '--user_name', type=str,
+                           default=user_name,
+                           help='Specigy user name if necessary')
     return argparser.parse_args()
 
 class Game_Manager(QMainWindow):
@@ -68,6 +71,7 @@ class Game_Manager(QMainWindow):
         self.obstacle_height = 0
         self.obstacle_probability = 0
         self.resultlogjson = ""
+        self.user_name = ""
         args = get_option(self.game_time,
                           self.manual,
                           self.use_sample,
@@ -75,7 +79,8 @@ class Game_Manager(QMainWindow):
                           self.random_seed,
                           self.obstacle_height,
                           self.obstacle_probability,
-                          self.resultlogjson)
+                          self.resultlogjson,
+                          self.user_name)
         if args.game_time >= 0:
             self.game_time = args.game_time
         if args.manual in ("y", "g"):
@@ -92,6 +97,8 @@ class Game_Manager(QMainWindow):
             self.obstacle_probability = args.obstacle_probability
         if len(args.resultlogjson) != 0:
             self.resultlogjson = args.resultlogjson
+        if len(args.user_name) != 0:
+            self.user_name = args.user_name
         self.initUI()
 
     def initUI(self):
@@ -120,7 +127,11 @@ class Game_Manager(QMainWindow):
         self.start()
 
         self.center()
-        self.setWindowTitle('Tetris')
+
+        WindowTitle = "Tetris"
+        if len(self.user_name) != 0:
+            WindowTitle = "Tetris_" + self.user_name
+        self.setWindowTitle(WindowTitle)
         self.show()
 
         self.setFixedSize(self.tboard.width() + self.sidePanel.width(),

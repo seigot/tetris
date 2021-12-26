@@ -46,7 +46,7 @@ def start():
     IS_SAMPLE_CONTROLL = "n"
     INPUT_RANDOM_SEED = -1
     RESULT_LOG_JSON = "result.json"
-    USER_NAME = "user_name"
+    USER_NAME = "window_sample"
 
     ## update value if args are given
     args = get_option(GAME_LEVEL,
@@ -115,6 +115,7 @@ def start():
         + ' ' + '--drop_speed' + ' ' + str(DROP_SPEED) \
         + ' ' + '--manual' + ' ' + str(IS_MANUAL_CONTROLL) \
         + ' ' + '--use_sample' + ' ' + str(IS_SAMPLE_CONTROLL) \
+        + ' ' + '--user_name' + ' ' + str(USER_NAME) \
         + ' ' + '--resultlogjson' + ' ' + str(RESULT_LOG_JSON)
 
     ret = subprocess.run(cmd, shell=True)
