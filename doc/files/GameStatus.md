@@ -117,10 +117,10 @@
 ```
 'dropdownscore':     落下により獲得したスコアの合計
 'line_score': {      lineを消した時などに獲得できるスコア
-      '1':           1line消した時の獲得スコア
-      '2':           2line消した時の獲得スコア
-      '3':           3line消した時の獲得スコア
-      '4':           4line消した時の獲得スコア
+      'line1':           1line消した時の獲得スコア
+      'line2':           2line消した時の獲得スコア
+      'line3':           3line消した時の獲得スコア
+      'line4':           4line消した時の獲得スコア
       'gameover':    game overになった時の獲得スコア
 },
 'line_score_stat':   消したlineの統計データ
@@ -166,10 +166,10 @@
 
 ```
  'debug_info': {'dropdownscore': 0,
-                'line_score': {'1': 100,
-                               '2': 300,
-                               '3': 700,
-                               '4': 1300,
+                'line_score': {'line1': 100,
+                               'line2': 300,
+                               'line3': 700,
+                               'line4': 1300,
                                'gameover': -500},
                 'line_score_stat': [0, 0, 0, 0],
                 'linescore': 0,

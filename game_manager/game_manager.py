@@ -337,10 +337,10 @@ class Game_Manager(QMainWindow):
                         "dropdownscore":"none",
                         "linescore":"none",
                         "line_score": {
-                          "1":"none",
-                          "2":"none",
-                          "3":"none",
-                          "4":"none",
+                          "line1":"none",
+                          "line2":"none",
+                          "line3":"none",
+                          "line4":"none",
                           "gameover":"none",
                         },
                         "shape_info": {
@@ -426,10 +426,10 @@ class Game_Manager(QMainWindow):
         status["debug_info"]["linescore"] = self.tboard.linescore
         status["debug_info"]["line_score_stat"] = self.tboard.line_score_stat
         status["debug_info"]["shape_info_stat"] = BOARD_DATA.shape_info_stat
-        status["debug_info"]["line_score"]["1"] = Game_Manager.LINE_SCORE_1
-        status["debug_info"]["line_score"]["2"] = Game_Manager.LINE_SCORE_2
-        status["debug_info"]["line_score"]["3"] = Game_Manager.LINE_SCORE_3
-        status["debug_info"]["line_score"]["4"] = Game_Manager.LINE_SCORE_4
+        status["debug_info"]["line_score"]["line1"] = Game_Manager.LINE_SCORE_1
+        status["debug_info"]["line_score"]["line2"] = Game_Manager.LINE_SCORE_2
+        status["debug_info"]["line_score"]["line3"] = Game_Manager.LINE_SCORE_3
+        status["debug_info"]["line_score"]["line4"] = Game_Manager.LINE_SCORE_4
         status["debug_info"]["line_score"]["gameover"] = Game_Manager.GAMEOVER_SCORE
         status["debug_info"]["shape_info"]["shapeNone"]["index"] = Shape.shapeNone
         status["debug_info"]["shape_info"]["shapeI"]["index"] = Shape.shapeI
@@ -459,10 +459,10 @@ class Game_Manager(QMainWindow):
                   "debug_info":
                       {
                         "line_score": {
-                          "1":"none",
-                          "2":"none",
-                          "3":"none",
-                          "4":"none",
+                          "line1":"none",
+                          "line2":"none",
+                          "line3":"none",
+                          "line4":"none",
                           "gameover":"none",
                         },
                         "shape_info": {
@@ -516,10 +516,10 @@ class Game_Manager(QMainWindow):
         ## debug_info
         status["debug_info"]["line_score_stat"] = self.tboard.line_score_stat
         status["debug_info"]["shape_info_stat"] = BOARD_DATA.shape_info_stat
-        status["debug_info"]["line_score"]["1"] = Game_Manager.LINE_SCORE_1
-        status["debug_info"]["line_score"]["2"] = Game_Manager.LINE_SCORE_2
-        status["debug_info"]["line_score"]["3"] = Game_Manager.LINE_SCORE_3
-        status["debug_info"]["line_score"]["4"] = Game_Manager.LINE_SCORE_4
+        status["debug_info"]["line_score"]["line1"] = Game_Manager.LINE_SCORE_1
+        status["debug_info"]["line_score"]["line2"] = Game_Manager.LINE_SCORE_2
+        status["debug_info"]["line_score"]["line3"] = Game_Manager.LINE_SCORE_3
+        status["debug_info"]["line_score"]["line4"] = Game_Manager.LINE_SCORE_4
         status["debug_info"]["line_score"]["gameover"] = Game_Manager.GAMEOVER_SCORE
         status["debug_info"]["shape_info"]["shapeNone"]["index"] = Shape.shapeNone
         status["debug_info"]["shape_info"]["shapeI"]["index"] = Shape.shapeI
@@ -702,10 +702,10 @@ class Board(QFrame):
             gameover_count = GameStatus["judge_info"]["gameover_count"]
             score = GameStatus["judge_info"]["score"]
             dropdownscore = GameStatus["debug_info"]["dropdownscore"]
-            print("  1 line: " + str(line_Score["1"]) + " * " + str(line_score_stat[0]) + " = " + str(line_Score["1"] * line_score_stat[0]))
-            print("  2 line: " + str(line_Score["2"]) + " * " + str(line_score_stat[1]) + " = " + str(line_Score["2"] * line_score_stat[1]))
-            print("  3 line: " + str(line_Score["3"]) + " * " + str(line_score_stat[2]) + " = " + str(line_Score["3"] * line_score_stat[2]))
-            print("  4 line: " + str(line_Score["4"]) + " * " + str(line_score_stat[3]) + " = " + str(line_Score["4"] * line_score_stat[3]))
+            print("  1 line: " + str(line_Score["line1"]) + " * " + str(line_score_stat[0]) + " = " + str(line_Score["line1"] * line_score_stat[0]))
+            print("  2 line: " + str(line_Score["line2"]) + " * " + str(line_score_stat[1]) + " = " + str(line_Score["line2"] * line_score_stat[1]))
+            print("  3 line: " + str(line_Score["line3"]) + " * " + str(line_score_stat[2]) + " = " + str(line_Score["line3"] * line_score_stat[2]))
+            print("  4 line: " + str(line_Score["line4"]) + " * " + str(line_score_stat[3]) + " = " + str(line_Score["line4"] * line_score_stat[3]))
             print("  dropdownscore: " + str(dropdownscore))
             print("  gameover: : " + str(line_Score["gameover"]) + " * " + str(gameover_count) + " = " + str(line_Score["gameover"] * gameover_count))
 
