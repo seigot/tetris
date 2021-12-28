@@ -7,6 +7,7 @@ function install_package(){
     echo "install packages"
 
     sudo apt-get install -y apt-utils
+    sudo apt-get install -y jq
     sudo apt-get update
 }
 install_package
