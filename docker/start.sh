@@ -43,6 +43,7 @@ sudo apt-get install -y python3-pip
 sudo apt-get install -y python3-pyqt5
 pip3 install --upgrade pip
 pip3 install numpy
+pip3 install pyqt5
 cd $HOME
 git clone http://github.com/seigot/tetris
 echo "alias python=\"python3\"" >> $HOME/.bashrc

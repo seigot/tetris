@@ -65,7 +65,11 @@ sudo docker pull seigott/tetris_docker
 [Dockerfile](./Dockerfile)を更新して以下を実行する
 
 ```
+# 通常版の場合
 docker build -t seigott/tetris_docker .
+
+# pytorch版の場合
+docker build -f ./Dockerfile.pytorchv1.4 -t seigott/tetris_docker:pytorchv1.4 .
 ```
 
 コンテナ登録は以下
@@ -73,6 +77,15 @@ docker build -t seigott/tetris_docker .
 ```
 docker login
 docker push seigott/tetris_docker
+docker push seigott/tetris_docker:pytorchv1.4 .
 docker logout
+```
+
+python versionは以下
+
+```
+# see install_python.sh in detail
+python3 --version
+3.9.9
 ```
 

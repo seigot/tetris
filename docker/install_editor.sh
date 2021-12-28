@@ -41,5 +41,5 @@ echo "start install editor"
 install_emacs
 install_nano
 install_gedit
-install_vscode
+#install_vscode
 echo "finish install editor"
