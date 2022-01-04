@@ -130,4 +130,29 @@ function install_torch(){
 [isshy-youさんによる`Cygwin Install for tetris`構築手順](https://github.com/isshy-you/tetris_game/wiki/Cygwin-Install-for-tetris_game)<br>
 （isshy-youさんありがとうございます）
 
+## pythonコマンドが見つからない旨のエラーが出る場合
+
+```
+$ python start.py
+CompletedProcess(args='python --version', returncode=127, stderr='/bin/sh: 1: python: not found\n')
+/bin/sh: 1: python: not found
+error: subprocess failed.
+```
+
+python3のシンボリックリンクを作成してみて下さい。
+
+```
+$ which python3
+/usr/bin/python3
+$ cd /usr/bin/
+$ sudo ln -s python3 python
+$ python --version
+```
+
+再実行すると解決するはず。
+
+```
+$ python start.py
+```
+
 ### 以下、順次追記
