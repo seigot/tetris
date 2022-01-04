@@ -155,4 +155,10 @@ $ python --version
 $ python start.py
 ```
 
+## スコア評価用サーバについて
+
+以下を作成してみました。
+
+[https://github.com/seigot/tetris_score_server](https://github.com/seigot/tetris_score_server)
+
 ### 以下、順次追記
