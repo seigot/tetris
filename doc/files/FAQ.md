@@ -132,6 +132,8 @@ function install_torch(){
 
 ## pythonコマンドが見つからない旨のエラーが出る場合
 
+ubuntu20.04等では、`python3`があるにも関わらず`python`コマンドがない
+
 ```
 $ python start.py
 CompletedProcess(args='python --version', returncode=127, stderr='/bin/sh: 1: python: not found\n')
@@ -139,20 +141,19 @@ CompletedProcess(args='python --version', returncode=127, stderr='/bin/sh: 1: py
 error: subprocess failed.
 ```
 
-python3のシンボリックリンクを作成してみて下さい。
-
 ```
-$ which python3
-/usr/bin/python3
-$ cd /usr/bin/
-$ sudo ln -s python3 python
 $ python --version
+
+Command 'python' not found, did you mean:
+
+  command 'python3' from deb python3
+  command 'python' from deb python-is-python3
 ```
 
-再実行すると解決するはず。
+ログ記載の通り`python-is-python3`をインストールすればOK
 
 ```
-$ python start.py
+sudo apt install -y python-is-python3
 ```
 
 ## スコア評価用サーバについて
