@@ -24,7 +24,7 @@ def get_option(game_level, game_time, manual, use_sample, random_seed, drop_spee
                            help='Specify random seed if necessary') 
     argparser.add_argument('-d', '--drop_speed', type=int,
                            default=drop_speed,
-                           help='Specify drop speed (blocks/sec) if necessary') 
+                           help='Specify drop speed (msec/1block) if necessary') 
     argparser.add_argument('-f', '--resultlogjson', type=str,
                            default=resultlogjson,
                            help='Specigy result log file path if necessary')
@@ -48,7 +48,7 @@ def start():
     IS_MANUAL_CONTROLL = "n"
     IS_SAMPLE_CONTROLL = "n"
     INPUT_RANDOM_SEED = -1
-    DROP_SPEED = 1000          # drop speed (blocks/sec)
+    DROP_SPEED = 1000          # drop speed
     RESULT_LOG_JSON = "result.json"
     USER_NAME = "window_sample"
 
