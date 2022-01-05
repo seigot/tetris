@@ -5,7 +5,7 @@ import sys
 import subprocess
 from argparse import ArgumentParser
 
-def get_option(game_level, game_time, manual, use_sample, random_seed, resultlogjson, user_name):
+def get_option(game_level, game_time, manual, use_sample, random_seed, drop_speed, resultlogjson, user_name):
     argparser = ArgumentParser()
     argparser.add_argument('-l', '--game_level', type=int,
                            default=game_level,
@@ -22,6 +22,9 @@ def get_option(game_level, game_time, manual, use_sample, random_seed, resultlog
     argparser.add_argument('-r', '--random_seed', type=int,
                            default=random_seed,
                            help='Specify random seed if necessary') 
+    argparser.add_argument('-d', '--drop_speed', type=int,
+                           default=drop_speed,
+                           help='Specify drop speed (blocks/sec) if necessary') 
     argparser.add_argument('-f', '--resultlogjson', type=str,
                            default=resultlogjson,
                            help='Specigy result log file path if necessary')
@@ -45,6 +48,7 @@ def start():
     IS_MANUAL_CONTROLL = "n"
     IS_SAMPLE_CONTROLL = "n"
     INPUT_RANDOM_SEED = -1
+    DROP_SPEED = 1000          # drop speed (blocks/sec)
     RESULT_LOG_JSON = "result.json"
     USER_NAME = "window_sample"
 
@@ -54,6 +58,7 @@ def start():
                       IS_MANUAL_CONTROLL,
                       IS_SAMPLE_CONTROLL,
                       INPUT_RANDOM_SEED,
+                      DROP_SPEED,
                       RESULT_LOG_JSON,
                       USER_NAME)
     if args.game_level >= 0:
@@ -66,13 +71,14 @@ def start():
         IS_SAMPLE_CONTROLL = args.use_sample
     if args.random_seed >= 0:
         INPUT_RANDOM_SEED = args.random_seed
+    if args.drop_speed > 0:
+        DROP_SPEED = args.drop_speed
     if len(args.resultlogjson) != 0:
         RESULT_LOG_JSON = args.resultlogjson
     if len(args.user_name) != 0:
         USER_NAME = args.user_name
 
     ## set field parameter for level 1
-    DROP_SPEED = 1000          # drop speed (s)
     RANDOM_SEED = 0            # random seed for field
     OBSTACLE_HEIGHT = 0        # obstacle height (blocks)
     OBSTACLE_PROBABILITY = 0   # obstacle probability (percent)
