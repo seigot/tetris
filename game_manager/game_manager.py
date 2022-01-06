@@ -685,7 +685,10 @@ class Board(QFrame):
         self.update()
         self.OutputLogData(isPrintLog = False)
 
-        if self.game_time >= 0 and elapsed_time > self.game_time - 0.5:
+        if self.game_time == -1:
+            print("game_time: {}".format(self.game_time))
+            print("endless loop")
+        elif self.game_time >= 0 and elapsed_time > self.game_time - 0.5:
             # finish game.
             print("game finish!! elapsed time: " + elapsed_time_str + "/game_time: " + str(self.game_time))
             print("")
