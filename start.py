@@ -5,7 +5,7 @@ import sys
 import subprocess
 from argparse import ArgumentParser
 
-def get_option(game_level, game_time, manual, use_sample, random_seed, drop_speed, resultlogjson, user_name):
+def get_option(game_level, game_time, mode, random_seed, drop_speed, resultlogjson, user_name):
     argparser = ArgumentParser()
     argparser.add_argument('-l', '--game_level', type=int,
                            default=game_level,
@@ -13,12 +13,9 @@ def get_option(game_level, game_time, manual, use_sample, random_seed, drop_spee
     argparser.add_argument('-t', '--game_time', type=int,
                            default=game_time,
                            help='Specify game time(s)')
-    argparser.add_argument('-m', '--manual',
-                           default=manual,
-                           help='Specify if manual control')
-    argparser.add_argument('-s', '--use_sample',
-                           default=use_sample,
-                           help='Specify if use sample')
+    argparser.add_argument('-m', '--mode', type=str,
+                           default=mode,
+                           help='Specify mode (keyboard/gamepad/sample) if necessary')
     argparser.add_argument('-r', '--random_seed', type=int,
                            default=random_seed,
                            help='Specify random seed if necessary') 
@@ -45,7 +42,7 @@ def start():
     ## default value
     GAME_LEVEL = 1
     GAME_TIME = 180
-    IS_MANUAL_CONTROLL = "n"
+    IS_MODE = "default"
     IS_SAMPLE_CONTROLL = "n"
     INPUT_RANDOM_SEED = -1
     DROP_SPEED = 1000          # drop speed
@@ -55,8 +52,7 @@ def start():
     ## update value if args are given
     args = get_option(GAME_LEVEL,
                       GAME_TIME,
-                      IS_MANUAL_CONTROLL,
-                      IS_SAMPLE_CONTROLL,
+                      IS_MODE,
                       INPUT_RANDOM_SEED,
                       DROP_SPEED,
                       RESULT_LOG_JSON,
@@ -65,10 +61,8 @@ def start():
         GAME_LEVEL = args.game_level
     if args.game_time >= 0:
         GAME_TIME = args.game_time
-    if args.manual in ("y", "g"):
-        IS_MANUAL_CONTROLL = args.manual
-    if args.use_sample == "y":
-        IS_SAMPLE_CONTROLL = args.use_sample
+    if args.mode in ("keyboard", "gamepad", "sample"):
+        IS_MODE = args.mode
     if args.random_seed >= 0:
         INPUT_RANDOM_SEED = args.random_seed
     if args.drop_speed > 0:
@@ -106,8 +100,7 @@ def start():
     print('game_level: ' + str(GAME_LEVEL))
     print('game_time: ' + str(GAME_TIME))
     print('RANDOM_SEED: ' + str(RANDOM_SEED))
-    print('IS_MANUAL_CONTROLL :' + str(IS_MANUAL_CONTROLL))
-    print('IS_SAMPLE_CONTROLL :' + str(IS_SAMPLE_CONTROLL))
+    print('IS_MODE :' + str(IS_MODE))
     print('OBSTACLE_HEIGHT: ' + str(OBSTACLE_HEIGHT))
     print('OBSTACLE_PROBABILITY: ' + str(OBSTACLE_PROBABILITY))
     print('USER_NAME: ' + str(USER_NAME))
@@ -121,8 +114,7 @@ def start():
         + ' ' + '--obstacle_height' + ' ' + str(OBSTACLE_HEIGHT) \
         + ' ' + '--obstacle_probability' + ' ' + str(OBSTACLE_PROBABILITY) \
         + ' ' + '--drop_speed' + ' ' + str(DROP_SPEED) \
-        + ' ' + '--manual' + ' ' + str(IS_MANUAL_CONTROLL) \
-        + ' ' + '--use_sample' + ' ' + str(IS_SAMPLE_CONTROLL) \
+        + ' ' + '--mode' + ' ' + str(IS_MODE) \
         + ' ' + '--user_name' + ' ' + str(USER_NAME) \
         + ' ' + '--resultlogjson' + ' ' + str(RESULT_LOG_JSON)
 

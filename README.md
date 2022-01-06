@@ -82,7 +82,7 @@ python start.py
 
 |  手動操作  |  PC操作準拠  |  ゲーム機コントローラ準拠  |
 | ---- | ---- | ---- |
-|  実行コマンド  |  python start.py -m y  |  python start.py -m g  |
+|  実行コマンド  |  python start.py -m keyboard  |  python start.py -m gamepad  |
 |  *up* key  |  回転  |  落下  |
 |  *left* key  |  左に移動  |  左に移動  |
 |  *right* key   |  右に移動  |  右に移動  |
@@ -96,7 +96,7 @@ python start.py
 サンプルコードについて[ブロック操作用サンプルプログラム](https://github.com/seigot/tetris/blob/master/doc/files/block_controller_sample.md)を参照下さい。<br>
 
 ```shell
-python start.py -s y
+python start.py -m sample
 ```
 
 # Play rules

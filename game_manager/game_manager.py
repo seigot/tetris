@@ -15,17 +15,14 @@ import time
 import json
 import pprint
 
-def get_option(game_time, manual, use_sample, drop_speed, random_seed, obstacle_height, obstacle_probability, resultlogjson, user_name):
+def get_option(game_time, mode, drop_speed, random_seed, obstacle_height, obstacle_probability, resultlogjson, user_name):
     argparser = ArgumentParser()
     argparser.add_argument('--game_time', type=int,
                            default=game_time,
                            help='Specify game time(s)')
-    argparser.add_argument('--manual',
-                           default=manual,
-                           help='Specify if manual control')
-    argparser.add_argument('--use_sample',
-                           default=use_sample,
-                           help='Specify if use sample')
+    argparser.add_argument('--mode', type=str,
+                           default=mode,
+                           help='Specify mode (keyboard/gamepad/sample) if necessary')
     argparser.add_argument('--drop_speed', type=int,
                            default=drop_speed,
                            help='Specify drop_speed(s)')
@@ -64,8 +61,7 @@ class Game_Manager(QMainWindow):
 
         self.game_time = -1
         self.block_index = 0
-        self.manual = None
-        self.use_sample = None
+        self.mode = "default"
         self.drop_speed = 1000
         self.random_seed = time.time() * 10000000 # 0
         self.obstacle_height = 0
@@ -73,8 +69,7 @@ class Game_Manager(QMainWindow):
         self.resultlogjson = ""
         self.user_name = ""
         args = get_option(self.game_time,
-                          self.manual,
-                          self.use_sample,
+                          self.mode,
                           self.drop_speed,
                           self.random_seed,
                           self.obstacle_height,
@@ -83,10 +78,8 @@ class Game_Manager(QMainWindow):
                           self.user_name)
         if args.game_time >= 0:
             self.game_time = args.game_time
-        if args.manual in ("y", "g"):
-            self.manual = args.manual
-        if args.use_sample == "y":
-            self.use_sample = args.use_sample
+        if args.mode in ("keyboard", "gamepad", "sample"):
+            self.mode = args.mode
         if args.drop_speed >= 0:
             self.drop_speed = args.drop_speed
         if args.seed >= 0:
@@ -204,13 +197,13 @@ class Game_Manager(QMainWindow):
                 # get nextMove from GameController
                 GameStatus = self.getGameStatus()
 
-                if self.use_sample == "y":
+                if self.mode == "sample":
                     self.nextMove = BLOCK_CONTROLLER_SAMPLE.GetNextMove(nextMove, GameStatus)
                 else:
                     self.nextMove = BLOCK_CONTROLLER.GetNextMove(nextMove, GameStatus)
 
-                if self.manual in ("y", "g"):
-                    # ignore nextMove, for manual controll
+                if self.mode in ("keyboard", "gamepad"):
+                    # ignore nextMove, for keyboard/gamepad controll
                     self.nextMove["strategy"]["x"] = BOARD_DATA.currentX
                     self.nextMove["strategy"]["y_moveblocknum"] = 1
                     self.nextMove["strategy"]["y_operation"] = 0
@@ -546,7 +539,7 @@ class Game_Manager(QMainWindow):
         return json.dumps(status)
 
     def keyPressEvent(self, event):
-        # for manual control
+        # for keyboard/gamepad control
 
         if not self.isStarted or BOARD_DATA.currentShape == Shape.shapeNone:
             super(Game_Manager, self).keyPressEvent(event)
@@ -555,9 +548,9 @@ class Game_Manager(QMainWindow):
         key = event.key()
         
         # key event handle process.
-        # depends on self.manual, it's better to make key config file.
-        #  "y" : PC keyboard controller
-        #  "g" : game controller. KeyUp, space are different from "y"
+        # depends on self.mode, it's better to make key config file.
+        #  "keyboard" : PC keyboard controller
+        #  "gamepad" : game controller. KeyUp, space are different
 
         if key == Qt.Key_P:
             self.pause()
@@ -569,12 +562,12 @@ class Game_Manager(QMainWindow):
             BOARD_DATA.moveLeft()
         elif key == Qt.Key_Right:
             BOARD_DATA.moveRight()
-        elif (key == Qt.Key_Up and self.manual == 'y') or (key == Qt.Key_Space and self.manual == 'g'):
+        elif (key == Qt.Key_Up and self.mode == 'keyboard') or (key == Qt.Key_Space and self.mode == 'gamepad'):
             BOARD_DATA.rotateLeft()
         elif key == Qt.Key_M:
             removedlines, movedownlines = BOARD_DATA.moveDown()
             self.UpdateScore(removedlines, 0)
-        elif (key == Qt.Key_Space and self.manual == 'y') or (key == Qt.Key_Up and self.manual == 'g'):
+        elif (key == Qt.Key_Space and self.mode == 'keyboard') or (key == Qt.Key_Up and self.mode == 'gamepad'):
             removedlines, dropdownlines = BOARD_DATA.dropDown()
             self.UpdateScore(removedlines, dropdownlines)
         else:
