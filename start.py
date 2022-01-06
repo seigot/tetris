@@ -15,7 +15,7 @@ def get_option(game_level, game_time, mode, random_seed, drop_speed, resultlogjs
                            help='Specify game time(s)')
     argparser.add_argument('-m', '--mode', type=str,
                            default=mode,
-                           help='Specify mode (keyboard/gamepad/sample) if necessary')
+                           help='Specify mode (keyboard/gamepad/sample/train) if necessary')
     argparser.add_argument('-r', '--random_seed', type=int,
                            default=random_seed,
                            help='Specify random seed if necessary') 
@@ -61,7 +61,7 @@ def start():
         GAME_LEVEL = args.game_level
     if args.game_time >= 0:
         GAME_TIME = args.game_time
-    if args.mode in ("keyboard", "gamepad", "sample"):
+    if args.mode in ("keyboard", "gamepad", "sample", "train"):
         IS_MODE = args.mode
     if args.random_seed >= 0:
         INPUT_RANDOM_SEED = args.random_seed

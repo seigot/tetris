@@ -22,7 +22,7 @@ def get_option(game_time, mode, drop_speed, random_seed, obstacle_height, obstac
                            help='Specify game time(s)')
     argparser.add_argument('--mode', type=str,
                            default=mode,
-                           help='Specify mode (keyboard/gamepad/sample) if necessary')
+                           help='Specify mode (keyboard/gamepad/sample/train) if necessary')
     argparser.add_argument('--drop_speed', type=int,
                            default=drop_speed,
                            help='Specify drop_speed(s)')
@@ -78,7 +78,7 @@ class Game_Manager(QMainWindow):
                           self.user_name)
         if args.game_time >= 0:
             self.game_time = args.game_time
-        if args.mode in ("keyboard", "gamepad", "sample"):
+        if args.mode in ("keyboard", "gamepad", "sample", "train"):
             self.mode = args.mode
         if args.drop_speed >= 0:
             self.drop_speed = args.drop_speed
@@ -324,6 +324,7 @@ class Game_Manager(QMainWindow):
                         "score":"none",
                         "line":"none",
                         "block_index":"none",
+                        "mode":"none",
                       },
                   "debug_info":
                       {
@@ -414,6 +415,7 @@ class Game_Manager(QMainWindow):
         status["judge_info"]["score"] = self.tboard.score
         status["judge_info"]["line"] = self.tboard.line
         status["judge_info"]["block_index"] = self.block_index
+        status["judge_info"]["mode"] = self.mode
         ## debug_info
         status["debug_info"]["dropdownscore"] = self.tboard.dropdownscore
         status["debug_info"]["linescore"] = self.tboard.linescore
@@ -503,6 +505,7 @@ class Game_Manager(QMainWindow):
                         "score":"none",
                         "line":"none",
                         "block_index":"none",
+                        "mode":"none",
                       },
                   }
         # update status
@@ -536,6 +539,7 @@ class Game_Manager(QMainWindow):
         status["judge_info"]["score"] = self.tboard.score
         status["judge_info"]["line"] = self.tboard.line
         status["judge_info"]["block_index"] = self.block_index
+        status["judge_info"]["mode"] = self.mode
         return json.dumps(status)
 
     def keyPressEvent(self, event):
