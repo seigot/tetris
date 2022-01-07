@@ -28,7 +28,7 @@ brew install git
 
 #### windows環境
 
-[windowsのpowershellを使ってテトリス環境を構築する](./doc/files/install_windows_powershell.md)の手順<br>
+[windowsのpowershellを使ってテトリス環境を構築する場合](./doc/files/install_windows_powershell.md)の手順<br>
 [WSL(Windows Subsystem for Linux)を使う場合](./doc/files/install_windows_wsl.md)の手順<br>
 [Docker for Windowsを使う場合](./doc/files/install_windows.md)の手順<br>
 
