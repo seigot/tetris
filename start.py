@@ -5,7 +5,7 @@ import sys
 import subprocess
 from argparse import ArgumentParser
 
-def get_option(game_level, game_time, mode, random_seed, drop_speed, resultlogjson, user_name):
+def get_option(game_level, game_time, mode, random_seed, drop_interval, resultlogjson, user_name):
     argparser = ArgumentParser()
     argparser.add_argument('-l', '--game_level', type=int,
                            default=game_level,
@@ -19,9 +19,9 @@ def get_option(game_level, game_time, mode, random_seed, drop_speed, resultlogjs
     argparser.add_argument('-r', '--random_seed', type=int,
                            default=random_seed,
                            help='Specify random seed if necessary') 
-    argparser.add_argument('-d', '--drop_speed', type=int,
-                           default=drop_speed,
-                           help='Specify drop speed (msec/1block) if necessary') 
+    argparser.add_argument('-d', '--drop_interval', type=int,
+                           default=drop_interval,
+                           help='Specify drop interval (msec) if necessary') 
     argparser.add_argument('-f', '--resultlogjson', type=str,
                            default=resultlogjson,
                            help='Specigy result log file path if necessary')
@@ -45,7 +45,7 @@ def start():
     IS_MODE = "default"
     IS_SAMPLE_CONTROLL = "n"
     INPUT_RANDOM_SEED = -1
-    DROP_SPEED = 1000          # drop speed
+    DROP_INTERVAL = 1000          # drop interval
     RESULT_LOG_JSON = "result.json"
     USER_NAME = "window_sample"
 
@@ -54,7 +54,7 @@ def start():
                       GAME_TIME,
                       IS_MODE,
                       INPUT_RANDOM_SEED,
-                      DROP_SPEED,
+                      DROP_INTERVAL,
                       RESULT_LOG_JSON,
                       USER_NAME)
     if args.game_level >= 0:
@@ -65,8 +65,8 @@ def start():
         IS_MODE = args.mode
     if args.random_seed >= 0:
         INPUT_RANDOM_SEED = args.random_seed
-    if args.drop_speed > 0:
-        DROP_SPEED = args.drop_speed
+    if args.drop_interval > 0:
+        DROP_INTERVAL = args.drop_interval
     if len(args.resultlogjson) != 0:
         RESULT_LOG_JSON = args.resultlogjson
     if len(args.user_name) != 0:
@@ -113,7 +113,7 @@ def start():
         + ' ' + '--seed' + ' ' + str(RANDOM_SEED) \
         + ' ' + '--obstacle_height' + ' ' + str(OBSTACLE_HEIGHT) \
         + ' ' + '--obstacle_probability' + ' ' + str(OBSTACLE_PROBABILITY) \
-        + ' ' + '--drop_speed' + ' ' + str(DROP_SPEED) \
+        + ' ' + '--drop_interval' + ' ' + str(DROP_INTERVAL) \
         + ' ' + '--mode' + ' ' + str(IS_MODE) \
         + ' ' + '--user_name' + ' ' + str(USER_NAME) \
         + ' ' + '--resultlogjson' + ' ' + str(RESULT_LOG_JSON)

@@ -15,7 +15,7 @@ import time
 import json
 import pprint
 
-def get_option(game_time, mode, drop_speed, random_seed, obstacle_height, obstacle_probability, resultlogjson, user_name):
+def get_option(game_time, mode, drop_interval, random_seed, obstacle_height, obstacle_probability, resultlogjson, user_name):
     argparser = ArgumentParser()
     argparser.add_argument('--game_time', type=int,
                            default=game_time,
@@ -23,9 +23,9 @@ def get_option(game_time, mode, drop_speed, random_seed, obstacle_height, obstac
     argparser.add_argument('--mode', type=str,
                            default=mode,
                            help='Specify mode (keyboard/gamepad/sample/train) if necessary')
-    argparser.add_argument('--drop_speed', type=int,
-                           default=drop_speed,
-                           help='Specify drop_speed(s)')
+    argparser.add_argument('--drop_interval', type=int,
+                           default=drop_interval,
+                           help='Specify drop_interval(s)')
     argparser.add_argument('--seed', type=int,
                            default=random_seed,
                            help='Specify random seed')
@@ -62,7 +62,7 @@ class Game_Manager(QMainWindow):
         self.game_time = -1
         self.block_index = 0
         self.mode = "default"
-        self.drop_speed = 1000
+        self.drop_interval = 1000
         self.random_seed = time.time() * 10000000 # 0
         self.obstacle_height = 0
         self.obstacle_probability = 0
@@ -70,7 +70,7 @@ class Game_Manager(QMainWindow):
         self.user_name = ""
         args = get_option(self.game_time,
                           self.mode,
-                          self.drop_speed,
+                          self.drop_interval,
                           self.random_seed,
                           self.obstacle_height,
                           self.obstacle_probability,
@@ -80,8 +80,8 @@ class Game_Manager(QMainWindow):
             self.game_time = args.game_time
         if args.mode in ("keyboard", "gamepad", "sample", "train"):
             self.mode = args.mode
-        if args.drop_speed >= 0:
-            self.drop_speed = args.drop_speed
+        if args.drop_interval >= 0:
+            self.drop_interval = args.drop_interval
         if args.seed >= 0:
             self.random_seed = args.seed
         if args.obstacle_height >= 0:
@@ -96,7 +96,7 @@ class Game_Manager(QMainWindow):
 
     def initUI(self):
         self.gridSize = 22
-        self.speed = self.drop_speed # block drop speed
+        self.speed = self.drop_interval # block drop speed
 
         self.timer = QBasicTimer()
         self.setFocusPolicy(Qt.StrongFocus)
