@@ -4,6 +4,7 @@
 
 windowsで利用できる、コマンドラインインターフェース。  
 「Windows」＋「S」で検索ボックス"powershell"と入力すると見つかるはず。  
+> [Windows10 - PowerShell(パワーシェル)の開き方](https://www.curict.com/item/f0/f0f6ab0.html)  
 
 ## 1. git のインストール
 
