@@ -147,7 +147,7 @@ python start.py -m sample
 > 0. GitHubアカウントを作成/ログインする。 <br>
 > 1. GitHub で、[https://github.com/seigot/tetris](https://github.com/seigot/tetris)リポジトリに移動します <br>
 > 2. ページの右上にある [Fork] をクリックします。 <br>
-> 参考：[リポジトリをフォークする](https://docs.github.com/ja/free-pro-team@latest/github/getting-started-with-github/fork-a-repo) <br>
+> 参考：[リポジトリをフォークする](https://docs.github.com/ja/get-started/quickstart/fork-a-repo#forking-a-repository) <br>
 
 その後、自リポジトリにforkした`tetris`をローカルマシンに取得して下さい。
 
