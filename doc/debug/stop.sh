@@ -19,6 +19,7 @@ function try_kill_process(){
 function stop_process(){    
     try_kill_process "start.py"
     try_kill_process "game_manager.py"
+    try_kill_process "gameserver.sh"
 }
 
 stop_process
