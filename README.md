@@ -160,7 +160,11 @@ git clone https://github.com/seigot/tetris       # このリポジトリを取�
 既に`tetris`が存在しており、これを削除したい場合は`rm -f`を実行して下さい。
 
 ```
+# ubuntu/mac等の場合
 sudo rm -rf tetris
+
+# windows powershellの場合
+Remove-Item -Recurse -Force tetris
 ```
 
 取得後はソースコード変更、変更リポジトリに反映する等してアップデートを進めて下さい。
