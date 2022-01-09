@@ -31,7 +31,7 @@ git --version
 ## ex.) git version 2.34.1.windows.1 等と出力されればOK
 ```
 
-### Windows Package Manager(winget)がない場合
+### 上記でインストールができない場合
 
 公式サイトのインストーラーを使う。以下をダウンロードする。
 
@@ -61,7 +61,7 @@ powershell上で以下を実行、もしくは`microsoft store`上で`python`と
 python
 ```
 
-![Screenshot](doc/pics/python3.9.msstore.png)
+![Screenshot](../pics/python3.9.msstore.png)
 
 powershell上で以下を実行して結果が表示されればOK
 
@@ -72,6 +72,7 @@ python --version
 
 ### 上記でインストールができない場合
 
+公式サイトのインストーラーを使う。  
 以下記事を参照し、パッケージのダウンロード～PowerShellの環境設定までを実施する
 
 > [Windows版Pythonのインストール](https://www.python.jp/install/windows/install.html)  
