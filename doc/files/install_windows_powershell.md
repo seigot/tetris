@@ -134,6 +134,27 @@ cd tetris
 python start.py  # ここでtetrisが表示されればOK
 ```
 
+## option. エディタのインストール
+
+最近流行りのエディタである`visual studio code`をインストールしておくと後のコード編集に便利である  
+powershell上でwingetが使える場合は以下を実行、  
+
+```
+# powershell上でwingetが使える場合
+winget install vscode
+```
+
+もしくは`microsoft store`上で`visual studio code`と検索し、インストールページからインストールする。
+
+![Screenshot](../pics/vscode.msstore.png)
+
+powershell上で以下を実行して`vscode`と対象のコードが表示されればOK
+
+```
+# cd ~/work/tetris 等で事前にcloneした場所に移動しておく
+code game_manager/block_controller.py
+```
+
 ## 参考
 [git Downloading Git](https://git-scm.com/download/win)  
 [Windows 10 と Powershell（WSL含む） で git を利用する](https://qiita.com/kerobot/items/78372640127771f92ee0#git-%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB)  
