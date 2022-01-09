@@ -61,6 +61,8 @@ powershell上で以下を実行、もしくは`microsoft store`上で`python`と
 python
 ```
 
+![Screenshot](doc/pics/python3.9.msstore.png)
+
 powershell上で以下を実行して結果が表示されればOK
 
 ```
