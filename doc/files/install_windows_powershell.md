@@ -8,7 +8,32 @@ windowsで利用できる、コマンドラインインターフェース。
 
 ## 1. git のインストール
 
-以下をダウンロードする。
+### Windows Package Manager(winget)がある場合
+
+[Windows Package Manager(winget)](https://www.microsoft.com/ja-jp/p/app-installer/9nblggh4nns1?activetab=pivot:overviewtab)があることを確認する。  
+powershellを起動して以下を実行すれば確認できる。
+
+```
+winget --version
+## v1.1.13405 等と出力されれば、Windows Package Manager(winget)がある
+```
+
+gitをインストールする
+
+```
+winget install Git.Git
+```
+
+powershell上で以下を実行して結果が表示されればOK
+
+```
+git --version
+## ex.) git version 2.34.1.windows.1 等と出力されればOK
+```
+
+### Windows Package Manager(winget)がない場合
+
+公式サイトのインストーラーを使う。以下をダウンロードする。
 
 > [git Downloading Git](https://git-scm.com/download/win)  
 > 64-bit Git for Windows Setup  
@@ -27,6 +52,23 @@ git --version
 ```
 
 ## 2. python のインストール
+
+### microsoft storeからインストールする
+
+powershell上で以下を実行、もしくは`microsoft store`上で`python`と検索し、インストールページからインストールする。
+
+```
+python
+```
+
+powershell上で以下を実行して結果が表示されればOK
+
+```
+python --version
+## ex.) Python 3.9.9 等と出力されればOK
+```
+
+### 上記でインストールができない場合
 
 以下記事を参照し、パッケージのダウンロード～PowerShellの環境設定までを実施する
 
