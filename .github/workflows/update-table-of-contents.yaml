@@ -1,0 +1,22 @@
+name: Update Markown TOC
+
+on:
+  push:
+    paths: 
+      - 'README.md'
+
+jobs:
+  UpdateTOC:
+    name: UpdateTOC
+    runs-on: ubuntu-20.04
+    steps:
+      - name: TOC Generator
+        uses: technote-space/toc-generator@v3
+        with:
+          # 目次を更新するファイル
+          TARGET_PATHS: README.md
+          # 目次を作成する最大階層レベル
+          MAX_HEADER_LEVEL: 4
+          GITHUB_TOKEN: ${{ secrets.SECRETS_UPDATE_TOC_ACCESS_TOKEN }}
+          # 目次の見出し
+          TOC_TITLE: '**Table of Contents**'
