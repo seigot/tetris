@@ -255,8 +255,8 @@ git push                                                   # 変更を反映
 
 ## 参考
 
-[https://github.com/LoveDaisy/tetris](https://github.com/LoveDaisy/tetris_game) <br>
-[https://github.com/seigot/tetris(2021.12時点まで使用)](https://github.com/seigot/tetris_game)<br>
+[https://github.com/LoveDaisy/tetris_game](https://github.com/LoveDaisy/tetris_game) <br>
+[https://github.com/seigot/tetris_game (2021.12時点まで使用)](https://github.com/seigot/tetris_game)<br>
 [http://zetcode.com/gui/pyqt5/tetris/](http://zetcode.com/gui/pyqt5/tetris/)<br>
 [テトリスの歴史を「ブロックが落ちるルール」の進化から学ぶ](https://gigazine.net/news/20191116-tetris-algorithm/)<br>
 
