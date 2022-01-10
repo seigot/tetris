@@ -99,11 +99,11 @@ python start.py
 python start.py -m sample
 ```
 
-# Play rules
+## Play rules
 
 制限時間内の獲得スコアを評価します。
 
-## Score
+### Score
 
 加点
 
@@ -121,7 +121,7 @@ python start.py -m sample
 | ---- | ---- |  ---- |
 |  gameover  |  - 500点  | ブロック出現時にフィールドが埋まっていたらgameover
 
-## game level
+### game level
 
 実行時、オプションを与えることで、難易度（レベル）を指定できます。<br>
 
@@ -136,7 +136,7 @@ python start.py -m sample
 
 [各レベルの参考スコア](doc/files/reference_score.md)
 
-# コード作成のはじめかた
+## コード作成のはじめかた
 
 ### 本リポジトリのfork
 
@@ -216,16 +216,16 @@ git push                                                   # 変更を反映
 
 [doc/files/FAQ.md](doc/files/FAQ.md)を参照下さい。
 
-# 参考
+## 参考
 
 [https://github.com/LoveDaisy/tetris](https://github.com/LoveDaisy/tetris_game) <br>
 [https://github.com/seigot/tetris(2021.12時点まで使用)](https://github.com/seigot/tetris_game)<br>
 [http://zetcode.com/gui/pyqt5/tetris/](http://zetcode.com/gui/pyqt5/tetris/)<br>
 [テトリスの歴史を「ブロックが落ちるルール」の進化から学ぶ](https://gigazine.net/news/20191116-tetris-algorithm/)<br>
 
-# 今後の課題
+## 今後の課題
 
-## 次のブロックのランダム性
+### 次のブロックのランダム性
 
 次のブロックのランダム性は、現在はrandom関数の出力に依存しています。<br>
 しかし、[こちらの記事](https://gigazine.net/news/20191116-tetris-algorithm/)によると選択方式が色々ありそうです。<br>
@@ -237,19 +237,19 @@ git push                                                   # 変更を反映
 nextShapeIndex = np_randomShape.random.randint(1, 8)
 ```
 
-## 対戦モード実装
+### 対戦モード実装
 準備中
 
-## AI実装
+### AI実装
 準備中
 
-## 自動評価
+### 自動評価
 準備中
 
-# LICENSE
+## LICENSE
 
 [MIT LICENSE](LICENSE)
 
-# Finnaly
+## Finnaly
 
 ~ HAVE FUN ~
