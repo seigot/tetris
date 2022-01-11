@@ -584,6 +584,12 @@ def drawSquare(painter, x, y, val, s):
     colorTable = [0x000000, 0xCC6666, 0x66CC66, 0x6666CC,
                   0xCCCC66, 0xCC66CC, 0x66CCCC, 0xDAAA00]
 
+    # treat values as integer explicitly
+    x = int(x)
+    y = int(y)
+    val = int(val)
+    s = int(s)
+
     if val == 0:
         return
 
