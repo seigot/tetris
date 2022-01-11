@@ -162,4 +162,9 @@ sudo apt install -y python-is-python3
 
 [https://github.com/seigot/tetris_score_server](https://github.com/seigot/tetris_score_server)
 
-### 以下、順次追記
+## `python start.py`実行時に`TypeError: arguments did not match any overloaded call:`エラーが出る
+
+以下issueで対策中<br>
+> [`python start.py`実行時に`TypeError: arguments did not match any overloaded call:`エラーが出る](https://github.com/seigot/tetris/issues/5)
+
+## 以下、順次追記
