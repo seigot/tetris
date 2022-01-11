@@ -5,7 +5,7 @@
 |     |  level1  |  level2  |  level3  |  自由部門  |
 | --- | --- | --- | --- |   -  |
 |  random  |  -916  |  -731  |  -4948  |  -  |
-|  sample(python start.py -s y)  |  6935  |  6259  |  3737  |  -  |
+|  sample(python start.py -m sample)  |  6935  |  6259  |  3737  |  -  |
 |  [kyadさん作の無限テトリス](https://github.com/kyad/tetris_game/blob/forever-branch/forever.md)  |  -  |  -  |  -  |  20617  |
 |  理論値  |  23400+落下ボーナス  |  -  |  -  |  -  |
 
