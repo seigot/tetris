@@ -6,7 +6,7 @@
 | --- | --- | --- | --- |   -  |
 |  random  |  -916  |  -731  |  -4948  |  -  |
 |  sample(python start.py -m sample)  |  6935  |  6259  |  3737  |  -  |
-|  [kyadさん作の無限テトリス](https://github.com/kyad/tetris_game/blob/forever-branch/forever.md)  |  -  |  -  |  -  |  20617  |
+|  [kyadさん作の無限テトリス](https://github.com/kyad/tetris/blob/forever-branch/forever.md)  |  -  |  -  |  -  |  20592  |
 |  理論値  |  23400+落下ボーナス  |  -  |  -  |  -  |
 
 理論値は「（全てI字の棒が出るなどして）全て4ライン消しをした場合」を想定。<br>
