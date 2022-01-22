@@ -39,7 +39,21 @@
 
 ![Screenshot](../pics/board_evaluate_method_sample2.PNG)
 
-しかしサンプルプログラムの方法では盤面に穴が残る事がまだまだ多い。<br>
+
+`EvalValue = self.calcEvaluationValueSample(board)`内では以下のような変数を扱っている。<br>
+[block_controller_sample.py#L140](https://github.com/seigot/tetris/blob/c7f1c540f7d0cd1aa6daeb1e5917d18be35895f5/game_manager/block_controller_sample.py#L140)
+
+```
+BlockMaxY：あるX座標のブロックの高さが入る
+holeCandidates：あるX座標の穴候補の数
+holeConfirm：あるX座標の確定した穴の数（下から"穴","穴",”ブロック”,"穴","穴",”ブロック”,"なし","なし",”なし”・・・の場合は４）
+nIsolatedBlocks：下がブロックなしのブロックの総数
+fullLines：あるY座標の横一列全部にブロックがあったら１が加算される（最大値は４）
+nHoles += abs(x)：各X座標の穴の数の合計値
+absDy += abd(x)：でこぼこ具合を表現している。となりの列との高さの差分を合計して、値が大きい＝ブロックの高さが凸凹してる
+```
+
+しかし、サンプルプログラムの方法では盤面に穴が残る事がまだまだ多い。<br>
 
 # サンプルプログラムの課題
 
