@@ -51,7 +51,7 @@ def start():
     DROP_INTERVAL = 1000          # drop interval
     RESULT_LOG_JSON = "result.json"
     USER_NAME = "window_sample"
-    SHAPE_LIST_MAX = 2
+    SHAPE_LIST_MAX = 6
 
     ## update value if args are given
     args = get_option(GAME_LEVEL,

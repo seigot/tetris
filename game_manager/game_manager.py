@@ -70,7 +70,7 @@ class Game_Manager(QMainWindow):
         self.random_seed = time.time() * 10000000 # 0
         self.obstacle_height = 0
         self.obstacle_probability = 0
-        self.ShapeListMax = 2
+        self.ShapeListMax = 6
         self.resultlogjson = ""
         self.user_name = ""
         args = get_option(self.game_time,
