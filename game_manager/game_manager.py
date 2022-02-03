@@ -297,16 +297,16 @@ class Game_Manager(QMainWindow):
 
             self.UpdateScore(removedlines, dropdownlines)
 
-            # reset all field if debug option is enabled
-            if self.nextMove["option"]["reset_all_field"] == True:
-                print("reset all field.")
-                self.reset_all_field()
-
             # check reset field
             if BOARD_DATA.currentY < 1:
                 # if Piece cannot movedown and stack, reset field
                 print("reset field.")
                 self.resetfield()
+
+            # reset all field if debug option is enabled
+            if self.nextMove["option"]["reset_all_field"] == True:
+                print("reset all field.")
+                self.reset_all_field()
 
             # init nextMove
             self.nextMove = None
