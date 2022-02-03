@@ -84,7 +84,7 @@ class Game_Manager(QMainWindow):
                           self.ShapeListMax)
         if args.game_time >= 0:
             self.game_time = args.game_time
-        if args.mode in ("keyboard", "gamepad", "sample", "train", "train_sample", "predict_sample"):
+        if args.mode in ("keyboard", "gamepad", "sample", "train", "predict", "train_sample", "predict_sample"):
             self.mode = args.mode
         if args.drop_interval >= 0:
             self.drop_interval = args.drop_interval
@@ -233,19 +233,13 @@ class Game_Manager(QMainWindow):
                 elif self.mode == "train_sample" or self.mode == "predict_sample":
                     # sample train/predict
                     # import block_controller_train_sample, it's necessary to install pytorch to use.
-                    # from machine_learning.block_controller_train_sample import BLOCK_CONTROLLER_TRAIN_SAMPLE
-                    # self.nextMove = BLOCK_CONTROLLER_TRAIN_SAMPLE.GetNextMove(nextMove, GameStatus)
-                    print("---")
-                    print("currently mode:{} is not supported".format(self.mode))
-                    sys.exit(0)
-                elif self.mode == "train":
-                    # train
+                    from machine_learning.block_controller_train_sample import BLOCK_CONTROLLER_TRAIN_SAMPLE
+                    self.nextMove = BLOCK_CONTROLLER_TRAIN_SAMPLE.GetNextMove(nextMove, GameStatus)
+                elif self.mode == "train" or self.mode == "predict":
+                    # train/predict
                     # import block_controller_train, it's necessary to install pytorch to use.
-                    # from machine_learning.block_controller_train import BLOCK_CONTROLLER_TRAIN
-                    # self.nextMove = BLOCK_CONTROLLER_TRAIN.GetNextMove(nextMove, GameStatus)
-                    print("---")
-                    print("currently mode:{} is not supported".format(self.mode))
-                    sys.exit(0)
+                    from machine_learning.block_controller_train import BLOCK_CONTROLLER_TRAIN
+                    self.nextMove = BLOCK_CONTROLLER_TRAIN.GetNextMove(nextMove, GameStatus)
                 else:
                     self.nextMove = BLOCK_CONTROLLER.GetNextMove(nextMove, GameStatus)
 
@@ -303,16 +297,16 @@ class Game_Manager(QMainWindow):
 
             self.UpdateScore(removedlines, dropdownlines)
 
+            # reset all field if debug option is enabled
+            if self.nextMove["option"]["reset_all_field"] == True:
+                print("reset all field.")
+                self.reset_all_field()
+
             # check reset field
             if BOARD_DATA.currentY < 1:
                 # if Piece cannot movedown and stack, reset field
                 print("reset field.")
                 self.resetfield()
-
-            # reset all field if debug option is enabled
-            if self.nextMove["option"]["reset_all_field"] == True:
-                print("reset all field.")
-                self.reset_all_field()
 
             # init nextMove
             self.nextMove = None

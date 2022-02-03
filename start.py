@@ -15,7 +15,7 @@ def get_option(game_level, game_time, mode, random_seed, drop_interval, resultlo
                            help='Specify game time(s), if specify -1, do endless loop')
     argparser.add_argument('-m', '--mode', type=str,
                            default=mode,
-                           help='Specify mode (keyboard/gamepad/sample/train/train_sample/predict_sample) if necessary')
+                           help='Specify mode (keyboard/gamepad/sample/train/predict/train_sample/predict_sample) if necessary')
     argparser.add_argument('-r', '--random_seed', type=int,
                            default=random_seed,
                            help='Specify random seed if necessary') 
@@ -66,7 +66,7 @@ def start():
         GAME_LEVEL = args.game_level
     if args.game_time >= 0 or args.game_time == -1:
         GAME_TIME = args.game_time
-    if args.mode in ("keyboard", "gamepad", "sample", "train", "train_sample", "predict_sample"):
+    if args.mode in ("keyboard", "gamepad", "sample", "train", "predict", "train_sample", "predict_sample"):
         IS_MODE = args.mode
     if args.random_seed >= 0:
         INPUT_RANDOM_SEED = args.random_seed
