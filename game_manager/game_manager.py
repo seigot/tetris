@@ -101,7 +101,8 @@ class Game_Manager(QMainWindow):
         if args.ShapeListMax > 0:
             self.ShapeListMax = args.ShapeListMax
         self.initUI()
-
+        BLOCK_CONTROLLER_SAMPLE.set_mode(args)
+        
     def initUI(self):
         self.gridSize = 22
         self.NextShapeYOffset = 90
@@ -178,6 +179,7 @@ class Game_Manager(QMainWindow):
         self.tboard.score += Game_Manager.GAMEOVER_SCORE
         BOARD_DATA.clear()
         BOARD_DATA.createNewPiece()
+        
 
     def reset_all_field(self):
         # reset all field for debug
@@ -233,7 +235,7 @@ class Game_Manager(QMainWindow):
                 elif self.mode == "train_sample" or self.mode == "predict_sample":
                     # sample train/predict
                     # import block_controller_train_sample, it's necessary to install pytorch to use.
-                    from machine_learning.block_controller_train_sample import BLOCK_CONTROLLER_TRAIN_SAMPLE
+                    
                     self.nextMove = BLOCK_CONTROLLER_TRAIN_SAMPLE.GetNextMove(nextMove, GameStatus)
                 elif self.mode == "train" or self.mode == "predict":
                     # train/predict
@@ -260,7 +262,7 @@ class Game_Manager(QMainWindow):
                 while BOARD_DATA.currentDirection != next_direction and k < 4:
                     ret = BOARD_DATA.rotateRight()
                     if ret == False:
-                        print("cannot rotateRight")
+                        #print("cannot rotateRight")
                         break
                     k += 1
                 # x operation
@@ -269,12 +271,12 @@ class Game_Manager(QMainWindow):
                     if BOARD_DATA.currentX > next_x:
                         ret = BOARD_DATA.moveLeft()
                         if ret == False:
-                            print("cannot moveLeft")
+                            #print("cannot moveLeft")
                             break
                     elif BOARD_DATA.currentX < next_x:
                         ret = BOARD_DATA.moveRight()
                         if ret == False:
-                            print("cannot moveRight")
+                            #print("cannot moveRight")
                             break
                     k += 1
 
@@ -300,7 +302,10 @@ class Game_Manager(QMainWindow):
             # check reset field
             if BOARD_DATA.currentY < 1:
                 # if Piece cannot movedown and stack, reset field
-                print("reset field.")
+                #print("reset field.")
+                BLOCK_CONTROLLER_TRAIN.update()
+                BLOCK_CONTROLLER_TRAIN.reset_state()   
+                
                 self.resetfield()
 
             # reset all field if debug option is enabled
@@ -753,8 +758,9 @@ class Board(QFrame):
         self.OutputLogData(isPrintLog = False)
 
         if self.game_time == -1:
-            print("game_time: {}".format(self.game_time))
-            print("endless loop")
+            pass
+            #print("game_time: {}".format(self.game_time))
+            #print("endless loop")
         elif self.game_time >= 0 and elapsed_time > self.game_time - 0.5:
             # finish game.
             print("game finish!! elapsed time: " + elapsed_time_str + "/game_time: " + str(self.game_time))
