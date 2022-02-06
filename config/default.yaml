@@ -1,0 +1,35 @@
+
+common:
+  #dir: outputs/experiment
+  dir: outputs/${now:%Y-%m-%d}
+  #dir: outputs/experiment_dim5_20220127_v3
+  weight_path: trained_model
+  load_weight:
+  log_path: tensorboard
+  mode: train
+
+  #mode: test
+model:
+  name: DQN
+state:
+  dim: 5
+train:
+  optimizer: Adam
+  lr: 1e-3
+  replay_memory_size: 50000
+  reward_clipping: True
+  num_epoch: 5000
+  save_interval: 100
+  num_decay_epochs: 2000
+  initial_epsilon: 1
+  final_epsilon: 1e-3
+  batch_size: 512
+  gamma: 0.99
+tetris:
+  score_list:
+    - 0
+    - 100
+    - 300
+    - 700
+    - 1300
+    - -1300
