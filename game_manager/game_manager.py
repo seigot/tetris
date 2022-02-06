@@ -101,7 +101,6 @@ class Game_Manager(QMainWindow):
         if args.ShapeListMax > 0:
             self.ShapeListMax = args.ShapeListMax
         self.initUI()
-        BLOCK_CONTROLLER_SAMPLE.set_mode(args)
         
     def initUI(self):
         self.gridSize = 22
@@ -300,7 +299,8 @@ class Game_Manager(QMainWindow):
             self.UpdateScore(removedlines, dropdownlines)
 
             # check reset field
-            if BOARD_DATA.currentY < 1:
+            #if BOARD_DATA.currentY < 1: 
+            if BOARD_DATA.currentY < 1 or BLOCK_CONTROLLER_TRAIN.tetrominoes > BLOCK_CONTROLLER_TRAIN.max_tetrominoes:
                 # if Piece cannot movedown and stack, reset field
                 #print("reset field.")
                 BLOCK_CONTROLLER_TRAIN.update()

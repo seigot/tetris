@@ -11,6 +11,7 @@ import torch.nn as nn
 from model.deepqnet import DeepQNetwork
 
 import omegaconf
+from hydra import compose, initialize
 
 import os
 from tensorboardX import SummaryWriter
@@ -100,7 +101,7 @@ class Block_Controller(object):
         else:
             self.state = torch.FloatTensor([0,0,0,0])
         self.tetrominoes = 0
-
+        self.max_tetrominoes = cfg.tetris.max_tetrominoes
 
         self.reward_clipping = cfg.train.reward_clipping
 
@@ -147,7 +148,6 @@ class Block_Controller(object):
                     self.epoch,
                     self.num_epochs,
                     self.score,
-                    #final_tetrominoes,
                     self.tetrominoes,
                     self.cleared_lines
                     )
@@ -169,14 +169,15 @@ class Block_Controller(object):
             self.epoch,
             self.num_epochs,
             self.score,
-            #final_tetrominoes,
             self.tetrominoes,
             self.epoch_reward,
             self.cleared_lines
             )
             pass
     def yaml_read(self):
-        cfg = omegaconf.OmegaConf.load("config/default.yaml")
+        #cfg = omegaconf.OmegaConf.load("config/default.yaml")
+        initialize(config_path="../../config", job_name="tetris")
+        cfg = compose(config_name="default")
         return cfg
 
     def reset_state(self):
