@@ -1,22 +1,19 @@
-
 common:
-  #dir: outputs/experiment
-  dir: outputs/${now:%Y-%m-%d}
+  #dir: outputs/experiment1
+  dir: outputs/cnn1
+  #dir: outputs/${now:%Y-%m-%d}_block5000
   #dir: outputs/experiment_dim5_20220127_v3
   weight_path: trained_model
-  load_weight:
+  load_weight: outputs/2022-02-06/trained_model/tetris_epoch_4610_score34500
   log_path: tensorboard
-  mode: train
-
-  #mode: test
 model:
-  name: DQN
+  name: DQNv2
 state:
-  dim: 5
+  dim: 4
 train:
   optimizer: Adam
   lr: 1e-3
-  replay_memory_size: 50000
+  replay_memory_size: 30000
   reward_clipping: True
   num_epoch: 5000
   save_interval: 100
@@ -33,3 +30,4 @@ tetris:
     - 700
     - 1300
     - -1300
+  max_tetrominoes: 5000

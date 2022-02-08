@@ -8,7 +8,7 @@ import random
 import copy
 import torch
 import torch.nn as nn
-from model.deepqnet import DeepQNetwork
+from model.deepqnet import DeepQNetwork,DeepQNetwork_v2
 
 import omegaconf
 from hydra import compose, initialize
@@ -60,9 +60,17 @@ class Block_Controller(object):
         with open(self.log_reward,"w") as f:
             print(0, file=f)
 
+        print("model name: %s"%(cfg.model.name))
         if cfg.model.name=="DQN":
-            self.model = DeepQNetwork(self.state_dim )
-
+            self.model = DeepQNetwork(self.state_dim)
+            self.initial_state = torch.FloatTensor([0 for i in range(self.state_dim)])
+            self.get_next_func = self.get_next_states
+            self.reshape_board = False
+        elif cfg.model.name=="DQNv2":
+            self.model = DeepQNetwork_v2()
+            self.initial_state = torch.FloatTensor([[[0 for i in range(10)] for j in range(22)]])
+            self.get_next_func = self.get_next_states_v2
+            self.reshape_board = True
         self.lr = cfg.train.lr
         if cfg.train.optimizer=="Adam":
             self.optimizer = torch.optim.Adam(self.model.parameters(), lr=self.lr)
@@ -95,11 +103,9 @@ class Block_Controller(object):
         self.epoch_reward = 0
         self.cleared_lines = 0
         self.iter = 0
-
-        if self.state_dim  ==5:
-            self.state = torch.FloatTensor([0,0,0,0,0])
-        else:
-            self.state = torch.FloatTensor([0,0,0,0])
+        
+        
+        self.state = self.initial_state 
         self.tetrominoes = 0
         self.max_tetrominoes = cfg.tetris.max_tetrominoes
 
@@ -127,6 +133,7 @@ class Block_Controller(object):
                 self.epoch += 1
                 batch = sample(self.replay_memory, min(len(self.replay_memory),self.batch_size))
                 state_batch, reward_batch, next_state_batch = zip(*batch)
+                
                 state_batch = torch.stack(tuple(state for state in state_batch))
                 reward_batch = torch.from_numpy(np.array(reward_batch, dtype=np.float32)[:, None])
                 next_state_batch = torch.stack(tuple(state for state in next_state_batch))
@@ -185,10 +192,7 @@ class Block_Controller(object):
                 torch.save(self.model, "{}/tetris_epoch_{}_score{}".format(self.saved_path,self.epoch,self.score))
                 self.max_score  =  self.score
 
-            if self.state_dim  ==5:
-                self.state = torch.FloatTensor([0,0,0,0,0])
-            else:
-                self.state = torch.FloatTensor([0,0,0,0])
+            self.state = self.initial_state
             self.score = 0
             self.cleared_lines = 0
             self.epoch_reward = 0
@@ -252,6 +256,28 @@ class Block_Controller(object):
             row += 1
         return self.height - row
 
+    def get_next_states_v2(self,GameStatus):
+        states = {}
+        piece_id =GameStatus["block_info"]["currentShape"]["index"]
+        next_piece_id =GameStatus["block_info"]["nextShape"]["index"]
+        #curr_piece = [row[:] for row in self.piece]
+        if piece_id == 5:  # O piece
+            num_rotations = 1
+        elif piece_id == 1 or piece_id == 6 or piece_id == 7:
+            num_rotations = 2
+        else:
+            num_rotations = 4
+        CurrentShapeDirectionRange = GameStatus["block_info"]["currentShape"]["direction_range"]
+
+        for direction0 in range(num_rotations):
+            x0Min, x0Max = self.getSearchXRange(self.CurrentShape_class, direction0)
+            for x0 in range(x0Min, x0Max):
+                # get board data, as if dropdown block
+                board = self.getBoard(self.board_backboard, self.CurrentShape_class, direction0, x0)
+                board = self.get_reshape_backboard(board)
+                states[(x0, direction0)] = torch.from_numpy(board[np.newaxis,:,:]).float()
+        return states
+
     def get_next_states(self,GameStatus):
         states = {}
         piece_id =GameStatus["block_info"]["currentShape"]["index"]
@@ -272,11 +298,12 @@ class Block_Controller(object):
                 board = self.getBoard(self.board_backboard, self.CurrentShape_class, direction0, x0)
                 board = self.get_reshape_backboard(board)
                 if self.state_dim==5:
-                    states[(x0, direction0)] = self.get_state_properties_v2(board)
+                   states[(x0, direction0)] = self.get_state_properties_v2(board)
                 else:
-                    states[(x0, direction0)] = self.get_state_properties(board)
-
+                   states[(x0, direction0)] = self.get_state_properties(board)
         return states
+
+
 
             #curr_piece = self.rotate(curr_piece)
     def get_reshape_backboard(self,board):
@@ -303,13 +330,6 @@ class Block_Controller(object):
         self.tetrominoes += 1
         return reward
            
-    # GetNextMove is main function.
-    # input
-    #    GameStatus : this data include all field status, 
-    #                 in detail see the internal GameStatus data.
-    # output
-    #    nextMove : this data include next shape position and the other,
-    #               if return None, do nothing to nextMove.
     def GetNextMove(self, nextMove, GameStatus):
 
         t1 = datetime.now()
@@ -334,9 +354,16 @@ class Block_Controller(object):
         self.NextShape_class = GameStatus["block_info"]["nextShape"]["class"]
         self.ShapeNone_index = GameStatus["debug_info"]["shape_info"]["shapeNone"]["index"]
 
+        reshape_backboard = self.get_reshape_backboard(GameStatus["field_info"]["backboard"])
+        #self.state = reshape_backboard
+        if self.reshape_board:
+            self.state = torch.from_numpy(reshape_backboard[np.newaxis,:,:]).float()
+        #self.model(data)   
+        #exit()  
         # get data from GameStatus
-        next_steps = self.get_next_states(GameStatus)
         
+        #next_steps = self.get_next_states(GameStatus)
+        next_steps =self.get_next_func(GameStatus)
         if self.mode == "train":
             # init parameter
             epsilon = self.final_epsilon + (max(self.num_decay_epochs - self.epoch, 0) * (
@@ -344,8 +371,8 @@ class Block_Controller(object):
             u = random()
             random_action = u <= epsilon
             next_actions, next_states = zip(*next_steps.items())
-
             next_states = torch.stack(next_states)
+                       
             if torch.cuda.is_available():
                 next_states = next_states.cuda()
             self.model.eval()
@@ -359,6 +386,7 @@ class Block_Controller(object):
                 index = torch.argmax(predictions).item()
             next_state = next_states[index, :]
             action = next_actions[index]
+            
             reward = self.step(action)
             self.replay_memory.append([self.state, reward, next_state])
 
@@ -441,4 +469,3 @@ class Block_Controller(object):
             _board[(_y + dy) * self.board_data_width + _x] = Shape_class.shape
         return _board
 BLOCK_CONTROLLER_TRAIN = Block_Controller()
-
