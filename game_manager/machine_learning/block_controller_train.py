@@ -79,8 +79,9 @@ class Block_Controller(object):
             self.model = DeepQNetwork_v2()
             self.initial_state = torch.FloatTensor([[[0 for i in range(10)] for j in range(22)]])
             self.get_next_func = self.get_next_states_v2
-            
+            self.reward_func = self.step_v2
             self.reshape_board = True
+            self.reward_weight = cfg.train.reward_weight
         self.load_weight = cfg.common.load_weight
         
         if torch.cuda.is_available():
@@ -117,7 +118,7 @@ class Block_Controller(object):
         self.gamma = cfg.train.gamma
         self.reward_clipping = cfg.train.reward_clipping
         self.score_list = cfg.tetris.score_list
-        self.reward_list = cfg.tetris.reward_list
+        self.reward_list = cfg.train.reward_list
         self.penalty =  self.reward_list[5]
         if self.reward_clipping:
             self.norm_num =max(max(self.reward_list),abs(self.penalty))            
@@ -273,6 +274,7 @@ class Block_Controller(object):
             row += 1
         return self.height - row
 
+    #次の状態を取得(2次元用) 
     def get_next_states_v2(self,GameStatus):
         states = {}
         piece_id =GameStatus["block_info"]["currentShape"]["index"]
@@ -294,6 +296,7 @@ class Block_Controller(object):
                 states[(x0, direction0)] = board
         return states
 
+    #次の状態を取得(1次元用) 
     def get_next_states(self,GameStatus):
         states = {}
         piece_id =GameStatus["block_info"]["currentShape"]["index"]
@@ -322,15 +325,31 @@ class Block_Controller(object):
         reshape_board = np.where(reshape_board>0,1,0)
         return reshape_board
 
-    #報酬を計算
-    def step(self, action):
+    #報酬を計算(2次元用) 
+    def step_v2(self, action):
         x0, direction0 = action
         board = self.getBoard(self.board_backboard, self.CurrentShape_class, direction0, x0)
-
         board = self.get_reshape_backboard(board)
         bampiness,height = self.get_bumpiness_and_height(board)
         max_height = self.get_max_height(board)
         hole_num = self.get_holes(board)
+        lines_cleared, board = self.check_cleared_rows(board)
+        reward = self.reward_list[lines_cleared] 
+        reward -= self.reward_weight[0]*bampiness 
+        reward -= self.reward_weight[1]*max_height
+        reward -= self.reward_weight[2]*hole_num
+
+        self.epoch_reward += reward 
+        self.score += self.score_list[lines_cleared]
+        self.cleared_lines += lines_cleared
+        self.tetrominoes += 1
+        return reward
+
+    #報酬を計算(1次元用) 
+    def step(self, action):
+        x0, direction0 = action
+        board = self.getBoard(self.board_backboard, self.CurrentShape_class, direction0, x0)
+        board = self.get_reshape_backboard(board)
         lines_cleared, board = self.check_cleared_rows(board)
         reward = self.reward_list[lines_cleared] 
         self.epoch_reward += reward
@@ -389,7 +408,7 @@ class Block_Controller(object):
             next_state = next_states[index, :]
             action = next_actions[index]
             
-            reward = self.step(action)
+            reward = self.reward_func(action)
             self.replay_memory.append([self.state, reward, next_state])
             nextMove["strategy"]["direction"] = action[1]
             nextMove["strategy"]["x"] = action[0]
