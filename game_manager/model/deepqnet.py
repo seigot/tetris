@@ -25,12 +25,6 @@ class DeepQNetwork(nn.Module):
 class DeepQNetwork_v2(nn.Module):
     def __init__(self):
         super(DeepQNetwork_v2, self).__init__()
-
-        kernel_size =[4,4]
-        #self.conv1 = nn.Sequential(
-        #        nn.Conv2d(1, 32, kernel_size=kernel_size, stride=[2,2],
-        #        padding=[kernel_size[1]//2, kernel_size[0] // 2], bias=False, padding_mode='replicate'),
-        #        nn.ReLU())
         self.conv1 = nn.Sequential(
                 nn.Conv2d(1,32, kernel_size=4, stride=2,padding=1,
                 padding_mode='zeros',bias=False),
@@ -60,13 +54,8 @@ class DeepQNetwork_v2(nn.Module):
 
     def forward(self, x):
         x = self.conv1(x)
-        #print(x.shape)
         x = self.conv2(x)
-        #print(x.shape)
-
-        x = self.conv3(x)
-        #print(x.shape)
-        
+        x = self.conv3(x)    
         x = x.view(-1, self.num_feature )
         x = self.fc1(x)
         x = self.fc2(x)
