@@ -160,7 +160,7 @@ class Block_Controller(object):
                 loss = self.criterion(q_values, y_batch)
                 loss.backward()
                 self.optimizer.step()
-                log = "Epoch: {} / {}, Score: {},  block: {},  Reward: {:.3f} Cleared lines: {}".format(
+                log = "Epoch: {} / {}, Score: {},  block: {},  Reward: {:.1f} Cleared lines: {}".format(
                     self.epoch,
                     self.num_epochs,
                     self.score,
@@ -188,7 +188,7 @@ class Block_Controller(object):
                 exit() 
         else:
             self.epoch += 1
-            log = "Epoch: {} / {}, Score: {},  block: {}, Reward: {:.3f} Cleared lines: {}".format(
+            log = "Epoch: {} / {}, Score: {},  block: {}, Reward: {:.1f} Cleared lines: {}".format(
             self.epoch,
             self.num_epochs,
             self.score,
