@@ -1,7 +1,7 @@
 common:
   dir: outputs/${now:%Y-%m-%d-%H-%M}_cnn1
   weight_path: trained_model
-  load_weight: outputs/2022-02-06/trained_model/tetris_epoch_4610_score34500
+  load_weight: outputs/sample/
   log_path: tensorboard
 model:
   name: DQN
