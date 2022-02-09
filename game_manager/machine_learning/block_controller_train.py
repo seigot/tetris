@@ -293,8 +293,9 @@ class Block_Controller(object):
             for x0 in range(x0Min, x0Max):
                 # get board data, as if dropdown block
                 board = self.getBoard(self.board_backboard, self.CurrentShape_class, direction0, x0)
-                board = self.get_reshape_backboard(board)
-                states[(x0, direction0)] = board
+                reshape_backboard = self.get_reshape_backboard(board)
+                reshape_backboard = torch.from_numpy(reshape_backboard[np.newaxis,:,:]).float()
+                states[(x0, direction0)] = reshape_backboard
         return states
 
     #次の状態を取得(1次元用) 

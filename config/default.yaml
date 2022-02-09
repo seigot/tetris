@@ -1,5 +1,5 @@
 common:
-  dir: outputs/${now:%Y-%m-%d-%H-%M}
+  dir: outputs/${now:%Y-%m-%d-%H-%M}_cnn1
   weight_path: trained_model
   load_weight: outputs/2022-02-06/trained_model/tetris_epoch_4610_score34500
   log_path: tensorboard
@@ -21,6 +21,17 @@ train:
   gamma: 0.99
   target_net: 
   max_penalty: -1
+  reward_list: #These parameter are not normalized.
+    - 0
+    - 100 #1block
+    - 300 #2block
+    - 700 #3block
+    - 1300 #4block
+    - -1300 #game over
+  reward_weight: #These parameter are used for DQN_v2
+    - 0.001 #bampiness 
+    - 0.01 #max height
+    - 0.01 #hole_num
 tetris:
   board_height: 22
   board_width: 10
@@ -31,11 +42,4 @@ tetris:
     - 700
     - 1300
     - -1300
-  reward_list: #These parameter are not normalized.
-    - 0
-    - 100 #1block
-    - 300 #2block
-    - 700 #3block
-    - 1300 #4block
-    - -1300 #game over
   max_tetrominoes: 5000
