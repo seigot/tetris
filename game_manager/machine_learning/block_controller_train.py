@@ -62,7 +62,6 @@ class Block_Controller(object):
         with open(self.log_reward,"w") as f:
             print(0, file=f)
 
-
         #=====Set tetris parameter=====
         self.height = cfg.tetris.board_height
         self.width = cfg.tetris.board_width
@@ -84,11 +83,7 @@ class Block_Controller(object):
         
         if torch.cuda.is_available():
             self.model.cuda()
-            
-        #=====Target Q Network=====
-        #if cfg.train.target_net:
-             
-            
+                         
         #=====Set hyper parameter=====
         self.batch_size = cfg.train.batch_size
         self.lr = cfg.train.lr
@@ -118,20 +113,18 @@ class Block_Controller(object):
         self.state = self.initial_state 
         self.tetrominoes = 0
         
-
         self.gamma = cfg.train.gamma
         self.reward_clipping = cfg.train.reward_clipping
         self.score_list = cfg.tetris.score_list
-        #self.rewad_list = [0,self.score_list[1],self.score_list[2],self.score_list[3],self.score_list[4]]
-        self.reward_list =  cfg.train.reward_list
-        self.penalty = cfg.train.max_penalty
        
         if self.reward_clipping:
             self.penalty = cfg.train.max_penalty
-        #    self.norm_num =max(max(self.rewad_list),abs(self.penalty))
-        #    self.penalty /= self.norm_num
-        #    self.rewad_list =[r/self.norm_num for r in self.rewad_list]
+            self.norm_num =max(max(self.rewad_list),abs(self.penalty))
+            self.penalty /= self.norm_num
+            self.penalty = max(cfg.train.max_penalty,self.penalty)
+            self.rewad_list =[r/self.norm_num for r in self.rewad_list]
             
+    #更新
     def update(self):
         if self.mode=="train":
             self.score += self.score_list[5]
@@ -201,13 +194,15 @@ class Block_Controller(object):
             self.cleared_lines
             )
             pass
+        
+    #パラメータ読み込み
     def yaml_read(self):
-        #cfg = omegaconf.OmegaConf.load("config/default.yaml")
         initialize(config_path="../../config", job_name="tetris")
         cfg = compose(config_name="default")
         
         return cfg
 
+    #累積値の初期化
     def reset_state(self):
             if self.score > self.max_score:
                 torch.save(self.model, "{}/tetris_epoch_{}_score{}".format(self.saved_path,self.epoch,self.score))
@@ -218,7 +213,8 @@ class Block_Controller(object):
             self.cleared_lines = 0
             self.epoch_reward = 0
             self.tetrominoes = 0
-
+            
+    #削除される列を数える
     def check_cleared_rows(self,board):
         board_new = np.copy(board)
         lines = 0
@@ -229,10 +225,9 @@ class Block_Controller(object):
                 lines += 1
                 board_new = np.delete(board_new,y,0)
                 board_new = np.vstack([empty_line,board_new ])
-        #if lines > 0:
-        #    self.backBoard = newBackBoard
         return lines,board_new
 
+    #各列毎の高さの差を計算
     def get_bumpiness_and_height(self,board):
         mask = board != 0
         invert_heights = np.where(mask.any(axis=0), np.argmax(mask, axis=0), self.height)
@@ -255,6 +250,7 @@ class Block_Controller(object):
             num_holes += len([x for x in col[row + 1:] if x == 0])
         return num_holes
 
+    #
     def get_state_properties(self, board):
         lines_cleared, board = self.check_cleared_rows(board)
         holes = self.get_holes(board)
@@ -269,7 +265,6 @@ class Block_Controller(object):
         max_row = self.get_max_height(board)
         return torch.FloatTensor([lines_cleared, holes, bumpiness, height,max_row])
 
-
     def get_max_height(self, board):
         sum_ = np.sum(board,axis=1)
         row = 0
@@ -277,33 +272,10 @@ class Block_Controller(object):
             row += 1
         return self.height - row
 
-    def get_next_states_v2(self,GameStatus):
-        states = {}
-        piece_id =GameStatus["block_info"]["currentShape"]["index"]
-        next_piece_id =GameStatus["block_info"]["nextShape"]["index"]
-        #curr_piece = [row[:] for row in self.piece]
-        if piece_id == 5:  # O piece
-            num_rotations = 1
-        elif piece_id == 1 or piece_id == 6 or piece_id == 7:
-            num_rotations = 2
-        else:
-            num_rotations = 4
-        CurrentShapeDirectionRange = GameStatus["block_info"]["currentShape"]["direction_range"]
-
-        for direction0 in range(num_rotations):
-            x0Min, x0Max = self.getSearchXRange(self.CurrentShape_class, direction0)
-            for x0 in range(x0Min, x0Max):
-                # get board data, as if dropdown block
-                board = self.getBoard(self.board_backboard, self.CurrentShape_class, direction0, x0)
-                board = self.get_reshape_backboard(board)
-                states[(x0, direction0)] = torch.from_numpy(board[np.newaxis,:,:]).float()
-        return states
-
     def get_next_states(self,GameStatus):
         states = {}
         piece_id =GameStatus["block_info"]["currentShape"]["index"]
         next_piece_id =GameStatus["block_info"]["nextShape"]["index"]
-        #curr_piece = [row[:] for row in self.piece]
         if piece_id == 5:  # O piece
             num_rotations = 1
         elif piece_id == 1 or piece_id == 6 or piece_id == 7:
@@ -318,21 +290,17 @@ class Block_Controller(object):
                 # get board data, as if dropdown block
                 board = self.getBoard(self.board_backboard, self.CurrentShape_class, direction0, x0)
                 board = self.get_reshape_backboard(board)
-                if self.state_dim==5:
-                   states[(x0, direction0)] = self.get_state_properties_v2(board)
-                else:
-                   states[(x0, direction0)] = self.get_state_properties(board)
+                states[(x0, direction0)] = self.get_state_properties(board)
         return states
 
-
-
-            #curr_piece = self.rotate(curr_piece)
+    #ボードを２次元化
     def get_reshape_backboard(self,board):
         board = np.array(board)
         reshape_board = board.reshape(self.height,self.width)
         reshape_board = np.where(reshape_board>0,1,0)
         return reshape_board
 
+    #報酬を計算
     def step(self, action):
         x0, direction0 = action
         board = self.getBoard(self.board_backboard, self.CurrentShape_class, direction0, x0)
@@ -342,14 +310,7 @@ class Block_Controller(object):
         max_height = self.get_max_height(board)
         hole_num = self.get_holes(board)
         lines_cleared, board = self.check_cleared_rows(board)
-
-        reward = lines_cleared*self.reward_list[0] 
-        reward += bampiness*self.reward_list[1] 
-        reward += hole_num*self.reward_list[2]  
-        reward += max_height*self.reward_list[3]
-        #print(bampiness,hole_num,max_height)
-        #exit()
-        #reward = self.rewad_list[lines_cleared] 
+        reward = self.reward_list[lines_cleared] 
         self.epoch_reward += reward
         self.score += self.score_list[lines_cleared]
         self.cleared_lines += lines_cleared
@@ -364,9 +325,6 @@ class Block_Controller(object):
             self.init_train_parameter_flag = True
             self.set_parameter()
             
-        # print GameStatus
-        #print("=================================================>")
-        #pprint.pprint(GameStatus, width = 61, compact = True)
         self.ind =GameStatus["block_info"]["currentShape"]["index"]
         self.board_backboard = GameStatus["field_info"]["backboard"]
         # default board definition
@@ -384,11 +342,7 @@ class Block_Controller(object):
         #self.state = reshape_backboard
         if self.reshape_board:
             self.state = torch.from_numpy(reshape_backboard[np.newaxis,:,:]).float()
-        #self.model(data)   
-        #exit()  
-        # get data from GameStatus
-        
-        #next_steps = self.get_next_states(GameStatus)
+            
         next_steps =self.get_next_func(GameStatus)
         if self.mode == "train":
             # init parameter
@@ -415,16 +369,11 @@ class Block_Controller(object):
             
             reward = self.step(action)
             self.replay_memory.append([self.state, reward, next_state])
-
-            #print("===", datetime.now() - t1)
             nextMove["strategy"]["direction"] = action[1]
             nextMove["strategy"]["x"] = action[0]
             nextMove["strategy"]["y_operation"] = 1
             nextMove["strategy"]["y_moveblocknum"] = 1
-            #print(nextMove)
-            #print("###### SAMPLE CODE ######")
             self.state = next_state
-    
 
         elif self.mode == "predict":
             self.model.eval()
@@ -437,7 +386,6 @@ class Block_Controller(object):
             nextMove["strategy"]["x"] = action[0]
             nextMove["strategy"]["y_operation"] = 1
             nextMove["strategy"]["y_moveblocknum"] = 1
-
         return nextMove
     
     def getSearchXRange(self, Shape_class, direction):
