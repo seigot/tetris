@@ -4,7 +4,7 @@ common:
   load_weight: outputs/2022-02-06/trained_model/tetris_epoch_4610_score34500
   log_path: tensorboard
 model:
-  name: DQNv2
+  name: DQN
 state:
   dim: 4
 train:
