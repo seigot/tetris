@@ -1,8 +1,5 @@
 common:
-  #dir: outputs/experiment1
-  dir: outputs/cnn7_gamma0.8
-  #dir: outputs/${now:%Y-%m-%d}_block5000
-  #dir: outputs/experiment_dim5_20220127_v3
+  dir: outputs/${now:%Y-%m-%d}
   weight_path: trained_model
   load_weight: outputs/2022-02-06/trained_model/tetris_epoch_4610_score34500
   log_path: tensorboard
@@ -21,13 +18,8 @@ train:
   initial_epsilon: 1
   final_epsilon: 1e-3
   batch_size: 512
-  gamma: 0.8 #0.99
-  target_net: False
-  reward_list:
-    - 0.25 #line cleared
-    - -0.0001 #bampiness 
-    - 0.0 #hole num
-    - -0.1 #height
+  gamma: 0.99
+  target_net: 
   max_penalty: -1
 tetris:
   board_height: 22
