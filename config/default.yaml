@@ -1,6 +1,6 @@
 common:
   #dir: outputs/experiment1
-  dir: outputs/cnn1
+  dir: outputs/cnn7_gamma0.8
   #dir: outputs/${now:%Y-%m-%d}_block5000
   #dir: outputs/experiment_dim5_20220127_v3
   weight_path: trained_model
@@ -21,8 +21,17 @@ train:
   initial_epsilon: 1
   final_epsilon: 1e-3
   batch_size: 512
-  gamma: 0.99
+  gamma: 0.8 #0.99
+  target_net: False
+  reward_list:
+    - 0.25 #line cleared
+    - -0.0001 #bampiness 
+    - 0.0 #hole num
+    - -0.1 #height
+  max_penalty: -1
 tetris:
+  board_height: 22
+  board_width: 10
   score_list:
     - 0
     - 100

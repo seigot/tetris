@@ -19,6 +19,7 @@ from collections import deque
 from random import random, sample,randint
 import numpy as np
 
+import subprocess
 class Block_Controller(object):
 
     # init parameter
@@ -43,6 +44,7 @@ class Block_Controller(object):
         os.makedirs(cfg.common.dir,exist_ok=True)
         self.saved_path = cfg.common.dir + "/" + cfg.common.weight_path
         os.makedirs(self.saved_path ,exist_ok=True)
+        subprocess.run("cp config/default.yaml %s/"%(cfg.common.dir), shell=True)
         self.writer = SummaryWriter(cfg.common.dir+"/"+cfg.common.log_path)
 
         self.log = cfg.common.dir+"/log.txt"
@@ -60,6 +62,13 @@ class Block_Controller(object):
         with open(self.log_reward,"w") as f:
             print(0, file=f)
 
+
+        #=====Set tetris parameter=====
+        self.height = cfg.tetris.board_height
+        self.width = cfg.tetris.board_width
+        self.max_tetrominoes = cfg.tetris.max_tetrominoes
+        
+        #=====load Deep Q Network=====
         print("model name: %s"%(cfg.model.name))
         if cfg.model.name=="DQN":
             self.model = DeepQNetwork(self.state_dim)
@@ -71,53 +80,57 @@ class Block_Controller(object):
             self.initial_state = torch.FloatTensor([[[0 for i in range(10)] for j in range(22)]])
             self.get_next_func = self.get_next_states_v2
             self.reshape_board = True
+        self.load_weight = cfg.common.load_weight
+        
+        if torch.cuda.is_available():
+            self.model.cuda()
+            
+        #=====Target Q Network=====
+        #if cfg.train.target_net:
+             
+            
+        #=====Set hyper parameter=====
+        self.batch_size = cfg.train.batch_size
         self.lr = cfg.train.lr
+        
+        self.replay_memory_size = cfg.train.replay_memory_size
+        self.replay_memory = deque(maxlen=self.replay_memory_size)
+        self.num_decay_epochs = cfg.train.num_decay_epochs
+        self.num_epochs = cfg.train.num_epoch
+        self.initial_epsilon = cfg.train.initial_epsilon
+        self.final_epsilon = cfg.train.final_epsilon
+        self.save_interval = cfg.train.save_interval
+        
+        #=====Set loss function and optimizer=====
         if cfg.train.optimizer=="Adam":
             self.optimizer = torch.optim.Adam(self.model.parameters(), lr=self.lr)
 
-        if torch.cuda.is_available():
-            self.model.cuda()
-            state = state.cuda()
-
-        self.load_weight = cfg.common.load_weight
-
-        self.replay_memory_size = cfg.train.replay_memory_size
-        self.replay_memory = deque(maxlen=self.replay_memory_size)
         self.criterion = nn.MSELoss()
 
-        self.initial_epsilon = cfg.train.initial_epsilon
-        self.final_epsilon = cfg.train.final_epsilon
-        self.num_decay_epochs = cfg.train.num_decay_epochs
 
-
-        self.num_epochs = cfg.train.num_epoch
-        self.save_interval = cfg.train.save_interval
-        self.gamma = cfg.train.gamma
-        self.batch_size = cfg.train.batch_size
-
-        self.height = 22
-        self.width = 10
+        #=====Initialize parameter=====
         self.epoch = 0
         self.score = 0
         self.max_score = -99999
         self.epoch_reward = 0
         self.cleared_lines = 0
-        self.iter = 0
-        
-        
+        self.iter = 0 
         self.state = self.initial_state 
         self.tetrominoes = 0
-        self.max_tetrominoes = cfg.tetris.max_tetrominoes
+        
 
+        self.gamma = cfg.train.gamma
         self.reward_clipping = cfg.train.reward_clipping
-
         self.score_list = cfg.tetris.score_list
-        self.rewad_list = [0,self.score_list[1],self.score_list[2],self.score_list[3],self.score_list[4]]
-        self.penalty = self.score_list[5]
+        #self.rewad_list = [0,self.score_list[1],self.score_list[2],self.score_list[3],self.score_list[4]]
+        self.reward_list =  cfg.train.reward_list
+        self.penalty = cfg.train.max_penalty
+       
         if self.reward_clipping:
-            self.norm_num =max(max(self.rewad_list),abs(self.penalty))
-            self.penalty /= self.norm_num
-            self.rewad_list =[r/self.norm_num for r in self.rewad_list]
+            self.penalty = cfg.train.max_penalty
+        #    self.norm_num =max(max(self.rewad_list),abs(self.penalty))
+        #    self.penalty /= self.norm_num
+        #    self.rewad_list =[r/self.norm_num for r in self.rewad_list]
             
     def update(self):
         if self.mode=="train":
@@ -151,11 +164,12 @@ class Block_Controller(object):
                 loss = self.criterion(q_values, y_batch)
                 loss.backward()
                 self.optimizer.step()
-                log = "Epoch: {} / {}, Score: {},  block: {},  Cleared lines: {}".format(
+                log = "Epoch: {} / {}, Score: {},  block: {},  Reward: %.2f Cleared lines: {}".format(
                     self.epoch,
                     self.num_epochs,
                     self.score,
                     self.tetrominoes,
+                    self.epoch_reward,
                     self.cleared_lines
                     )
                 print(log)
@@ -166,13 +180,19 @@ class Block_Controller(object):
 
                 with open(self.log_reward,"a") as f:
                     print(self.epoch_reward, file=f)
+                    
+                self.writer.add_scalar('Train/Score', self.score, self.epoch - 1) 
+                self.writer.add_scalar('Train/Reward', self.epoch_reward, self.epoch - 1)   
+                self.writer.add_scalar('Train/block', self.tetrominoes, self.epoch - 1)  
+                self.writer.add_scalar('Train/clear lines', self.cleared_lines, self.epoch - 1) 
+                    
             if self.epoch > self.num_epochs:
                 with open(self.log,"a") as f:
                     print("finish..", file=f)
                 exit()
         else:
             self.epoch += 1
-            log = "Epoch: {} / {}, Score: {},  block: {}, Reward: {}  Cleared lines: {}".format(
+            log = "Epoch: {} / {}, Score: {},  block: {}, Reward: %.2f  Cleared lines: {}".format(
             self.epoch,
             self.num_epochs,
             self.score,
@@ -185,6 +205,7 @@ class Block_Controller(object):
         #cfg = omegaconf.OmegaConf.load("config/default.yaml")
         initialize(config_path="../../config", job_name="tetris")
         cfg = compose(config_name="default")
+        
         return cfg
 
     def reset_state(self):
@@ -317,13 +338,18 @@ class Block_Controller(object):
         board = self.getBoard(self.board_backboard, self.CurrentShape_class, direction0, x0)
 
         board = self.get_reshape_backboard(board)
-
-        #board[-1] = [1 for i in range(self.width)]
+        bampiness,height = self.get_bumpiness_and_height(board)
+        max_height = self.get_max_height(board)
+        hole_num = self.get_holes(board)
         lines_cleared, board = self.check_cleared_rows(board)
-        #print(lines_cleared)
-        #input()
-        #score = 1 + (lines_cleared ** 2) * self.width
-        reward = self.rewad_list[lines_cleared]
+
+        reward = lines_cleared*self.reward_list[0] 
+        reward += bampiness*self.reward_list[1] 
+        reward += hole_num*self.reward_list[2]  
+        reward += max_height*self.reward_list[3]
+        #print(bampiness,hole_num,max_height)
+        #exit()
+        #reward = self.rewad_list[lines_cleared] 
         self.epoch_reward += reward
         self.score += self.score_list[lines_cleared]
         self.cleared_lines += lines_cleared
@@ -398,7 +424,7 @@ class Block_Controller(object):
             #print(nextMove)
             #print("###### SAMPLE CODE ######")
             self.state = next_state
-            self.writer.add_scalar('Train/Score', self.score, self.epoch - 1)              
+    
 
         elif self.mode == "predict":
             self.model.eval()

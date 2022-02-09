@@ -33,22 +33,22 @@ class DeepQNetwork_v2(nn.Module):
         #        nn.ReLU())
         self.conv1 = nn.Sequential(
                 nn.Conv2d(1,32, kernel_size=4, stride=2,padding=1,
-                padding_mode='replicate',bias=False),
+                padding_mode='zeros',bias=False),
                 nn.ReLU())
         
         self.conv2 = nn.Sequential(
-                nn.ConstantPad2d((2,1,2,1),0),
-                nn.Conv2d(32, 32, kernel_size=4, stride=1,padding=0,
-                bias=False,padding_mode='replicate'),
+                nn.ConstantPad2d((2,2,2,2),0),
+                nn.Conv2d(32, 32, kernel_size=5, stride=1,padding=0,
+                bias=False),
                 nn.ReLU())
         
         self.conv3 = nn.Sequential(
-                nn.Conv2d(32, 64, kernel_size=4, stride=2, 
-                bias=False, padding_mode='replicate'),
+                nn.Conv2d(32, 64, kernel_size=5, stride=2, 
+                bias=False, padding_mode='zeros'),
                 nn.ReLU())
         self.num_feature = 64*4*1
-        self.fc1 = nn.Sequential(nn.Linear(self.num_feature,512))
-        self.fc2 = nn.Sequential(nn.Linear(512,256))
+        self.fc1 = nn.Sequential(nn.Linear(self.num_feature,256))
+        self.fc2 = nn.Sequential(nn.Linear(256,256))
         self.fc3 = nn.Sequential(nn.Linear(256,1))
         self._create_weights()
 
@@ -62,7 +62,11 @@ class DeepQNetwork_v2(nn.Module):
         x = self.conv1(x)
         #print(x.shape)
         x = self.conv2(x)
+        #print(x.shape)
+
         x = self.conv3(x)
+        #print(x.shape)
+        
         x = x.view(-1, self.num_feature )
         x = self.fc1(x)
         x = self.fc2(x)
