@@ -1,5 +1,5 @@
 common:
-  dir: outputs/${now:%Y-%m-%d-%H-%M}_cnn1
+  dir: outputs/${now:%Y-%m-%d-%H-%M}
   weight_path: trained_model
   load_weight: outputs/sample/
   log_path: tensorboard
