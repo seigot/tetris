@@ -102,7 +102,6 @@ class Block_Controller(object):
 
         self.criterion = nn.MSELoss()
 
-
         #=====Initialize parameter=====
         self.epoch = 0
         self.score = 0
@@ -117,18 +116,18 @@ class Block_Controller(object):
         self.reward_clipping = cfg.train.reward_clipping
         self.score_list = cfg.tetris.score_list
         self.reward_list = cfg.tetris.reward_list
+        self.penalty =  self.reward_list[5]
         if self.reward_clipping:
-            self.penalty = cfg.train.max_penalty
-            self.norm_num =max(max(self.reward_list),abs(self.penalty))
-            self.penalty /= self.norm_num
-            self.penalty = max(cfg.train.max_penalty,self.penalty)
+            self.norm_num =max(max(self.reward_list),abs(self.penalty))            
             self.reward_list =[r/self.norm_num for r in self.reward_list]
-            
+            self.penalty /= self.norm_num
+            self.penalty = min(cfg.train.max_penalty,self.penalty)
+  
     #更新
     def update(self):
         if self.mode=="train":
             self.score += self.score_list[5]
-            self.replay_memory[-1][1] = self.penalty
+            self.replay_memory[-1][1] += self.penalty
             if len(self.replay_memory) < self.replay_memory_size / 10:
                 print("================pass================")
                 print("iter: {} ,meory: {}/{} , score: {}, clear line: {}, block: {} ".format(self.iter,
