@@ -131,6 +131,7 @@ class Block_Controller(object):
         if self.mode=="train":
             self.score += self.score_list[5]
             self.replay_memory[-1][1] += self.penalty
+            self.epoch_reward += self.penalty
             if len(self.replay_memory) < self.replay_memory_size / 10:
                 print("================pass================")
                 print("iter: {} ,meory: {}/{} , score: {}, clear line: {}, block: {} ".format(self.iter,
