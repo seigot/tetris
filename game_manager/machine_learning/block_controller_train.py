@@ -73,11 +73,13 @@ class Block_Controller(object):
             self.model = DeepQNetwork(self.state_dim)
             self.initial_state = torch.FloatTensor([0 for i in range(self.state_dim)])
             self.get_next_func = self.get_next_states
+            self.reward_func = self.step
             self.reshape_board = False
         elif cfg.model.name=="DQNv2":
             self.model = DeepQNetwork_v2()
             self.initial_state = torch.FloatTensor([[[0 for i in range(10)] for j in range(22)]])
             self.get_next_func = self.get_next_states_v2
+            
             self.reshape_board = True
         self.load_weight = cfg.common.load_weight
         
@@ -270,6 +272,27 @@ class Block_Controller(object):
         while row < self.height and sum_[row] ==0:
             row += 1
         return self.height - row
+
+    def get_next_states_v2(self,GameStatus):
+        states = {}
+        piece_id =GameStatus["block_info"]["currentShape"]["index"]
+        next_piece_id =GameStatus["block_info"]["nextShape"]["index"]
+        if piece_id == 5:  # O piece
+            num_rotations = 1
+        elif piece_id == 1 or piece_id == 6 or piece_id == 7:
+            num_rotations = 2
+        else:
+            num_rotations = 4
+        CurrentShapeDirectionRange = GameStatus["block_info"]["currentShape"]["direction_range"]
+
+        for direction0 in range(num_rotations):
+            x0Min, x0Max = self.getSearchXRange(self.CurrentShape_class, direction0)
+            for x0 in range(x0Min, x0Max):
+                # get board data, as if dropdown block
+                board = self.getBoard(self.board_backboard, self.CurrentShape_class, direction0, x0)
+                board = self.get_reshape_backboard(board)
+                states[(x0, direction0)] = board
+        return states
 
     def get_next_states(self,GameStatus):
         states = {}
