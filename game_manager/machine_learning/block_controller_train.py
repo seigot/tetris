@@ -116,13 +116,13 @@ class Block_Controller(object):
         self.gamma = cfg.train.gamma
         self.reward_clipping = cfg.train.reward_clipping
         self.score_list = cfg.tetris.score_list
-       
+        self.reward_list = cfg.tetris.reward_list
         if self.reward_clipping:
             self.penalty = cfg.train.max_penalty
-            self.norm_num =max(max(self.rewad_list),abs(self.penalty))
+            self.norm_num =max(max(self.reward_list),abs(self.penalty))
             self.penalty /= self.norm_num
             self.penalty = max(cfg.train.max_penalty,self.penalty)
-            self.rewad_list =[r/self.norm_num for r in self.rewad_list]
+            self.reward_list =[r/self.norm_num for r in self.reward_list]
             
     #更新
     def update(self):

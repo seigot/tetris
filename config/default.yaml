@@ -1,5 +1,5 @@
 common:
-  dir: outputs/${now:%Y-%m-%d}
+  dir: outputs/${now:%Y-%m-%d-%H-%M}
   weight_path: trained_model
   load_weight: outputs/2022-02-06/trained_model/tetris_epoch_4610_score34500
   log_path: tensorboard
@@ -31,4 +31,11 @@ tetris:
     - 700
     - 1300
     - -1300
+  reward_list: #These parameter are not normalized.
+    - 0
+    - 100 #1block
+    - 300 #2block
+    - 700 #3block
+    - 1300 #4block
+    - -1300 #game over
   max_tetrominoes: 5000
