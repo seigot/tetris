@@ -1,7 +1,7 @@
 common:
   dir: outputs/${now:%Y-%m-%d-%H-%M}
   weight_path: trained_model
-  load_weight: outputs/sample/
+  load_weight: outputs/sample/sample_weight
   log_path: tensorboard
 model:
   name: DQN
