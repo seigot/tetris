@@ -84,6 +84,14 @@ class Block_Controller(object):
             self.reward_weight = cfg.train.reward_weight
         self.load_weight = cfg.common.load_weight
         
+        if self.mode=="predict":
+            if not os.path.exists(self.load_weight):
+                print("%s is not existed!!"%(self.load_weight))
+                exit()
+            #self.model.load_state_dict(torch.load(self.load_weight))
+            self.model = torch.load(self.load_weight)
+            self.model.eval()
+            
         if torch.cuda.is_available():
             self.model.cuda()
                          
