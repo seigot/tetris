@@ -278,7 +278,32 @@ nextShapeIndex = np_randomShape.random.randint(1, 8)
 準備中
 
 ### AI実装
-準備中
+
+#### ファイル一覧
+* `config/default.yaml` : ハイパーパラメータの設定ファイル
+
+#### 学習実行方法
+```
+sh start_train.sh
+```
+学習終了後 "outputs"フォルダ以下に学習結果保存用のフォルダ
+が生成される。
+
+#### 学習ログ確認方法
+上記の学習結果保存用のフォルダ内にある　”tensorboard”　を活用し
+学習中のログを可視化できる。
+
+```
+tensorboard --log_dir [tensorboard path]
+```
+
+実行後下記のような出力がされるので "http://localhost:6006/"をコピーし
+エディタに貼り付ける。
+
+#### テスト実行方法
+```
+sh start_predict.sh
+```
 
 ### 自動評価
 準備中
