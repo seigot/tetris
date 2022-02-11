@@ -22,7 +22,8 @@ train:
   final_epsilon: 1e-3
   batch_size: 512
   gamma: 0.99
-  target_net: 
+  target_net:  True
+  target_copy_intarval: 250
   max_penalty: -1
   reward_list: #These parameter are not normalized.
     - 0
