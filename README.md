@@ -294,7 +294,7 @@ sh start_train.sh
 学習中のログを可視化できる。
 
 ```
-tensorboard --log_dir [tensorboard path]
+tensorboard --logdir [tensorboard path]
 ```
 
 実行後下記のような出力がされるので "http://localhost:6006/"をコピーし
