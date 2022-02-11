@@ -8,7 +8,7 @@ model:
 state:
   dim: 4
 train:
-  optimizer: SGD  #Adam or SGD
+  optimizer: Adam  #Adam or SGD
   lr: 1e-3
   lr_gamma: 0.1 
   lr_momentum: 0.99
