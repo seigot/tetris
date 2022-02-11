@@ -298,7 +298,7 @@ tensorboard --logdir [tensorboard path]
 ```
 
 実行後下記のような出力がされるので "http://localhost:6006/"をコピーし
-エディタに貼り付ける。
+ブラウザに貼り付ける。
 ```
 TensorFlow installation not found - running with reduced feature set.
 I0211 01:37:04.512410 6135033856 plugin.py:346] Monitor runs begin
