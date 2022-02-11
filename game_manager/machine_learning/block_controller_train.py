@@ -108,9 +108,15 @@ class Block_Controller(object):
         self.save_interval = cfg.train.save_interval
         
         #=====Set loss function and optimizer=====
-        if cfg.train.optimizer=="Adam":
+        if cfg.train.optimizer=="Adam" or cfg.train.optimizer=="ADAM":
             self.optimizer = torch.optim.Adam(self.model.parameters(), lr=self.lr)
-
+            self.scheduler = None
+        else:
+            self.momentum =0.99
+            self.optimizer = torch.optim.SGD(self.model.parameters(), lr=self.lr, momentum=self.momentum)
+            self.lr_step_size = cfg.train.lr_step_size
+            self.lr_gamma = cfg.train.lr_gamma
+            self.scheduler = torch.optim.lr_scheduler.StepLR(self.optimizer, step_size=self.lr_step_size , gamma=self.lr_gamma)
         self.criterion = nn.MSELoss()
 
         #=====Initialize parameter=====
@@ -168,6 +174,10 @@ class Block_Controller(object):
                 loss = self.criterion(q_values, y_batch)
                 loss.backward()
                 self.optimizer.step()
+                
+                if self.scheduler!=None:
+                    self.scheduler.step()
+                
                 log = "Epoch: {} / {}, Score: {},  block: {},  Reward: {:.1f} Cleared lines: {}".format(
                     self.epoch,
                     self.num_epochs,

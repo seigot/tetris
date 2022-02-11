@@ -8,8 +8,11 @@ model:
 state:
   dim: 4
 train:
-  optimizer: Adam
+  optimizer: SGD  #Adam or SGD
   lr: 1e-3
+  lr_gamma: 0.1 
+  lr_momentum: 0.99
+  lr_step_size: 1000
   replay_memory_size: 30000
   reward_clipping: True
   num_epoch: 5000
@@ -30,7 +33,7 @@ train:
     - -1300 #game over
   reward_weight: #These parameter are used for DQN_v2
     - 0.001 #bampiness 
-    - 0.01 #max height
+    - 0.1 #max height
     - 0.01 #hole_num
 tetris:
   board_height: 22
