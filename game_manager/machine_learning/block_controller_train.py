@@ -322,46 +322,41 @@ class Block_Controller(object):
         return self.height - row
 
     #次の状態を取得(2次元用) 
-    def get_next_states_v2(self,GameStatus):
+    def get_next_states_v2(self,curr_backboard,piece_id,CurrentShape_class):
         states = {}
-        piece_id =GameStatus["block_info"]["currentShape"]["index"]
-        next_piece_id =GameStatus["block_info"]["nextShape"]["index"]
+        
         if piece_id == 5:  # O piece
             num_rotations = 1
         elif piece_id == 1 or piece_id == 6 or piece_id == 7:
             num_rotations = 2
         else:
             num_rotations = 4
-        CurrentShapeDirectionRange = GameStatus["block_info"]["currentShape"]["direction_range"]
 
         for direction0 in range(num_rotations):
-            x0Min, x0Max = self.getSearchXRange(self.CurrentShape_class, direction0)
+            x0Min, x0Max = self.getSearchXRange(CurrentShape_class, direction0)
             for x0 in range(x0Min, x0Max):
                 # get board data, as if dropdown block
-                board = self.getBoard(self.board_backboard, self.CurrentShape_class, direction0, x0)
+                board = self.getBoard(curr_backboard, CurrentShape_class, direction0, x0)
                 reshape_backboard = self.get_reshape_backboard(board)
                 reshape_backboard = torch.from_numpy(reshape_backboard[np.newaxis,:,:]).float()
                 states[(x0, direction0)] = reshape_backboard
         return states
 
     #次の状態を取得(1次元用) 
-    def get_next_states(self,GameStatus):
+    def get_next_states(self,curr_backboard,piece_id,CurrentShape_class):
         states = {}
-        piece_id =GameStatus["block_info"]["currentShape"]["index"]
-        next_piece_id =GameStatus["block_info"]["nextShape"]["index"]
         if piece_id == 5:  # O piece
             num_rotations = 1
         elif piece_id == 1 or piece_id == 6 or piece_id == 7:
             num_rotations = 2
         else:
             num_rotations = 4
-        CurrentShapeDirectionRange = GameStatus["block_info"]["currentShape"]["direction_range"]
 
         for direction0 in range(num_rotations):
-            x0Min, x0Max = self.getSearchXRange(self.CurrentShape_class, direction0)
+            x0Min, x0Max = self.getSearchXRange(CurrentShape_class, direction0)
             for x0 in range(x0Min, x0Max):
                 # get board data, as if dropdown block
-                board = self.getBoard(self.board_backboard, self.CurrentShape_class, direction0, x0)
+                board = self.getBoard(curr_backboard, CurrentShape_class, direction0, x0)
                 board = self.get_reshape_backboard(board)
                 states[(x0, direction0)] = self.get_state_properties(board)
         return states
@@ -419,20 +414,20 @@ class Block_Controller(object):
         # default board definition
         self.board_data_width = GameStatus["field_info"]["width"]
         self.board_data_height = GameStatus["field_info"]["height"]
-        self.CurrentShape_class = GameStatus["block_info"]["currentShape"]["class"]
-        CurrentShapeDirectionRange = GameStatus["block_info"]["currentShape"]["direction_range"]
-        self.CurrentShape_class = GameStatus["block_info"]["currentShape"]["class"]
-        # next shape info
-        NextShapeDirectionRange = GameStatus["block_info"]["nextShape"]["direction_range"]
-        self.NextShape_class = GameStatus["block_info"]["nextShape"]["class"]
-        self.ShapeNone_index = GameStatus["debug_info"]["shape_info"]["shapeNone"]["index"]
 
+        self.CurrentShape_class = GameStatus["block_info"]["currentShape"]["class"]
+        self.NextShape_class = GameStatus["block_info"]["nextShape"]["class"]
+        # next shape info
+        self.ShapeNone_index = GameStatus["debug_info"]["shape_info"]["shapeNone"]["index"]
+        piece_id =GameStatus["block_info"]["currentShape"]["index"]
+        next_piece_id =GameStatus["block_info"]["nextShape"]["index"]
         reshape_backboard = self.get_reshape_backboard(GameStatus["field_info"]["backboard"])
+               
         #self.state = reshape_backboard
         if self.reshape_board:
             self.state = torch.from_numpy(reshape_backboard[np.newaxis,:,:]).float()
             
-        next_steps =self.get_next_func(GameStatus)
+        next_steps =self.get_next_func(self.board_backboard,piece_id,self.CurrentShape_class)
         if self.mode == "train":
             # init parameter
             epsilon = self.final_epsilon + (max(self.num_decay_epochs - self.epoch, 0) * (
