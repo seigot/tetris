@@ -416,18 +416,18 @@ class Block_Controller(object):
         self.board_data_height = GameStatus["field_info"]["height"]
 
         curr_shape_class = GameStatus["block_info"]["currentShape"]["class"]
-        self.NextShape_class = GameStatus["block_info"]["nextShape"]["class"]
+        next_shape_class= GameStatus["block_info"]["nextShape"]["class"]
         # next shape info
         self.ShapeNone_index = GameStatus["debug_info"]["shape_info"]["shapeNone"]["index"]
-        piece_id =GameStatus["block_info"]["currentShape"]["index"]
+        curr_piece_id =GameStatus["block_info"]["currentShape"]["index"]
         next_piece_id =GameStatus["block_info"]["nextShape"]["index"]
-        reshape_backboard = self.get_reshape_backboard(GameStatus["field_info"]["backboard"])
+        reshape_backboard = self.get_reshape_backboard(curr_backboard)
                
         #self.state = reshape_backboard
         if self.reshape_board:
             self.state = torch.from_numpy(reshape_backboard[np.newaxis,:,:]).float()
             
-        next_steps =self.get_next_func(curr_backboard,piece_id,curr_shape_class)
+        next_steps =self.get_next_func(curr_backboard,curr_piece_id,curr_shape_class)
         if self.mode == "train":
             # init parameter
             epsilon = self.final_epsilon + (max(self.num_decay_epochs - self.epoch, 0) * (
@@ -452,12 +452,25 @@ class Block_Controller(object):
             action = next_actions[index]
             reward = self.reward_func(curr_backboard,action,curr_shape_class)
             
-            done = False
+            done = False #game over flag
             
-            #predict max_a Q(s_(t+1),a)
+            #======predict max_a Q(s_(t+1),a)======
             #if use target net, predicted by target model
-
-            self.replay_memory.append([self.state, reward, next_state,done])
+            next_backboard  = self.getBoard(curr_backboard, curr_shape_class, action[1], action[0])
+            next２_steps =self.get_next_func(next_backboard,next_piece_id,next_shape_class)
+            next2_actions, next2_states = zip(*next２_steps.items())
+            next2_states = torch.stack(next2_states)
+            if torch.cuda.is_available():
+                next2_states = next2_states.cuda()
+            self.model.eval()
+            with torch.no_grad():
+                next_predictions = self.model(next2_states)[:, 0]
+            next_index = torch.argmax(next_predictions).item()
+            next2_state = next2_states[next_index, :]
+            
+            #=======================================
+            self.replay_memory.append([next_state, reward, next2_state,done])
+            #self.replay_memory.append([self.state, reward, next_state,done])
             nextMove["strategy"]["direction"] = action[1]
             nextMove["strategy"]["x"] = action[0]
             nextMove["strategy"]["y_operation"] = 1
