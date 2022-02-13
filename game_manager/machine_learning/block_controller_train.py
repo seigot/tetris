@@ -369,9 +369,9 @@ class Block_Controller(object):
         return reshape_board
 
     #報酬を計算(2次元用) 
-    def step_v2(self, action):
+    def step_v2(self, curr_backboard,action,curr_shape_class):
         x0, direction0 = action
-        board = self.getBoard(self.board_backboard, self.CurrentShape_class, direction0, x0)
+        board = self.getBoard(curr_backboard, curr_shape_class, direction0, x0)
         board = self.get_reshape_backboard(board)
         bampiness,height = self.get_bumpiness_and_height(board)
         max_height = self.get_max_height(board)
@@ -389,9 +389,9 @@ class Block_Controller(object):
         return reward
 
     #報酬を計算(1次元用) 
-    def step(self, action):
+    def step(self, curr_backboard,action,curr_shape_class):
         x0, direction0 = action
-        board = self.getBoard(self.board_backboard, self.CurrentShape_class, direction0, x0)
+        board = self.getBoard(curr_backboard, curr_shape_class, direction0, x0)
         board = self.get_reshape_backboard(board)
         lines_cleared, board = self.check_cleared_rows(board)
         reward = self.reward_list[lines_cleared] 
@@ -410,12 +410,12 @@ class Block_Controller(object):
             self.set_parameter()
             
         self.ind =GameStatus["block_info"]["currentShape"]["index"]
-        self.board_backboard = GameStatus["field_info"]["backboard"]
+        curr_backboard = GameStatus["field_info"]["backboard"]
         # default board definition
         self.board_data_width = GameStatus["field_info"]["width"]
         self.board_data_height = GameStatus["field_info"]["height"]
 
-        self.CurrentShape_class = GameStatus["block_info"]["currentShape"]["class"]
+        curr_shape_class = GameStatus["block_info"]["currentShape"]["class"]
         self.NextShape_class = GameStatus["block_info"]["nextShape"]["class"]
         # next shape info
         self.ShapeNone_index = GameStatus["debug_info"]["shape_info"]["shapeNone"]["index"]
@@ -427,7 +427,7 @@ class Block_Controller(object):
         if self.reshape_board:
             self.state = torch.from_numpy(reshape_backboard[np.newaxis,:,:]).float()
             
-        next_steps =self.get_next_func(self.board_backboard,piece_id,self.CurrentShape_class)
+        next_steps =self.get_next_func(curr_backboard,piece_id,curr_shape_class)
         if self.mode == "train":
             # init parameter
             epsilon = self.final_epsilon + (max(self.num_decay_epochs - self.epoch, 0) * (
@@ -450,10 +450,9 @@ class Block_Controller(object):
                 index = torch.argmax(predictions).item()
             next_state = next_states[index, :]
             action = next_actions[index]
-            reward = self.reward_func(action)
+            reward = self.reward_func(curr_backboard,action,curr_shape_class)
             
             done = False
-            
             
             #predict max_a Q(s_(t+1),a)
             #if use target net, predicted by target model
@@ -464,7 +463,6 @@ class Block_Controller(object):
             nextMove["strategy"]["y_operation"] = 1
             nextMove["strategy"]["y_moveblocknum"] = 1
             self.state = next_state
-            
             
         elif self.mode == "predict":
             self.model.eval()
