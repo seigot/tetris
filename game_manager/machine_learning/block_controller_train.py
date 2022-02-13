@@ -155,6 +155,8 @@ class Block_Controller(object):
         if self.mode=="train":
             self.score += self.score_list[5]
             self.replay_memory[-1][1] += self.penalty
+            self.replay_memory[-1][3] = True  #store False to done lists.
+
             self.epoch_reward += self.penalty
             if len(self.replay_memory) < self.replay_memory_size / 10:
                 print("================pass================")
@@ -165,11 +167,15 @@ class Block_Controller(object):
                 print("================update================")
                 self.epoch += 1
                 batch = sample(self.replay_memory, min(len(self.replay_memory),self.batch_size))
-                state_batch, reward_batch, next_state_batch = zip(*batch)
+                state_batch, reward_batch, next_state_batch, done_batch = zip(*batch)
                 
                 state_batch = torch.stack(tuple(state for state in state_batch))
                 reward_batch = torch.from_numpy(np.array(reward_batch, dtype=np.float32)[:, None])
                 next_state_batch = torch.stack(tuple(state for state in next_state_batch))
+
+                done_batch = torch.from_numpy(np.array(done_batch)[:, None])
+
+                #max_next_state_batch = torch.stack(tuple(state for state in max_next_state_batch))
                 
                 q_values = self.model(state_batch)
                 
@@ -179,8 +185,6 @@ class Block_Controller(object):
                         self.target_model = torch.load(self.max_weight)
                     self.target_model.eval()
                     with torch.no_grad():
-                        prediction = self.target_model(state)
-                        
                         next_prediction_batch = self.target_model(next_state_batch)
                 else:
                     self.model.eval()
@@ -188,9 +192,10 @@ class Block_Controller(object):
                         next_prediction_batch = self.model(next_state_batch)
 
                 self.model.train()
+                
                 y_batch = torch.cat(
-                    tuple(reward if reward<0 else reward + self.gamma * prediction for reward, prediction in
-                          zip(reward_batch, next_prediction_batch)))[:, None]
+                    tuple(reward if done[0] else reward + self.gamma * prediction for done ,reward, prediction in
+                          zip(done_batch,reward_batch, next_prediction_batch)))[:, None]
                 
                 self.optimizer.zero_grad()
                 loss = self.criterion(q_values, y_batch)
@@ -439,29 +444,33 @@ class Block_Controller(object):
                        
             if torch.cuda.is_available():
                 next_states = next_states.cuda()
-                
-                
-                
-            self.model.eval()
+        
+            self.model.train()
             with torch.no_grad():
                 predictions = self.model(next_states)[:, 0]
 
-            self.model.train()
             if random_action:
                 index = randint(0, len(next_steps) - 1)
             else:
                 index = torch.argmax(predictions).item()
             next_state = next_states[index, :]
             action = next_actions[index]
-            
             reward = self.reward_func(action)
-            self.replay_memory.append([self.state, reward, next_state])
+            
+            done = False
+            
+            
+            #predict max_a Q(s_(t+1),a)
+            #if use target net, predicted by target model
+
+            self.replay_memory.append([self.state, reward, next_state,done])
             nextMove["strategy"]["direction"] = action[1]
             nextMove["strategy"]["x"] = action[0]
             nextMove["strategy"]["y_operation"] = 1
             nextMove["strategy"]["y_moveblocknum"] = 1
             self.state = next_state
-
+            
+            
         elif self.mode == "predict":
             self.model.eval()
             next_actions, next_states = zip(*next_steps.items())
