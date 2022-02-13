@@ -13,7 +13,7 @@ train:
   lr_gamma: 0.1 
   lr_momentum: 0.99
   lr_step_size: 1000
-  replay_memory_size: 30000
+  replay_memory_size: 100000
   reward_clipping: True
   num_epoch: 5000
   save_interval: 100
@@ -22,11 +22,12 @@ train:
   final_epsilon: 1e-3
   batch_size: 512
   gamma: 0.99
-  target_net:  True
+  target_net: False
+  double_dqn: False
   target_copy_intarval: 250
   max_penalty: -1
   reward_list: #These parameter are not normalized.
-    - 0
+    - 0  #survival
     - 100 #1block
     - 300 #2block
     - 700 #3block
