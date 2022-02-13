@@ -84,6 +84,16 @@ class Block_Controller(object):
             self.reward_weight = cfg.train.reward_weight
         self.load_weight = cfg.common.load_weight
         
+        self.double_dqn = cfg.train.double_dqn
+        self.target_net = cfg.train.target_net
+        if self.double_dqn:
+            self.target_net = True
+            
+        if self.target_net:
+            print("set target network...")
+            self.target_model = copy.deepcopy(self.model)
+            self.target_copy_intarval = cfg.train.target_copy_intarval
+        
         if self.mode=="predict":
             if not os.path.exists(self.load_weight):
                 print("%s is not existed!!"%(self.load_weight))
@@ -112,7 +122,7 @@ class Block_Controller(object):
             self.optimizer = torch.optim.Adam(self.model.parameters(), lr=self.lr)
             self.scheduler = None
         else:
-            self.momentum =0.99
+            self.momentum =cfg.train.lr_momentum 
             self.optimizer = torch.optim.SGD(self.model.parameters(), lr=self.lr, momentum=self.momentum)
             self.lr_step_size = cfg.train.lr_step_size
             self.lr_gamma = cfg.train.lr_gamma
@@ -160,16 +170,28 @@ class Block_Controller(object):
                 state_batch = torch.stack(tuple(state for state in state_batch))
                 reward_batch = torch.from_numpy(np.array(reward_batch, dtype=np.float32)[:, None])
                 next_state_batch = torch.stack(tuple(state for state in next_state_batch))
+                
                 q_values = self.model(state_batch)
-                self.model.eval()
-                with torch.no_grad():
-                    next_prediction_batch = self.model(next_state_batch)
+                
+                if self.target_net:
+                    if self.epoch %self.target_copy_intarval==0 and self.epoch>0:
+                        print("target_net update...")
+                        self.target_model = torch.load(self.max_weight)
+                    self.target_model.eval()
+                    with torch.no_grad():
+                        prediction = self.target_model(state)
+                        
+                        next_prediction_batch = self.target_model(next_state_batch)
+                else:
+                    self.model.eval()
+                    with torch.no_grad():
+                        next_prediction_batch = self.model(next_state_batch)
 
                 self.model.train()
                 y_batch = torch.cat(
                     tuple(reward if reward<0 else reward + self.gamma * prediction for reward, prediction in
                           zip(reward_batch, next_prediction_batch)))[:, None]
-
+                
                 self.optimizer.zero_grad()
                 loss = self.criterion(q_values, y_batch)
                 loss.backward()
@@ -228,6 +250,7 @@ class Block_Controller(object):
             if self.score > self.max_score:
                 torch.save(self.model, "{}/tetris_epoch_{}_score{}".format(self.saved_path,self.epoch,self.score))
                 self.max_score  =  self.score
+                self.max_weight = "{}/tetris_epoch_{}_score{}".format(self.saved_path,self.epoch,self.score)
 
             self.state = self.initial_state
             self.score = 0
@@ -416,6 +439,9 @@ class Block_Controller(object):
                        
             if torch.cuda.is_available():
                 next_states = next_states.cuda()
+                
+                
+                
             self.model.eval()
             with torch.no_grad():
                 predictions = self.model(next_states)[:, 0]
