@@ -184,6 +184,7 @@ class Block_Controller(object):
                         print("target_net update...")
                         self.target_model = torch.load(self.max_weight)
                     self.target_model.eval()
+                    #======predict Q(S_t+1 max_a Q(s_(t+1),a,theta))======
                     with torch.no_grad():
                         next_prediction_batch = self.target_model(next_state_batch)
                 else:
@@ -455,18 +456,47 @@ class Block_Controller(object):
             done = False #game over flag
             
             #======predict max_a Q(s_(t+1),a)======
+            #if use double dqn, predicted by main model
+            if self.double_dqn:
+                next_backboard  = self.getBoard(curr_backboard, curr_shape_class, action[1], action[0])
+                next２_steps =self.get_next_func(next_backboard,next_piece_id,next_shape_class)
+                next2_actions, next2_states = zip(*next２_steps.items())
+                next2_states = torch.stack(next2_states)
+                if torch.cuda.is_available():
+                    next2_states = next2_states.cuda()
+                self.model.eval()
+                with torch.no_grad():
+                    next_predictions = self.model(next2_states)[:, 0]
+                next_index = torch.argmax(next_predictions).item()
+                next2_state = next2_states[next_index, :]
+                
             #if use target net, predicted by target model
-            next_backboard  = self.getBoard(curr_backboard, curr_shape_class, action[1], action[0])
-            next２_steps =self.get_next_func(next_backboard,next_piece_id,next_shape_class)
-            next2_actions, next2_states = zip(*next２_steps.items())
-            next2_states = torch.stack(next2_states)
-            if torch.cuda.is_available():
-                next2_states = next2_states.cuda()
-            self.model.eval()
-            with torch.no_grad():
-                next_predictions = self.model(next2_states)[:, 0]
-            next_index = torch.argmax(next_predictions).item()
-            next2_state = next2_states[next_index, :]
+            elif self.target_net:
+                next_backboard  = self.getBoard(curr_backboard, curr_shape_class, action[1], action[0])
+                next２_steps =self.get_next_func(next_backboard,next_piece_id,next_shape_class)
+                next2_actions, next2_states = zip(*next２_steps.items())
+                next2_states = torch.stack(next2_states)
+                if torch.cuda.is_available():
+                    next2_states = next2_states.cuda()
+                self.target_model.eval()
+                with torch.no_grad():
+                    next_predictions = self.target_model(next2_states)[:, 0]
+                next_index = torch.argmax(next_predictions).item()
+                next2_state = next2_states[next_index, :]
+                
+            #if not use target net,predicted by main model
+            else:
+                next_backboard  = self.getBoard(curr_backboard, curr_shape_class, action[1], action[0])
+                next２_steps =self.get_next_func(next_backboard,next_piece_id,next_shape_class)
+                next2_actions, next2_states = zip(*next２_steps.items())
+                next2_states = torch.stack(next2_states)
+                if torch.cuda.is_available():
+                    next2_states = next2_states.cuda()
+                self.model.eval()
+                with torch.no_grad():
+                    next_predictions = self.model(next2_states)[:, 0]
+                next_index = torch.argmax(next_predictions).item()
+                next2_state = next2_states[next_index, :]
             
             #=======================================
             self.replay_memory.append([next_state, reward, next2_state,done])
