@@ -182,9 +182,10 @@ class Block_Controller(object):
                 if self.target_net:
                     if self.epoch %self.target_copy_intarval==0 and self.epoch>0:
                         print("target_net update...")
+                        #self.target_model = copy.deepcopy(self.model)
                         self.target_model = torch.load(self.max_weight)
                     self.target_model.eval()
-                    #======predict Q(S_t+1 max_a Q(s_(t+1),a,theta))======
+                    #======predict Q(S_t+1 max_a Q(s_(t+1),a))======
                     with torch.no_grad():
                         next_prediction_batch = self.target_model(next_state_batch)
                 else:
@@ -426,7 +427,7 @@ class Block_Controller(object):
                
         #self.state = reshape_backboard
         if self.reshape_board:
-            self.state = torch.from_numpy(reshape_backboard[np.newaxis,:,:]).float()
+            curr_backboard = torch.from_numpy(reshape_backboard[np.newaxis,:,:]).float()
             
         next_steps =self.get_next_func(curr_backboard,curr_piece_id,curr_shape_class)
         if self.mode == "train":
@@ -464,7 +465,7 @@ class Block_Controller(object):
                 next2_states = torch.stack(next2_states)
                 if torch.cuda.is_available():
                     next2_states = next2_states.cuda()
-                self.model.eval()
+                self.model.train()
                 with torch.no_grad():
                     next_predictions = self.model(next2_states)[:, 0]
                 next_index = torch.argmax(next_predictions).item()
@@ -478,7 +479,7 @@ class Block_Controller(object):
                 next2_states = torch.stack(next2_states)
                 if torch.cuda.is_available():
                     next2_states = next2_states.cuda()
-                self.target_model.eval()
+                self.target_model.train()
                 with torch.no_grad():
                     next_predictions = self.target_model(next2_states)[:, 0]
                 next_index = torch.argmax(next_predictions).item()
@@ -492,11 +493,20 @@ class Block_Controller(object):
                 next2_states = torch.stack(next2_states)
                 if torch.cuda.is_available():
                     next2_states = next2_states.cuda()
-                self.model.eval()
+                self.model.train()
                 with torch.no_grad():
                     next_predictions = self.model(next2_states)[:, 0]
-                next_index = torch.argmax(next_predictions).item()
+                                
+                epsilon = self.final_epsilon + (max(self.num_decay_epochs - self.epoch, 0) * (
+                self.initial_epsilon - self.final_epsilon) / self.num_decay_epochs)
+                u = random()
+                random_action = u <= epsilon
+                if random_action:
+                    next_index = randint(0, len(next2_steps) - 1)
+                else:
+                    next_index = torch.argmax(next_predictions).item()
                 next2_state = next2_states[next_index, :]
+                
             
             #=======================================
             self.replay_memory.append([next_state, reward, next2_state,done])
