@@ -182,7 +182,6 @@ class Block_Controller(object):
                 if self.target_net:
                     if self.epoch %self.target_copy_intarval==0 and self.epoch>0:
                         print("target_net update...")
-                        #self.target_model = copy.deepcopy(self.model)
                         self.target_model = torch.load(self.max_weight)
                     self.target_model.eval()
                     #======predict Q(S_t+1 max_a Q(s_(t+1),a))======
