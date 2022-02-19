@@ -63,22 +63,22 @@ class Block_Controller(object):
                 # get board data, as if dropdown block
                 board = self.getBoard(self.board_backboard, self.CurrentShape_class, direction0, x0)
 
-                # evaluate board
-                EvalValue = self.calcEvaluationValueUSAMI(board)
-                # update best move
-                if EvalValue > LatestEvalValue:
-                    strategy = (direction0, x0, 1, 1)
-                    LatestEvalValue = EvalValue
+                ## evaluate board
+                #EvalValue = self.calcEvaluationValueUSAMI(board)
+                ## update best move
+                #if EvalValue > LatestEvalValue:
+                #    strategy = (direction0, x0, 1, 1)
+                #    LatestEvalValue = EvalValue
 
                 ###test
-                ###for direction1 in NextShapeDirectionRange:
-                ###  x1Min, x1Max = self.getSearchXRange(self.NextShape_class, direction1)
-                ###  for x1 in range(x1Min, x1Max):
-                ###        board2 = self.getBoard(board, self.NextShape_class, direction1, x1)
-                ###        EvalValue = self.calcEvaluationValueSample(board2)
-                ###        if EvalValue > LatestEvalValue:
-                ###            strategy = (direction0, x0, 1, 1)
-                ###            LatestEvalValue = EvalValue
+                for direction1 in NextShapeDirectionRange:  
+                    x1Min, x1Max = self.getSearchXRange(self.NextShape_class, direction1)
+                    for x1 in range(x1Min, x1Max):
+                            board2 = self.getBoard(board, self.NextShape_class, direction1, x1)
+                            EvalValue = self.calcEvaluationValueUSAMI(board2)
+                            if EvalValue > LatestEvalValue:
+                                strategy = (direction0, x0, 1, 1)
+                                LatestEvalValue = EvalValue
         # search best nextMove <--
 
         print("===", datetime.now() - t1)
@@ -228,8 +228,8 @@ class Block_Controller(object):
 
         # calc Evaluation Value
         score = 0
-        score = score + fullLines* fullLines * 10.0           # try to delete line 
-        score = score - nHoles * 5.0               # try not to make hole
+        score = score + fullLines* fullLines * fullLines * 5.0           # try to delete line 
+        score = score - nHoles * 10.0               # try not to make hole
         score = score - nIsolatedBlocks * 1.0      # try not to make isolated block
         score = score - absDy * 1.0                # try to put block smoothly
         score = score - maxDy * 0.3                # maxDy
