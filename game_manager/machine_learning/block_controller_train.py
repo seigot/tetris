@@ -74,13 +74,11 @@ class Block_Controller(object):
             self.initial_state = torch.FloatTensor([0 for i in range(self.state_dim)])
             self.get_next_func = self.get_next_states
             self.reward_func = self.step
-            self.reshape_board = False
         elif cfg.model.name=="DQNv2":
             self.model = DeepQNetwork_v2()
             self.initial_state = torch.FloatTensor([[[0 for i in range(10)] for j in range(22)]])
             self.get_next_func = self.get_next_states_v2
             self.reward_func = self.step_v2
-            self.reshape_board = True
             self.reward_weight = cfg.train.reward_weight
         self.load_weight = cfg.common.load_weight
         
@@ -425,9 +423,7 @@ class Block_Controller(object):
         reshape_backboard = self.get_reshape_backboard(curr_backboard)
                
         #self.state = reshape_backboard
-        if self.reshape_board:
-            curr_backboard = torch.from_numpy(reshape_backboard[np.newaxis,:,:]).float()
-            
+
         next_steps =self.get_next_func(curr_backboard,curr_piece_id,curr_shape_class)
         if self.mode == "train":
             # init parameter
