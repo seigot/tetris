@@ -23,7 +23,7 @@ sudo docker run -p 6080:80 --shm-size=512m seigott/tetris_docker
 sudo nohup docker run -p 6080:80 --shm-size=512m seigott/tetris_docker &
 ```
 
-もし`pytorch(v1.4)`インストール済dockerコンテナを使いたい場合、上記の代わりに以下を実行する。<br>
+もし`pytorch(v1.10)`インストール済dockerコンテナを使いたい場合、上記の代わりに以下を実行する。<br>
 
 ```
 sudo docker run -p 6080:80 --shm-size=512m seigott/tetris_docker:pytorchv1.10
