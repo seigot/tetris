@@ -109,6 +109,7 @@ class Block_Controller(object):
         
         self.replay_memory_size = cfg.train.replay_memory_size
         self.replay_memory = deque(maxlen=self.replay_memory_size)
+            
         self.num_decay_epochs = cfg.train.num_decay_epochs
         self.num_epochs = cfg.train.num_epoch
         self.initial_epsilon = cfg.train.initial_epsilon
@@ -147,9 +148,16 @@ class Block_Controller(object):
             self.reward_list =[r/self.norm_num for r in self.reward_list]
             self.penalty /= self.norm_num
             self.penalty = min(cfg.train.max_penalty,self.penalty)
-  
+        
+        #=====Prioritized Experience Replay=====
+        self.prioritized_replay = cfg.train.prioritized_replay 
+        if self.prioritized_replay:
+            from machine_learning.qlearning import PRIORITIZED_EXPERIENCE_REPLAY as PER
+            self.PER = PER(self.replay_memory_size,gamma=self.gamma)
+        
     #更新
     def update(self):
+
         if self.mode=="train":
             self.score += self.score_list[5]
             self.replay_memory[-1][1] += self.penalty
@@ -164,7 +172,10 @@ class Block_Controller(object):
             else:
                 print("================update================")
                 self.epoch += 1
-                batch = sample(self.replay_memory, min(len(self.replay_memory),self.batch_size))
+                if self.prioritized_replay:
+                    batch,replay_batch_index = self.PER.sampling(self.replay_memory,self.batch_size)
+                else:
+                    batch = sample(self.replay_memory, min(len(self.replay_memory),self.batch_size))
                 state_batch, reward_batch, next_state_batch, done_batch = zip(*batch)
                 
                 state_batch = torch.stack(tuple(state for state in state_batch))
@@ -174,9 +185,9 @@ class Block_Controller(object):
                 done_batch = torch.from_numpy(np.array(done_batch)[:, None])
 
                 #max_next_state_batch = torch.stack(tuple(state for state in max_next_state_batch))
-                
                 q_values = self.model(state_batch)
                 
+
                 if self.target_net:
                     if self.epoch %self.target_copy_intarval==0 and self.epoch>0:
                         print("target_net update...")
@@ -197,8 +208,15 @@ class Block_Controller(object):
                           zip(done_batch,reward_batch, next_prediction_batch)))[:, None]
                 
                 self.optimizer.zero_grad()
-                loss = self.criterion(q_values, y_batch)
-                loss.backward()
+                if self.prioritized_replay:
+                    loss_weights = self.PER.update_priority(replay_batch_index,reward_batch,q_values,next_prediction_batch)
+                    #print(loss_weights *nn.functional.mse_loss(q_values, y_batch))
+                    loss = (loss_weights *self.criterion(q_values, y_batch)).mean()
+                    loss.backward()
+                else:
+                    loss = self.criterion(q_values, y_batch)
+                    loss.backward()
+                
                 self.optimizer.step()
                 
                 if self.scheduler!=None:
@@ -377,9 +395,9 @@ class Block_Controller(object):
         hole_num = self.get_holes(board)
         lines_cleared, board = self.check_cleared_rows(board)
         reward = self.reward_list[lines_cleared] 
-        reward -= self.reward_weight[0]*bampiness 
-        reward -= self.reward_weight[1]*max_height
-        reward -= self.reward_weight[2]*hole_num
+        reward -= self.reward_weight[0] *bampiness 
+        reward -= self.reward_weight[1] * max(0,max_height-(self.height/2))
+        reward -= self.reward_weight[2] * hole_num
 
         self.epoch_reward += reward 
         self.score += self.score_list[lines_cleared]
@@ -505,6 +523,9 @@ class Block_Controller(object):
             
             #=======================================
             self.replay_memory.append([next_state, reward, next2_state,done])
+            if self.prioritized_replay:
+                self.PER.store()
+            
             #self.replay_memory.append([self.state, reward, next_state,done])
             nextMove["strategy"]["direction"] = action[1]
             nextMove["strategy"]["x"] = action[0]
