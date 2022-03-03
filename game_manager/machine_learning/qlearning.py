@@ -29,7 +29,7 @@ class PRIORITIZED_EXPERIENCE_REPLAY():
     def rank_based_priority(self,replay_priority):
         replay_priority_index = np.argsort(replay_priority)[::-1]
         for i,index in enumerate(replay_priority_index):
-            replay_priority[index] = replay_priority[index]/ (i+1)
+            replay_priority[index] =  1.0 / (i+1.0)
         replay_priority = self.normalize(replay_priority)
         return replay_priority
         
@@ -42,24 +42,25 @@ class PRIORITIZED_EXPERIENCE_REPLAY():
         replay_batch = deque([replay_memory[j] for j in replay_batch_index])
         
         N = len(replay_priority)
-        max_priority = max(replay_priority)
         
         for i in range(len(replay_priority)):
             self.weights[i] = (N*replay_priority[i])**(-self.beta)
-            self.weights[i] /= max_priority
+        max_weights = max(self.weights)
+        self.weights /= max_weights
         return replay_batch,replay_batch_index
     
     def update_priority(self,replay_batch_index,reward_batch,q_batch,next_q_batch):
         memo = []
         weights = []
-        for j in replay_batch_index:
-            weights.append(self.weights[j])
-            if j in memo:
+        for i,index in enumerate(replay_batch_index):
+            weights.append(self.weights[index])
+            if index in memo:
                 continue
-            memo.append(j)
+            memo.append(index )
             with torch.no_grad():
-                TD_error = float(reward_batch[j] + self.gamma *(next_q_batch[j] - q_batch[j]))
-            self.replay_priority_queue[j] = abs(TD_error)
+                #print(self.gamma *next_q_batch[i] - q_batch[i])
+                TD_error = float(reward_batch[i] + self.gamma *next_q_batch[i] - q_batch[i])
+            self.replay_priority_queue[index] = abs(TD_error)
         weights  = np.array(weights,dtype=np.float64)
         #print(self.replay_priority_queue)
         return torch.from_numpy(weights)

@@ -212,6 +212,7 @@ class Block_Controller(object):
                     loss_weights = self.PER.update_priority(replay_batch_index,reward_batch,q_values,next_prediction_batch)
                     #print(loss_weights *nn.functional.mse_loss(q_values, y_batch))
                     loss = (loss_weights *self.criterion(q_values, y_batch)).mean()
+                    #loss = self.criterion(q_values, y_batch)
                     loss.backward()
                 else:
                     loss = self.criterion(q_values, y_batch)
@@ -269,7 +270,7 @@ class Block_Controller(object):
 
     #累積値の初期化
     def reset_state(self):
-            if self.score > self.max_score:
+            if self.score >= self.max_score:
                 torch.save(self.model, "{}/tetris_epoch_{}_score{}".format(self.saved_path,self.epoch,self.score))
                 self.max_score  =  self.score
                 self.max_weight = "{}/tetris_epoch_{}_score{}".format(self.saved_path,self.epoch,self.score)
