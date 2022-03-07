@@ -5,7 +5,7 @@ import sys
 import subprocess
 from argparse import ArgumentParser
 
-def get_option(game_level, game_time, mode, random_seed, drop_interval, resultlogjson, user_name):
+def get_option(game_level, game_time, mode, random_seed, drop_interval, resultlogjson, user_name, ShapeListMax):
     argparser = ArgumentParser()
     argparser.add_argument('-l', '--game_level', type=int,
                            default=game_level,
@@ -15,7 +15,7 @@ def get_option(game_level, game_time, mode, random_seed, drop_interval, resultlo
                            help='Specify game time(s), if specify -1, do endless loop')
     argparser.add_argument('-m', '--mode', type=str,
                            default=mode,
-                           help='Specify mode (keyboard/gamepad/sample/train) if necessary')
+                           help='Specify mode (keyboard/gamepad/sample/train/predict/train_sample/predict_sample) if necessary')
     argparser.add_argument('-r', '--random_seed', type=int,
                            default=random_seed,
                            help='Specify random seed if necessary') 
@@ -28,6 +28,9 @@ def get_option(game_level, game_time, mode, random_seed, drop_interval, resultlo
     argparser.add_argument('-u', '--user_name', type=str,
                            default=user_name,
                            help='Specigy user name if necessary')
+    argparser.add_argument('--ShapeListMax', type=int,
+                           default=ShapeListMax,
+                           help='Specigy ShapeListMax if necessary')
     return argparser.parse_args()
 
 def get_python_cmd():
@@ -48,6 +51,7 @@ def start():
     DROP_INTERVAL = 1000          # drop interval
     RESULT_LOG_JSON = "result.json"
     USER_NAME = "window_sample"
+    SHAPE_LIST_MAX = 6
 
     ## update value if args are given
     args = get_option(GAME_LEVEL,
@@ -56,12 +60,13 @@ def start():
                       INPUT_RANDOM_SEED,
                       DROP_INTERVAL,
                       RESULT_LOG_JSON,
-                      USER_NAME)
+                      USER_NAME,
+                      SHAPE_LIST_MAX)
     if args.game_level >= 0:
         GAME_LEVEL = args.game_level
     if args.game_time >= 0 or args.game_time == -1:
         GAME_TIME = args.game_time
-    if args.mode in ("keyboard", "gamepad", "sample", "train"):
+    if args.mode in ("keyboard", "gamepad", "sample", "train", "predict", "train_sample", "predict_sample"):
         IS_MODE = args.mode
     if args.random_seed >= 0:
         INPUT_RANDOM_SEED = args.random_seed
@@ -71,6 +76,8 @@ def start():
         RESULT_LOG_JSON = args.resultlogjson
     if len(args.user_name) != 0:
         USER_NAME = args.user_name
+    if args.ShapeListMax > 1:
+        SHAPE_LIST_MAX = args.ShapeListMax
 
     ## set field parameter for level 1
     RANDOM_SEED = 0            # random seed for field
@@ -116,7 +123,8 @@ def start():
         + ' ' + '--drop_interval' + ' ' + str(DROP_INTERVAL) \
         + ' ' + '--mode' + ' ' + str(IS_MODE) \
         + ' ' + '--user_name' + ' ' + str(USER_NAME) \
-        + ' ' + '--resultlogjson' + ' ' + str(RESULT_LOG_JSON)
+        + ' ' + '--resultlogjson' + ' ' + str(RESULT_LOG_JSON) \
+        + ' ' + '--ShapeListMax' + ' ' + str(SHAPE_LIST_MAX)
 
     ret = subprocess.run(cmd, shell=True)
     if ret.returncode != 0:

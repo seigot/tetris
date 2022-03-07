@@ -15,7 +15,7 @@ import time
 import json
 import pprint
 
-def get_option(game_time, mode, drop_interval, random_seed, obstacle_height, obstacle_probability, resultlogjson, user_name):
+def get_option(game_time, mode, drop_interval, random_seed, obstacle_height, obstacle_probability, resultlogjson, user_name, ShapeListMax):
     argparser = ArgumentParser()
     argparser.add_argument('--game_time', type=int,
                            default=game_time,
@@ -41,6 +41,10 @@ def get_option(game_time, mode, drop_interval, random_seed, obstacle_height, obs
     argparser.add_argument('-u', '--user_name', type=str,
                            default=user_name,
                            help='Specigy user name if necessary')
+    argparser.add_argument('--ShapeListMax', type=int,
+                           default=ShapeListMax,
+                           help='Specigy NextShapeNumberMax if necessary')
+
     return argparser.parse_args()
 
 class Game_Manager(QMainWindow):
@@ -66,6 +70,7 @@ class Game_Manager(QMainWindow):
         self.random_seed = time.time() * 10000000 # 0
         self.obstacle_height = 0
         self.obstacle_probability = 0
+        self.ShapeListMax = 6
         self.resultlogjson = ""
         self.user_name = ""
         args = get_option(self.game_time,
@@ -75,10 +80,11 @@ class Game_Manager(QMainWindow):
                           self.obstacle_height,
                           self.obstacle_probability,
                           self.resultlogjson,
-                          self.user_name)
+                          self.user_name,
+                          self.ShapeListMax)
         if args.game_time >= 0:
             self.game_time = args.game_time
-        if args.mode in ("keyboard", "gamepad", "sample", "train"):
+        if args.mode in ("keyboard", "gamepad", "sample", "train", "predict", "train_sample", "predict_sample"):
             self.mode = args.mode
         if args.drop_interval >= 0:
             self.drop_interval = args.drop_interval
@@ -92,10 +98,15 @@ class Game_Manager(QMainWindow):
             self.resultlogjson = args.resultlogjson
         if len(args.user_name) != 0:
             self.user_name = args.user_name
+        if args.ShapeListMax > 0:
+            self.ShapeListMax = args.ShapeListMax
         self.initUI()
 
     def initUI(self):
         self.gridSize = 22
+        self.NextShapeYOffset = 90
+        self.NextShapeMaxAppear = self.ShapeListMax - 1
+
         self.speed = self.drop_interval # block drop speed
 
         self.timer = QBasicTimer()
@@ -108,10 +119,11 @@ class Game_Manager(QMainWindow):
                             self.game_time,
                             random_seed_Nextshape,
                             self.obstacle_height,
-                            self.obstacle_probability)
+                            self.obstacle_probability,
+                            self.ShapeListMax)
         hLayout.addWidget(self.tboard)
 
-        self.sidePanel = SidePanel(self, self.gridSize)
+        self.sidePanel = SidePanel(self, self.gridSize, self.NextShapeYOffset, self.NextShapeMaxAppear)
         hLayout.addWidget(self.sidePanel)
 
         self.statusbar = self.statusBar()
@@ -167,6 +179,19 @@ class Game_Manager(QMainWindow):
         BOARD_DATA.clear()
         BOARD_DATA.createNewPiece()
 
+    def reset_all_field(self):
+        # reset all field for debug
+        # this function is mainly for machine learning
+        self.tboard.reset_cnt = 0
+        self.tboard.score = 0
+        self.tboard.dropdownscore = 0
+        self.tboard.linescore = 0
+        self.tboard.line = 0
+        self.tboard.line_score_stat = [0, 0, 0, 0]
+        self.tboard.start_time = time.time()
+        BOARD_DATA.clear()
+        BOARD_DATA.createNewPiece()
+
     def updateWindow(self):
         self.tboard.updateData()
         self.sidePanel.updateData()
@@ -193,12 +218,28 @@ class Game_Manager(QMainWindow):
                                   "y_operation": "none",  # movedown or dropdown (0:movedown, 1:dropdown)
                                   "y_moveblocknum": "none", # amount of next y movement
                                   },
+                            "option":
+                                {
+                                  "reset_all_field": None,
+                                }
                             }
                 # get nextMove from GameController
                 GameStatus = self.getGameStatus()
 
                 if self.mode == "sample":
+                    # sample
                     self.nextMove = BLOCK_CONTROLLER_SAMPLE.GetNextMove(nextMove, GameStatus)
+
+                elif self.mode == "train_sample" or self.mode == "predict_sample":
+                    # sample train/predict
+                    # import block_controller_train_sample, it's necessary to install pytorch to use.
+                    from machine_learning.block_controller_train_sample import BLOCK_CONTROLLER_TRAIN_SAMPLE
+                    self.nextMove = BLOCK_CONTROLLER_TRAIN_SAMPLE.GetNextMove(nextMove, GameStatus)
+                elif self.mode == "train" or self.mode == "predict":
+                    # train/predict
+                    # import block_controller_train, it's necessary to install pytorch to use.
+                    from machine_learning.block_controller_train import BLOCK_CONTROLLER_TRAIN
+                    self.nextMove = BLOCK_CONTROLLER_TRAIN.GetNextMove(nextMove, GameStatus)
                 else:
                     self.nextMove = BLOCK_CONTROLLER.GetNextMove(nextMove, GameStatus)
 
@@ -262,6 +303,11 @@ class Game_Manager(QMainWindow):
                 print("reset field.")
                 self.resetfield()
 
+            # reset all field if debug option is enabled
+            if self.nextMove["option"]["reset_all_field"] == True:
+                print("reset all field.")
+                self.reset_all_field()
+
             # init nextMove
             self.nextMove = None
 
@@ -314,6 +360,8 @@ class Game_Manager(QMainWindow):
                            "class":"none",
                            "index":"none",
                            "direction_range":"none",
+                        },
+                        "nextShapeList":{
                         },
                       },
                   "judge_info":
@@ -388,26 +436,25 @@ class Game_Manager(QMainWindow):
         status["block_info"]["currentX"] = BOARD_DATA.currentX
         status["block_info"]["currentY"] = BOARD_DATA.currentY
         status["block_info"]["currentDirection"] = BOARD_DATA.currentDirection
-        status["block_info"]["currentShape"]["class"] = BOARD_DATA.currentShape
-        status["block_info"]["currentShape"]["index"] = BOARD_DATA.currentShape.shape
         ### current shape
-        if BOARD_DATA.currentShape.shape in (Shape.shapeI, Shape.shapeZ, Shape.shapeS):
-            Range = (0, 1)
-        elif BOARD_DATA.currentShape.shape == Shape.shapeO:
-            Range = (0,)
-        else:
-            Range = (0, 1, 2, 3)
-        status["block_info"]["currentShape"]["direction_range"] = Range
+        currentShapeClass, currentShapeIdx, currentShapeRange = BOARD_DATA.getShapeData(0)
+        status["block_info"]["currentShape"]["class"] = currentShapeClass
+        status["block_info"]["currentShape"]["index"] = currentShapeIdx
+        status["block_info"]["currentShape"]["direction_range"] = currentShapeRange
         ### next shape
-        status["block_info"]["nextShape"]["class"] = BOARD_DATA.nextShape
-        status["block_info"]["nextShape"]["index"] = BOARD_DATA.nextShape.shape
-        if BOARD_DATA.nextShape.shape in (Shape.shapeI, Shape.shapeZ, Shape.shapeS):
-            Range = (0, 1)
-        elif BOARD_DATA.nextShape.shape == Shape.shapeO:
-            Range = (0,)
-        else:
-            Range = (0, 1, 2, 3)
-        status["block_info"]["nextShape"]["direction_range"] = Range
+        nextShapeClass, nextShapeIdx, nextShapeRange = BOARD_DATA.getShapeData(1)
+        status["block_info"]["nextShape"]["class"] = nextShapeClass
+        status["block_info"]["nextShape"]["index"] = nextShapeIdx
+        status["block_info"]["nextShape"]["direction_range"] = nextShapeRange
+        ### next shape list
+        for i in range(BOARD_DATA.getShapeListLength()):
+            ElementNo="element" + str(i)
+            ShapeClass, ShapeIdx, ShapeRange = BOARD_DATA.getShapeData(i)
+            status["block_info"]["nextShapeList"][ElementNo] = {
+                "class":ShapeClass,
+                "index":ShapeIdx,
+                "direction_range":ShapeRange,
+            }
         ## judge_info
         status["judge_info"]["elapsed_time"] = round(time.time() - self.tboard.start_time, 3)
         status["judge_info"]["game_time"] = self.game_time
@@ -444,7 +491,7 @@ class Game_Manager(QMainWindow):
         status["debug_info"]["random_seed"] = self.random_seed
         status["debug_info"]["obstacle_height"] = self.obstacle_height
         status["debug_info"]["obstacle_probability"] = self.obstacle_probability
-        if BOARD_DATA.currentShape == Shape.shapeNone:
+        if currentShapeIdx == Shape.shapeNone:
             print("warning: current shape is none !!!")
 
         return status
@@ -606,38 +653,51 @@ def drawSquare(painter, x, y, val, s):
 
 
 class SidePanel(QFrame):
-    def __init__(self, parent, gridSize):
+    def __init__(self, parent, gridSize, NextShapeYOffset, NextShapeMaxAppear):
         super().__init__(parent)
         self.setFixedSize(gridSize * 5, gridSize * BOARD_DATA.height)
         self.move(gridSize * BOARD_DATA.width, 0)
         self.gridSize = gridSize
+        self.NextShapeYOffset = NextShapeYOffset
+        self.NextShapeMaxAppear = NextShapeMaxAppear
 
     def updateData(self):
         self.update()
 
     def paintEvent(self, event):
         painter = QPainter(self)
-        minX, maxX, minY, maxY = BOARD_DATA.nextShape.getBoundingOffsets(0)
 
-        dy = 3 * self.gridSize
-        dx = (self.width() - (maxX - minX) * self.gridSize) / 2
+        ShapeListLength = BOARD_DATA.getShapeListLength()
+        
+        for i in range(ShapeListLength):
+            if i == 0:
+                # skip current shape
+                continue
+            if i > self.NextShapeMaxAppear:
+                break
 
-        val = BOARD_DATA.nextShape.shape
-        for x, y in BOARD_DATA.nextShape.getCoords(0, 0, -minY):
-            drawSquare(painter, x * self.gridSize + dx, y * self.gridSize + dy, val, self.gridSize)
+            ShapeClass, ShapeIdx, ShapeRange = BOARD_DATA.getShapeData(i) # nextShape
+            minX, maxX, minY, maxY = ShapeClass.getBoundingOffsets(0)
 
+            dy = 1 * self.gridSize
+            dx = (self.width() - (maxX - minX) * self.gridSize) / 2
+            
+            val = ShapeClass.shape
+            y_offset = self.NextShapeYOffset * (i - 1) #(self.NextShapeMaxAppear - i)
+            for x, y in ShapeClass.getCoords(0, 0, -minY):
+                drawSquare(painter, x * self.gridSize + dx, y * self.gridSize + dy + y_offset, val, self.gridSize)
 
 class Board(QFrame):
     msg2Statusbar = pyqtSignal(str)
 
-    def __init__(self, parent, gridSize, game_time, random_seed, obstacle_height, obstacle_probability):
+    def __init__(self, parent, gridSize, game_time, random_seed, obstacle_height, obstacle_probability, ShapeListMax):
         super().__init__(parent)
         self.setFixedSize(gridSize * BOARD_DATA.width, gridSize * BOARD_DATA.height)
         self.gridSize = gridSize
         self.game_time = game_time
-        self.initBoard(random_seed, obstacle_height, obstacle_probability)
+        self.initBoard(random_seed, obstacle_height, obstacle_probability, ShapeListMax)
 
-    def initBoard(self, random_seed_Nextshape, obstacle_height, obstacle_probability):
+    def initBoard(self, random_seed_Nextshape, obstacle_height, obstacle_probability, ShapeListMax):
         self.score = 0
         self.dropdownscore = 0
         self.linescore = 0
@@ -648,6 +708,7 @@ class Board(QFrame):
         BOARD_DATA.clear()
         BOARD_DATA.init_randomseed(random_seed_Nextshape)
         BOARD_DATA.init_obstacle_parameter(obstacle_height, obstacle_probability)
+        BOARD_DATA.init_shape_parameter(ShapeListMax)
 
     def paintEvent(self, event):
         painter = QPainter(self)

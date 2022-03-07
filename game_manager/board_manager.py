@@ -117,12 +117,22 @@ class BoardData(object):
         self.obstacle_probability = 0
         self.random_seed = 0
         self.nextShapeIndexCnt = 1
+        self.ShapeListMax = 2
+        # ShapeList
+        #  ShapeNumber 0: currentShape
+        #  ShapeNumber 1: nextShape
+        #  ShapeNumber 2: next nextShape
+        #  ...
+        self.ShapeList = []
 
     def init_randomseed(self, num):
         self.random_seed = int(num % (2**32-1))
         np_randomShape.random.seed(self.random_seed)
         np_randomObstacle.random.seed(self.random_seed)
         np_randomObstaclePiece.random.seed(self.random_seed)
+
+    def init_shape_parameter(self, ShapeListMax):
+        self.ShapeListMax = ShapeListMax
 
     def init_obstacle_parameter(self, height, probability):
         self.obstacle_height = height
@@ -145,6 +155,25 @@ class BoardData(object):
     def getValue(self, x, y):
         return self.backBoard[x + y * BoardData.width]
 
+    def getShapeListLength(self):
+        length = len(self.ShapeList)
+        return length
+
+    def getShapeData(self, ShapeNumber):
+
+        ShapeClass = self.ShapeList[ShapeNumber]
+        ShapeIdx = ShapeClass.shape
+
+        ShapeRange = (0, 1, 2, 3)
+        if ShapeIdx in (Shape.shapeI, Shape.shapeZ, Shape.shapeS):
+            ShapeRange = (0, 1)
+        elif ShapeIdx == Shape.shapeO:
+            ShapeRange = (0,)
+        else:
+            ShapeRange = (0, 1, 2, 3)
+
+        return ShapeClass, ShapeIdx, ShapeRange
+
     def getCurrentShapeCoord(self):
         return self.currentShape.getCoords(self.currentDirection, self.currentX, self.currentY)
 
@@ -162,18 +191,28 @@ class BoardData(object):
 
     def createNewPiece(self):
         if self.nextShape == None:
-            self.nextShape = Shape(self.getNewShapeIndex()) # initial next shape data
+            self.ShapeList.insert(len(self.ShapeList), 0)
+            # initialize next shape data
+            for i in range(self.ShapeListMax-1):
+                self.ShapeList.insert(len(self.ShapeList), Shape(self.getNewShapeIndex()))
+            self.nextShape = self.ShapeList[1]
 
         minX, maxX, minY, maxY = self.nextShape.getBoundingOffsets(0)
         result = False
+
+        # check if nextShape can appear
         if self.tryMoveCurrent(0, 5, -minY):
             self.currentX = 5
             self.currentY = -minY
             self.currentDirection = 0
-            self.currentShape = self.nextShape
-            self.nextShape = Shape(self.getNewShapeIndex())
+            # get nextShape
+            self.ShapeList.pop(0)
+            self.ShapeList.insert(len(self.ShapeList), Shape(self.getNewShapeIndex()))
+            self.currentShape = self.ShapeList[0]
+            self.nextShape = self.ShapeList[1]
             result = True
         else:
+            # cannnot appear
             self.currentShape = Shape()
             self.currentX = -1
             self.currentY = -1
