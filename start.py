@@ -31,6 +31,9 @@ def get_option(game_level, game_time, mode, random_seed, drop_interval, resultlo
     argparser.add_argument('--ShapeListMax', type=int,
                            default=ShapeListMax,
                            help='Specigy ShapeListMax if necessary')
+    argparser.add_argument('--weight',
+                           default=None,
+                           help='load model weight')
     return argparser.parse_args()
 
 def get_python_cmd():
@@ -78,6 +81,8 @@ def start():
         USER_NAME = args.user_name
     if args.ShapeListMax > 1:
         SHAPE_LIST_MAX = args.ShapeListMax
+        
+        WEIGHT = args.weight
 
     ## set field parameter for level 1
     RANDOM_SEED = 0            # random seed for field
@@ -124,7 +129,8 @@ def start():
         + ' ' + '--mode' + ' ' + str(IS_MODE) \
         + ' ' + '--user_name' + ' ' + str(USER_NAME) \
         + ' ' + '--resultlogjson' + ' ' + str(RESULT_LOG_JSON) \
-        + ' ' + '--ShapeListMax' + ' ' + str(SHAPE_LIST_MAX)
+        + ' ' + '--ShapeListMax' + ' ' + str(SHAPE_LIST_MAX) \
+        + ' ' + '--weight' + ' ' + str(WEIGHT)
 
     ret = subprocess.run(cmd, shell=True)
     if ret.returncode != 0:

@@ -44,7 +44,9 @@ def get_option(game_time, mode, drop_interval, random_seed, obstacle_height, obs
     argparser.add_argument('--ShapeListMax', type=int,
                            default=ShapeListMax,
                            help='Specigy NextShapeNumberMax if necessary')
-
+    argparser.add_argument('--weight',
+                           default=None,
+                           help='load model weight')
     return argparser.parse_args()
 
 class Game_Manager(QMainWindow):
@@ -100,6 +102,8 @@ class Game_Manager(QMainWindow):
             self.user_name = args.user_name
         if args.ShapeListMax > 0:
             self.ShapeListMax = args.ShapeListMax
+        
+        self.weight = args.weight
         self.initUI()
         
     def initUI(self):
@@ -240,7 +244,7 @@ class Game_Manager(QMainWindow):
                     # train/predict
                     # import block_controller_train, it's necessary to install pytorch to use.
                     from machine_learning.block_controller_train import BLOCK_CONTROLLER_TRAIN
-                    self.nextMove = BLOCK_CONTROLLER_TRAIN.GetNextMove(nextMove, GameStatus)
+                    self.nextMove = BLOCK_CONTROLLER_TRAIN.GetNextMove(nextMove, GameStatus,weight=self.weight)
                 else:
                     self.nextMove = BLOCK_CONTROLLER.GetNextMove(nextMove, GameStatus)
 

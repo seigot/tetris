@@ -8,7 +8,7 @@ import random
 import copy
 import torch
 import torch.nn as nn
-from model.deepqnet import DeepQNetwork,DeepQNetwork_v2
+from model.deepqnet import DeepQNetwork,DeepQNetwork_v2,DeepQNetwork_v3
 
 import omegaconf
 from hydra import compose, initialize
@@ -30,7 +30,7 @@ class Block_Controller(object):
     CurrentShape_class = 0
     NextShape_class = 0
 
-    def __init__(self):
+    def __init__(self,load_weight=None):
         # init parameter
         self.mode = None
         # train
@@ -38,7 +38,7 @@ class Block_Controller(object):
         # predict
         self.init_predict_parameter_flag = False
     
-    def set_parameter(self):
+    def set_parameter(self,weight=None):
         cfg = self.yaml_read()
 
         os.makedirs(cfg.common.dir,exist_ok=True)
@@ -80,6 +80,12 @@ class Block_Controller(object):
             self.get_next_func = self.get_next_states_v2
             self.reward_func = self.step_v2
             self.reward_weight = cfg.train.reward_weight
+        elif cfg.model.name=="DQNv3":
+            self.model = DeepQNetwork_v3()
+            self.initial_state = torch.FloatTensor([[[0 for i in range(10)] for j in range(22)]])
+            self.get_next_func = self.get_next_states_v2
+            self.reward_func = self.step_v2
+            self.reward_weight = cfg.train.reward_weight
         self.load_weight = cfg.common.load_weight
         
         self.double_dqn = cfg.train.double_dqn
@@ -93,12 +99,17 @@ class Block_Controller(object):
             self.target_copy_intarval = cfg.train.target_copy_intarval
         
         if self.mode=="predict":
-            if not os.path.exists(self.load_weight):
-                print("%s is not existed!!"%(self.load_weight))
-                exit()
-            #self.model.load_state_dict(torch.load(self.load_weight))
-            self.model = torch.load(self.load_weight)
-            self.model.eval()
+            if not weight==None:
+                print("load ",weight)
+                self.model = torch.load(weight)
+                self.model.eval()        
+            else:
+                if not os.path.exists(self.load_weight):
+                    print("%s is not existed!!"%(self.load_weight))
+                    exit()
+                #self.model.load_state_dict(torch.load(self.load_weight))
+                self.model = torch.load(self.load_weight)
+                self.model.eval()
             
         if torch.cuda.is_available():
             self.model.cuda()
@@ -192,6 +203,8 @@ class Block_Controller(object):
                     if self.epoch %self.target_copy_intarval==0 and self.epoch>0:
                         print("target_net update...")
                         self.target_model = torch.load(self.max_weight)
+                        #self.target_model = copy.copy(self.model)
+                        #self.max_score = -99999
                     self.target_model.eval()
                     #======predict Q(S_t+1 max_a Q(s_(t+1),a))======
                     with torch.no_grad():
@@ -270,7 +283,7 @@ class Block_Controller(object):
 
     #累積値の初期化
     def reset_state(self):
-            if self.score >= self.max_score:
+            if self.score > self.max_score:
                 torch.save(self.model, "{}/tetris_epoch_{}_score{}".format(self.saved_path,self.epoch,self.score))
                 self.max_score  =  self.score
                 self.max_weight = "{}/tetris_epoch_{}_score{}".format(self.saved_path,self.epoch,self.score)
@@ -419,13 +432,13 @@ class Block_Controller(object):
         self.tetrominoes += 1
         return reward
            
-    def GetNextMove(self, nextMove, GameStatus):
+    def GetNextMove(self, nextMove, GameStatus,weight=None):
 
         t1 = datetime.now()
         self.mode = GameStatus["judge_info"]["mode"]
         if self.init_train_parameter_flag == False:
             self.init_train_parameter_flag = True
-            self.set_parameter()
+            self.set_parameter(weight=weight)
             
         self.ind =GameStatus["block_info"]["currentShape"]["index"]
         curr_backboard = GameStatus["field_info"]["backboard"]
