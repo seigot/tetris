@@ -8,7 +8,7 @@ import random
 import copy
 import torch
 import torch.nn as nn
-from model.deepqnet import DeepQNetwork,DeepQNetwork_v2,DeepQNetwork_v3
+from model.deepqnet import DeepQNetwork,DeepQNetwork_v2
 
 import omegaconf
 from hydra import compose, initialize
