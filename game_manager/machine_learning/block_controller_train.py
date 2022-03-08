@@ -80,12 +80,7 @@ class Block_Controller(object):
             self.get_next_func = self.get_next_states_v2
             self.reward_func = self.step_v2
             self.reward_weight = cfg.train.reward_weight
-        elif cfg.model.name=="DQNv3":
-            self.model = DeepQNetwork_v3()
-            self.initial_state = torch.FloatTensor([[[0 for i in range(10)] for j in range(22)]])
-            self.get_next_func = self.get_next_states_v2
-            self.reward_func = self.step_v2
-            self.reward_weight = cfg.train.reward_weight
+
         self.load_weight = cfg.common.load_weight
         
         self.double_dqn = cfg.train.double_dqn
