@@ -278,7 +278,38 @@ nextShapeIndex = np_randomShape.random.randint(1, 8)
 準備中
 
 ### AI実装
-準備中
+
+#### ファイル一覧
+* `config/default.yaml` : ハイパーパラメータの設定ファイル
+
+#### 学習実行方法
+```
+sh start_train.sh
+```
+学習終了後 "outputs"フォルダ以下に学習結果保存用のフォルダ
+が生成される。
+
+#### 学習ログ確認方法
+上記の学習結果保存用のフォルダ内にある　”tensorboard”　を活用し
+学習中のログを可視化できる。
+
+```
+tensorboard --logdir [tensorboard path]
+```
+
+実行後下記のような出力がされるので "http://localhost:6006/"をコピーし
+ブラウザに貼り付ける。
+```
+TensorFlow installation not found - running with reduced feature set.
+I0211 01:37:04.512410 6135033856 plugin.py:346] Monitor runs begin
+Serving TensorBoard on localhost; to expose to the network, use a proxy or pass --bind_all
+TensorBoard 2.8.0 at http://localhost:6006/ (Press CTRL+C to quit)
+```
+
+#### テスト実行方法
+```
+sh start_predict.sh
+```
 
 ### 自動評価
 準備中
