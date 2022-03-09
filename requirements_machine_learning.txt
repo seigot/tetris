@@ -1,0 +1,6 @@
+pyqt5
+numpy
+pillow
+matplotlib
+
+tensorboardX

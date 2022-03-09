@@ -1,0 +1,51 @@
+common:
+  dir: outputs/${now:%Y-%m-%d-%H-%M}
+  weight_path: trained_model
+  load_weight: outputs/sample/sample_weight
+  log_path: tensorboard
+model:
+  name: DQN
+state:
+  dim: 4
+train:
+  optimizer: Adam  #Adam or SGD
+  lr: 1e-3
+  lr_gamma: 0.1 
+  lr_momentum: 0.99
+  lr_step_size: 1000
+  replay_memory_size: 30000
+  reward_clipping: True
+  prioritized_replay: True
+  num_epoch: 5000
+  save_interval: 100
+  num_decay_epochs: 2000
+  initial_epsilon: 1
+  final_epsilon: 1e-3
+  batch_size: 512
+  gamma: 0.99
+  target_net: True
+  double_dqn: True
+  target_copy_intarval: 250
+  max_penalty: -1
+  reward_list: #These parameter are not normalized.
+    - 0  #survival
+    - 100 #1block
+    - 300 #2block
+    - 700 #3block
+    - 1300 #4block
+    - -1300 #game over
+  reward_weight: #These parameter are used for DQN_v2
+    - 0.001 #bampiness 
+    - 0.01 #max height
+    - 0.01 #hole_num
+tetris:
+  board_height: 22
+  board_width: 10
+  score_list:
+    - 0
+    - 100
+    - 300
+    - 700
+    - 1300
+    - -1300
+  max_tetrominoes: 5000
