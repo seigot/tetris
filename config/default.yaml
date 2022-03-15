@@ -1,10 +1,11 @@
-common:
-  dir: outputs/${now:%Y-%m-%d-%H-%M}
+¥common:
+  dir: outputs/MSL #${now:%Y-%m-%d-%H-%M}
   weight_path: trained_model
-  load_weight: outputs/sample/sample_weight
+  load_weight: outputs/cnn_test_2022-03-06-22-17/trained_model/tetris_epoch_8682_score229300 #outputs/sample/sample_weight
   log_path: tensorboard
 model:
-  name: DQN
+  name: DQNv2
+  finetune: False
 state:
   dim: 4
 train:
@@ -15,17 +16,19 @@ train:
   lr_step_size: 1000
   replay_memory_size: 30000
   reward_clipping: True
-  prioritized_replay: True
-  num_epoch: 5000
+  prioritized_replay: True #True
+  multi_step_learning: True
+  multi_step_num: 3
+  num_epoch: 10000
   save_interval: 100
-  num_decay_epochs: 2000
+  num_decay_epochs: 7500
   initial_epsilon: 1
   final_epsilon: 1e-3
   batch_size: 512
-  gamma: 0.99
+  gamma: 0.8
   target_net: True
   double_dqn: True
-  target_copy_intarval: 250
+  target_copy_intarval: 500
   max_penalty: -1
   reward_list: #These parameter are not normalized.
     - 0  #survival
@@ -35,9 +38,9 @@ train:
     - 1300 #4block
     - -1300 #game over
   reward_weight: #These parameter are used for DQN_v2
-    - 0.001 #bampiness 
-    - 0.01 #max height
-    - 0.01 #hole_num
+    - 0.001 #1 #bampiness 
+    - 0.0 #1 #max height
+    - 0.001 #1 #hole_num
 tetris:
   board_height: 22
   board_width: 10

@@ -35,11 +35,16 @@ class PRIORITIZED_EXPERIENCE_REPLAY():
         
     def sampling(self,replay_memory,batch_size):
         replay_priority = np.array(copy.copy(self.replay_priority_queue))
+        replay_priority = replay_priority[:len(replay_memory)]
         if self.mode=="rank":
             replay_priority = self.rank_based_priority(replay_priority)
-        replay_index = self.replay_index[:len(replay_memory)]
+        replay_index = self.replay_index[:len(replay_priority)]            
         replay_batch_index = np.random.choice(replay_index,batch_size,p=replay_priority)
-        replay_batch = deque([replay_memory[j] for j in replay_batch_index])
+        try:
+            replay_batch = deque([replay_memory[j] for j in replay_batch_index])
+        except IndexError:
+            print(replay_memory)
+            print(len(replay_memory))
         
         N = len(replay_priority)
         
@@ -65,3 +70,30 @@ class PRIORITIZED_EXPERIENCE_REPLAY():
         #print(self.replay_priority_queue)
         return torch.from_numpy(weights)
         
+
+class Multi_Step_Learning:
+    def __init__(self,step_num=3,gamma=0.99):
+        self.step_num = step_num
+        self.gamma = gamma
+
+    def __get_mult_step(self,episode,start_index,end_index):
+        coefficient = 1.0/(self.gamma**2)
+        reward = 0
+        episode_size = len(episode)
+        for k in range(start_index,end_index):
+            coefficient *=self.gamma
+            if k<episode_size:
+                reward += episode[k][1]*coefficient
+                next_state =  episode[k][2]
+        return reward,next_state
+    def arrange(self,episode):
+        #The batch muste be [state,reward,next_state, done].
+        for i in range(len(episode)):
+            episode[i][1],episode[i][2] = self.__get_mult_step(episode,i,i+self.step_num)
+
+        return episode
+    def get_y_batch(self,done_batch,reward_batch, next_prediction_batch):
+        return torch.cat(tuple(
+                        reward if done[0] 
+                        else self.gamma*reward + (self.gamma**self.step_num) * prediction for done ,reward, prediction 
+                        in zip(done_batch,reward_batch, next_prediction_batch)))[:, None]     
