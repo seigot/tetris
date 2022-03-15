@@ -89,7 +89,7 @@ class Block_Controller(object):
             print("load ",self.load_weight)
               
         if self.mode=="predict":
-            if not weight==None:
+            if not weight=="None":
                 print("load ",weight)
                 self.model = torch.load(weight)
                 self.model.eval()        
