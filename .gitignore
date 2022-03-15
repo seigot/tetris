@@ -4,3 +4,4 @@ tmp.log
 **.prf
 **.DS_Store
 /result.json
+outputs/*
