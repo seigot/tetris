@@ -307,6 +307,7 @@ class Game_Manager(QMainWindow):
             if BOARD_DATA.currentY < 1 or BLOCK_CONTROLLER_TRAIN.tetrominoes > BLOCK_CONTROLLER_TRAIN.max_tetrominoes:
                 # if Piece cannot movedown and stack, reset field
                 #print("reset field.")
+                BLOCK_CONTROLLER_TRAIN.stack_replay_memory()
                 BLOCK_CONTROLLER_TRAIN.update()
                 BLOCK_CONTROLLER_TRAIN.reset_state()   
                 

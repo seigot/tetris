@@ -81,18 +81,13 @@ class Block_Controller(object):
             self.reward_func = self.step_v2
             self.reward_weight = cfg.train.reward_weight
 
+
         self.load_weight = cfg.common.load_weight
         
-        self.double_dqn = cfg.train.double_dqn
-        self.target_net = cfg.train.target_net
-        if self.double_dqn:
-            self.target_net = True
-            
-        if self.target_net:
-            print("set target network...")
-            self.target_model = copy.deepcopy(self.model)
-            self.target_copy_intarval = cfg.train.target_copy_intarval
-        
+        if cfg.model.finetune:
+            self.model = torch.load(self.load_weight)
+            print("load ",self.load_weight)
+              
         if self.mode=="predict":
             if not weight==None:
                 print("load ",weight)
@@ -108,14 +103,16 @@ class Block_Controller(object):
             
         if torch.cuda.is_available():
             self.model.cuda()
-                         
+        
         #=====Set hyper parameter=====
         self.batch_size = cfg.train.batch_size
         self.lr = cfg.train.lr
         
         self.replay_memory_size = cfg.train.replay_memory_size
         self.replay_memory = deque(maxlen=self.replay_memory_size)
-            
+        self.max_episode_size = self.max_tetrominoes
+        self.episode_memory = deque(maxlen=self.max_episode_size)
+        
         self.num_decay_epochs = cfg.train.num_decay_epochs
         self.num_epochs = cfg.train.num_epoch
         self.initial_epsilon = cfg.train.initial_epsilon
@@ -146,30 +143,59 @@ class Block_Controller(object):
         
         self.gamma = cfg.train.gamma
         self.reward_clipping = cfg.train.reward_clipping
+
         self.score_list = cfg.tetris.score_list
         self.reward_list = cfg.train.reward_list
         self.penalty =  self.reward_list[5]
+        
+        #=====Reward clipping=====
         if self.reward_clipping:
             self.norm_num =max(max(self.reward_list),abs(self.penalty))            
             self.reward_list =[r/self.norm_num for r in self.reward_list]
             self.penalty /= self.norm_num
             self.penalty = min(cfg.train.max_penalty,self.penalty)
-        
+
+        #=====Double DQN=====
+        self.double_dqn = cfg.train.double_dqn
+        self.target_net = cfg.train.target_net
+        if self.double_dqn:
+            self.target_net = True
+            
+        if self.target_net:
+            print("set target network...")
+            self.target_model = copy.deepcopy(self.model)
+            self.target_copy_intarval = cfg.train.target_copy_intarval
         #=====Prioritized Experience Replay=====
-        self.prioritized_replay = cfg.train.prioritized_replay 
+        self.prioritized_replay = cfg.train.prioritized_replay
         if self.prioritized_replay:
             from machine_learning.qlearning import PRIORITIZED_EXPERIENCE_REPLAY as PER
             self.PER = PER(self.replay_memory_size,gamma=self.gamma)
-        
+            
+        #=====Multi step learning=====
+        self.multi_step_learning = cfg.train.multi_step_learning
+        if self.multi_step_learning:
+            from machine_learning.qlearning import Multi_Step_Learning as MSL
+            self.multi_step_num = cfg.train.multi_step_num 
+            self.MSL = MSL(step_num=self.multi_step_num,gamma=self.gamma)
     #更新
+    def stack_replay_memory(self):
+        if self.mode=="train":
+            self.score += self.score_list[5]
+            self.episode_memory[-1][1] += self.penalty
+            self.episode_memory[-1][3] = True  #store False to done lists.
+            self.epoch_reward += self.penalty
+            #
+            if self.multi_step_learning:
+                self.episode_memory = self.MSL.arrange(self.episode_memory)
+                
+            self.replay_memory.extend(self.episode_memory)
+            self.episode_memory = deque(maxlen=self.max_episode_size)
+        else:
+            pass
+    
     def update(self):
 
         if self.mode=="train":
-            self.score += self.score_list[5]
-            self.replay_memory[-1][1] += self.penalty
-            self.replay_memory[-1][3] = True  #store False to done lists.
-
-            self.epoch_reward += self.penalty
             if len(self.replay_memory) < self.replay_memory_size / 10:
                 print("================pass================")
                 print("iter: {} ,meory: {}/{} , score: {}, clear line: {}, block: {} ".format(self.iter,
@@ -182,8 +208,9 @@ class Block_Controller(object):
                     batch,replay_batch_index = self.PER.sampling(self.replay_memory,self.batch_size)
                 else:
                     batch = sample(self.replay_memory, min(len(self.replay_memory),self.batch_size))
+                    
+
                 state_batch, reward_batch, next_state_batch, done_batch = zip(*batch)
-                
                 state_batch = torch.stack(tuple(state for state in state_batch))
                 reward_batch = torch.from_numpy(np.array(reward_batch, dtype=np.float32)[:, None])
                 next_state_batch = torch.stack(tuple(state for state in next_state_batch))
@@ -211,9 +238,13 @@ class Block_Controller(object):
 
                 self.model.train()
                 
-                y_batch = torch.cat(
-                    tuple(reward if done[0] else reward + self.gamma * prediction for done ,reward, prediction in
-                          zip(done_batch,reward_batch, next_prediction_batch)))[:, None]
+                if self.multi_step_learning:
+                    print("multi step learning update")
+                    y_batch = self.MSL.get_y_batch(done_batch,reward_batch, next_prediction_batch)              
+                else:
+                    y_batch = torch.cat(
+                        tuple(reward if done[0] else reward + self.gamma * prediction for done ,reward, prediction in
+                            zip(done_batch,reward_batch, next_prediction_batch)))[:, None]
                 
                 self.optimizer.zero_grad()
                 if self.prioritized_replay:
@@ -277,7 +308,7 @@ class Block_Controller(object):
         return cfg
 
     #累積値の初期化
-    def reset_state(self):
+    def reset_state(self):        
             if self.score > self.max_score:
                 torch.save(self.model, "{}/tetris_epoch_{}_score{}".format(self.saved_path,self.epoch,self.score))
                 self.max_score  =  self.score
@@ -405,7 +436,7 @@ class Block_Controller(object):
         lines_cleared, board = self.check_cleared_rows(board)
         reward = self.reward_list[lines_cleared] 
         reward -= self.reward_weight[0] *bampiness 
-        reward -= self.reward_weight[1] * max(0,max_height-(self.height/2))
+        reward -= self.reward_weight[1] * max(0,max_height)
         reward -= self.reward_weight[2] * hole_num
 
         self.epoch_reward += reward 
@@ -531,7 +562,8 @@ class Block_Controller(object):
                 
             
             #=======================================
-            self.replay_memory.append([next_state, reward, next2_state,done])
+            #self.replay_memory.append([next_state, reward, next2_state,done])
+            self.episode_memory.append([next_state, reward, next2_state,done])
             if self.prioritized_replay:
                 self.PER.store()
             
