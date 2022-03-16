@@ -22,7 +22,7 @@ train:
   num_epoch: 3000 #10000
   save_interval: 100
   num_decay_epochs: 2000
-  initial_epsilon: 1e-1 #1
+  initial_epsilon: 1 #1
   final_epsilon: 1e-3
   batch_size: 512
   gamma: 0.8
