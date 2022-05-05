@@ -15,7 +15,7 @@ import time
 import json
 import pprint
 
-def get_option(game_time, mode, drop_interval, random_seed, obstacle_height, obstacle_probability, resultlogjson, user_name, ShapeListMax):
+def get_option(game_time, mode, drop_interval, random_seed, obstacle_height, obstacle_probability, resultlogjson, user_name, ShapeListMax, BlockNumMax):
     argparser = ArgumentParser()
     argparser.add_argument('--game_time', type=int,
                            default=game_time,
@@ -44,6 +44,9 @@ def get_option(game_time, mode, drop_interval, random_seed, obstacle_height, obs
     argparser.add_argument('--ShapeListMax', type=int,
                            default=ShapeListMax,
                            help='Specigy NextShapeNumberMax if necessary')
+    argparser.add_argument('--BlockNumMax', type=int,
+                           default=BlockNumMax,
+                           help='Specigy BlockNumMax if necessary')
 
     return argparser.parse_args()
 
@@ -71,6 +74,7 @@ class Game_Manager(QMainWindow):
         self.obstacle_height = 0
         self.obstacle_probability = 0
         self.ShapeListMax = 6
+        self.BlockNumMax = -1
         self.resultlogjson = ""
         self.user_name = ""
         args = get_option(self.game_time,
@@ -81,7 +85,8 @@ class Game_Manager(QMainWindow):
                           self.obstacle_probability,
                           self.resultlogjson,
                           self.user_name,
-                          self.ShapeListMax)
+                          self.ShapeListMax,
+                          self.BlockNumMax)
         if args.game_time >= 0:
             self.game_time = args.game_time
         if args.mode in ("keyboard", "gamepad", "sample", "train", "predict", "train_sample", "predict_sample"):
@@ -100,6 +105,8 @@ class Game_Manager(QMainWindow):
             self.user_name = args.user_name
         if args.ShapeListMax > 0:
             self.ShapeListMax = args.ShapeListMax
+        if args.BlockNumMax > 0:
+            self.BlockNumMax = args.BlockNumMax
         self.initUI()
 
     def initUI(self):
@@ -372,6 +379,7 @@ class Game_Manager(QMainWindow):
                         "score":"none",
                         "line":"none",
                         "block_index":"none",
+                        "block_num_max":"none",
                         "mode":"none",
                       },
                   "debug_info":
@@ -462,6 +470,7 @@ class Game_Manager(QMainWindow):
         status["judge_info"]["score"] = self.tboard.score
         status["judge_info"]["line"] = self.tboard.line
         status["judge_info"]["block_index"] = self.block_index
+        status["judge_info"]["block_num_max"] = self.BlockNumMax
         status["judge_info"]["mode"] = self.mode
         ## debug_info
         status["debug_info"]["dropdownscore"] = self.tboard.dropdownscore
@@ -552,6 +561,7 @@ class Game_Manager(QMainWindow):
                         "score":"none",
                         "line":"none",
                         "block_index":"none",
+                        "block_num_max":"none",
                         "mode":"none",
                       },
                   }
@@ -586,6 +596,7 @@ class Game_Manager(QMainWindow):
         status["judge_info"]["score"] = self.tboard.score
         status["judge_info"]["line"] = self.tboard.line
         status["judge_info"]["block_index"] = self.block_index
+        status["judge_info"]["block_num_max"] = self.BlockNumMax
         status["judge_info"]["mode"] = self.mode
         return json.dumps(status)
 
@@ -747,6 +758,12 @@ class Board(QFrame):
         elapsed_time = round(time.time() - self.start_time, 3)
         elapsed_time_str = str(elapsed_time)
         status_str = "score:" + score_str + ",line:" + line_str + ",gameover:" + reset_cnt_str + ",time[s]:" + elapsed_time_str
+
+        # get gamestatus info
+        GameStatus = GAME_MANEGER.getGameStatus()
+        current_block_index = GameStatus["judge_info"]["block_index"]
+        BlockNumMax = GameStatus["judge_info"]["block_num_max"]
+
         # print string to status bar
         self.msg2Statusbar.emit(status_str)
         self.update()
@@ -755,9 +772,12 @@ class Board(QFrame):
         if self.game_time == -1:
             print("game_time: {}".format(self.game_time))
             print("endless loop")
-        elif self.game_time >= 0 and elapsed_time > self.game_time - 0.5:
+        elif (self.game_time >= 0 and elapsed_time > self.game_time - 0.5) or (current_block_index == BlockNumMax):
             # finish game.
-            print("game finish!! elapsed time: " + elapsed_time_str + "/game_time: " + str(self.game_time))
+            # 1. if elapsed_time beyonds given game_time.
+            # 2. if current_block_index beyonds given BlockNumMax.
+            print("game finish!! elapsed time: " + elapsed_time_str + "/game_time: " + str(self.game_time) \
+                  + ", " + "current_block_index: " + str(current_block_index) + "/BlockNumMax: " + str(BlockNumMax))
             print("")
             print("##### YOUR_RESULT #####")
             print(status_str)
