@@ -40,7 +40,8 @@
 プログラミング学習を目的とした、ブロックを操作してスコアを競うゲームです。<br>
 [FAQはこちら。](https://github.com/seigot/tetris/blob/master/doc/files/FAQ.md)<br>
 [tutorialはこちら。](https://github.com/seigot/tetris_game_tutorial)<br>
-[tetris_score_serverはこちら](https://github.com/seigot/tetris_score_server)
+[tetris_score_serverはこちら](https://github.com/seigot/tetris_score_server)  
+[tetris_battle_serverはこちら](https://github.com/seigot/tetris_battle_server)  
 
 ## 実行環境準備
 
