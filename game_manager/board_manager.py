@@ -344,18 +344,14 @@ class BoardData(object):
         obstacle_probability = self.obstacle_probability
 
         for y in range(BoardData.height):
-            line_obstacle_cnt = 0
             for x in range(BoardData.width):
 
                 if y < (BoardData.height - obstacle_height):
-                    continue
-                if line_obstacle_cnt >= (BoardData.width - 1):
                     continue
 
                 # create obstacle
                 tmp_num = np_randomObstacle.random.randint(1, 100)
                 if tmp_num <= obstacle_probability:
                     self.backBoard[x + y * BoardData.width] = np_randomObstaclePiece.random.randint(1, 8)
-                    line_obstacle_cnt += 1
 
 BOARD_DATA = BoardData()
