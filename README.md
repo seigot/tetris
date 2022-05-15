@@ -282,7 +282,8 @@ nextShapeIndex = np_randomShape.random.randint(1, 8)
 準備中
 
 ### 自動評価
-準備中
+スコアアタック用サーバ  
+https://github.com/seigot/tetris_score_server
 
 ## LICENSE
 
