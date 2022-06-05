@@ -5,7 +5,7 @@ import sys
 import subprocess
 from argparse import ArgumentParser
 
-def get_option(game_level, game_time, mode, random_seed, drop_interval, resultlogjson, user_name, ShapeListMax):
+def get_option(game_level, game_time, mode, random_seed, drop_interval, resultlogjson, user_name, ShapeListMax, BlockNumMax):
     argparser = ArgumentParser()
     argparser.add_argument('-l', '--game_level', type=int,
                            default=game_level,
@@ -31,9 +31,9 @@ def get_option(game_level, game_time, mode, random_seed, drop_interval, resultlo
     argparser.add_argument('--ShapeListMax', type=int,
                            default=ShapeListMax,
                            help='Specigy ShapeListMax if necessary')
-    argparser.add_argument('--weight',
-                           default=None,
-                           help='load model weight')
+    argparser.add_argument('--BlockNumMax', type=int,
+                           default=BlockNumMax,
+                           help='Specigy BlockNumMax if necessary')
     return argparser.parse_args()
 
 def get_python_cmd():
@@ -55,6 +55,7 @@ def start():
     RESULT_LOG_JSON = "result.json"
     USER_NAME = "window_sample"
     SHAPE_LIST_MAX = 6
+    BLOCK_NUM_MAX = -1
 
     ## update value if args are given
     args = get_option(GAME_LEVEL,
@@ -64,7 +65,8 @@ def start():
                       DROP_INTERVAL,
                       RESULT_LOG_JSON,
                       USER_NAME,
-                      SHAPE_LIST_MAX)
+                      SHAPE_LIST_MAX,
+                      BLOCK_NUM_MAX)
     if args.game_level >= 0:
         GAME_LEVEL = args.game_level
     if args.game_time >= 0 or args.game_time == -1:
@@ -81,8 +83,8 @@ def start():
         USER_NAME = args.user_name
     if args.ShapeListMax > 1:
         SHAPE_LIST_MAX = args.ShapeListMax
-        
-        WEIGHT = args.weight
+    if args.BlockNumMax > 1:
+        BLOCK_NUM_MAX = args.BlockNumMax
 
     ## set field parameter for level 1
     RANDOM_SEED = 0            # random seed for field
@@ -130,7 +132,7 @@ def start():
         + ' ' + '--user_name' + ' ' + str(USER_NAME) \
         + ' ' + '--resultlogjson' + ' ' + str(RESULT_LOG_JSON) \
         + ' ' + '--ShapeListMax' + ' ' + str(SHAPE_LIST_MAX) \
-        + ' ' + '--weight' + ' ' + str(WEIGHT)
+        + ' ' + '--BlockNumMax' + ' ' + str(BLOCK_NUM_MAX)
 
     ret = subprocess.run(cmd, shell=True)
     if ret.returncode != 0:

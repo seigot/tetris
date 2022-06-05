@@ -1,0 +1,8 @@
+﻿numpy
+pyqt5
+hydra-core
+torch 
+torchvision 
+torchaudio
+tensorflow-tensorboard
+tensorboardx

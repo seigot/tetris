@@ -117,6 +117,7 @@ class BoardData(object):
         self.obstacle_probability = 0
         self.random_seed = 0
         self.nextShapeIndexCnt = 1
+        self.tryMoveNextCnt = 0
         self.ShapeListMax = 2
         # ShapeList
         #  ShapeNumber 0: currentShape
@@ -201,7 +202,7 @@ class BoardData(object):
         result = False
 
         # check if nextShape can appear
-        if self.tryMoveCurrent(0, 5, -minY):
+        if self.tryMoveNext(0, 5, -minY):
             self.currentX = 5
             self.currentY = -minY
             self.currentDirection = 0
@@ -223,6 +224,18 @@ class BoardData(object):
 
     def tryMoveCurrent(self, direction, x, y):
         return self.tryMove(self.currentShape, direction, x, y)
+
+    def tryMoveNext(self, direction, x, y):
+        ret = self.tryMove(self.nextShape, direction, x, y)
+        if ret == False:
+            # if tryMove returns False 2 times, do reset.
+            self.tryMoveNextCnt += 1
+            if self.tryMoveNextCnt >= 2:
+                self.tryMoveNextCnt = 0
+                ret = True
+            else:
+                ret = False
+        return ret
 
     def tryMove(self, shape, direction, x, y):
         for x, y in shape.getCoords(direction, x, y):
@@ -331,18 +344,14 @@ class BoardData(object):
         obstacle_probability = self.obstacle_probability
 
         for y in range(BoardData.height):
-            line_obstacle_cnt = 0
             for x in range(BoardData.width):
 
                 if y < (BoardData.height - obstacle_height):
-                    continue
-                if line_obstacle_cnt >= (BoardData.width - 1):
                     continue
 
                 # create obstacle
                 tmp_num = np_randomObstacle.random.randint(1, 100)
                 if tmp_num <= obstacle_probability:
                     self.backBoard[x + y * BoardData.width] = np_randomObstaclePiece.random.randint(1, 8)
-                    line_obstacle_cnt += 1
 
 BOARD_DATA = BoardData()

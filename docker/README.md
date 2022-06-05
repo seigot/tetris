@@ -23,10 +23,10 @@ sudo docker run -p 6080:80 --shm-size=512m seigott/tetris_docker
 sudo nohup docker run -p 6080:80 --shm-size=512m seigott/tetris_docker &
 ```
 
-もし`pytorch(v1.4)`インストール済dockerコンテナを使いたい場合、上記の代わりに以下を実行する。<br>
+もし`pytorch(v1.10)`インストール済dockerコンテナを使いたい場合、上記の代わりに以下を実行する。<br>
 
 ```
-sudo docker run -p 6080:80 --shm-size=512m seigott/tetris_docker:pytorchv1.4
+sudo docker run -p 6080:80 --shm-size=512m seigott/tetris_docker:pytorchv1.10
 ```
 
 ### step2. ブラウザからdockerコンテナにアクセスする
@@ -69,7 +69,7 @@ sudo docker pull seigott/tetris_docker
 docker build -t seigott/tetris_docker .
 
 # pytorch版の場合
-docker build -f ./Dockerfile.pytorchv1.4 -t seigott/tetris_docker:pytorchv1.4 .
+docker build -f ./Dockerfile.pytorchv1.10 -t seigott/tetris_docker:pytorchv1.10 .
 ```
 
 コンテナ登録は以下
@@ -77,7 +77,7 @@ docker build -f ./Dockerfile.pytorchv1.4 -t seigott/tetris_docker:pytorchv1.4 .
 ```
 docker login
 docker push seigott/tetris_docker
-docker push seigott/tetris_docker:pytorchv1.4 .
+docker push seigott/tetris_docker:pytorchv1.10 .
 docker logout
 ```
 

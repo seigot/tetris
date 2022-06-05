@@ -40,7 +40,8 @@
 プログラミング学習を目的とした、ブロックを操作してスコアを競うゲームです。<br>
 [FAQはこちら。](https://github.com/seigot/tetris/blob/master/doc/files/FAQ.md)<br>
 [tutorialはこちら。](https://github.com/seigot/tetris_game_tutorial)<br>
-[tetris_score_serverはこちら](https://github.com/seigot/tetris_score_server)
+[tetris_score_serverはこちら](https://github.com/seigot/tetris_score_server)  
+[tetris_battle_serverはこちら](https://github.com/seigot/tetris_battle_server)  
 
 ## 実行環境準備
 
@@ -278,6 +279,7 @@ nextShapeIndex = np_randomShape.random.randint(1, 8)
 準備中
 
 ### AI実装
+<<<<<<< HEAD
 
 #### ファイル一覧
 * `config/default.yaml` : ハイパーパラメータの設定ファイル
@@ -312,7 +314,8 @@ sh start_predict.sh
 ```
 
 ### 自動評価
-準備中
+スコアアタック用サーバ  
+https://github.com/seigot/tetris_score_server
 
 ## LICENSE
 
