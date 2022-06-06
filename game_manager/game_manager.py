@@ -242,8 +242,8 @@ class Game_Manager(QMainWindow):
                 elif self.mode == "train_sample" or self.mode == "predict_sample":
                     # sample train/predict
                     # import block_controller_train_sample, it's necessary to install pytorch to use.
-                    
-                    self.nextMove = BLOCK_CONTROLLER_TRAIN_SAMPLE.GetNextMove(nextMove, GameStatus)
+                    from machine_learning.block_controller_train_sample import BLOCK_CONTROLLER_TRAIN_SAMPLE as BLOCK_CONTROLLER_TRAIN
+                    self.nextMove = BLOCK_CONTROLLER_TRAIN.GetNextMove(nextMove, GameStatus)
                 elif self.mode == "train" or self.mode == "predict":
                     # train/predict
                     # import block_controller_train, it's necessary to install pytorch to use.
