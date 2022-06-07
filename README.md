@@ -275,15 +275,16 @@ git push                                                   # 変更を反映
 nextShapeIndex = np_randomShape.random.randint(1, 8)
 ```
 
-### 対戦モード実装
-準備中
-
 ### AI実装
 [AIについて（準備中）](doc/files/ai.md)
 
 ### 自動評価
 スコアアタック用サーバ  
 https://github.com/seigot/tetris_score_server
+
+### 対戦
+対戦用サーバ  
+https://github.com/seigot/tetris_battle_server
 
 ## LICENSE
 
