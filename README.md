@@ -27,9 +27,9 @@
   - [参考](#%E5%8F%82%E8%80%83)
   - [今後の課題](#%E4%BB%8A%E5%BE%8C%E3%81%AE%E8%AA%B2%E9%A1%8C)
     - [次のブロックのランダム性](#%E6%AC%A1%E3%81%AE%E3%83%96%E3%83%AD%E3%83%83%E3%82%AF%E3%81%AE%E3%83%A9%E3%83%B3%E3%83%80%E3%83%A0%E6%80%A7)
-    - [対戦モード実装](#%E5%AF%BE%E6%88%A6%E3%83%A2%E3%83%BC%E3%83%89%E5%AE%9F%E8%A3%85)
     - [AI実装](#ai%E5%AE%9F%E8%A3%85)
     - [自動評価](#%E8%87%AA%E5%8B%95%E8%A9%95%E4%BE%A1)
+    - [対戦](#%E5%AF%BE%E6%88%A6)
   - [LICENSE](#license)
   - [Finnaly](#finnaly)
 
@@ -275,47 +275,16 @@ git push                                                   # 変更を反映
 nextShapeIndex = np_randomShape.random.randint(1, 8)
 ```
 
-### 対戦モード実装
-準備中
-
 ### AI実装
-<<<<<<< HEAD
-
-#### ファイル一覧
-* `config/default.yaml` : ハイパーパラメータの設定ファイル
-
-#### 学習実行方法
-```
-sh start_train.sh
-```
-学習終了後 "outputs"フォルダ以下に学習結果保存用のフォルダ
-が生成される。
-
-#### 学習ログ確認方法
-上記の学習結果保存用のフォルダ内にある　”tensorboard”　を活用し
-学習中のログを可視化できる。
-
-```
-tensorboard --logdir [tensorboard path]
-```
-
-実行後下記のような出力がされるので "http://localhost:6006/"をコピーし
-ブラウザに貼り付ける。
-```
-TensorFlow installation not found - running with reduced feature set.
-I0211 01:37:04.512410 6135033856 plugin.py:346] Monitor runs begin
-Serving TensorBoard on localhost; to expose to the network, use a proxy or pass --bind_all
-TensorBoard 2.8.0 at http://localhost:6006/ (Press CTRL+C to quit)
-```
-
-#### テスト実行方法
-```
-sh start_predict.sh
-```
+[AIについて（準備中）](doc/files/ai.md)
 
 ### 自動評価
 スコアアタック用サーバ  
 https://github.com/seigot/tetris_score_server
+
+### 対戦
+対戦用サーバ  
+https://github.com/seigot/tetris_battle_server
 
 ## LICENSE
 
