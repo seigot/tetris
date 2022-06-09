@@ -19,7 +19,7 @@ from tensorboardX import SummaryWriter
 from collections import deque
 from random import random, sample,randint
 import numpy as np
-
+import yaml
 import subprocess
 class Block_Controller(object):
 
@@ -38,21 +38,32 @@ class Block_Controller(object):
         self.init_train_parameter_flag = False
         # predict
         self.init_predict_parameter_flag = False
-    
-    def set_parameter(self,weight=None):
-        cfg = self.yaml_read()
 
-        os.makedirs(cfg.common.dir,exist_ok=True)
-        self.saved_path = cfg.common.dir + "/" + cfg.common.weight_path
+    #パラメータ読み込み
+    def yaml_read(self,yaml_file):
+        
+        with open(yaml_file) as f:
+            cfg = yaml.safe_load(f)
+                
+        return cfg
+
+    def set_parameter(self,yaml_file=None,weight=None):
+        if yaml_file is None:
+            raise Exception('Please input train_yaml file.')
+        elif not os.path.exists(yaml_file):
+            raise Exception('The yaml file %s is not existed.'%(yaml_file))
+        cfg = self.yaml_read(yaml_file)
+
+        os.makedirs(cfg["common"]["dir"],exist_ok=True)
+        self.saved_path = cfg["common"]["dir"] + "/" + cfg["common"]["weight_path"]
         os.makedirs(self.saved_path ,exist_ok=True)
-        subprocess.run("cp config/default.yaml %s/"%(cfg.common.dir), shell=True)
-        self.writer = SummaryWriter(cfg.common.dir+"/"+cfg.common.log_path)
+        subprocess.run("cp config/default.yaml %s/"%(cfg["common"]["dir"]), shell=True)
+        self.writer = SummaryWriter(cfg["common"]["dir"]+"/"+cfg["common"]["log_path"])
 
-        self.log = cfg.common.dir+"/log.txt"
-        self.log_score = cfg.common.dir+"/score.txt"
-        self.log_reward = cfg.common.dir+"/reward.txt"
-
-        self.state_dim = cfg.state.dim
+        self.log = cfg["common"]["dir"]+"/log.txt"
+        self.log_score = cfg["common"]["dir"]+"/score.txt"
+        self.log_reward = cfg["common"]["dir"]+"/reward.txt"
+        self.state_dim = cfg["state"]["dim"]
 
         with open(self.log,"w") as f:
             print("start...", file=f)
@@ -64,28 +75,28 @@ class Block_Controller(object):
             print(0, file=f)
 
         #=====Set tetris parameter=====
-        self.height = cfg.tetris.board_height
-        self.width = cfg.tetris.board_width
-        self.max_tetrominoes = cfg.tetris.max_tetrominoes
+        self.height = cfg["tetris"]["board_height"]
+        self.width = cfg["tetris"]["board_width"]
+        self.max_tetrominoes = cfg["tetris"]["max_tetrominoes"]
         
         #=====load Deep Q Network=====
-        print("model name: %s"%(cfg.model.name))
-        if cfg.model.name=="DQN":
+        print("model name: %s"%(cfg["model"]["name"]))
+        if cfg["model"]["name"]=="DQN":
             self.model = DeepQNetwork(self.state_dim)
             self.initial_state = torch.FloatTensor([0 for i in range(self.state_dim)])
             self.get_next_func = self.get_next_states
             self.reward_func = self.step
-        elif cfg.model.name=="DQNv2":
+        elif cfg["model"]["name"]=="DQNv2":
             self.model = DeepQNetwork_v2()
             self.initial_state = torch.FloatTensor([[[0 for i in range(10)] for j in range(22)]])
             self.get_next_func = self.get_next_states_v2
             self.reward_func = self.step_v2
-            self.reward_weight = cfg.train.reward_weight
+            self.reward_weight = cfg["train"]["reward_weight"]
 
 
-        self.load_weight = cfg.common.load_weight
+        self.load_weight = cfg["common"]["load_weight"]
         
-        if cfg.model.finetune:
+        if cfg["model"]["finetune"]:
             print(self.load_weight)
             self.model = torch.load(self.load_weight)
             print("load ",self.load_weight)
@@ -107,29 +118,34 @@ class Block_Controller(object):
             self.model.cuda()
         
         #=====Set hyper parameter=====
-        self.batch_size = cfg.train.batch_size
-        self.lr = cfg.train.lr
+        self.batch_size = cfg["train"]["batch_size"]
+        self.lr = cfg["train"]["lr"]
+        if not isinstance(self.lr,float):
+            self.lr = float(self.lr)
+
         
-        self.replay_memory_size = cfg.train.replay_memory_size
+        self.replay_memory_size = cfg["train"]["replay_memory_size"]
         self.replay_memory = deque(maxlen=self.replay_memory_size)
         self.max_episode_size = self.max_tetrominoes
         self.episode_memory = deque(maxlen=self.max_episode_size)
         
-        self.num_decay_epochs = cfg.train.num_decay_epochs
-        self.num_epochs = cfg.train.num_epoch
-        self.initial_epsilon = cfg.train.initial_epsilon
-        self.final_epsilon = cfg.train.final_epsilon
-        self.save_interval = cfg.train.save_interval
-        
+        self.num_decay_epochs = cfg["train"]["num_decay_epochs"]
+        self.num_epochs = cfg["train"]["num_epoch"]
+        self.initial_epsilon = cfg["train"]["initial_epsilon"]
+        self.final_epsilon = cfg["train"]["final_epsilon"]
+        if not isinstance(self.final_epsilon,float):
+            self.final_epsilon = float(self.final_epsilon)
+
+        self.save_interval = cfg["train"]["save_interval"]
         #=====Set loss function and optimizer=====
-        if cfg.train.optimizer=="Adam" or cfg.train.optimizer=="ADAM":
+        if cfg["train"]["optimizer"]=="Adam" or cfg["train"]["optimizer"]=="ADAM":
             self.optimizer = torch.optim.Adam(self.model.parameters(), lr=self.lr)
             self.scheduler = None
         else:
-            self.momentum =cfg.train.lr_momentum 
+            self.momentum =cfg["train"]["lr_momentum"] 
             self.optimizer = torch.optim.SGD(self.model.parameters(), lr=self.lr, momentum=self.momentum)
-            self.lr_step_size = cfg.train.lr_step_size
-            self.lr_gamma = cfg.train.lr_gamma
+            self.lr_step_size = cfg["train"]["lr_step_size"]
+            self.lr_gamma = cfg["train"]["lr_gamma"]
             self.scheduler = torch.optim.lr_scheduler.StepLR(self.optimizer, step_size=self.lr_step_size , gamma=self.lr_gamma)
         self.criterion = nn.MSELoss()
 
@@ -143,11 +159,11 @@ class Block_Controller(object):
         self.state = self.initial_state 
         self.tetrominoes = 0
         
-        self.gamma = cfg.train.gamma
-        self.reward_clipping = cfg.train.reward_clipping
+        self.gamma = cfg["train"]["gamma"]
+        self.reward_clipping = cfg["train"]["reward_clipping"]
 
-        self.score_list = cfg.tetris.score_list
-        self.reward_list = cfg.train.reward_list
+        self.score_list = cfg["tetris"]["score_list"]
+        self.reward_list = cfg["train"]["reward_list"]
         self.penalty =  self.reward_list[5]
         
         #=====Reward clipping=====
@@ -155,33 +171,33 @@ class Block_Controller(object):
             self.norm_num =max(max(self.reward_list),abs(self.penalty))            
             self.reward_list =[r/self.norm_num for r in self.reward_list]
             self.penalty /= self.norm_num
-            self.penalty = min(cfg.train.max_penalty,self.penalty)
+            self.penalty = min(cfg["train"]["max_penalty"],self.penalty)
 
         #=====Double DQN=====
-        self.double_dqn = cfg.train.double_dqn
-        self.target_net = cfg.train.target_net
+        self.double_dqn = cfg["train"]["double_dqn"]
+        self.target_net = cfg["train"]["target_net"]
         if self.double_dqn:
             self.target_net = True
             
         if self.target_net:
             print("set target network...")
             self.target_model = copy.deepcopy(self.model)
-            self.target_copy_intarval = cfg.train.target_copy_intarval
+            self.target_copy_intarval = cfg["train"]["target_copy_intarval"]
         #=====Prioritized Experience Replay=====
-        self.prioritized_replay = cfg.train.prioritized_replay
+        self.prioritized_replay = cfg["train"]["prioritized_replay"]
         if self.prioritized_replay:
             from machine_learning.qlearning import PRIORITIZED_EXPERIENCE_REPLAY as PER
             self.PER = PER(self.replay_memory_size,gamma=self.gamma)
             
         #=====Multi step learning=====
-        self.multi_step_learning = cfg.train.multi_step_learning
+        self.multi_step_learning = cfg["train"]["multi_step_learning"]
         if self.multi_step_learning:
             from machine_learning.qlearning import Multi_Step_Learning as MSL
-            self.multi_step_num = cfg.train.multi_step_num 
+            self.multi_step_num = cfg["train"]["multi_step_num"]
             self.MSL = MSL(step_num=self.multi_step_num,gamma=self.gamma)
     #更新
     def stack_replay_memory(self):
-        if self.mode=="train":
+        if self.mode=="train" or self.mode=="train_sample":
             self.score += self.score_list[5]
             self.episode_memory[-1][1] += self.penalty
             self.episode_memory[-1][3] = True  #store False to done lists.
@@ -197,7 +213,9 @@ class Block_Controller(object):
     
     def update(self):
 
-        if self.mode=="train":
+        if self.mode=="train" or self.mode=="train_sample":
+            self.stack_replay_memory()
+
             if len(self.replay_memory) < self.replay_memory_size / 10:
                 print("================pass================")
                 print("iter: {} ,meory: {}/{} , score: {}, clear line: {}, block: {} ".format(self.iter,
@@ -300,14 +318,8 @@ class Block_Controller(object):
             self.epoch_reward,
             self.cleared_lines
             )
-            pass
+        self.reset_state()
         
-    #パラメータ読み込み
-    def yaml_read(self):
-        initialize(config_path="../../config", job_name="tetris")
-        cfg = compose(config_name="default")
-        
-        return cfg
 
     #累積値の初期化
     def reset_state(self):        
@@ -460,14 +472,14 @@ class Block_Controller(object):
         self.tetrominoes += 1
         return reward
            
-    def GetNextMove(self, nextMove, GameStatus,weight=None):
+    def GetNextMove(self, nextMove, GameStatus,yaml_file=None,weight=None):
 
         t1 = datetime.now()
+        nextMove["option"]["reset_callback_function_addr"] = self.update
         self.mode = GameStatus["judge_info"]["mode"]
         if self.init_train_parameter_flag == False:
             self.init_train_parameter_flag = True
-            self.set_parameter(weight=weight)
-            
+            self.set_parameter(yaml_file=yaml_file,weight=weight)        
         self.ind =GameStatus["block_info"]["currentShape"]["index"]
         curr_backboard = GameStatus["field_info"]["backboard"]
         # default board definition
@@ -485,8 +497,8 @@ class Block_Controller(object):
         #self.state = reshape_backboard
 
         next_steps =self.get_next_func(curr_backboard,curr_piece_id,curr_shape_class)
-
-        if self.mode == "train_sample":
+        
+        if self.mode=="train" or self.mode=="train_sample":
             # init parameter
             epsilon = self.final_epsilon + (max(self.num_decay_epochs - self.epoch, 0) * (
                     self.initial_epsilon - self.final_epsilon) / self.num_decay_epochs)
@@ -577,7 +589,7 @@ class Block_Controller(object):
             nextMove["strategy"]["y_moveblocknum"] = 1
             self.state = next_state
             print
-        elif self.mode == "predict_sample":
+        elif self.mode == "predict" or self.mode == "predict_sample":
             self.model.eval()
             next_actions, next_states = zip(*next_steps.items())
             next_states = torch.stack(next_states)

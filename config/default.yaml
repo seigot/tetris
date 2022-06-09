@@ -10,20 +10,20 @@ state:
   dim: 4
 train:
   optimizer: Adam  #Adam or SGD
-  lr: 1e-3
+  lr: 1.0e-3
   lr_gamma: 0.1 
   lr_momentum: 0.99
   lr_step_size: 1000
   replay_memory_size: 30000
   reward_clipping: True
-  prioritized_replay: True #True
+  prioritized_replay: True 
   multi_step_learning: False
   multi_step_num: 3
   num_epoch: 3000 #10000
   save_interval: 100
   num_decay_epochs: 2000
   initial_epsilon: 1 #1
-  final_epsilon: 1e-3
+  final_epsilon: 1.0e-3
   batch_size: 512
   gamma: 0.8
   target_net: True

@@ -8,7 +8,7 @@ import random
 import copy
 import torch
 import torch.nn as nn
-from model.deepqnet import DeepQNetwork,DeepQNetwork_v2
+from machine_learning.model.deepqnet import DeepQNetwork,DeepQNetwork_v2
 
 import omegaconf
 from hydra import compose, initialize
@@ -20,6 +20,7 @@ from random import random, sample,randint
 import numpy as np
 
 import subprocess
+
 class Block_Controller(object):
 
     # init parameter
@@ -38,8 +39,12 @@ class Block_Controller(object):
         # predict
         self.init_predict_parameter_flag = False
     
-    def set_parameter(self,weight=None):
-        cfg = self.yaml_read()
+    def set_parameter(self,yaml=None,weight=None):
+        if yaml is None:
+            raise Exception('Please input train_yaml file.')
+        elif not os.path.exists(yaml):
+            raise Exception('The yaml file %s is not existed.'%(yaml))
+        cfg = self.yaml_read(yaml)
 
         os.makedirs(cfg.common.dir,exist_ok=True)
         self.saved_path = cfg.common.dir + "/" + cfg.common.weight_path
@@ -301,9 +306,11 @@ class Block_Controller(object):
             pass
         
     #パラメータ読み込み
-    def yaml_read(self):
-        initialize(config_path="../../config", job_name="tetris")
-        cfg = compose(config_name="default")
+    def yaml_read(self,yaml):
+        print(yaml)
+        exit()
+        #initialize(config_path="../../config", job_name="tetris")
+        #cfg = compose(config_name="default")
         
         return cfg
 
@@ -458,13 +465,13 @@ class Block_Controller(object):
         self.tetrominoes += 1
         return reward
            
-    def GetNextMove(self, nextMove, GameStatus,weight=None):
+    def GetNextMove(self, nextMove, GameStatus,yaml_file=None,weight=None):
 
         t1 = datetime.now()
         self.mode = GameStatus["judge_info"]["mode"]
         if self.init_train_parameter_flag == False:
             self.init_train_parameter_flag = True
-            self.set_parameter(weight=weight)
+            self.set_parameter(yaml=yaml_file,weight=weight)
             
         self.ind =GameStatus["block_info"]["currentShape"]["index"]
         curr_backboard = GameStatus["field_info"]["backboard"]
@@ -641,4 +648,5 @@ class Block_Controller(object):
         for _x, _y in coordArray:
             _board[(_y + dy) * self.board_data_width + _x] = Shape_class.shape
         return _board
+        
 BLOCK_CONTROLLER_TRAIN = Block_Controller()
