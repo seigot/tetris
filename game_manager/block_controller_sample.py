@@ -234,4 +234,3 @@ class Block_Controller(object):
 
 
 BLOCK_CONTROLLER_SAMPLE = Block_Controller()
-

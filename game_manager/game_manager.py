@@ -38,6 +38,12 @@ def get_option(game_time, mode, drop_interval, random_seed, obstacle_height, obs
     argparser.add_argument('--resultlogjson', type=str,
                            default=resultlogjson,
                            help='result json log file path')
+    argparser.add_argument('--train_yaml', type=str,
+                           default="config/default.yaml",
+                           help='yaml file for machine learning')
+    argparser.add_argument('--predict_weight', type=str,
+                           default=None,
+                           help='yaml file for machine learning')
     argparser.add_argument('-u', '--user_name', type=str,
                            default=user_name,
                            help='Specigy user name if necessary')
@@ -77,6 +83,9 @@ class Game_Manager(QMainWindow):
         self.BlockNumMax = -1
         self.resultlogjson = ""
         self.user_name = ""
+        self.train_yaml = None
+        self.test_weight = None
+        
         args = get_option(self.game_time,
                           self.mode,
                           self.drop_interval,
@@ -105,10 +114,18 @@ class Game_Manager(QMainWindow):
             self.user_name = args.user_name
         if args.ShapeListMax > 0:
             self.ShapeListMax = args.ShapeListMax
+        
         if args.BlockNumMax > 0:
             self.BlockNumMax = args.BlockNumMax
+        
+        if args.train_yaml.endswith('.yaml'):
+            self.train_yaml = args.train_yaml
+        
+        if not args.predict_weight is None:
+            self.predict_weight = args.predict_weight
+            
         self.initUI()
-
+        
     def initUI(self):
         self.gridSize = 22
         self.NextShapeYOffset = 90
@@ -185,6 +202,7 @@ class Game_Manager(QMainWindow):
         self.tboard.score += Game_Manager.GAMEOVER_SCORE
         BOARD_DATA.clear()
         BOARD_DATA.createNewPiece()
+        
 
     def reset_all_field(self):
         # reset all field for debug
@@ -226,7 +244,7 @@ class Game_Manager(QMainWindow):
                                   "y_moveblocknum": "none", # amount of next y movement
                                   },
                             "option":
-                                {
+                                { "reset_callback_function_addr":None,
                                   "reset_all_field": None,
                                 }
                             }
@@ -240,13 +258,14 @@ class Game_Manager(QMainWindow):
                 elif self.mode == "train_sample" or self.mode == "predict_sample":
                     # sample train/predict
                     # import block_controller_train_sample, it's necessary to install pytorch to use.
-                    from machine_learning.block_controller_train_sample import BLOCK_CONTROLLER_TRAIN_SAMPLE
-                    self.nextMove = BLOCK_CONTROLLER_TRAIN_SAMPLE.GetNextMove(nextMove, GameStatus)
+                    from machine_learning.block_controller_train_sample import BLOCK_CONTROLLER_TRAIN_SAMPLE as BLOCK_CONTROLLER_TRAIN
+                    self.nextMove = BLOCK_CONTROLLER_TRAIN.GetNextMove(nextMove, GameStatus,yaml_file=self.train_yaml,weight=self.test_weight)
+                    
                 elif self.mode == "train" or self.mode == "predict":
                     # train/predict
                     # import block_controller_train, it's necessary to install pytorch to use.
                     from machine_learning.block_controller_train import BLOCK_CONTROLLER_TRAIN
-                    self.nextMove = BLOCK_CONTROLLER_TRAIN.GetNextMove(nextMove, GameStatus)
+                    self.nextMove = BLOCK_CONTROLLER_TRAIN.GetNextMove(nextMove, GameStatus,yaml_file=self.train_yaml,weight=self.test_weight)
                 else:
                     self.nextMove = BLOCK_CONTROLLER.GetNextMove(nextMove, GameStatus)
 
@@ -267,7 +286,7 @@ class Game_Manager(QMainWindow):
                 while BOARD_DATA.currentDirection != next_direction and k < 4:
                     ret = BOARD_DATA.rotateRight()
                     if ret == False:
-                        print("cannot rotateRight")
+                        #print("cannot rotateRight")
                         break
                     k += 1
                 # x operation
@@ -276,12 +295,12 @@ class Game_Manager(QMainWindow):
                     if BOARD_DATA.currentX > next_x:
                         ret = BOARD_DATA.moveLeft()
                         if ret == False:
-                            print("cannot moveLeft")
+                            #print("cannot moveLeft")
                             break
                     elif BOARD_DATA.currentX < next_x:
                         ret = BOARD_DATA.moveRight()
                         if ret == False:
-                            print("cannot moveRight")
+                            #print("cannot moveRight")
                             break
                     k += 1
 
@@ -305,15 +324,24 @@ class Game_Manager(QMainWindow):
             self.UpdateScore(removedlines, dropdownlines)
 
             # check reset field
-            if BOARD_DATA.currentY < 1:
+            #if BOARD_DATA.currentY < 1: 
+            if BOARD_DATA.currentY < 1 or BLOCK_CONTROLLER_TRAIN.tetrominoes > BLOCK_CONTROLLER_TRAIN.max_tetrominoes:
                 # if Piece cannot movedown and stack, reset field
-                print("reset field.")
+                #print("reset field.")
+                #BLOCK_CONTROLLER_TRAIN.reset_state()   
                 self.resetfield()
+                if self.nextMove["option"]["reset_callback_function_addr"] != None:
+                    # if necessary, call reset_callback_function
+                    reset_callback_function = self.nextMove["option"]["reset_callback_function_addr"]
+                    reset_callback_function()
 
-            # reset all field if debug option is enabled
-            if self.nextMove["option"]["reset_all_field"] == True:
-                print("reset all field.")
-                self.reset_all_field()
+
+                if self.nextMove["option"]["reset_all_field"] == True:
+                    # reset all field if debug option is enabled
+                    print("reset all field.")
+                    self.reset_all_field()
+                else:
+                    self.resetfield()
 
             # init nextMove
             self.nextMove = None
@@ -770,8 +798,9 @@ class Board(QFrame):
         self.OutputLogData(isPrintLog = False)
 
         if self.game_time == -1:
-            print("game_time: {}".format(self.game_time))
-            print("endless loop")
+            pass
+            #print("game_time: {}".format(self.game_time))
+            #print("endless loop")
         elif (self.game_time >= 0 and elapsed_time > self.game_time - 0.5) or (current_block_index == BlockNumMax):
             # finish game.
             # 1. if elapsed_time beyonds given game_time.
