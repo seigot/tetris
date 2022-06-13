@@ -86,12 +86,6 @@ class Block_Controller(object):
             self.initial_state = torch.FloatTensor([0 for i in range(self.state_dim)])
             self.get_next_func = self.get_next_states
             self.reward_func = self.step
-        elif cfg["model"]["name"]=="DQNv2":
-            self.model = DeepQNetwork_v2()
-            self.initial_state = torch.FloatTensor([[[0 for i in range(10)] for j in range(22)]])
-            self.get_next_func = self.get_next_states_v2
-            self.reward_func = self.step_v2
-            self.reward_weight = cfg["train"]["reward_weight"]
 
 
         self.load_weight = cfg["common"]["load_weight"]
@@ -587,8 +581,9 @@ class Block_Controller(object):
             nextMove["strategy"]["x"] = action[0]
             nextMove["strategy"]["y_operation"] = 1
             nextMove["strategy"]["y_moveblocknum"] = 1
+            if self.tetrominoes > self.max_tetrominoes:
+                nextMove["option"]["force_reset_field"] = True
             self.state = next_state
-            print
         elif self.mode == "predict" or self.mode == "predict_sample":
             self.model.eval()
             next_actions, next_states = zip(*next_steps.items())
