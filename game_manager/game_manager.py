@@ -246,6 +246,7 @@ class Game_Manager(QMainWindow):
                             "option":
                                 { "reset_callback_function_addr":None,
                                   "reset_all_field": None,
+                                  "force_reset_field": None,
                                 }
                             }
                 # get nextMove from GameController
@@ -325,7 +326,7 @@ class Game_Manager(QMainWindow):
 
             # check reset field
             #if BOARD_DATA.currentY < 1: 
-            if BOARD_DATA.currentY < 1 or BLOCK_CONTROLLER_TRAIN.tetrominoes > BLOCK_CONTROLLER_TRAIN.max_tetrominoes:
+            if BOARD_DATA.currentY < 1 or self.nextMove["option"]["force_reset_field"] == True:
                 # if Piece cannot movedown and stack, reset field
                 #print("reset field.")
                 #BLOCK_CONTROLLER_TRAIN.reset_state()   

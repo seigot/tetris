@@ -8,7 +8,7 @@ import random
 import copy
 import torch
 import torch.nn as nn
-from machine_learning.model.deepqnet import DeepQNetwork,DeepQNetwork_v2
+from machine_learning.model.deepqnet import DeepQNetwork
 
 import omegaconf
 from hydra import compose, initialize
@@ -38,7 +38,13 @@ class Block_Controller(object):
         self.init_train_parameter_flag = False
         # predict
         self.init_predict_parameter_flag = False
-    
+     def yaml_read(self,yaml_file):
+        
+        with open(yaml_file) as f:
+            cfg = yaml.safe_load(f)
+                
+        return cfg   
+
     def set_parameter(self,yaml=None,weight=None):
         if yaml is None:
             raise Exception('Please input train_yaml file.')
@@ -579,8 +585,10 @@ class Block_Controller(object):
             nextMove["strategy"]["x"] = action[0]
             nextMove["strategy"]["y_operation"] = 1
             nextMove["strategy"]["y_moveblocknum"] = 1
+            if self.tetrominoes > self.max_tetrominoes:
+                nextMove["option"]["force_reset_field"] = True
             self.state = next_state
-            
+
         elif self.mode == "predict":
             self.model.eval()
             next_actions, next_states = zip(*next_steps.items())
