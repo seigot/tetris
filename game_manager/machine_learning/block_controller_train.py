@@ -18,7 +18,7 @@ from tensorboardX import SummaryWriter
 from collections import deque
 from random import random, sample,randint
 import numpy as np
-
+import yaml
 import subprocess
 
 class Block_Controller(object):
@@ -38,7 +38,11 @@ class Block_Controller(object):
         self.init_train_parameter_flag = False
         # predict
         self.init_predict_parameter_flag = False
+<<<<<<< HEAD
+    def yaml_read(self,yaml_file):
+=======
      def yaml_read(self,yaml_file):
+>>>>>>> 4e77d178c1f589182d0a1e3056cf08573195b8d9
         
         with open(yaml_file) as f:
             cfg = yaml.safe_load(f)
@@ -85,12 +89,6 @@ class Block_Controller(object):
             self.initial_state = torch.FloatTensor([0 for i in range(self.state_dim)])
             self.get_next_func = self.get_next_states
             self.reward_func = self.step
-        elif cfg.model.name=="DQNv2":
-            self.model = DeepQNetwork_v2()
-            self.initial_state = torch.FloatTensor([[[0 for i in range(10)] for j in range(22)]])
-            self.get_next_func = self.get_next_states_v2
-            self.reward_func = self.step_v2
-            self.reward_weight = cfg.train.reward_weight
 
 
         self.load_weight = cfg.common.load_weight
@@ -315,10 +313,6 @@ class Block_Controller(object):
     def yaml_read(self,yaml):
         print(yaml)
         exit()
-        #initialize(config_path="../../config", job_name="tetris")
-        #cfg = compose(config_name="default")
-        
-        return cfg
 
     #累積値の初期化
     def reset_state(self):        
