@@ -38,11 +38,7 @@ class Block_Controller(object):
         self.init_train_parameter_flag = False
         # predict
         self.init_predict_parameter_flag = False
-<<<<<<< HEAD
     def yaml_read(self,yaml_file):
-=======
-     def yaml_read(self,yaml_file):
->>>>>>> 4e77d178c1f589182d0a1e3056cf08573195b8d9
         
         with open(yaml_file) as f:
             cfg = yaml.safe_load(f)
