@@ -328,20 +328,17 @@ class Game_Manager(QMainWindow):
             #if BOARD_DATA.currentY < 1: 
             if BOARD_DATA.currentY < 1 or self.nextMove["option"]["force_reset_field"] == True:
                 # if Piece cannot movedown and stack, reset field
-                #print("reset field.")
-                #BLOCK_CONTROLLER_TRAIN.reset_state()   
-                self.resetfield()
                 if self.nextMove["option"]["reset_callback_function_addr"] != None:
                     # if necessary, call reset_callback_function
                     reset_callback_function = self.nextMove["option"]["reset_callback_function_addr"]
                     reset_callback_function()
-
 
                 if self.nextMove["option"]["reset_all_field"] == True:
                     # reset all field if debug option is enabled
                     print("reset all field.")
                     self.reset_all_field()
                 else:
+                    print("reset field.")
                     self.resetfield()
 
             # init nextMove
