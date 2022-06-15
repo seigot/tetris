@@ -338,7 +338,6 @@ class Game_Manager(QMainWindow):
                     print("reset all field.")
                     self.reset_all_field()
                 else:
-                    print("reset field.")
                     self.resetfield()
 
             # init nextMove
