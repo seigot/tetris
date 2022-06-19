@@ -18,6 +18,7 @@ import os
 from tensorboardX import SummaryWriter
 from collections import deque
 from random import random, sample,randint
+import shutil
 import numpy as np
 import yaml
 import subprocess
@@ -41,28 +42,42 @@ class Block_Controller(object):
 
     #パラメータ読み込み
     def yaml_read(self,yaml_file):
-        
         with open(yaml_file) as f:
             cfg = yaml.safe_load(f)
-                
         return cfg
 
     def set_parameter(self,yaml_file=None,weight=None):
+
+        self.result_warehouse = "outputs/"
+        self.output_dir  = self.result_warehouse + "/latest"
+
+        if os.path.exists(self.output_dir):
+            print(" %s is existed."%(self.output_dir))
+            t = os.path.getmtime(self.output_dir)
+            dt = datetime.fromtimestamp(t)
+            mv_dir = self.result_warehouse+ dt.strftime("%Y-%m-%d-%H-%M-%S")
+            print(mv_dir)
+            shutil.move(self.output_dir,mv_dir)
+            os.makedirs(self.output_dir,exist_ok=True)
+        else:
+            print("%s is not existed.\nmkdir %s."%(self.output_dir,self.output_dir))
+            os.makedirs(self.output_dir,exist_ok=True)
+
+
         if yaml_file is None:
             raise Exception('Please input train_yaml file.')
         elif not os.path.exists(yaml_file):
             raise Exception('The yaml file %s is not existed.'%(yaml_file))
         cfg = self.yaml_read(yaml_file)
 
-        os.makedirs(cfg["common"]["dir"],exist_ok=True)
-        self.saved_path = cfg["common"]["dir"] + "/" + cfg["common"]["weight_path"]
+        self.saved_path = self.output_dir + "/" + cfg["common"]["weight_path"]
         os.makedirs(self.saved_path ,exist_ok=True)
-        subprocess.run("cp config/default.yaml %s/"%(cfg["common"]["dir"]), shell=True)
-        self.writer = SummaryWriter(cfg["common"]["dir"]+"/"+cfg["common"]["log_path"])
+        subprocess.run("cp config/default.yaml %s/"%(self.output_dir), shell=True)
+        self.writer = SummaryWriter(self.output_dir+"/"+cfg["common"]["log_path"])
 
-        self.log = cfg["common"]["dir"]+"/log.txt"
-        self.log_score = cfg["common"]["dir"]+"/score.txt"
-        self.log_reward = cfg["common"]["dir"]+"/reward.txt"
+        self.log = self.output_dir+"/log.txt"
+        self.log_score = self.output_dir+"/score.txt"
+        self.log_reward = self.output_dir+"/reward.txt"
         self.state_dim = cfg["state"]["dim"]
 
         with open(self.log,"w") as f:
