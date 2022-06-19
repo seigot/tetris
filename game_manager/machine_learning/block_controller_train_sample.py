@@ -19,6 +19,7 @@ from tensorboardX import SummaryWriter
 from collections import deque
 from random import random, sample,randint
 import shutil
+import glob 
 import numpy as np
 import yaml
 import subprocess
@@ -32,7 +33,7 @@ class Block_Controller(object):
     CurrentShape_class = 0
     NextShape_class = 0
 
-    def __init__(self,load_weight=None):
+    def __init__(self):
         # init parameter
         self.mode = None
         # train
@@ -46,39 +47,37 @@ class Block_Controller(object):
             cfg = yaml.safe_load(f)
         return cfg
 
-    def set_parameter(self,yaml_file=None,weight=None):
-
+    def set_parameter(self,yaml_file=None,predict_weight=None):
         self.result_warehouse = "outputs/"
-        self.output_dir  = self.result_warehouse + "/latest"
+        self.latest_dir = self.result_warehouse+"/latest"
+        if os.path.exists(self.latest_dir):
+            shutil.rmtree(self.latest_dir)
 
-        if os.path.exists(self.output_dir):
-            print(" %s is existed."%(self.output_dir))
-            t = os.path.getmtime(self.output_dir)
-            dt = datetime.fromtimestamp(t)
-            mv_dir = self.result_warehouse+ dt.strftime("%Y-%m-%d-%H-%M-%S")
-            print(mv_dir)
-            shutil.move(self.output_dir,mv_dir)
-            os.makedirs(self.output_dir,exist_ok=True)
-        else:
-            print("%s is not existed.\nmkdir %s."%(self.output_dir,self.output_dir))
-            os.makedirs(self.output_dir,exist_ok=True)
+        dt = datetime.now()
+        self.output_dir = self.result_warehouse+ dt.strftime("%Y-%m-%d-%H-%M-%S")
+        os.makedirs(self.output_dir,exist_ok=True)
 
+        self.weight_dir = self.output_dir+"/trained_model/"
+        self.best_weight = self.weight_dir + "best_weight.pth"
+        os.makedirs(self.weight_dir,exist_ok=True)
 
         if yaml_file is None:
             raise Exception('Please input train_yaml file.')
         elif not os.path.exists(yaml_file):
-            raise Exception('The yaml file %s is not existed.'%(yaml_file))
+            raise Exception('The yaml file {} is not existed.'.format(yaml_file))
         cfg = self.yaml_read(yaml_file)
 
-        self.saved_path = self.output_dir + "/" + cfg["common"]["weight_path"]
-        os.makedirs(self.saved_path ,exist_ok=True)
         subprocess.run("cp config/default.yaml %s/"%(self.output_dir), shell=True)
         self.writer = SummaryWriter(self.output_dir+"/"+cfg["common"]["log_path"])
 
-        self.log = self.output_dir+"/log.txt"
-        self.log_score = self.output_dir+"/score.txt"
-        self.log_reward = self.output_dir+"/reward.txt"
-        self.state_dim = cfg["state"]["dim"]
+        if self.mode=="predict" or self.mode=="predict_sample":
+            self.log = self.output_dir+"/log_predict.txt"
+            self.log_score = self.output_dir+"/score_predict.txt"
+            self.log_reward = self.output_dir+"/reward_predict.txt"
+        else:
+            self.log = self.output_dir+"/log_train.txt"
+            self.log_score = self.output_dir+"/score_train.txt"
+            self.log_reward = self.output_dir+"/reward_train.txt"
 
         with open(self.log,"w") as f:
             print("start...", file=f)
@@ -95,33 +94,39 @@ class Block_Controller(object):
         self.max_tetrominoes = cfg["tetris"]["max_tetrominoes"]
         
         #=====load Deep Q Network=====
+        self.state_dim = cfg["state"]["dim"]
         print("model name: %s"%(cfg["model"]["name"]))
         if cfg["model"]["name"]=="DQN":
             self.model = DeepQNetwork(self.state_dim)
             self.initial_state = torch.FloatTensor([0 for i in range(self.state_dim)])
             self.get_next_func = self.get_next_states
             self.reward_func = self.step
+        elif cfg["model"]["name"]=="DQNv2":
+            from machine_learning.model.deepqnet import DeepQNetwork_v2
+            self.model = DeepQNetwork_v2()
+            self.initial_state = torch.FloatTensor([[[0 for i in range(10)] for j in range(22)]])
+            self.get_next_func = self.get_next_states_v2
+            self.reward_func = self.step_v2
+            self.reward_weight = cfg["train"]["reward_weight"]
 
-
-        self.load_weight = cfg["common"]["load_weight"]
-        
-        if cfg["model"]["finetune"]:
-            print(self.load_weight)
-            self.model = torch.load(self.load_weight)
-            print("load ",self.load_weight)
-              
-        if self.mode=="predict":
+        if self.mode=="predict" or self.mode=="predict_sample":
             if not weight=="None":
-                print("load ",weight)
-                self.model = torch.load(weight)
-                self.model.eval()        
-            else:
-                if not os.path.exists(self.load_weight):
-                    print("%s is not existed!!"%(self.load_weight))
+                if os.path.exists(predict_weight):
+                    print("Load {}...".format(predict_weight))
+                    self.model = torch.load(predict_weight)
+                    self.model.eval()    
+                else:
+                    print("{} is not existed!!".format(predict_weight))
                     exit()
-                #self.model.load_state_dict(torch.load(self.load_weight))
-                self.model = torch.load(self.load_weight)
-                self.model.eval()
+            else:
+                print("Please set predict_weight!!")
+                exit()
+        elif cfg["model"]["finetune"]:
+            self.ft_weight = cfg["common"]["ft_weight"]
+            self.model = torch.load(self.ft_weight)
+            with open(self.log,"a") as f:
+                print("Finetuning mode\nLoad {}...".format(self.ft_weight), file=f)
+                
             
         if torch.cuda.is_available():
             self.model.cuda()
@@ -132,7 +137,6 @@ class Block_Controller(object):
         if not isinstance(self.lr,float):
             self.lr = float(self.lr)
 
-        
         self.replay_memory_size = cfg["train"]["replay_memory_size"]
         self.replay_memory = deque(maxlen=self.replay_memory_size)
         self.max_episode_size = self.max_tetrominoes
@@ -145,7 +149,6 @@ class Block_Controller(object):
         if not isinstance(self.final_epsilon,float):
             self.final_epsilon = float(self.final_epsilon)
 
-        self.save_interval = cfg["train"]["save_interval"]
         #=====Set loss function and optimizer=====
         if cfg["train"]["optimizer"]=="Adam" or cfg["train"]["optimizer"]=="ADAM":
             self.optimizer = torch.optim.Adam(self.model.parameters(), lr=self.lr)
@@ -253,7 +256,7 @@ class Block_Controller(object):
                 if self.target_net:
                     if self.epoch %self.target_copy_intarval==0 and self.epoch>0:
                         print("target_net update...")
-                        self.target_model = torch.load(self.max_weight)
+                        self.target_model = torch.load(self.best_weight)
                         #self.target_model = copy.copy(self.model)
                         #self.max_score = -99999
                     self.target_model.eval()
@@ -316,6 +319,14 @@ class Block_Controller(object):
             if self.epoch > self.num_epochs:
                 with open(self.log,"a") as f:
                     print("finish..", file=f)
+                os.makedirs(self.latest_dir,exist_ok=True)
+                shutil.copyfile(self.best_weight,self.latest_dir+"/best_weight.pth")
+                for file in glob.glob(self.output_dir+"/*.txt"):
+                    shutil.copyfile(file,self.latest_dir+"/"+os.path.basename(file))
+                for file in glob.glob(self.output_dir+"/*.yaml"):
+                    shutil.copyfile(file,self.latest_dir+"/"+os.path.basename(file))
+                with open(self.latest_dir+"/copy_base.txt","w") as f:
+                    print(self.best_weight, file=f)
                 exit() 
         else:
             self.epoch += 1
@@ -333,9 +344,9 @@ class Block_Controller(object):
     #累積値の初期化
     def reset_state(self):        
             if self.score > self.max_score:
-                torch.save(self.model, "{}/tetris_epoch_{}_score{}".format(self.saved_path,self.epoch,self.score))
+                torch.save(self.model, "{}/tetris_epoch{}_score{}.pth".format(self.weight_dir,self.epoch,self.score))
                 self.max_score  =  self.score
-                self.max_weight = "{}/tetris_epoch_{}_score{}".format(self.saved_path,self.epoch,self.score)
+                torch.save(self.model,self.best_weight)
 
             self.state = self.initial_state
             self.score = 0
@@ -481,14 +492,14 @@ class Block_Controller(object):
         self.tetrominoes += 1
         return reward
            
-    def GetNextMove(self, nextMove, GameStatus,yaml_file=None,weight=None):
+    def GetNextMove(self, nextMove, GameStatus,yaml_file=None,predict_weight=None):
 
         t1 = datetime.now()
         nextMove["option"]["reset_callback_function_addr"] = self.update
         self.mode = GameStatus["judge_info"]["mode"]
         if self.init_train_parameter_flag == False:
             self.init_train_parameter_flag = True
-            self.set_parameter(yaml_file=yaml_file,weight=weight)        
+            self.set_parameter(yaml_file=yaml_file,predict_weight=predict_weight)        
         self.ind =GameStatus["block_info"]["currentShape"]["index"]
         curr_backboard = GameStatus["field_info"]["backboard"]
         # default board definition

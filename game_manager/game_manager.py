@@ -84,7 +84,6 @@ class Game_Manager(QMainWindow):
         self.resultlogjson = ""
         self.user_name = ""
         self.train_yaml = None
-        self.test_weight = None
         
         args = get_option(self.game_time,
                           self.mode,
@@ -121,8 +120,7 @@ class Game_Manager(QMainWindow):
         if args.train_yaml.endswith('.yaml'):
             self.train_yaml = args.train_yaml
         
-        if not args.predict_weight is None:
-            self.predict_weight = args.predict_weight
+        self.predict_weight = args.predict_weight
             
         self.initUI()
         
@@ -260,13 +258,13 @@ class Game_Manager(QMainWindow):
                     # sample train/predict
                     # import block_controller_train_sample, it's necessary to install pytorch to use.
                     from machine_learning.block_controller_train_sample import BLOCK_CONTROLLER_TRAIN_SAMPLE as BLOCK_CONTROLLER_TRAIN
-                    self.nextMove = BLOCK_CONTROLLER_TRAIN.GetNextMove(nextMove, GameStatus,yaml_file=self.train_yaml,weight=self.test_weight)
+                    self.nextMove = BLOCK_CONTROLLER_TRAIN.GetNextMove(nextMove, GameStatus,yaml_file=self.train_yaml,predict_weight=self.predict_weight)
                     
                 elif self.mode == "train" or self.mode == "predict":
                     # train/predict
                     # import block_controller_train, it's necessary to install pytorch to use.
                     from machine_learning.block_controller_train import BLOCK_CONTROLLER_TRAIN
-                    self.nextMove = BLOCK_CONTROLLER_TRAIN.GetNextMove(nextMove, GameStatus,yaml_file=self.train_yaml,weight=self.test_weight)
+                    self.nextMove = BLOCK_CONTROLLER_TRAIN.GetNextMove(nextMove, GameStatus,yaml_file=self.train_yaml,predict_weight=self.predict_weight)
                 else:
                     self.nextMove = BLOCK_CONTROLLER.GetNextMove(nextMove, GameStatus)
 
