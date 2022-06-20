@@ -15,7 +15,7 @@ import time
 import json
 import pprint
 
-def get_option(game_time, mode, drop_interval, random_seed, obstacle_height, obstacle_probability, resultlogjson, user_name, ShapeListMax, BlockNumMax):
+def get_option(game_time, mode, drop_interval, random_seed, obstacle_height, obstacle_probability, resultlogjson, train_yaml, predict_weight, user_name, ShapeListMax, BlockNumMax):
     argparser = ArgumentParser()
     argparser.add_argument('--game_time', type=int,
                            default=game_time,
@@ -39,11 +39,11 @@ def get_option(game_time, mode, drop_interval, random_seed, obstacle_height, obs
                            default=resultlogjson,
                            help='result json log file path')
     argparser.add_argument('--train_yaml', type=str,
-                           default="config/default.yaml",
+                           default=train_yaml,
                            help='yaml file for machine learning')
     argparser.add_argument('--predict_weight', type=str,
-                           default=None,
-                           help='yaml file for machine learning')
+                           default=predict_weight,
+                           help='weight file for machine learning')
     argparser.add_argument('-u', '--user_name', type=str,
                            default=user_name,
                            help='Specigy user name if necessary')
@@ -84,7 +84,7 @@ class Game_Manager(QMainWindow):
         self.resultlogjson = ""
         self.user_name = ""
         self.train_yaml = None
-        self.test_weight = None
+        self.predict_weight = None
         
         args = get_option(self.game_time,
                           self.mode,
@@ -93,6 +93,8 @@ class Game_Manager(QMainWindow):
                           self.obstacle_height,
                           self.obstacle_probability,
                           self.resultlogjson,
+                          self.train_yaml,
+                          self.predict_weight,
                           self.user_name,
                           self.ShapeListMax,
                           self.BlockNumMax)
@@ -117,11 +119,9 @@ class Game_Manager(QMainWindow):
         
         if args.BlockNumMax > 0:
             self.BlockNumMax = args.BlockNumMax
-        
         if args.train_yaml.endswith('.yaml'):
-            self.train_yaml = args.train_yaml
-        
-        if not args.predict_weight is None:
+            self.train_yaml = args.train_yaml        
+        if args.predict_weight != "default":
             self.predict_weight = args.predict_weight
             
         self.initUI()
@@ -260,19 +260,19 @@ class Game_Manager(QMainWindow):
                     # sample train/predict
                     # import block_controller_train_sample, it's necessary to install pytorch to use.
                     from machine_learning.block_controller_train_sample import BLOCK_CONTROLLER_TRAIN_SAMPLE as BLOCK_CONTROLLER_TRAIN
-                    self.nextMove = BLOCK_CONTROLLER_TRAIN.GetNextMove(nextMove, GameStatus,yaml_file=self.train_yaml,weight=self.test_weight)
+                    self.nextMove = BLOCK_CONTROLLER_TRAIN.GetNextMove(nextMove, GameStatus,yaml_file=self.train_yaml,weight=self.predict_weight)
                     
                 elif self.mode == "train_sample2" or self.mode == "predict_sample2":
                     # sample train/predict
                     # import block_controller_train_sample, it's necessary to install pytorch to use.
                     from machine_learning.block_controller_train_sample2 import BLOCK_CONTROLLER_TRAIN_SAMPLE2 as BLOCK_CONTROLLER_TRAIN
-                    self.nextMove = BLOCK_CONTROLLER_TRAIN.GetNextMove(nextMove, GameStatus,yaml_file=self.train_yaml,weight=self.test_weight)
+                    self.nextMove = BLOCK_CONTROLLER_TRAIN.GetNextMove(nextMove, GameStatus,yaml_file=self.train_yaml,weight=self.predict_weight)
                     
                 elif self.mode == "train" or self.mode == "predict":
                     # train/predict
                     # import block_controller_train, it's necessary to install pytorch to use.
                     from machine_learning.block_controller_train import BLOCK_CONTROLLER_TRAIN
-                    self.nextMove = BLOCK_CONTROLLER_TRAIN.GetNextMove(nextMove, GameStatus,yaml_file=self.train_yaml,weight=self.test_weight)
+                    self.nextMove = BLOCK_CONTROLLER_TRAIN.GetNextMove(nextMove, GameStatus,yaml_file=self.train_yaml,weight=self.predict_weight)
                 else:
                     self.nextMove = BLOCK_CONTROLLER.GetNextMove(nextMove, GameStatus)
 
