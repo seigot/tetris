@@ -10,7 +10,6 @@ import torch
 import torch.nn as nn
 import sys
 sys.path.append("game_manager/machine_learning/")
-from machine_learning.model.deepqnet import DeepQNetwork
 import omegaconf
 from hydra import compose, initialize
 
@@ -50,16 +49,17 @@ class Block_Controller(object):
     def set_parameter(self,yaml_file=None,predict_weight=None):
         self.result_warehouse = "outputs/"
         self.latest_dir = self.result_warehouse+"/latest"
-        if os.path.exists(self.latest_dir):
-            shutil.rmtree(self.latest_dir)
-
-        dt = datetime.now()
-        self.output_dir = self.result_warehouse+ dt.strftime("%Y-%m-%d-%H-%M-%S")
-        os.makedirs(self.output_dir,exist_ok=True)
-
-        self.weight_dir = self.output_dir+"/trained_model/"
-        self.best_weight = self.weight_dir + "best_weight.pth"
-        os.makedirs(self.weight_dir,exist_ok=True)
+        if self.mode=="train" or self.mode=="train_sample" or self.mode=="train_sample2":
+            dt = datetime.now()
+            self.output_dir = self.result_warehouse+ dt.strftime("%Y-%m-%d-%H-%M-%S")
+            os.makedirs(self.output_dir,exist_ok=True)
+            self.weight_dir = self.output_dir+"/trained_model/"
+            self.best_weight = self.weight_dir + "best_weight.pt"
+            os.makedirs(self.weight_dir,exist_ok=True)
+        else:
+            dirname = os.path.dirname(predict_weight)
+            self.output_dir = dirname + "/predict/"
+            os.makedirs(self.output_dir,exist_ok=True)
 
         if yaml_file is None:
             raise Exception('Please input train_yaml file.')
@@ -96,21 +96,22 @@ class Block_Controller(object):
         #=====load Deep Q Network=====
         self.state_dim = cfg["state"]["dim"]
         print("model name: %s"%(cfg["model"]["name"]))
-        if cfg["model"]["name"]=="DQN":
-            self.model = DeepQNetwork(self.state_dim)
+        if cfg["model"]["name"]=="MLP":
+            from machine_learning.model.deepqnet import MLP
+            self.model = MLP(self.state_dim)
             self.initial_state = torch.FloatTensor([0 for i in range(self.state_dim)])
             self.get_next_func = self.get_next_states
             self.reward_func = self.step
-        elif cfg["model"]["name"]=="DQNv2":
-            from machine_learning.model.deepqnet import DeepQNetwork_v2
-            self.model = DeepQNetwork_v2()
+        elif cfg["model"]["name"]=="DQN":
+            from machine_learning.model.deepqnet import DeepQNetwork
+            self.model = DeepQNetwork()
             self.initial_state = torch.FloatTensor([[[0 for i in range(10)] for j in range(22)]])
             self.get_next_func = self.get_next_states_v2
             self.reward_func = self.step_v2
             self.reward_weight = cfg["train"]["reward_weight"]
 
         if self.mode=="predict" or self.mode=="predict_sample":
-            if not weight=="None":
+            if not predict_weight=="None":
                 if os.path.exists(predict_weight):
                     print("Load {}...".format(predict_weight))
                     self.model = torch.load(predict_weight)
@@ -123,9 +124,10 @@ class Block_Controller(object):
                 exit()
         elif cfg["model"]["finetune"]:
             self.ft_weight = cfg["common"]["ft_weight"]
-            self.model = torch.load(self.ft_weight)
-            with open(self.log,"a") as f:
-                print("Finetuning mode\nLoad {}...".format(self.ft_weight), file=f)
+            if not self.ft_weight is None:
+                self.model = torch.load(self.ft_weight)
+                with open(self.log,"a") as f:
+                    print("Finetuning mode\nLoad {}...".format(self.ft_weight), file=f)
                 
             
         if torch.cuda.is_available():
@@ -209,7 +211,7 @@ class Block_Controller(object):
             self.MSL = MSL(step_num=self.multi_step_num,gamma=self.gamma)
     #更新
     def stack_replay_memory(self):
-        if self.mode=="train" or self.mode=="train_sample":
+        if self.mode=="train" or self.mode=="train_sample" or self.mode=="train_sample2":
             self.score += self.score_list[5]
             self.episode_memory[-1][1] += self.penalty
             self.episode_memory[-1][3] = True  #store False to done lists.
@@ -225,7 +227,7 @@ class Block_Controller(object):
     
     def update(self):
 
-        if self.mode=="train" or self.mode=="train_sample":
+        if self.mode=="train" or self.mode=="train_sample" or self.mode=="train_sample2":
             self.stack_replay_memory()
 
             if len(self.replay_memory) < self.replay_memory_size / 10:
@@ -258,7 +260,6 @@ class Block_Controller(object):
                         print("target_net update...")
                         self.target_model = torch.load(self.best_weight)
                         #self.target_model = copy.copy(self.model)
-                        #self.max_score = -99999
                     self.target_model.eval()
                     #======predict Q(S_t+1 max_a Q(s_(t+1),a))======
                     with torch.no_grad():
@@ -319,8 +320,10 @@ class Block_Controller(object):
             if self.epoch > self.num_epochs:
                 with open(self.log,"a") as f:
                     print("finish..", file=f)
+                if os.path.exists(self.latest_dir):
+                    shutil.rmtree(self.latest_dir)
                 os.makedirs(self.latest_dir,exist_ok=True)
-                shutil.copyfile(self.best_weight,self.latest_dir+"/best_weight.pth")
+                shutil.copyfile(self.best_weight,self.latest_dir+"/best_weight.pt")
                 for file in glob.glob(self.output_dir+"/*.txt"):
                     shutil.copyfile(file,self.latest_dir+"/"+os.path.basename(file))
                 for file in glob.glob(self.output_dir+"/*.yaml"):
@@ -342,17 +345,17 @@ class Block_Controller(object):
         
 
     #累積値の初期化
-    def reset_state(self):        
+    def reset_state(self):
+        if self.mode=="train" or self.mode=="train_sample" or self.mode=="train_sample2": 
             if self.score > self.max_score:
-                torch.save(self.model, "{}/tetris_epoch{}_score{}.pth".format(self.weight_dir,self.epoch,self.score))
+                torch.save(self.model, "{}/tetris_epoch{}_score{}.pt".format(self.weight_dir,self.epoch,self.score))
                 self.max_score  =  self.score
                 torch.save(self.model,self.best_weight)
-
-            self.state = self.initial_state
-            self.score = 0
-            self.cleared_lines = 0
-            self.epoch_reward = 0
-            self.tetrominoes = 0
+        self.state = self.initial_state
+        self.score = 0
+        self.cleared_lines = 0
+        self.epoch_reward = 0
+        self.tetrominoes = 0
             
     #削除される列を数える
     def check_cleared_rows(self,board):
@@ -492,14 +495,14 @@ class Block_Controller(object):
         self.tetrominoes += 1
         return reward
            
-    def GetNextMove(self, nextMove, GameStatus,yaml_file=None,predict_weight=None):
+    def GetNextMove(self, nextMove, GameStatus,yaml_file=None,weight=None):
 
         t1 = datetime.now()
         nextMove["option"]["reset_callback_function_addr"] = self.update
         self.mode = GameStatus["judge_info"]["mode"]
         if self.init_train_parameter_flag == False:
             self.init_train_parameter_flag = True
-            self.set_parameter(yaml_file=yaml_file,predict_weight=predict_weight)        
+            self.set_parameter(yaml_file=yaml_file,predict_weight=weight)        
         self.ind =GameStatus["block_info"]["currentShape"]["index"]
         curr_backboard = GameStatus["field_info"]["backboard"]
         # default board definition
@@ -518,7 +521,7 @@ class Block_Controller(object):
 
         next_steps =self.get_next_func(curr_backboard,curr_piece_id,curr_shape_class)
         
-        if self.mode=="train" or self.mode=="train_sample":
+        if self.mode=="train" or self.mode=="train_sample" or self.mode=="train_sample2":
             # init parameter
             epsilon = self.final_epsilon + (max(self.num_decay_epochs - self.epoch, 0) * (
                     self.initial_epsilon - self.final_epsilon) / self.num_decay_epochs)
