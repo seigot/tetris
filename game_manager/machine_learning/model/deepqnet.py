@@ -1,8 +1,8 @@
 import torch.nn as nn
 
-class DeepQNetwork(nn.Module):
+class MLP(nn.Module):
     def __init__(self,input_dim):
-        super(DeepQNetwork, self).__init__()
+        super(MLP, self).__init__()
 
         self.conv1 = nn.Sequential(nn.Linear(input_dim, 64), nn.ReLU(inplace=True))
         self.conv2 = nn.Sequential(nn.Linear(64, 64), nn.ReLU(inplace=True))
@@ -22,9 +22,9 @@ class DeepQNetwork(nn.Module):
         x = self.conv3(x)
         return x
     
-class DeepQNetwork_v2(nn.Module):
+class DeepQNetwork(nn.Module):
     def __init__(self):
-        super(DeepQNetwork_v2, self).__init__()
+        super(DeepQNetwork, self).__init__()
         self.conv1 = nn.Sequential(
                 nn.Conv2d(1,32, kernel_size=4, stride=2,padding=1,
                 padding_mode='zeros',bias=False),

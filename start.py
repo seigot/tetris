@@ -63,7 +63,7 @@ def start():
     SHAPE_LIST_MAX = 6
     BLOCK_NUM_MAX = -1
     TRAIN_YAML = "config/default.yaml"
-    PREDICT_WEIGHT = "default"
+    PREDICT_WEIGHT = "outputs/latest/best_weight.pt"
 
     ## update value if args are given
     args = get_option(GAME_LEVEL,

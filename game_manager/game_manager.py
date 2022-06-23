@@ -85,6 +85,7 @@ class Game_Manager(QMainWindow):
         self.user_name = ""
         self.train_yaml = None
         self.predict_weight = None
+
         
         args = get_option(self.game_time,
                           self.mode,
@@ -120,6 +121,7 @@ class Game_Manager(QMainWindow):
         if args.BlockNumMax > 0:
             self.BlockNumMax = args.BlockNumMax
         if args.train_yaml.endswith('.yaml'):
+
             self.train_yaml = args.train_yaml        
         if args.predict_weight != "default":
             self.predict_weight = args.predict_weight
@@ -266,7 +268,7 @@ class Game_Manager(QMainWindow):
                     # sample train/predict
                     # import block_controller_train_sample, it's necessary to install pytorch to use.
                     from machine_learning.block_controller_train_sample2 import BLOCK_CONTROLLER_TRAIN_SAMPLE2 as BLOCK_CONTROLLER_TRAIN
-                    self.nextMove = BLOCK_CONTROLLER_TRAIN.GetNextMove(nextMove, GameStatus,yaml_file=self.train_yaml,weight=self.predict_weight)
+                    self.nextMove = BLOCK_CONTROLLER_TRAIN.GetNextMove(nextMove, GameStatus,yaml_file="config/train_sample2.yaml",weight=self.predict_weight)
                     
                 elif self.mode == "train" or self.mode == "predict":
                     # train/predict

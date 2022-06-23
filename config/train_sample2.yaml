@@ -2,7 +2,7 @@ common:
   ft_weight: 
   log_path: tensorboard
 model:
-  name: DQN
+  name: MLP
   finetune: False
 state:
   dim: 4
@@ -14,17 +14,17 @@ train:
   lr_step_size: 1000
   replay_memory_size: 30000
   reward_clipping: True
-  prioritized_replay: True 
+  prioritized_replay: False
   multi_step_learning: False
   multi_step_num: 3
-  num_epoch: 10000 
-  num_decay_epochs: 3500
+  num_epoch: 5000 
+  num_decay_epochs: 3000
   initial_epsilon: 1.0
   final_epsilon: 1.0e-3
   batch_size: 512
-  gamma: 0.8
-  target_net: True
-  double_dqn: True
+  gamma: 0.99
+  target_net: False
+  double_dqn: False
   target_copy_intarval: 500
   max_penalty: -1
   reward_list: #These parameter are not normalized.
@@ -35,9 +35,9 @@ train:
     - 1300 #4block
     - -1300 #game over
   reward_weight: #These parameter are used for DQN_v2
-    - 0.01 #1 #bampiness 
-    - 0.0 #1 #max height
-    - 0.01 #1 #hole_num
+    - 0.0  #bampiness 
+    - 0.0 #max height
+    - 0.0  #hole_num
 tetris:
   board_height: 22
   board_width: 10
