@@ -12,21 +12,21 @@ train:
   lr_gamma: 0.1 
   lr_momentum: 0.99
   lr_step_size: 1000
-  replay_memory_size: 30000
-  reward_clipping: True
-  prioritized_replay: False
-  multi_step_learning: False
-  multi_step_num: 3
   num_epoch: 5000 
   num_decay_epochs: 3000
   initial_epsilon: 1.0
   final_epsilon: 1.0e-3
   batch_size: 512
   gamma: 0.99
-  target_net: False
-  double_dqn: False
-  target_copy_intarval: 500
   max_penalty: -1
+  target_net: False
+  target_copy_intarval: 500
+  replay_memory_size: 30000
+  double_dqn: False
+  reward_clipping: True
+  prioritized_replay: False
+  multi_step_learning: False
+  multi_step_num: 3
   reward_list: #These parameter are not normalized.
     - 0  #survival
     - 100 #0 #1block
