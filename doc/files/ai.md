@@ -130,7 +130,42 @@ python start.py -m predict_sample2 -l 2 --predict_weight sample_weight/MLP/sampl
 |reward_clipping|Reward clippingの使用フラグ|bool|train|True|
 |prioritized_replay|Prioritized Experience Replayの使用フラグ|bool|train|True|
 |multi_step_learning|Multi step learningの使用フラグ|bool|train|True|
-|multi_step_num|Multi step learningのステップ数|int|train|3|
-|reward_list|点数に応じた報酬の設定値<br>（上から　0列崩し,1列崩し,2列崩し,3列崩し,4列崩し,ゲームオーバー　に対する報酬)|int|train|3|
-|reward_weight|点数以外で得る報酬(ペナルティ)の重み<br>（上から　隣接する行との高さ差分,最大の高さ,穴の数 に対するペナルティ値)|int|train|3|
+|multi_step_num|Multi step learningのステップ数|int|train|0,100,300,700,1300,-1300 <br>　左から　0列崩し,1列崩し,2列崩し,3列崩し,4列崩し,ゲームオーバー)|
+|reward_list|点数に応じた報酬の設定値<br>（0列崩し,1列崩し,2列崩し,3列崩し,4列崩し,ゲームオーバーの順）|int|train|3|
+|reward_weight|点数以外で与えられるペナルティの重み<br>（隣接する行との高さ差分,最大の高さ,穴の数 の順)<br> 0以上の値が必須|float|train|0.01,0.0,0.01 <br>（左から　隣接する行との高さ差分,最大の高さ,穴の数 ）|
 </details>
+
+## 4.2 パラメータ調整例（得たい効果とパラメータの関係例）
+- 下記にパラメータ調整の方針例を記載する
+- それぞれの効果が常に得られるとは限らないので実験を繰り返しながら、最適な値を探してみてください。
+1. ブロックを積み上げる
+    - reward_listの３列崩し、４列崩しの値を大きくする
+    - reward_weightの max_heightを小さくする
+
+2. ゲームオーバの発生を防ぐ（ブロックを積み上げ量を減らす）
+    - reward_listの３列崩し、４列崩しの値を小さくする
+    - reward_weightの max_heightを大きくする
+
+3. 過去の盤面からの影響を小さくする
+    - gamma(割引率)を大きくする。
+
+4. 学習を安定させる
+    - reward_clipping を Trueにする。
+    - target_net を Trueにする
+    - double_DQN を Trueにする。
+
+5. 学習を早くする。（学習するモデルのパラメータを減らす）
+    - モデルのレイヤ数、カーネルサイズを減らす
+    - MLPを使用する
+
+6. 学習を早くする。（効果の高いデータを効率的に学習に使用する）
+    - prioritized_replay を Trueにする。
+    - lr（学習率）を大きくする。（大きすぎると収束しなくなるので注意）
+    - batch_size　を大きくする （学習に使用するメモリ量が大きくなるので注意）
+    - replay_memory_size　（学習に使用するメモリ量が大きくなるので注意）
+
+
+
+
+
+　　

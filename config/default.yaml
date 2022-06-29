@@ -18,11 +18,11 @@ train:
   final_epsilon: 1.0e-3
   batch_size: 512
   gamma: 0.8
-  : -1
-  target_net[1]: True
+  max_penalty: -1
+  target_net: True
   target_copy_intarval: 500
   replay_memory_size: 30000
-  double_dqn[2]: True
+  double_dqn: True
   reward_clipping: True
   prioritized_replay: True 
   multi_step_learning: False
