@@ -276,7 +276,7 @@ nextShapeIndex = np_randomShape.random.randint(1, 8)
 ```
 
 ### AI実装
-[AIについて（準備中）](doc/files/ai.md)
+[AIについて](doc/files/ai.md)
 
 ### 自動評価
 スコアアタック用サーバ  
