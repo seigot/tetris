@@ -40,12 +40,12 @@ python start.py -m train_sample2 -d 1 -l 2 -t -1
 
 - DQN(Deep Q Network)を使う場合
 ```
-python start.py -m predict_sample -l 2 --predict_weight sample_weight/DQN/sample_weight.pt
+python start.py -m predict_sample -l 2 --predict_weight weight/DQN/sample_weight.pt
 ```
 
 -  MLP (Multilayer perceptron)を使う場合
 ```
-python start.py -m predict_sample2 -l 2 --predict_weight sample_weight/MLP/sample_weight.pt
+python start.py -m predict_sample2 -l 2 --predict_weight weight/MLP/sample_weight.pt
 ```
 ### 2.2.1 -m オプションについて
  - 学習/推論の切り替えおよびサンプル/本番コードの切り替には　"-m"　オプションを使用します。
