@@ -132,6 +132,8 @@ def start():
     print('OBSTACLE_HEIGHT: ' + str(OBSTACLE_HEIGHT))
     print('OBSTACLE_PROBABILITY: ' + str(OBSTACLE_PROBABILITY))
     print('USER_NAME: ' + str(USER_NAME))
+    print('SHAPE_LIST_MAX: ' + str(SHAPE_LIST_MAX))
+    print('BLOCK_NUM_MAX: ' + str(BLOCK_NUM_MAX))
     print('RESULT_LOG_JSON: ' + str(RESULT_LOG_JSON))
     print('TRAIN_YAML: ' + str(TRAIN_YAML))
     print('PREDICT_WEIGHT: ' + str(PREDICT_WEIGHT))
