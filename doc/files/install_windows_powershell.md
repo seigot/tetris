@@ -135,6 +135,32 @@ cd tetris
 python start.py  # ここでtetrisが表示されればOK
 ```
 
+### `python start.py`実行後にtetrisが表示されない場合
+
+実行環境の違いにより`python start.py`実行後にtetrisが表示されないことがたまにある。  
+この場合はwarningやエラーログが出力されるはずなので、以下の実行成功時のログと比較すると解決に近づくと思われる。
+
+```
+# （例）実行成功時のログ
+$ python start.py
+game_level: 1
+game_time: 180
+RANDOM_SEED: 0
+IS_MODE :default
+OBSTACLE_HEIGHT: 0
+OBSTACLE_PROBABILITY: 0
+USER_NAME: window_sample
+SHAPE_LIST_MAX: 6
+BLOCK_NUM_MAX: -1
+RESULT_LOG_JSON: result.json
+TRAIN_YAML: config/default.yaml
+PREDICT_WEIGHT: outputs/latest/best_weight.pt
+Python 3.7.1
+CompletedProcess(args='python --version', returncode=0, stderr='')
+=================================================>
+...(以降、tetrisデバッグ情報が表示される)
+```
+
 ## option. エディタのインストール
 
 最近流行りのエディタである`visual studio code`をインストールしておくと後のコード編集に便利である  
