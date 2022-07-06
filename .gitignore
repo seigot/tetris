@@ -5,4 +5,3 @@ tmp.log
 **.DS_Store
 /result.json
 outputs/*
-trained_models/
