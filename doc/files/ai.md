@@ -165,7 +165,26 @@ python start.py -m predict_sample2 -l 2 --predict_weight weight/MLP/sample_weigh
     - replay_memory_size　（学習に使用するメモリ量が大きくなるので注意）
 
 
+# 5.チュートリアルの実行
+- サンプル用のコードを試すための[チュートリアル用Jupyter-notebook]()../../game_manager/machine_learning/)
+を用意しているので、コード理解のためにお使いください。
 
+- Jupyter-notebookか下記の手順で使用できます.
+- 1. Jupyter-notebookのインストール
+```
+pip install jupyter
+```
 
+- 2. Jupyter-notebookの起動
+```
+jupyter notebook
+```
+下記のような画面が、ブラウザで開かれるので
+game_manager > machine_learning > model > tutorial 
+の準備進み、***.ipynb ファイルを開いてください。
+![Screenshot](../../doc/pics/jupyter-sample.png)
 
+- Jupyter-notebook のセルは　Shit＋Enter key で実行できます
+
+- Jupyter-notebook の使い方は下記のサイトなどが参考になります。
 　　
