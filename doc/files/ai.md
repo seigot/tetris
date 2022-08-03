@@ -187,4 +187,8 @@ game_manager > machine_learning > model > tutorial
 - Jupyter-notebook のセルは　Shit＋Enter key で実行できます
 
 - Jupyter-notebook の使い方は下記のサイトなどが参考になります。
+[https://qiita.com/takuyanin/items/8bf396e7b6b051670147](https://qiita.com/takuyanin/items/8bf396e7b6b051670147)
+
+- venv などの仮想環境を用いている場合は下記のサイトなどが参考になります。
 　　
+[https://qiita.com/smiler5617/items/e0d9b3034d79457cc253](https://qiita.com/smiler5617/items/e0d9b3034d79457cc253)
