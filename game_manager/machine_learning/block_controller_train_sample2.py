@@ -16,7 +16,6 @@ import shutil
 import glob 
 import numpy as np
 import yaml
-import subprocess
 class Block_Controller(object):
 
     # init parameter
