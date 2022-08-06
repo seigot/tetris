@@ -13,7 +13,6 @@ pip3 install torch torchvision torchaudio
 pip3 install torch torchvision torchaudio
 ```
 
-
 # 2.学習と推論
 
 * サンプルとして下記の２つのニューラルネットワークが 
@@ -47,14 +46,23 @@ python start.py -m predict_sample -l 2 --predict_weight weight/DQN/sample_weight
 ```
 python start.py -m predict_sample2 -l 2 --predict_weight weight/MLP/sample_weight.pt
 ```
-### 2.2.1 -m オプションについて
+
+## 2.3 再学習/追加学習（Fine Tuning) の実行
+- 学習済みの重みを初期状態として学習する場合は下記の手順で　configのyamlファイルを設定する。
+1. ft_weight に学習済み重みファイルのパスを設定
+2. finetune を　False → True に変更
+3. initial_epsilon を小さくする（0より大きい１以下の値）
+
+- initial_epsilon は ε-greedy法というアルゴリズムのパラメータになり、学習初期ににどの程度ランダムな行動を取るかを設定します。追加学習の場合は、小さい値を設定することで、学習済みのモデルを有効活用できます。
+- ε-greedy法については下記のサイトなどが参考になります。
+    - [https://horomary.hatenablog.com/entry/2021/01/26/233351](https://horomary.hatenablog.com/entry/2021/01/26/233351)
+
+## 2.4 -m オプションについて
  - 学習/推論の切り替えおよびサンプル/本番コードの切り替には　"-m"　オプションを使用します。
 
 **※ sampleコードは基本的に変更せず、[本番用コード](../../game_manager/machine_learning/block_controller_train.py )で開発してください**
 
 - "-m" オプションに対して下記の引数を渡すことで書くモードを切り替えられる。
-
-
 
 |オプション名|説明|
 | ---- | ---- |
@@ -66,7 +74,7 @@ python start.py -m predict_sample2 -l 2 --predict_weight weight/MLP/sample_weigh
 | predict| [本番用コード](../../game_manager/machine_learning/block_controller_train.py ) を用いて学習を行う　<br> 実行時に--predict_weight オプションにより重みのパスを選択する必要があります。|
 
 
-### 2.2.2 AI関連のその他オプションについて
+## 2.5 AI関連のその他オプションについて
 - AI学習関連のオプションは下記
 
 |オプション名|引数|説明| train or predict|
