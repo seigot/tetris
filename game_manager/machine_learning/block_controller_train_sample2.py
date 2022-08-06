@@ -2,17 +2,12 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
-import pprint
 import random
-
 import copy
 import torch
 import torch.nn as nn
 import sys
 sys.path.append("game_manager/machine_learning/")
-import omegaconf
-from hydra import compose, initialize
-
 import os
 from tensorboardX import SummaryWriter
 from collections import deque
@@ -21,7 +16,6 @@ import shutil
 import glob 
 import numpy as np
 import yaml
-import subprocess
 class Block_Controller(object):
 
     # init parameter
@@ -67,7 +61,7 @@ class Block_Controller(object):
             raise Exception('The yaml file {} is not existed.'.format(yaml_file))
         cfg = self.yaml_read(yaml_file)
 
-        subprocess.run("cp config/default.yaml %s/"%(self.output_dir), shell=True)
+        shutil.copy2(yaml_file, self.output_dir)
         self.writer = SummaryWriter(self.output_dir+"/"+cfg["common"]["log_path"])
 
         if self.mode=="predict" or self.mode=="predict_sample" or self.mode == "predict_sample2":
