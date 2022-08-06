@@ -62,7 +62,7 @@ class Block_Controller(object):
             raise Exception('The yaml file {} is not existed.'.format(yaml_file))
         cfg = self.yaml_read(yaml_file)
 
-        subprocess.run("cp config/default.yaml %s/"%(self.output_dir), shell=True)
+        shutil.copy2(yaml_file, self.output_dir)
         self.writer = SummaryWriter(self.output_dir+"/"+cfg["common"]["log_path"])
 
         if self.mode=="predict" or self.mode=="predict_sample":
