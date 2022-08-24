@@ -7,7 +7,7 @@ import random
 
 class Block_Controller(object):
 
-    # init parameter
+    # init parameters
     board_backboard = 0
     board_data_width = 0
     board_data_height = 0
