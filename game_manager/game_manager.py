@@ -254,6 +254,7 @@ class Game_Manager(QMainWindow):
                 # get nextMove from GameController
                 GameStatus = self.getGameStatus()
 
+                stime = time.time()
                 if self.mode == "sample":
                     # sample
                     self.nextMove = BLOCK_CONTROLLER_SAMPLE.GetNextMove(nextMove, GameStatus)
@@ -277,6 +278,10 @@ class Game_Manager(QMainWindow):
                     self.nextMove = BLOCK_CONTROLLER_TRAIN.GetNextMove(nextMove, GameStatus,yaml_file=self.train_yaml,weight=self.predict_weight)
                 else:
                     self.nextMove = BLOCK_CONTROLLER.GetNextMove(nextMove, GameStatus)
+                elapsed_time = time.time()-stime
+                if elapsed_time > 1.0:
+                    print("### OVER PERIOD(",elapsed_time,") --- gameover ###")
+                    self.nextMove["option"]["force_reset_field"] = True
 
                 if self.mode in ("keyboard", "gamepad"):
                     # ignore nextMove, for keyboard/gamepad controll
