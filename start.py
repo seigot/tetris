@@ -61,7 +61,7 @@ def start():
     RESULT_LOG_JSON = "result.json"
     USER_NAME = "window_sample"
     SHAPE_LIST_MAX = 6
-    BLOCK_NUM_MAX = -1
+    BLOCK_NUM_MAX = 180
     TRAIN_YAML = "config/default.yaml"
     PREDICT_WEIGHT = "outputs/latest/best_weight.pt"
 
