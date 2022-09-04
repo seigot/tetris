@@ -330,7 +330,7 @@ class Game_Manager(QMainWindow):
                         # if already movedown next_y_moveblocknum block
                         break
 
-            self.UpdateScore(removedlines, dropdownlines)
+            # self.UpdateScore(removedlines, dropdownlines)
 
             # check reset field
             #if BOARD_DATA.currentY < 1: 
@@ -353,6 +353,7 @@ class Game_Manager(QMainWindow):
 
             # update window
             self.updateWindow()
+            self.UpdateScore(removedlines, dropdownlines)
         else:
             super(Game_Manager, self).timerEvent(event)
 
@@ -806,7 +807,7 @@ class Board(QFrame):
             pass
             #print("game_time: {}".format(self.game_time))
             #print("endless loop")
-        elif (self.game_time >= 0 and elapsed_time > self.game_time - 0.5) or (current_block_index == BlockNumMax):
+        elif (self.game_time >= 0 and elapsed_time >= self.game_time - 0.0) or (current_block_index == BlockNumMax):
             # finish game.
             # 1. if elapsed_time beyonds given game_time.
             # 2. if current_block_index beyonds given BlockNumMax.
