@@ -45,7 +45,7 @@ jobs:
           # QT display off
           $Env:QT_QPA_PLATFORM = 'offscreen'
           # run tetris
-          Remove-Item -Recurse -Force tetris
+          #Remove-Item -Recurse -Force tetris
           git clone https://github.com/seigot/tetris
           cd tetris
           pip install -r requirements.txt
