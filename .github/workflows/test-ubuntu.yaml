@@ -1,0 +1,100 @@
+name: test-ubuntu
+      
+on: 
+# push, pullrequest時にci実行
+    push:
+        paths-ignore:
+          - '.gitignore'
+          - 'LICENSE'
+          - '**.md'
+    pull_request:
+        paths-ignore:
+          - '.gitignore'
+          - 'LICENSE'
+          - '**.md'
+
+# 環境変数
+env:
+  DISPLAY: ':99'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.9] # [3.5, 3.6, 3.7, 3.8]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          python -m pip install --upgrade pip
+          pip install flake8 pytest
+          sudo apt-get install -y python3-pip
+          pip3 install --upgrade pip
+          pip3 install numpy
+          pip3 install PyQt5
+          sudo apt-get install -y python3-pyqt5
+          sudo apt-get install -y git
+          sudo apt-get install -y jq
+
+      - name: tetris_sample
+      # tetrisが動くかどうか確認(SCOREが入ればOK)
+        run: |
+          # QT display off
+          export QT_QPA_PLATFORM=offscreen
+          # run tetris
+          rm -rf tetris
+          git clone https://github.com/seigot/tetris
+          pushd tetris
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          python start.py -m sample -t 3 -f $HOME/result.json
+          # check result
+          jq . $HOME/result.json
+          SCORE=`jq ."judge_info"."score" $HOME/result.json`
+          echo "SCORE: $SCORE"
+          if [ $SCORE -lt 0 ]; then echo "error";exit 1; fi
+          popd
+
+      - name: tetris_DQN_sample
+        run: |
+          # QT display off
+          export QT_QPA_PLATFORM=offscreen
+          # run tetris
+          rm -rf tetris
+          git clone https://github.com/seigot/tetris
+          pushd tetris
+          pip install -r requirements.txt
+          python start.py -m predict_sample -l 2 -t 5 --predict_weight weight/DQN/sample_weight.pt -f $HOME/result_dqn.json
+          # check result
+          jq . $HOME/result_dqn.json
+          SCORE=`jq ."judge_info"."score" $HOME/result_dqn.json`
+          echo "SCORE: $SCORE"
+          if [ $SCORE -lt 0 ]; then echo "error";exit 1; fi
+          popd
+
+      - name: tetris_MLP_sample
+        run: |
+          # QT display off
+          export QT_QPA_PLATFORM=offscreen
+          # run tetris
+          rm -rf tetris
+          git clone https://github.com/seigot/tetris
+          pushd tetris
+          pip install -r requirements.txt
+          python start.py -m predict_sample2 -l 2 -t 5 --predict_weight weight/MLP/sample_weight.pt -f $HOME/result_mlp.json
+          # check result
+          jq . $HOME/result_mlp.json
+          SCORE=`jq ."judge_info"."score" $HOME/result_mlp.json`
+          echo "SCORE: $SCORE"
+          if [ $SCORE -lt 0 ]; then echo "error";exit 1; fi
+          popd
+
+
+
