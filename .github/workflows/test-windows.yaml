@@ -1,0 +1,75 @@
+name: test-windows
+on: 
+# push, pullrequest時にci実行
+    push:
+        paths-ignore:
+          - '.gitignore'
+          - 'LICENSE'
+          - '**.md'
+    pull_request:
+        paths-ignore:
+          - '.gitignore'
+          - 'LICENSE'
+          - '**.md'
+jobs:
+  build:
+    name: MSBuild
+    runs-on: windows-latest
+
+    strategy:
+      matrix:
+        python-version: [3.9] # [3.5, 3.6, 3.7, 3.8]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        shell: powershell
+        run: |
+          git --version
+          python --version
+          python -m pip install --upgrade pip
+          pip install pyqt5
+          pip install numpy
+
+      - name: tetris_sample
+      # tetrisが動くかどうか確認(SCOREが入ればOK)
+        shell: powershell
+        run: |
+          # QT display off
+          $Env:QT_QPA_PLATFORM = 'offscreen'
+          # run tetris
+          Remove-Item -Recurse -Force tetris
+          git clone https://github.com/seigot/tetris
+          cd tetris
+          pip install -r requirements.txt
+          python start.py -m sample -t 3 -f $HOME/result.json
+
+      - name: tetris_DQN_sample
+        run: |
+          # QT display off
+          $Env:QT_QPA_PLATFORM = 'offscreen'
+          # run tetris
+          Remove-Item -Recurse -Force tetris
+          git clone https://github.com/seigot/tetris
+          cd tetris
+          pip install -r requirements.txt
+          python start.py -m predict_sample -l 2 -t 5 --predict_weight weight/DQN/sample_weight.pt -f $HOME/result_dqn.json
+
+      - name: tetris_MLP_sample
+        run: |
+          # QT display off
+          $Env:QT_QPA_PLATFORM = 'offscreen'
+          # run tetris
+          Remove-Item -Recurse -Force tetris
+          git clone https://github.com/seigot/tetris
+          cd tetris
+          pip install -r requirements.txt
+          python start.py -m predict_sample2 -l 2 -t 5 --predict_weight weight/MLP/sample_weight.pt -f $HOME/result_mlp.json
+
