@@ -111,13 +111,17 @@ def start():
         GAME_TIME = -1
     elif GAME_LEVEL == 1: # level1
         RANDOM_SEED = 0
+        BLOCK_NUM_MAX = 180
     elif GAME_LEVEL == 2: # level2
         RANDOM_SEED = -1
+        BLOCK_NUM_MAX = 180
     elif GAME_LEVEL == 3 or GAME_LEVEL == 4: # level3 or level4
         RANDOM_SEED = -1
+        BLOCK_NUM_MAX = 180
         OBSTACLE_HEIGHT = 10
         OBSTACLE_PROBABILITY = 40
         if GAME_LEVEL == 4:
+            BLOCK_NUM_MAX = -1
             DROP_INTERVAL=1
     else:
         print('invalid level: ' + str(GAME_LEVEL), file=sys.stderr)
