@@ -163,9 +163,9 @@ python start.py -m sample
 
 実行時、オプションを与えることで、難易度（レベル）を指定できます。<br>
 
-|     |  level1  |  level2  |  level3  |  level3+α  | 
+|     |  level1  |  level2  |  level3  |  level4  | 
 | --- | --- | --- | --- | --- | 
-|  実行方法  | python start.py | python start.py -l2  | python start.py -l3 | python start.py -l3 -d1 | 
+|  実行方法  | python start.py | python start.py -l2  | python start.py -l3 | python start.py -l4 | 
 |  制限時間  |  180秒  |  180秒  |  180秒  |  180秒  | 
 |  ブロックの順番  |  固定(1-7まで順番に繰り返し)  |  ランダム  |  ランダム  |  ランダム  |
 |  フィールドの初期ブロック  |  なし  |  なし  |  あり  |  あり  | 
