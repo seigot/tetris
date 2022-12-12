@@ -1,0 +1,12 @@
+version: '1'
+
+services:
+  tetris:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    volumes:
+      - type: bind
+        source: "."
+        target: "/tetris"
+    tty: true
