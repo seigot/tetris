@@ -9,7 +9,7 @@ RUN apt update && \
         git \
         build-essential \
         sudo
-# libraries for GUI 
+# dependencies for GUI 
 RUN apt install -y \ 
         libglib2.0-dev \
         libgl1-mesa-dev \
