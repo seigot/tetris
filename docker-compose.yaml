@@ -10,3 +10,4 @@ services:
         source: "."
         target: "/tetris"
     tty: true
+    shm_size: 512m
