@@ -2,6 +2,7 @@ version: '1'
 
 services:
   tetris:
+    container_name: tetris-container
     build:
       context: .
       dockerfile: ./docker/Dockerfile.latest

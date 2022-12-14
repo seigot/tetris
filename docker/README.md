@@ -10,82 +10,45 @@
 
 ### step1. dockerコンテナを起動する
 
-以下を実行する。
-
+tetrisディレクトリで以下を実行する。  
 ```
-sudo docker run -p 6080:80 --shm-size=512m seigott/tetris_docker
-```
-
-もしリモートログインしながらdockerコンテナ起動し続けたい場合、上記の代わりに以下を実行する。<br>
-（terminalからバックグラウンド実行）<br>
-
-```
-sudo nohup docker run -p 6080:80 --shm-size=512m seigott/tetris_docker &
+docker compose up
 ```
 
-もし`pytorch(v1.10)`インストール済dockerコンテナを使いたい場合、上記の代わりに以下を実行する。<br>
+`pytorch`インストール済コンテナを使いたい場合、上記の代わりに以下を実行する。<br>
 
 ```
-sudo docker run -p 6080:80 --shm-size=512m seigott/tetris_docker:pytorchv1.10
+docker compose -f docker-compose.pytorch.yaml up
 ```
 
-### step2. ブラウザからdockerコンテナにアクセスする
+### step2. dockerコンテナにアクセスする
 
+コンテナ内に入ってターミナルを起動
 ```
-localhost:6080
-```
-
-リモート環境でdockerコンテナ起動している場合は、上記の代わりに以下を実行する。<br>
-
-```
-${IP_ADDRESS}:6080
+docker exec -it tetris-container bash
 ```
 
-アクセスできたら以下により動作検証する
+コンテナ内にアクセスできたら以下により動作検証する
 
-左下アイコン --> system tools --> terminator
-
-Terminalを立ち上げて以下を実行
+`/tetris`にいることを確認し、以下を実行
 
 ```
-cd ~/tetris
 python start.py
 ```
 
-## update docker container
+### コンテナの停止
 
-以下を実行する。
-
-```
-sudo docker pull seigott/tetris_docker
-```
-
-## [開発用] build for update docker container
-
-[Dockerfile](./Dockerfile)を更新して以下を実行する
+ホストOS側のtetrisディレクトリから以下を実行する。
 
 ```
-# 通常版の場合
-docker build -t seigott/tetris_docker .
-
-# pytorch版の場合
-docker build -f ./Dockerfile.pytorchv1.10 -t seigott/tetris_docker:pytorchv1.10 .
+docker compose stop
 ```
+この場合には、コンテナは削除されずに残る。
 
-コンテナ登録は以下
+### コンテナの停止、削除
+ホストOS側のtetrisディレクトリから以下を実行する。
 
 ```
-docker login
-docker push seigott/tetris_docker
-docker push seigott/tetris_docker:pytorchv1.10 .
-docker logout
+docker compose dwon
 ```
-
-python versionは以下
-
-```
-# see install_python.sh in detail
-python3 --version
-3.9.9
-```
-
+この場合には、コンテナは削除される。
