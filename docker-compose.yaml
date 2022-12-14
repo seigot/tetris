@@ -4,7 +4,7 @@ services:
   tetris:
     build:
       context: .
-      dockerfile: ./docker/Dockerfile
+      dockerfile: ./docker/Dockerfile.latest
     volumes:
       - type: bind
         source: "."
