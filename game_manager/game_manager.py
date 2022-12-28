@@ -759,7 +759,7 @@ class SidePanel(QFrame):
 
         # draw hold block area
         painter.setPen(QColor(0x777777))
-        height_offset = self.height() - self.gridSize*4.65
+        height_offset = self.height() - int(self.gridSize*4.65)
         painter.drawLine(0, height_offset,
                          self.width(), height_offset)
         painter.drawText(0, self.height(), 'HOLD');
