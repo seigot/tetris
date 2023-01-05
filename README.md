@@ -109,25 +109,26 @@ python start.py
 ```mermaid
   graph TB
 
-  subgraph ゲーム管理用プログラム/game_manager
-    B1["init"]-->C1
-    C1["main process in board manager.py"]
-    D1["main process in block controller.py<br>ここで次の動作を決定する"]
-    C1 --GetNextMove--> D1
-    D1 --NextMove--> C1
-    subgraph ボード管理用プログラム/board_manager
+  subgraph ゲーム管理用プログラム
+    B1["game_manager.py"]
+    C1["board_manager.py"]
+    D1["block_controller.py<br>ここで現在のブロックの動作を決定する"]
+    B1 --update--> C1
+    B1 --getNextMove--> D1
+    D1 --NextMove--> B1
+    subgraph ボード管理用プログラム
         C1
     end
-    subgraph ブロック操作用プログラム/block_controller
+    subgraph ブロック操作用プログラム
         D1
     end
   end
 
 
-  subgraph ゲーム開始用コマンド/start command
+  subgraph ゲーム開始用コマンド
      A1[start.py] --> B1
   end
-style ブロック操作用プログラム/block_controller fill:#fef
+style ブロック操作用プログラム fill:#fef
 ```
 
 詳細
