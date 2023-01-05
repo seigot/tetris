@@ -99,14 +99,36 @@ python start.py
 * `game_manager/game_manager.py` : ゲーム管理用プログラム
 * `game_manager/board_manager.py` : ボード管理用プログラム
 * `game_manager/block_controller.py` : ブロック操作用プログラム（ブロックの操作は、このファイルを更新して下さい。）
-* `start.py` : ゲーム開始用スクリプト
+* `start.py` : ゲーム開始用コマンド
 
 #### 詳細
 
 以下のような構成になっています。<br>
 ブロック操作用プログラムは、管理プログラムから定期的に呼び出されるので、ボード情報から次の動作を決定して下さい。 <br>
 
-![Screenshot](doc/pics/block.png)
+```mermaid
+  graph TB
+
+  subgraph ゲーム管理用プログラム/game_manager
+    B1["init"]-->C1
+    C1["main process in board manager.py"]
+    D1["main process in block controller.py<br>ここで次の動作を決定する"]
+    C1 --GetNextMove--> D1
+    D1 --NextMove--> C1
+    subgraph ボード管理用プログラム/board_manager
+        C1
+    end
+    subgraph ブロック操作用プログラム/block_controller
+        D1
+    end
+  end
+
+
+  subgraph ゲーム開始用コマンド/start command
+     A1[start.py] --> B1
+  end
+style ブロック操作用プログラム/block_controller fill:#fef
+```
 
 詳細
 - [ブロック操作用プログラムについての説明](doc/files/block_controller.md) <br>
