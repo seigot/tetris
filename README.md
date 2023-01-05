@@ -149,6 +149,7 @@ style ブロック操作用プログラム/block_controller fill:#fef
 |  *m* key  |  下に移動  |  下に移動  |
 |  *space* key  |  落下  |  回転  |
 |  *P* key  |  Pause  |  Pause  |
+|  *c* key  |  hold  |  hold  |
 
 ## スコアアタック用サンプルコード
 
