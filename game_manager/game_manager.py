@@ -131,7 +131,8 @@ class Game_Manager(QMainWindow):
     def initUI(self):
         self.gridSize = 22
         self.NextShapeYOffset = 90
-        self.NextShapeMaxAppear = self.ShapeListMax - 1
+        # display maximum 4 next blocks
+        self.NextShapeMaxAppear = min(4, self.ShapeListMax - 1)
 
         self.speed = self.drop_interval # block drop speed
 
@@ -244,7 +245,8 @@ class Game_Manager(QMainWindow):
                                   "x": "none",            # next x position (range: 0 - (witdh-1) )
                                   "y_operation": "none",  # movedown or dropdown (0:movedown, 1:dropdown)
                                   "y_moveblocknum": "none", # amount of next y movement
-                                  },
+                                  "use_hold_function": "n", # use hold function (y:yes, n:no)
+                                },
                             "option":
                                 { "reset_callback_function_addr":None,
                                   "reset_all_field": None,
@@ -291,6 +293,16 @@ class Game_Manager(QMainWindow):
                 next_y_moveblocknum = self.nextMove["strategy"]["y_moveblocknum"]
                 y_operation = self.nextMove["strategy"]["y_operation"]
                 next_direction = self.nextMove["strategy"]["direction"]
+                use_hold_function = self.nextMove["strategy"]["use_hold_function"]
+
+                # if use_hold_function
+                if use_hold_function == "y":
+                    isExchangeHoldShape = BOARD_DATA.exchangeholdShape()
+                    if isExchangeHoldShape == False:
+                        # if isExchangeHoldShape is False, this means no holdshape exists. 
+                        # so it needs to return immediately to use new shape.
+                        return
+
                 k = 0
                 while BOARD_DATA.currentDirection != next_direction and k < 4:
                     ret = BOARD_DATA.rotateRight()
@@ -353,6 +365,7 @@ class Game_Manager(QMainWindow):
 
             # update window
             self.updateWindow()
+            return
         else:
             super(Game_Manager, self).timerEvent(event)
 
@@ -402,6 +415,11 @@ class Game_Manager(QMainWindow):
                            "direction_range":"none",
                         },
                         "nextShapeList":{
+                        },
+                        "holdShape":{
+                           "class":"none",
+                           "index":"none",
+                           "direction_range":"none",
                         },
                       },
                   "judge_info":
@@ -496,6 +514,12 @@ class Game_Manager(QMainWindow):
                 "index":ShapeIdx,
                 "direction_range":ShapeRange,
             }
+        ### hold shape
+        holdShapeClass, holdShapeIdx, holdShapeRange = BOARD_DATA.getholdShapeData()
+        status["block_info"]["holdShape"]["class"] = holdShapeClass
+        status["block_info"]["holdShape"]["index"] = holdShapeIdx
+        status["block_info"]["holdShape"]["direction_range"] = holdShapeRange
+        ### next shape
         ## judge_info
         status["judge_info"]["elapsed_time"] = round(time.time() - self.tboard.start_time, 3)
         status["judge_info"]["game_time"] = self.game_time
@@ -665,6 +689,8 @@ class Game_Manager(QMainWindow):
         elif (key == Qt.Key_Space and self.mode == 'keyboard') or (key == Qt.Key_Up and self.mode == 'gamepad'):
             removedlines, dropdownlines = BOARD_DATA.dropDown()
             self.UpdateScore(removedlines, dropdownlines)
+        elif key == Qt.Key_C:
+            BOARD_DATA.exchangeholdShape()
         else:
             super(Game_Manager, self).keyPressEvent(event)
 
@@ -713,6 +739,7 @@ class SidePanel(QFrame):
 
         ShapeListLength = BOARD_DATA.getShapeListLength()
         
+        # draw next shape
         for i in range(ShapeListLength):
             if i == 0:
                 # skip current shape
@@ -729,6 +756,23 @@ class SidePanel(QFrame):
             val = ShapeClass.shape
             y_offset = self.NextShapeYOffset * (i - 1) #(self.NextShapeMaxAppear - i)
             for x, y in ShapeClass.getCoords(0, 0, -minY):
+                drawSquare(painter, x * self.gridSize + dx, y * self.gridSize + dy + y_offset, val, self.gridSize)
+
+        # draw hold block area
+        painter.setPen(QColor(0x777777))
+        height_offset = self.height() - int(self.gridSize*4.65)
+        painter.drawLine(0, height_offset,
+                         self.width(), height_offset)
+        painter.drawText(0, self.height(), 'HOLD');
+        holdShapeClass, holdShapeIdx, holdShapeRange = BOARD_DATA.getholdShapeData()
+        if holdShapeClass != None:
+            # if holdShape exists, try to draw
+            minX, maxX, minY, maxY = holdShapeClass.getBoundingOffsets(0)
+            dy = 1 * self.gridSize
+            dx = (self.width() - (maxX - minX) * self.gridSize) / 2
+            val = holdShapeClass.shape
+            y_offset = self.NextShapeYOffset * 4
+            for x, y in holdShapeClass.getCoords(0, 0, -minY):
                 drawSquare(painter, x * self.gridSize + dx, y * self.gridSize + dy + y_offset, val, self.gridSize)
 
 class Board(QFrame):

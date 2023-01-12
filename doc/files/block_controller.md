@@ -128,5 +128,16 @@ Index値はブロック情報を参照下さい。
 <br>
 （今後ルール変更がある場合は、ルールに応じて`nextMove`もアップデートしていく予定です。）
 
+# HOLD機能
+
+HOLD機能とは、ブロックを保持する機能です。この機能を使うと現在のブロックがHOLD扱いになります。<br>
+その後、もし保持しているブロックがない場合は次のブロックが落ちてきます。<br>
+もし保持しているブロックが既にある場合はそのブロックが再び落ちてきます。<br>
+
+プログラムから使用する場合は`nextMove["strategy"]`の以下の値を調整してください。<br>
+* `use_hold_function` : HOLD機能を使うかどうか（"y":使う、"n":使わない）<br>
+
+![Screenshot](../pics/holdfunction.PNG)
+
 # 使用例
 [ブロック操作用サンプルプログラム](https://github.com/seigot/tetris/blob/master/doc/files/block_controller_sample.md)を参照ください。

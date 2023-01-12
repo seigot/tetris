@@ -99,14 +99,37 @@ python start.py
 * `game_manager/game_manager.py` : ゲーム管理用プログラム
 * `game_manager/board_manager.py` : ボード管理用プログラム
 * `game_manager/block_controller.py` : ブロック操作用プログラム（ブロックの操作は、このファイルを更新して下さい。）
-* `start.py` : ゲーム開始用スクリプト
+* `start.py` : ゲーム開始用コマンド
 
 #### 詳細
 
 以下のような構成になっています。<br>
 ブロック操作用プログラムは、管理プログラムから定期的に呼び出されるので、ボード情報から次の動作を決定して下さい。 <br>
 
-![Screenshot](doc/pics/block.png)
+```mermaid
+  graph TB
+
+  subgraph ゲーム管理用プログラム
+    B1["game_manager.py"]
+    C1["board_manager.py"]
+    D1["block_controller.py<br>ここで現在のブロックの動作を決定する"]
+    B1 --update--> C1
+    B1 --getNextMove--> D1
+    D1 --NextMove--> B1
+    subgraph ボード管理用プログラム
+        C1
+    end
+    subgraph ブロック操作用プログラム
+        D1
+    end
+  end
+
+
+  subgraph ゲーム開始用コマンド
+     A1[start.py] --> B1
+  end
+style ブロック操作用プログラム fill:#fef
+```
 
 詳細
 - [ブロック操作用プログラムについての説明](doc/files/block_controller.md) <br>
@@ -127,6 +150,7 @@ python start.py
 |  *m* key  |  下に移動  |  下に移動  |
 |  *space* key  |  落下  |  回転  |
 |  *P* key  |  Pause  |  Pause  |
+|  *c* key  |  hold  |  hold  |
 
 ## スコアアタック用サンプルコード
 
