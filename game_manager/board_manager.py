@@ -324,9 +324,7 @@ class BoardData(object):
             return 1
         else:
             # if holdShape exists, exchange shapes
-            tmp = self.holdShape
-            self.holdShape = self.currentShape
-            self.currentShape = tmp
+            self.holdShape,self.currentShape = self.currentShape,self.holdShape
             # init current X,Y,Direction
             minX, maxX, minY, maxY = self.nextShape.getBoundingOffsets(0)
             self.currentX = 5
