@@ -316,12 +316,12 @@ class BoardData(object):
             return False
         return True
 
-    def setholdShape(self):
+    def exchangeholdShape(self):
         if self.holdShape == None:
             # if holdShape not exists, set holdShape
             self.holdShape = self.currentShape
             self.createNewPiece()
-            return 1
+            return False
         else:
             # if holdShape exists, exchange shapes
             self.holdShape,self.currentShape = self.currentShape,self.holdShape
@@ -330,7 +330,7 @@ class BoardData(object):
             self.currentX = 5
             self.currentY = -minY
             self.currentDirection = 0
-        return 0
+        return True
 
     def removeFullLines(self):
         newBackBoard = [0] * BoardData.width * BoardData.height

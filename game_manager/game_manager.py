@@ -297,9 +297,10 @@ class Game_Manager(QMainWindow):
 
                 # if use_hold_function
                 if use_hold_function == "y":
-                    ret = BOARD_DATA.setholdShape()
-                    if ret == 1:
-                        # if if holdShape not exists, hold currentShape and return immediately.
+                    isExchangeHoldShape = BOARD_DATA.exchangeholdShape()
+                    if isExchangeHoldShape == False:
+                        # if isExchangeHoldShape is False, this means no holdshape exists. 
+                        # so it needs to return immediately to use new shape.
                         return
 
                 k = 0
@@ -689,7 +690,7 @@ class Game_Manager(QMainWindow):
             removedlines, dropdownlines = BOARD_DATA.dropDown()
             self.UpdateScore(removedlines, dropdownlines)
         elif key == Qt.Key_C:
-            BOARD_DATA.setholdShape()
+            BOARD_DATA.exchangeholdShape()
         else:
             super(Game_Manager, self).keyPressEvent(event)
 
