@@ -11,16 +11,10 @@ RUN apt update && \
         sudo
 # dependencies for GUI 
 RUN apt install -y \ 
-        libglib2.0-dev \
+        libglib2.0-0 \
         libgl1-mesa-dev \
         '^libxcb.*-dev' \
-        libx11-xcb-dev \
-        libglu1-mesa-dev \
-        libxrender-dev \
-        libxi-dev \
-        libxkbcommon-dev \
-        libxkbcommon-x11-dev \
-        libdbus-1-dev
+        libxkbcommon-x11-0
  
 RUN mkdir /tetris
 WORKDIR /tetris
