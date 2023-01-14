@@ -1,22 +1,22 @@
 FROM python:3.10-slim-bullseye
 LABEL maintainer="@EndoNrak"
 
+# setup
 RUN apt update && \
     apt upgrade -y && \
     apt install -y \
         wget \
         curl \
         git \
-        build-essential \
-        sudo
+        build-essential && \
+    mkdir /tetris
+WORKDIR /tetris
+ADD ../ .
+RUN pip install -r requirements.txt
+
 # dependencies for GUI 
-RUN apt install -y \ 
+RUN apt install -y \
         libglib2.0-0 \
         libgl1-mesa-dev \
         '^libxcb.*-dev' \
         libxkbcommon-x11-0
- 
-RUN mkdir /tetris
-WORKDIR /tetris
-ADD ../requirements.txt .
-RUN pip install -r requirements.txt 
