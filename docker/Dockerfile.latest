@@ -2,7 +2,8 @@ FROM python:3.10-slim-bullseye
 LABEL maintainer="@EndoNrak"
 
 # setup
-RUN apt update && \
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    apt update && \
     apt upgrade -y && \
     apt install -y \
         wget \
@@ -14,8 +15,9 @@ WORKDIR /tetris
 ADD ../ .
 RUN pip install -r requirements.txt
 
-# dependencies for GUI 
-RUN apt install -y \
+# dependencies for GUI
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    apt install -y \
         libglib2.0-0 \
         libgl1-mesa-dev \
         '^libxcb.*-dev' \
