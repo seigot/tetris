@@ -36,7 +36,7 @@ class Block_Controller(object):
 
     #パラメータ読み込み
     def yaml_read(self,yaml_file):
-        with open(yaml_file) as f:
+        with open(yaml_file, encoding='utf-8') as f:
             cfg = yaml.safe_load(f)
         return cfg
 
