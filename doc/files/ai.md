@@ -200,3 +200,8 @@ game_manager > machine_learning > model > tutorial
 - venv などの仮想環境を用いている場合は下記のサイトなどが参考になります。
 　　
 [https://qiita.com/smiler5617/items/e0d9b3034d79457cc253](https://qiita.com/smiler5617/items/e0d9b3034d79457cc253)
+
+# 6. さらなる強化に向けて
+- 第3回での cookie4869 の強化資料を下記で共有いたします。
+
+![AI強化資料](../pics/20220920_Tetris_AI.pdf)
