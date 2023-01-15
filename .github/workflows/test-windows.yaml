@@ -1,11 +1,6 @@
 name: test-windows
 on: 
-# push, pullrequest時にci実行
-    push:
-        paths-ignore:
-          - '.gitignore'
-          - 'LICENSE'
-          - '**.md'
+# pullrequest時にci実行
     pull_request:
         paths-ignore:
           - '.gitignore'
@@ -46,7 +41,7 @@ jobs:
           $Env:QT_QPA_PLATFORM = 'offscreen'
           # run tetris
           #Remove-Item -Recurse -Force tetris
-          git clone https://github.com/seigot/tetris
+          git clone https://github.com/seigot/tetris -b ${{ github.head_ref }}
           cd tetris
           pip install -r requirements.txt
           python start.py -m sample -t 3 -f $HOME/result.json
@@ -57,7 +52,7 @@ jobs:
           $Env:QT_QPA_PLATFORM = 'offscreen'
           # run tetris
           Remove-Item -Recurse -Force tetris
-          git clone https://github.com/seigot/tetris
+          git clone https://github.com/seigot/tetris -b ${{ github.head_ref }}
           cd tetris
           pip install -r requirements.txt
           python start.py -m predict_sample -l 2 -t 5 --predict_weight weight/DQN/sample_weight.pt -f $HOME/result_dqn.json
@@ -68,7 +63,7 @@ jobs:
           $Env:QT_QPA_PLATFORM = 'offscreen'
           # run tetris
           Remove-Item -Recurse -Force tetris
-          git clone https://github.com/seigot/tetris
+          git clone https://github.com/seigot/tetris -b ${{ github.head_ref }}
           cd tetris
           pip install -r requirements.txt
           python start.py -m predict_sample2 -l 2 -t 5 --predict_weight weight/MLP/sample_weight.pt -f $HOME/result_mlp.json
