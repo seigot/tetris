@@ -15,14 +15,14 @@ import time
 import json
 import pprint
 
-def get_option(game_time, mode, drop_interval, random_seed, obstacle_height, obstacle_probability, resultlogjson, train_yaml, predict_weight, user_name, ShapeListMax, BlockNumMax):
+def get_option(game_time, mode, drop_interval, random_seed, obstacle_height, obstacle_probability, resultlogjson, train_yaml, predict_weight, user_name, ShapeListMax, BlockNumMax, art_config_filepath):
     argparser = ArgumentParser()
     argparser.add_argument('--game_time', type=int,
                            default=game_time,
                            help='Specify game time(s)')
     argparser.add_argument('--mode', type=str,
                            default=mode,
-                           help='Specify mode (keyboard/gamepad/sample/train) if necessary')
+                           help='Specify mode (keyboard/gamepad/sample/train/art) if necessary')
     argparser.add_argument('--drop_interval', type=int,
                            default=drop_interval,
                            help='Specify drop_interval(s)')
@@ -53,6 +53,9 @@ def get_option(game_time, mode, drop_interval, random_seed, obstacle_height, obs
     argparser.add_argument('--BlockNumMax', type=int,
                            default=BlockNumMax,
                            help='Specigy BlockNumMax if necessary')
+    argparser.add_argument('--art_config_filepath', type=str,
+                           default=art_config_filepath,
+                           help='art_config file path')
 
     return argparser.parse_args()
 
@@ -85,7 +88,7 @@ class Game_Manager(QMainWindow):
         self.user_name = ""
         self.train_yaml = None
         self.predict_weight = None
-
+        self.art_config_filepath = None
         
         args = get_option(self.game_time,
                           self.mode,
@@ -98,10 +101,11 @@ class Game_Manager(QMainWindow):
                           self.predict_weight,
                           self.user_name,
                           self.ShapeListMax,
-                          self.BlockNumMax)
+                          self.BlockNumMax,
+                          self.art_config_filepath)
         if args.game_time >= 0:
             self.game_time = args.game_time
-        if args.mode in ("keyboard", "gamepad", "sample", "train", "predict", "train_sample", "predict_sample", "train_sample2", "predict_sample2"):
+        if args.mode in ("keyboard", "gamepad", "sample", "art", "train", "predict", "train_sample", "predict_sample", "train_sample2", "predict_sample2"):
             self.mode = args.mode
         if args.drop_interval >= 0:
             self.drop_interval = args.drop_interval
@@ -125,6 +129,8 @@ class Game_Manager(QMainWindow):
             self.train_yaml = args.train_yaml        
         if args.predict_weight != "default":
             self.predict_weight = args.predict_weight
+        if args.art_config_filepath.endswith('.json'):
+            self.art_config_filepath = args.art_config_filepath      
             
         self.initUI()
         
@@ -147,7 +153,8 @@ class Game_Manager(QMainWindow):
                             random_seed_Nextshape,
                             self.obstacle_height,
                             self.obstacle_probability,
-                            self.ShapeListMax)
+                            self.ShapeListMax,
+                            self.art_config_filepath)
         hLayout.addWidget(self.tboard)
 
         self.sidePanel = SidePanel(self, self.gridSize, self.NextShapeYOffset, self.NextShapeMaxAppear)
@@ -277,6 +284,13 @@ class Game_Manager(QMainWindow):
                     # import block_controller_train, it's necessary to install pytorch to use.
                     from machine_learning.block_controller_train import BLOCK_CONTROLLER_TRAIN
                     self.nextMove = BLOCK_CONTROLLER_TRAIN.GetNextMove(nextMove, GameStatus,yaml_file=self.train_yaml,weight=self.predict_weight)
+                elif self.mode == "art":
+                    # art
+                    d,x,y = BOARD_DATA.getnextShapeIndexListDXY(self.block_index-1)
+                    nextMove["strategy"]["direction"] = d
+                    nextMove["strategy"]["x"] = x
+                    nextMove["strategy"]["y_operation"] = y
+                    self.nextMove = nextMove
                 else:
                     self.nextMove = BLOCK_CONTROLLER.GetNextMove(nextMove, GameStatus)
 
@@ -698,8 +712,7 @@ class Game_Manager(QMainWindow):
 
 
 def drawSquare(painter, x, y, val, s):
-    colorTable = [0x000000, 0xCC6666, 0x66CC66, 0x6666CC,
-                  0xCCCC66, 0xCC66CC, 0x66CCCC, 0xDAAA00]
+    colorTable = BOARD_DATA.getcolorTable()
 
     # treat values as integer explicitly
     x = int(x)
@@ -778,14 +791,14 @@ class SidePanel(QFrame):
 class Board(QFrame):
     msg2Statusbar = pyqtSignal(str)
 
-    def __init__(self, parent, gridSize, game_time, random_seed, obstacle_height, obstacle_probability, ShapeListMax):
+    def __init__(self, parent, gridSize, game_time, random_seed, obstacle_height, obstacle_probability, ShapeListMax, art_config_filepath):
         super().__init__(parent)
         self.setFixedSize(gridSize * BOARD_DATA.width, gridSize * BOARD_DATA.height)
         self.gridSize = gridSize
         self.game_time = game_time
-        self.initBoard(random_seed, obstacle_height, obstacle_probability, ShapeListMax)
+        self.initBoard(random_seed, obstacle_height, obstacle_probability, ShapeListMax, art_config_filepath)
 
-    def initBoard(self, random_seed_Nextshape, obstacle_height, obstacle_probability, ShapeListMax):
+    def initBoard(self, random_seed_Nextshape, obstacle_height, obstacle_probability, ShapeListMax, art_config_filepath):
         self.score = 0
         self.dropdownscore = 0
         self.linescore = 0
@@ -797,6 +810,7 @@ class Board(QFrame):
         BOARD_DATA.init_randomseed(random_seed_Nextshape)
         BOARD_DATA.init_obstacle_parameter(obstacle_height, obstacle_probability)
         BOARD_DATA.init_shape_parameter(ShapeListMax)
+        BOARD_DATA.init_art_config(art_config_filepath)
 
     def paintEvent(self, event):
         painter = QPainter(self)

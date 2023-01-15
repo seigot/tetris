@@ -1,0 +1,20 @@
+{
+  "color": {
+    "shapeI": "0xCC6666",
+    "shapeL": "0x66CC66",
+    "shapeJ": "0x6666CC",
+    "shapeT": "0xCCCC66",
+    "shapeO": "0xCC66CC",
+    "shapeS": "0x66CCCC",
+    "shapeZ": "0xDAAA00"
+  },
+  "block_order": [ 
+      [1,0,0,1],
+      [2,0,0,1],
+      [3,0,0,1],
+      [4,0,0,1],
+      [5,0,0,1],
+      [6,0,0,1],
+      [7,0,0,1]
+  ]
+}
