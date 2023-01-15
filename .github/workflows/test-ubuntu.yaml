@@ -1,7 +1,9 @@
 name: test-ubuntu
       
 on: 
-# pullrequest時にci実行
+# push/pullrequest時にci実行
+    push:
+      branches: [master]
     pull_request:
         paths-ignore:
           - '.gitignore'
