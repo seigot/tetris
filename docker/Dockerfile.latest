@@ -21,4 +21,5 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
         libglib2.0-0 \
         libgl1-mesa-dev \
         '^libxcb.*-dev' \
-        libxkbcommon-x11-0
+        libxkbcommon-x11-0 \
+        libdbus-1-3
