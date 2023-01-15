@@ -1,7 +1,9 @@
 name: test-ubuntu
       
 on: 
-# pullrequest時にci実行
+# push/pullrequest時にci実行
+    push:
+      branches: [master]
     pull_request:
         paths-ignore:
           - '.gitignore'
@@ -10,7 +12,7 @@ on:
 
 # 環境変数
 env:
-  DISPLAY: ':99'
+  BRANCH_NAME : "master"
 
 jobs:
   build:
@@ -26,6 +28,10 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
+      - name: update environment
+        run: |
+          echo "BRANCH_NAME=${{ github.head_ref }}" >> $GITHUB_ENV
+        if: github.event_name == 'pull_request'
       - name: Install dependencies
         run: |
           sudo apt-get update
@@ -46,7 +52,8 @@ jobs:
           export QT_QPA_PLATFORM=offscreen
           # run tetris
           rm -rf tetris
-          git clone https://github.com/seigot/tetris -b ${{ github.head_ref }}
+          echo "branch_name:${BRANCH_NAME}"
+          git clone https://github.com/seigot/tetris -b ${BRANCH_NAME}
           pushd tetris
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           python start.py -m sample -t 3 -f $HOME/result.json
@@ -63,7 +70,7 @@ jobs:
           export QT_QPA_PLATFORM=offscreen
           # run tetris
           rm -rf tetris
-          git clone https://github.com/seigot/tetris -b ${{ github.head_ref }}
+          git clone https://github.com/seigot/tetris -b ${BRANCH_NAME}
           pushd tetris
           pip install -r requirements.txt
           python start.py -m predict_sample -l 2 -t 5 --predict_weight weight/DQN/sample_weight.pt -f $HOME/result_dqn.json
@@ -80,7 +87,7 @@ jobs:
           export QT_QPA_PLATFORM=offscreen
           # run tetris
           rm -rf tetris
-          git clone https://github.com/seigot/tetris -b ${{ github.head_ref }}
+          git clone https://github.com/seigot/tetris -b ${BRANCH_NAME}
           pushd tetris
           pip install -r requirements.txt
           python start.py -m predict_sample2 -l 2 -t 5 --predict_weight weight/MLP/sample_weight.pt -f $HOME/result_mlp.json
