@@ -31,7 +31,7 @@ jobs:
       - name: update environment
         run: |
           echo "BRANCH_NAME=${{ github.head_ref }}" >> $GITHUB_ENV
-        if: ${{ github.event.issue.pull_request }}
+        if: github.event_name == 'pull_request'
       - name: Install dependencies
         run: |
           sudo apt-get update
