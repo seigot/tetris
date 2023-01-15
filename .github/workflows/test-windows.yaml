@@ -8,6 +8,11 @@ on:
           - '.gitignore'
           - 'LICENSE'
           - '**.md'
+
+# 環境変数
+env:
+  BRANCH_NAME : "master"
+
 jobs:
   build:
     name: MSBuild
@@ -25,7 +30,10 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-
+      - name: update environment
+        run: |
+          echo "BRANCH_NAME=${{ github.head_ref }}" >> $env:GITHUB_ENV
+        if: ${{ github.event.issue.pull_request }}
       - name: Install dependencies
         shell: powershell
         run: |
@@ -43,7 +51,8 @@ jobs:
           $Env:QT_QPA_PLATFORM = 'offscreen'
           # run tetris
           #Remove-Item -Recurse -Force tetris
-          git clone https://github.com/seigot/tetris -b ${{ github.head_ref }}
+          echo ${{ env.BRANCH_NAME }}
+          git clone https://github.com/seigot/tetris -b ${{ env.BRANCH_NAME }}
           cd tetris
           pip install -r requirements.txt
           python start.py -m sample -t 3 -f $HOME/result.json
@@ -54,7 +63,7 @@ jobs:
           $Env:QT_QPA_PLATFORM = 'offscreen'
           # run tetris
           Remove-Item -Recurse -Force tetris
-          git clone https://github.com/seigot/tetris -b ${{ github.head_ref }}
+          git clone https://github.com/seigot/tetris -b ${{ env.BRANCH_NAME }}
           cd tetris
           pip install -r requirements.txt
           python start.py -m predict_sample -l 2 -t 5 --predict_weight weight/DQN/sample_weight.pt -f $HOME/result_dqn.json
@@ -65,7 +74,7 @@ jobs:
           $Env:QT_QPA_PLATFORM = 'offscreen'
           # run tetris
           Remove-Item -Recurse -Force tetris
-          git clone https://github.com/seigot/tetris -b ${{ github.head_ref }}
+          git clone https://github.com/seigot/tetris -b ${{ env.BRANCH_NAME }}
           cd tetris
           pip install -r requirements.txt
           python start.py -m predict_sample2 -l 2 -t 5 --predict_weight weight/MLP/sample_weight.pt -f $HOME/result_mlp.json
