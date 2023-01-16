@@ -1,0 +1,10 @@
+__pycache__
+.idea
+.dockerignore
+.gitignore
+tmp.log
+**.prf
+**.DS_Store
+/result.json
+outputs/*
+docker/*

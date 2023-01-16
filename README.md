@@ -269,6 +269,10 @@ git push                                                   # 変更を反映
 ※追記　Pull Request練習用リポジトリを作成しました。<br>
 [test_pull_request](https://github.com/seigot/test_pull_request)<br>
 <br>
+解説図:<br>
+
+![Git Commentary](doc/pics/20230115_Git_Commentary.png)
+
 参考：<br>
 [GitHub-プルリクエストの作成方法](https://docs.github.com/ja/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request)<br>
 [[実践] はじめてのPull Requestをやってみよう](https://qiita.com/wataryooou/items/8dce6b6d5f54ab2cef04)<br>
