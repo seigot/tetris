@@ -38,9 +38,6 @@ jobs:
           pip install flake8 pytest
           sudo apt-get install -y python3-pip
           pip3 install --upgrade pip
-          pip3 install numpy
-          pip3 install PyQt5
-          sudo apt-get install -y python3-pyqt5
           sudo apt-get install -y git
           sudo apt-get install -y jq
 
