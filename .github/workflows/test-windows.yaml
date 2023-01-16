@@ -49,7 +49,6 @@ jobs:
           $Env:QT_QPA_PLATFORM = 'offscreen'
           # run tetris
           if test -f "requirements.txt"; then pip install -r requirements.txt fi
-          if test -f "requirements.pytorch.txt"; then pip install -r requirements.pytorch.txt fi
           python start.py -m sample -t 3 -f $HOME/result.json
 
       - name: tetris_DQN_sample
