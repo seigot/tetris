@@ -306,9 +306,8 @@ nextShapeIndex = np_randomShape.random.randint(1, 8)
 スコアアタック用サーバ  
 https://github.com/seigot/tetris_score_server
 
-### 対戦
-対戦用サーバ  
-https://github.com/seigot/tetris_battle_server
+### art
+[artについて](doc/files/art.md)
 
 ## LICENSE
 
