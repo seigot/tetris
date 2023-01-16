@@ -37,8 +37,6 @@ jobs:
           git --version
           python --version
           python -m pip install --upgrade pip
-          pip install pyqt5
-          pip install numpy
 
       - name: tetris_sample
       # tetrisが動くかどうか確認(SCOREが入ればOK)
@@ -48,7 +46,7 @@ jobs:
           # QT display off
           $Env:QT_QPA_PLATFORM = 'offscreen'
           # run tetris
-          pip install -r requirements.txt
+          if( Test-Path .\requirements.txt ){ pip install -r requirements.txt }
           python start.py -m sample -t 3 -f $HOME/result.json
 
       - name: tetris_DQN_sample
@@ -58,7 +56,8 @@ jobs:
           # QT display off
           $Env:QT_QPA_PLATFORM = 'offscreen'
           # run tetris
-          pip install -r requirements.txt
+          if( Test-Path .\requirements.txt ){ pip install -r requirements.txt }
+          if( Test-Path .\requirements.pytorch.txt ){ pip install -r requirements.pytorch.txt }
           python start.py -m predict_sample -l 2 -t 5 --predict_weight weight/DQN/sample_weight.pt -f $HOME/result_dqn.json
 
       - name: tetris_MLP_sample
@@ -68,6 +67,7 @@ jobs:
           # QT display off
           $Env:QT_QPA_PLATFORM = 'offscreen'
           # run tetris
-          pip install -r requirements.txt
+          if( Test-Path .\requirements.txt ){ pip install -r requirements.txt }
+          if( Test-Path .\requirements.pytorch.txt ){ pip install -r requirements.pytorch.txt }
           python start.py -m predict_sample2 -l 2 -t 5 --predict_weight weight/MLP/sample_weight.pt -f $HOME/result_mlp.json
 
