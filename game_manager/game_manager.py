@@ -286,6 +286,11 @@ class Game_Manager(QMainWindow):
                     self.nextMove = BLOCK_CONTROLLER_TRAIN.GetNextMove(nextMove, GameStatus,yaml_file=self.train_yaml,weight=self.predict_weight)
                 elif self.mode == "art":
                     # art
+                    # print GameStatus
+                    import pprint
+                    print("=================================================>")
+                    pprint.pprint(GameStatus, width = 61, compact = True)
+                    # get direction/x/y from art_config
                     d,x,y = BOARD_DATA.getnextShapeIndexListDXY(self.block_index-1)
                     nextMove["strategy"]["direction"] = d
                     nextMove["strategy"]["x"] = x

@@ -68,7 +68,7 @@ def start():
     BLOCK_NUM_MAX = -1
     TRAIN_YAML = "config/default.yaml"
     PREDICT_WEIGHT = "outputs/latest/best_weight.pt"
-    ART_CONFIG = "xxx.json"
+    ART_CONFIG = "default.json"
 
     ## update value if args are given
     args = get_option(GAME_LEVEL,

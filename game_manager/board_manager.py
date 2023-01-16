@@ -148,7 +148,7 @@ class BoardData(object):
         # open colorTable, nextShapeIndexList config file for art
         try:
             import json
-            art_config_filepath = art_config #"config/art_config_sample.json"
+            art_config_filepath = art_config
             with open(art_config_filepath, 'r') as json_open:
                 json_load = json.load(json_open)
             self.colorTable[1] = int(json_load['color']['shapeI'],16)
