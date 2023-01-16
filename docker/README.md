@@ -1,91 +1,75 @@
 # Tetris Game docker
 
-## 実行方法
-
-### step0. dockerをインストールする
+## step0. docker をインストールする
 
 [Install Docker Engine on Ubuntu](https://docs.docker.com/engine/install/ubuntu) <br>
 [Install Docker Desktop on Mac](https://docs.docker.com/docker-for-mac/install/) <br>
 [Install Docker Desktop on Windows](https://docs.docker.com/docker-for-windows/install/) <br>
 
-### step1. dockerコンテナを起動する
+## step1. docker コンテナを起動する
 
-以下を実行する。
-
-```
-sudo docker run -p 6080:80 --shm-size=512m seigott/tetris_docker
-```
-
-もしリモートログインしながらdockerコンテナ起動し続けたい場合、上記の代わりに以下を実行する。<br>
-（terminalからバックグラウンド実行）<br>
+tetris ディレクトリで以下を実行する。
 
 ```
-sudo nohup docker run -p 6080:80 --shm-size=512m seigott/tetris_docker &
+docker-compose up
 ```
 
-もし`pytorch(v1.10)`インストール済dockerコンテナを使いたい場合、上記の代わりに以下を実行する。<br>
+`pytorch`インストール済コンテナを使いたい場合、上記の代わりに以下を実行する。<br>
 
 ```
-sudo docker run -p 6080:80 --shm-size=512m seigott/tetris_docker:pytorchv1.10
+docker-compose -f docker-compose.pytorch.yaml up
 ```
 
-### step2. ブラウザからdockerコンテナにアクセスする
+## step2. docker コンテナにアクセスする
+
+コンテナ内に入ってターミナルを起動
 
 ```
-localhost:6080
+docker exec -it tetris-container bash
 ```
 
-リモート環境でdockerコンテナ起動している場合は、上記の代わりに以下を実行する。<br>
+## step3. 起動ホスト OS 側で GUI 起動のための準備
+
+docker コンテナ内でテトリスプログラムを実行する場合、GUI を表示させるためにはホスト OS 側で[x サーバ](https://qiita.com/kakkie/items/c6ccce13ce0beaefaad1)を起動する必要があります。  
+x サーバの起動方法は以下を参照してください。
+
+- Windows→[こちら](./README.xserver.md#Windows-の場合)
+- Linux→
+
+## step3'. GUI なしでテトリスプログラムを実行
+
+GUI の起動が必要ない場合には先程立ち上げたコンソールかたコンテナ内の環境変数`QT_QPA_PLATFORM`を`offscreen`に設定します。
 
 ```
-${IP_ADDRESS}:6080
+export QT_QPA_PLATFORM=offscreen
 ```
 
-アクセスできたら以下により動作検証する
+## step4. テトリスプログラムの実行
 
-左下アイコン --> system tools --> terminator
-
-Terminalを立ち上げて以下を実行
+`/tetris`にいることを確認し、以下を実行
 
 ```
-cd ~/tetris
 python start.py
 ```
 
-## update docker container
+テトリスの画面が表示されれば無事完了です。
 
-以下を実行する。
+## コンテナの停止
 
-```
-sudo docker pull seigott/tetris_docker
-```
-
-## [開発用] build for update docker container
-
-[Dockerfile](./Dockerfile)を更新して以下を実行する
+ホスト OS 側の tetris ディレクトリから以下を実行する。
 
 ```
-# 通常版の場合
-docker build -t seigott/tetris_docker .
-
-# pytorch版の場合
-docker build -f ./Dockerfile.pytorchv1.10 -t seigott/tetris_docker:pytorchv1.10 .
+docker-compose stop
 ```
 
-コンテナ登録は以下
+この場合には、コンテナは削除されずに残ります。
+
+## コンテナの停止、削除
+
+ホスト OS 側の tetris ディレクトリから以下を実行する。
 
 ```
-docker login
-docker push seigott/tetris_docker
-docker push seigott/tetris_docker:pytorchv1.10 .
-docker logout
+docker-compose down
 ```
 
-python versionは以下
-
-```
-# see install_python.sh in detail
-python3 --version
-3.9.9
-```
-
+この場合には、コンテナは削除されます。

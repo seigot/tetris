@@ -1,0 +1,12 @@
+version: '1'
+
+services:
+  tetris:
+    container_name: tetris-container
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.latest
+    environment:
+    - DISPLAY=host.docker.internal:0.0
+    tty: true
+    shm_size: 512m
