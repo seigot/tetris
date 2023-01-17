@@ -356,8 +356,8 @@ class Block_Controller(object):
                     print("Finetuning mode\nLoad {}...".format(self.ft_weight), file=f)
                 
         ## GPU 使用できるときは使う
-        if torch.cuda.is_available():
-            self.model.cuda()
+#        if torch.cuda.is_available():
+#            self.model.cuda()
         
         #=====Set hyper parameter=====
         #  学習バッチサイズ(学習の分割単位, データサイズを分割している)
@@ -1532,8 +1532,8 @@ class Block_Controller(object):
                 next_states = torch.stack(next_states)
 
                 ## GPU 使用できるときは使う
-                if torch.cuda.is_available():
-                    next_states = next_states.cuda()
+#                if torch.cuda.is_available():
+#                    next_states = next_states.cuda()
             
                 ##########################
                 # モデルの学習実施
@@ -1586,8 +1586,8 @@ class Block_Controller(object):
                 # next_states のテンソルを連結
                 next2_states = torch.stack(next2_states)
                 ## GPU 使用できるときは使う
-                if torch.cuda.is_available():
-                    next2_states = next2_states.cuda()
+#                if torch.cuda.is_available():
+#                    next2_states = next2_states.cuda()
                 ##########################
                 # モデルの学習実施
                 ##########################
@@ -1614,8 +1614,8 @@ class Block_Controller(object):
                 # next_states のテンソルを連結
                 next2_states = torch.stack(next2_states)
                 ## GPU 使用できるときは使う
-                if torch.cuda.is_available():
-                    next2_states = next2_states.cuda()
+#                if torch.cuda.is_available():
+#                    next2_states = next2_states.cuda()
                 ##########################
                 # モデルの学習実施
                 ##########################
@@ -1641,8 +1641,8 @@ class Block_Controller(object):
                 next2_states = torch.stack(next2_states)
 
                 ## GPU 使用できるときは使う
-                if torch.cuda.is_available():
-                    next2_states = next2_states.cuda()
+#                if torch.cuda.is_available():
+#                    next2_states = next2_states.cuda()
                 ##########################
                 # モデルの学習実施
                 ##########################
@@ -1867,8 +1867,8 @@ class Block_Controller(object):
         # 学習モードの場合
         if is_train:
             ## GPU 使用できるときは使う
-            if torch.cuda.is_available():
-                next_states = next_states.cuda()
+#            if torch.cuda.is_available():
+#                next_states = next_states.cuda()
             # テンソルの勾配の計算を不可とする
             with torch.no_grad():
                 # 順伝搬し Q 値を取得 (model の __call__ ≒ forward)
