@@ -143,7 +143,11 @@ class BoardData(object):
         self.obstacle_height = 0
         self.obstacle_probability = 0
         self.random_seed = 0
-        self.nextShapeIndexCnt = 1
+        self.nextShapeIndexCnt = 0
+        self.nextShapeIndexList = [1,2,3,4,5,6,7]
+        self.nextShapeIndexListDXY = [[0,0,1] for _ in range(len(self.nextShapeIndexList))] # for art DXY config data
+        self.colorTable = [0x000000, 0xCC6666, 0x66CC66, 0x6666CC,
+                           0xCCCC66, 0xCC66CC, 0x66CCCC, 0xDAAA00]
         self.tryMoveNextCnt = 0
         self.ShapeListMax = 2
         # ShapeList
@@ -174,6 +178,30 @@ class BoardData(object):
     def init_obstacle_parameter(self, height, probability):
         self.obstacle_height = height
         self.obstacle_probability = probability
+
+    #######################################
+    ## art用configを利用してcolorTable/nextShapeIndexListを初期化
+    #######################################
+    def init_art_config(self, art_config):
+        # open colorTable, nextShapeIndexList config file for art
+        try:
+            import json
+            art_config_filepath = art_config
+            with open(art_config_filepath, 'r') as json_open:
+                json_load = json.load(json_open)
+            self.colorTable[1] = int(json_load['color']['shapeI'],16)
+            self.colorTable[2] = int(json_load['color']['shapeL'],16)
+            self.colorTable[3] = int(json_load['color']['shapeJ'],16)
+            self.colorTable[4] = int(json_load['color']['shapeT'],16)
+            self.colorTable[5] = int(json_load['color']['shapeO'],16)
+            self.colorTable[6] = int(json_load['color']['shapeS'],16)
+            self.colorTable[7] = int(json_load['color']['shapeZ'],16)
+            block_order = list(json_load['block_order'])
+            self.nextShapeIndexList = [ block_order[ii][0] for ii in range(len(block_order))]
+            self.nextShapeIndexListDXY = [[block_order[ii][1],block_order[ii][2],block_order[ii][3]] for ii in range(len(block_order))]
+        except Exception as e:
+            #print(e)
+            pass
 
     #######################################
     ## 画面ボードデータを返す
@@ -249,6 +277,22 @@ class BoardData(object):
     def getholdShapeData(self):
         return self.getShapeDataFromShapeClass(self.holdShape)
 
+    ################################
+    # getcolorTableを返す
+    ################################
+    def getcolorTable(self):
+        return self.colorTable
+
+    ################################
+    # nextShapeIndexListDXYを返す
+    ################################
+    def getnextShapeIndexListDXY(self, index):
+        index = index % len(self.nextShapeIndexListDXY)
+        d = self.nextShapeIndexListDXY[index][0]
+        x = self.nextShapeIndexListDXY[index][1]
+        y = self.nextShapeIndexListDXY[index][2]
+        return d,x,y
+
     #################################################
     # direction (回転状態)のテトリミノ座標配列を取得し、それをx,yに配置した場合の座標配列を返す
     #################################################
@@ -261,10 +305,10 @@ class BoardData(object):
     def getNewShapeIndex(self):
         if self.random_seed == 0:
             # static value
-            nextShapeIndex = self.nextShapeIndexCnt
+            nextShapeIndex = self.nextShapeIndexList[self.nextShapeIndexCnt]
             self.nextShapeIndexCnt += 1
-            if self.nextShapeIndexCnt >= (7+1):
-                self.nextShapeIndexCnt = 1
+            if self.nextShapeIndexCnt >= len(self.nextShapeIndexList):
+                self.nextShapeIndexCnt = 0
         else:
             # random value
             nextShapeIndex = np_randomShape.random.randint(1, 8)
@@ -275,11 +319,11 @@ class BoardData(object):
     ####################################
     def createNewPiece(self):
         if self.nextShape == None:
-            self.ShapeList.insert(len(self.ShapeList), 0)
+            self.ShapeList.append(0)
             ## 次のテトリミノデータ作成
             # initialize next shape data
             for i in range(self.ShapeListMax-1):
-                self.ShapeList.insert(len(self.ShapeList), Shape(self.getNewShapeIndex()))
+                self.ShapeList.append(Shape(self.getNewShapeIndex()))
             self.nextShape = self.ShapeList[1]
 
         # テトリミノが原点から x,y 両方向に最大何マス占有するのか取得
@@ -293,7 +337,7 @@ class BoardData(object):
             self.currentDirection = 0
             # get nextShape
             self.ShapeList.pop(0)
-            self.ShapeList.insert(len(self.ShapeList), Shape(self.getNewShapeIndex()))
+            self.ShapeList.append(Shape(self.getNewShapeIndex()))
             self.currentShape = self.ShapeList[0]
             self.nextShape = self.ShapeList[1]
             result = True
