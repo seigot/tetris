@@ -125,8 +125,8 @@ class Block_Controller(object):
                     print("Finetuning mode\nLoad {}...".format(self.ft_weight), file=f)
                 
             
-        if torch.cuda.is_available():
-            self.model.cuda()
+#        if torch.cuda.is_available():
+#            self.model.cuda()
         
         #=====Set hyper parameter=====
         self.batch_size = cfg["train"]["batch_size"]
@@ -525,8 +525,8 @@ class Block_Controller(object):
             next_actions, next_states = zip(*next_steps.items())
             next_states = torch.stack(next_states)
                        
-            if torch.cuda.is_available():
-                next_states = next_states.cuda()
+#            if torch.cuda.is_available():
+#                next_states = next_states.cuda()
         
             self.model.train()
             with torch.no_grad():
@@ -549,8 +549,8 @@ class Block_Controller(object):
                 next２_steps =self.get_next_func(next_backboard,next_piece_id,next_shape_class)
                 next2_actions, next2_states = zip(*next２_steps.items())
                 next2_states = torch.stack(next2_states)
-                if torch.cuda.is_available():
-                    next2_states = next2_states.cuda()
+#                if torch.cuda.is_available():
+#                    next2_states = next2_states.cuda()
                 self.model.train()
                 with torch.no_grad():
                     next_predictions = self.model(next2_states)[:, 0]
@@ -563,8 +563,8 @@ class Block_Controller(object):
                 next２_steps =self.get_next_func(next_backboard,next_piece_id,next_shape_class)
                 next2_actions, next2_states = zip(*next２_steps.items())
                 next2_states = torch.stack(next2_states)
-                if torch.cuda.is_available():
-                    next2_states = next2_states.cuda()
+#                if torch.cuda.is_available():
+#                    next2_states = next2_states.cuda()
                 self.target_model.train()
                 with torch.no_grad():
                     next_predictions = self.target_model(next2_states)[:, 0]
@@ -577,8 +577,8 @@ class Block_Controller(object):
                 next２_steps =self.get_next_func(next_backboard,next_piece_id,next_shape_class)
                 next2_actions, next2_states = zip(*next２_steps.items())
                 next2_states = torch.stack(next2_states)
-                if torch.cuda.is_available():
-                    next2_states = next2_states.cuda()
+#                if torch.cuda.is_available():
+#                    next2_states = next2_states.cuda()
                 self.model.train()
                 with torch.no_grad():
                     next_predictions = self.model(next2_states)[:, 0]
