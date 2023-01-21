@@ -1,22 +1,26 @@
 # artについて
 
-本ドキュメントではいわゆるテトリスアートを作成する取り組みについて情報集約する
+本ドキュメントではいわゆるテトリスアートを作成する取り組みについて記載する
 
 # 概要
 
 通常、テトリスは上から落ちてくるブロック（テトリミノ）を操作して、横列を埋めて消していくようにして遊ぶ。  
-テトリスアートとはブロックを消すことを必ずしも目的とせず、ブロックでフィールドに模様を描くことを目的とする。  
-詳しくはgoogle検索をしてみて下さい。
+一方、テトリスアートはブロックでフィールドに模様を描くことを目的とする。（ブロックを消すことを必ずしも目的としない）  
+詳しくは"テトリスアート"でgoogle検索をしてみて下さい。
 
 # 取り組み方
 
 まず、ブロックでフィールドに描きたい模様をイメージする。  
-模様がイメージできたらブロックを操作する。  
-ブロックを操作する際、各ブロックの色や出現順序(index)などをconfigファイルから調整できるようにしている。  
+次に、模様がテトリス上で実現可能かどうかを検討する。（作図などがお勧めです）  
+実現可能であればブロックを操作する。  
+  
+ブロックを操作する場合、以下のconfigファイルを使い各ブロックの色や出現順序(index)などを調整できるようにしている。  
 以下はconfigファイルの説明である。  
 
 art用configファイルサンプル  
 [config/art_config_sample.json](https://github.com/seigot/tetris/blob/master/config/art_config_sample.json)  
+カラーコード参考  
+[色の名前とカラーコードが一目でわかるWEB色見本 原色大辞典 - HTMLカラーコード](https://www.colordic.org/)  
 
 ```
 {
@@ -44,10 +48,12 @@ art用configファイルサンプル
 }
 ```
 
-実行方法
+# 実行方法
+
+以下のように`-m art`,`--art_config_filepath`によりモード及びconfigファイルを指定する。
 
 ```
-python start.py -l1 -m art --art_config_filepath config/art_config_sample.json
+python start.py -l1 -m art --art_config_filepath config/art/art_config_sample.json
 ```
 
 独自のart用configファイル(`xxx.json`)を作成する場合はサンプルをコピーして使用してください。  
@@ -55,5 +61,25 @@ python start.py -l1 -m art --art_config_filepath config/art_config_sample.json
 ```
 # 事前にサンプルをコピーしておく(art_config_sample.json --> xxx.json)
 # 実行
-python start.py -l1 -m art --art_config_filepath config/xxx.json
+python start.py -l1 -m art --art_config_filepath config/art/xxx.json
+```
+
+# サンプルコード
+
+`1:onigiri`
+
+```
+python start.py -l1 -m art --art_config_filepath config/art/art_config_sample1.json
+```
+
+`2:manji`
+
+```
+python start.py -l1 -m art --art_config_filepath config/art/art_config_sample2.json
+```
+
+`3:cartoon charactor`
+
+```
+python start.py -l1 -m art --art_config_filepath config/art/art_config_sample3.json
 ```
