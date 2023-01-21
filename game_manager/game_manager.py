@@ -336,6 +336,7 @@ class Game_Manager(QMainWindow):
                     nextMove["strategy"]["direction"] = d
                     nextMove["strategy"]["x"] = x
                     nextMove["strategy"]["y_operation"] = y
+                    nextMove["strategy"]["y_moveblocknum"] = 1
                     self.nextMove = nextMove
                 else:
                     self.nextMove = BLOCK_CONTROLLER.GetNextMove(nextMove, GameStatus)
