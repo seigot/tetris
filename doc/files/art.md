@@ -69,17 +69,17 @@ python start.py -l1 -m art --art_config_filepath config/art/xxx.json
 `1:onigiri`
 
 ```
-python start.py -l1 -m art --art_config_filepath config/art/art_config_sample1.json
+python start.py -l1 -m art --art_config_filepath config/art/art_config_sample1.json -d500
 ```
 
 `2:manji`
 
 ```
-python start.py -l1 -m art --art_config_filepath config/art/art_config_sample2.json
+python start.py -l1 -m art --art_config_filepath config/art/art_config_sample2.json -d500
 ```
 
 `3:cartoon charactor`
 
 ```
-python start.py -l1 -m art --art_config_filepath config/art/art_config_sample3.json
+python start.py -l1 -m art --art_config_filepath config/art/art_config_sample3.json -d500
 ```
