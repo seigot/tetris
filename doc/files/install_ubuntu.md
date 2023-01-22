@@ -16,4 +16,10 @@ pip3 install pyqt5
 sudo apt-get install -y git
 ```
 
+ubuntu20.04LTS以降の場合は`python`コマンドを使うために以下を実行する
+
+```
+sudo apt install python-is-python3
+```
+
 その後は、実行方法を参照
