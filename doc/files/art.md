@@ -1,22 +1,58 @@
 # artについて
 
-本ドキュメントではいわゆるテトリスアートを作成する取り組みについて情報集約する
+本ドキュメントではテトリスアートの取り組みについて記載する
 
 # 概要
 
 通常、テトリスは上から落ちてくるブロック（テトリミノ）を操作して、横列を埋めて消していくようにして遊ぶ。  
-テトリスアートとはブロックを消すことを必ずしも目的とせず、ブロックでフィールドに模様を描くことを目的とする。  
-詳しくはgoogle検索をしてみて下さい。
+一方、テトリスアートはブロックでフィールドに模様を描くことを目的とする。（ブロックを消すことを必ずしも目的としない）  
+詳しくは"テトリスアート"でgoogle検索をしてみて下さい。  
 
 # 取り組み方
 
-まず、ブロックでフィールドに描きたい模様をイメージする。  
-模様がイメージできたらブロックを操作する。  
-ブロックを操作する際、各ブロックの色や出現順序(index)などをconfigファイルから調整できるようにしている。  
+1.まず、ブロックでフィールドに描きたい模様をイメージする。  
+2.次に、模様がテトリス上で実現可能かどうかを検討する。（作図などがお勧めです）  
+3.実現可能であればブロックを操作して模様を作成する。
+  
+3.によりブロックを操作する場合、後述するconfigファイルを使い各ブロックの色や出現順序(index)などを調整できるようにしている。  
+
+# サンプルコード
+
+`python start.py`実行時に以下オプションを指定するとサンプルコードが実行される  
+[youtube-link: tetris art sample](https://www.youtube.com/watch?v=Seh6g9_nL6o)  
+
+`1:onigiri`
+
+```
+python start.py -l1 -m art --art_config_filepath config/art/art_config_sample1.json
+```
+
+![Screenshot](../pics/art_sample_onigiri.png)
+
+`2:manji`
+
+```
+python start.py -l1 -m art --art_config_filepath config/art/art_config_sample2.json
+```
+
+![Screenshot](../pics/art_sample_manji.png)
+
+`3:cartoon charactor`
+
+```
+python start.py -l1 -m art --art_config_filepath config/art/art_config_sample3.json
+```
+
+![Screenshot](../pics/art_sample_cartoon.png)
+# configファイルの説明
+
+テトリスアートを作成し易くするために各ブロックの色や出現順序(index)などをconfigファイルで調整できるようにしている。  
 以下はconfigファイルの説明である。  
 
 art用configファイルサンプル  
-[config/art_config_sample.json](https://github.com/seigot/tetris/blob/master/config/art_config_sample.json)  
+[config/art/art_config_sample_default.json](https://github.com/seigot/tetris/blob/master/config/art/art_config_sample_default.json)  
+カラーコード参考  
+[色の名前とカラーコードが一目でわかるWEB色見本 原色大辞典 - HTMLカラーコード](https://www.colordic.org/)  
 
 ```
 {
@@ -44,16 +80,27 @@ art用configファイルサンプル
 }
 ```
 
-実行方法
+# 実行方法
+
+以下のように`-m art`,`--art_config_filepath`によりモード及びconfigファイルを指定する。
 
 ```
-python start.py -l1 -m art --art_config_filepath config/art_config_sample.json
+# "art_config_sample.json"を指定して実行
+python start.py -l1 -m art --art_config_filepath config/art/art_config_sample.json
+
+# 落下速度を早くする場合は"-d500"を加えて実行
+python start.py -l1 -m art --art_config_filepath config/art/art_config_sample.json -d500
 ```
 
-独自のart用configファイル(`xxx.json`)を作成する場合はサンプルをコピーして使用してください。  
+自作したart用configファイル(`xxx.json`)を作成する場合は以下のようにファイルコピーして使用してください。  
 
 ```
 # 事前にサンプルをコピーしておく(art_config_sample.json --> xxx.json)
+cp config/art/art_config_sample.json config/art/xxx.json
 # 実行
-python start.py -l1 -m art --art_config_filepath config/xxx.json
+python start.py -l1 -m art --art_config_filepath config/art/xxx.json
 ```
+
+# 参考
+[「テトリス」の斬新すぎる遊び方が話題に。積み上げたブロックでマリオやルイージを再現!?](https://nlab.itmedia.co.jp/nl/articles/1109/13/news025.html)  
+[色の名前とカラーコードが一目でわかるWEB色見本 原色大辞典 - HTMLカラーコード](https://www.colordic.org/)  
