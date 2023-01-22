@@ -51,8 +51,6 @@ python start.py -l1 -m art --art_config_filepath config/art/art_config_sample3.j
 
 art用configファイルサンプル  
 [config/art/art_config_sample_default.json](https://github.com/seigot/tetris/blob/master/config/art/art_config_sample_default.json)  
-カラーコード参考  
-[色の名前とカラーコードが一目でわかるWEB色見本 原色大辞典 - HTMLカラーコード](https://www.colordic.org/)  
 
 ```
 {
@@ -80,6 +78,14 @@ art用configファイルサンプル
 }
 ```
 
+ブロックの色については以下のカラーコードを参考にしてください。  
+
+> [色の名前とカラーコードが一目でわかるWEB色見本 原色大辞典 - HTMLカラーコード](https://www.colordic.org/)  
+
+各ブロックの出現順序(index)/direction/x/yについては以下を参考にしてください。  
+
+> [ブロック操作用プログラムについて](./block_controller.md)  
+
 # 実行方法
 
 以下のように`-m art`,`--art_config_filepath`によりモード及びconfigファイルを指定する。
@@ -104,3 +110,4 @@ python start.py -l1 -m art --art_config_filepath config/art/xxx.json
 # 参考
 [「テトリス」の斬新すぎる遊び方が話題に。積み上げたブロックでマリオやルイージを再現!?](https://nlab.itmedia.co.jp/nl/articles/1109/13/news025.html)  
 [色の名前とカラーコードが一目でわかるWEB色見本 原色大辞典 - HTMLカラーコード](https://www.colordic.org/)  
+[youtube-link: tetris art sample](https://www.youtube.com/watch?v=Seh6g9_nL6o)  
