@@ -18,13 +18,13 @@
 
 # サンプルコード
 
-`python start.py`実行時に以下オプションを指定するとサンプルコードが実行される
-
+`python start.py`実行時に以下オプションを指定するとサンプルコードが実行される  
+[youtube-link: tetris art sample](https://www.youtube.com/watch?v=Seh6g9_nL6o)  
 
 `1:onigiri`
 
 ```
-python start.py -l1 -m art --art_config_filepath config/art/art_config_sample1.json -d500
+python start.py -l1 -m art --art_config_filepath config/art/art_config_sample1.json
 ```
 
 ![Screenshot](../pics/art_sample_onigiri.png)
@@ -32,7 +32,7 @@ python start.py -l1 -m art --art_config_filepath config/art/art_config_sample1.j
 `2:manji`
 
 ```
-python start.py -l1 -m art --art_config_filepath config/art/art_config_sample2.json -d500
+python start.py -l1 -m art --art_config_filepath config/art/art_config_sample2.json
 ```
 
 ![Screenshot](../pics/art_sample_manji.png)
@@ -40,7 +40,7 @@ python start.py -l1 -m art --art_config_filepath config/art/art_config_sample2.j
 `3:cartoon charactor`
 
 ```
-python start.py -l1 -m art --art_config_filepath config/art/art_config_sample3.json -d500
+python start.py -l1 -m art --art_config_filepath config/art/art_config_sample3.json
 ```
 
 ![Screenshot](../pics/art_sample_cartoon.png)
@@ -85,7 +85,11 @@ art用configファイルサンプル
 以下のように`-m art`,`--art_config_filepath`によりモード及びconfigファイルを指定する。
 
 ```
+# "art_config_sample.json"を指定して実行
 python start.py -l1 -m art --art_config_filepath config/art/art_config_sample.json
+
+# 落下速度を早くする場合は"-d500"を加えて実行
+python start.py -l1 -m art --art_config_filepath config/art/art_config_sample.json -d500
 ```
 
 自作したart用configファイル(`xxx.json`)を作成する場合は以下のようにファイルコピーして使用してください。  
