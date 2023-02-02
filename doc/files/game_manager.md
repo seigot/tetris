@@ -65,11 +65,17 @@ initUI の中の start 関数で、スコア、画面ボード、予告テトリ
 
 timerEvent において各 mode に対応する [block_controller.py](block_controller.md) (or block_controller_train*.py) の GetNextMove が呼び出される。
 ここで、[GameStatus](GameStatus.md) が GetNextMove に引き渡され、各自のプログラムで指示した操作結果が nextMove 変数に格納される。
+
 この結果をもって、テトリミノのホールド、横移動、回転、落下、降下処理を行う。
+
 ホールドはホールド画面のテトリミノとの入れ替えを行う。ただし、ホールド画面に何もない場合はホールド画面に現テトリミノを入れて timerEvent を終了する。
+
 横移動は画面ボードの端やテトリミノにぶつかると停止する。
+
 回転は**右回転** (rotateRight)で行い、画面ボードの端やテトリミノにぶつかるとエラーとなりtimerEvent無効となるので要注意である。
+
 降下 (move down) 処理の場合は指定数分降下させる。
+
 落下 (drop down) 処理が行われると、ただちにテトリミノは一番低いところまで落とされ、テトリミノは固定される。
 
 いずれにしてもテトリミノの下側が画面ボード下限かテトリミノに当たっている場合は、消去ライン数計算(moveDown)とスコア計算(UpdateScore)が実施され、次の timerEvent では次のテトリミノが出る。
