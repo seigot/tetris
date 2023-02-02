@@ -4,6 +4,9 @@
 # ゲーム管理用プログラムについて
 
 ## start.py の Option 設定
+
+ここでは start.py で指定する option について解説します。
+
 #### -m --mode モード
     default : ルールベース
     train : AI学習
@@ -20,7 +23,7 @@
 #### -d --drop_interval 更新間隔
     default => 1000 (=1秒)
     ms 指定
-        ※テトリミノを DROP すれば この時間待てば次のテトリミノが出るが、降下だけさせた場合は次の操作ができるまでこの時間分停止する。
+        ※ テトリミノを DROP すれば この時間待てば次のテトリミノが出るが、降下だけさせた場合は次の操作ができるまでこの時間分停止する。
         ※ Level 4指定した場合は無効
 #### -t --game_time ゲーム時間
     default => 180
@@ -49,19 +52,23 @@
 ### 初期化
 
 \_\_init\_\_ にて Option や初期設定値を各インスタンス変数に格納する。
-さらに initUI 関数にて、Window 表示が行われる。ここで SidePanel Class, Board Class のインスタンスも生成される。
+\_\_init\_\_ にある initUI 関数にて、Window 生成、位置設定表示が行われる。ここで SidePanel Class, Board Class のインスタンスも生成される。
+initUI の中の start 関数で、スコア、画面ボード、予告テトリミノ、ステータスバーがクリアされる。また、この中で timerEvent も生成される。timerEvent の間隔は上記の drop_interval となる。これにより次の操作が可能となる。
 
 ### timerEvent
 
+上記の初期化により timerEvent が drop_interval オプションにて指定された間隔で実行される。
+この Event によりゲームが進行していく。
+
 _執筆中_
 
-## SidePanel
+## SidePanel Class
 
 横の予告テトリミノ、およびホールドテトリミノ描画画面 Class
 
 _執筆中_
 
-## Board
+## Board Class
 
 ゲームの主画面ボード Class
 
