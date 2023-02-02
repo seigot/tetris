@@ -5,7 +5,7 @@
 
 ## start.py の Option 設定
 
-ここでは start.py で指定する option について解説します。
+ここでは start.py で指定する option について解説する。
 
 #### -m --mode モード
     default : ルールベース
@@ -43,7 +43,7 @@
 
 ## Game_Manager Class
 
-ゲーム管理 Class
+ここでは game_manager.py の Game_Manager Class を解説する。
 
 ### 概要
 
@@ -59,22 +59,67 @@ initUI の中の start 関数で、スコア、画面ボード、予告テトリ
 
 上記の初期化により timerEvent が drop_interval オプションにて指定された間隔で実行される。
 この Event によりゲームが進行していく。
+なお、timerEvent 関数実行中に drop_interval 指定の時間を超えても、次の timerEvent は発生しない。
+よって、drop_interval が非常に短い (1ms など = Level 4) の場合は、timerEvent のロスが多発する。
+そういったルールの場合はいかに早く timerEvent を終了させるかが肝となる。
 
-_執筆中_
+timerEvent において各 mode に対応する [block_controller.py](block_controller.md) (or block_controller_train*.py) の GetNextMove が呼び出される。
+ここで、[GameStatus](GameStatus.md) が GetNextMove に引き渡され、各自のプログラムで指示した操作結果が nextMove 変数に格納される。
+この結果をもって、テトリミノのホールド、横移動、回転、落下、降下処理を行う。
+ホールドはホールド画面のテトリミノとの入れ替えを行う。ただし、ホールド画面に何もない場合はホールド画面に現テトリミノを入れて timerEvent を終了する。
+横移動は画面ボードの端やテトリミノにぶつかると停止する。
+回転は**右回転** (rotateRight)で行い、画面ボードの端やテトリミノにぶつかるとエラーとなりtimerEvent無効となるので要注意である。
+降下 (move down) 処理の場合は指定数分降下させる。
+落下 (drop down) 処理が行われると、ただちにテトリミノは一番低いところまで落とされ、テトリミノは固定される。
+
+いずれにしてもテトリミノの下側が画面ボード下限かテトリミノに当たっている場合は、消去ライン数計算(moveDown)とスコア計算(UpdateScore)が実施され、次の timerEvent では次のテトリミノが出る。
+なお、ゲームオーバーになればゲームオーバー分のスコアを減らされれ、画面ボードをクリアして次の timerEvent となる。
+
+
+### keyPressEvent
+
+下記キー操作により Event が発生しテトリミノを操作する。
+なお、GetNextMove で指定する場合とことなり**左回転** (rotateLeft) である点に注意が必要である。
+
+|  手動操作  |  PC操作準拠  |  ゲーム機コントローラ準拠  |
+| ---- | ---- | ---- |
+|  実行コマンド  |  python start.py -m keyboard  |  python start.py -m gamepad  |
+|  *up* key  |  **左回転**  |  落下  |
+|  *left* key  |  左に移動  |  左に移動  |
+|  *right* key   |  右に移動  |  右に移動  |
+|  *m* key  |  降下（下に移動）  |  降下（下に移動）  |
+|  *space* key  |  落下  |  **左回転**  |
+|  *P* key  |  Pause  |  Pause  |
+|  *c* key  |  hold  |  hold  |
 
 ## SidePanel Class
 
-横の予告テトリミノ、およびホールドテトリミノ描画画面 Class
+ここでは game_manager.py の SidePanel Class を解説すｒ。
+横の予告テトリミノ、およびホールドテトリミノ描画画面 Class である。
 
 <img src="../pics/20230202_screen.png" width="300px"> 
 
+### paintEvent
 
-_執筆中_
+ここでは上記のように 4つの予告テトリミノを描画する。
+また、下にホールド画面がありそこでホールドしたテトリミノも表示される。
+timerEvent や keyEvent などにより呼び出され描画される。
 
 ## Board Class
 
-ゲームの主画面ボード Class
+ここでは game_manager.py の Board Class を解説する。
+ゲームの画面ボードおよびステータスバーの Class である。
 
 <img src="../pics/20230202_screen.png" width="300px"> 
 
-_執筆中_
+### paintEvent
+
+ここでは縦22,横10の画面ボードを描画する。
+固定されたテトリミノおよび動作中のテトリミノを描画する。
+
+### updateData
+
+ステータスバーの文字の更新を行う。
+また、 game_time 経過、もしくはブロック数上限に達したらプログラムを終了し、Result を表示する。
+学習モードで game_time を -1 にしていないと、ここで終了してしまう。
+
