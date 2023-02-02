@@ -66,10 +66,15 @@ _執筆中_
 
 横の予告テトリミノ、およびホールドテトリミノ描画画面 Class
 
+<img src="../pics/20230202_screen.png" width="300px"> 
+
+
 _執筆中_
 
 ## Board Class
 
 ゲームの主画面ボード Class
+
+<img src="../pics/20230202_screen.png" width="300px"> 
 
 _執筆中_
