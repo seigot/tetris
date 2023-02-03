@@ -3,9 +3,9 @@
 
 # ゲーム管理用プログラムについて
 
-## start.py の Option 設定
+## [start.py](../../start.py) の Option 設定
 
-ここでは start.py で指定する option について解説する。
+ここでは [start.py](../../start.py) で指定する option について解説する。
 
 #### -m --mode モード
     default : ルールベース
@@ -43,7 +43,7 @@
 
 ## Game_Manager Class
 
-ここでは game_manager.py の Game_Manager Class を解説する。
+ここでは [game_manager.py](../../game_manager/game_manager.py) の Game_Manager Class を解説する。
 
 ### 概要
 
@@ -100,7 +100,7 @@ timerEvent において各 mode に対応する [block_controller.py](block_cont
 
 ## SidePanel Class
 
-ここでは game_manager.py の SidePanel Class を解説すｒ。
+ここでは [game_manager.py](../../game_manager/game_manager.py) の SidePanel Class を解説すｒ。
 横の予告テトリミノ、およびホールドテトリミノ描画画面 Class である。
 
 <img src="../pics/20230202_screen.png" width="300px"> 
@@ -113,7 +113,7 @@ timerEvent や keyEvent などにより呼び出され描画される。
 
 ## Board Class
 
-ここでは game_manager.py の Board Class を解説する。
+ここでは [game_manager.py](../../game_manager/game_manager.py) の Board Class を解説する。
 ゲームの画面ボードおよびステータスバーの Class である。
 
 <img src="../pics/20230202_screen.png" width="300px"> 
