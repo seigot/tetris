@@ -3,6 +3,11 @@
 
 # ボード管理用プログラムについて
 
+ここでは [board_manager.py](../../game_manager/board_manager.py) の解説を行う。
+
+このファイルにはテトリミノの 形状、回転方向を担う Shape Class と、画面ボードの各種処理を行う BoardData Class がある。
+block_controller.py 側からもよく使うメソッドが多いので解説を書いておく。
+
 ## Shape Class
 
 ここでは、[board_manager.py](../../game_manager/board_manager.py) の Shape Class について解説する。
