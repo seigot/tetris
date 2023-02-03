@@ -14,23 +14,23 @@ Shape Class は下記テトリミノの形状について保持しているク�
 | 初期形状 | ![Screenshot](../pics/ShapeI.png) | ![Screenshot](../pics/ShapeL.png) | ![Screenshot](../pics/ShapeJ.png) | ![Screenshot](../pics/ShapeT.png) | ![Screenshot](../pics/ShapeO.png) | ![Screenshot](../pics/ShapeS.png) | ![Screenshot](../pics/ShapeZ.png) | 
 | １周の回転に必要な回数 | 2 | 4 | 4 | 4 | 1 | 2 | 2 | 
 
-詳細は、[ブロック情報](block_controller.md#ブロック情報) に詳しく記載があります。
+詳細は、[ブロック情報](block_controller.md#ブロック情報) に詳しく記載がある。
 
 ### getRotatedOffsets method
 
 getRotatedOffsets メソッドは テトリミノ形状を回転した基準座標からの相対座標を返します。
-引数として direction テトリミノ回転方向を指定します。
+引数として direction テトリミノ回転方向を指定する。
 
-[ブロック操作の基準点](block_controller.md#ブロック操作の基準点)の形状番号を direction で指定すると、ここで書かれている相対座標が返されます。
+[ブロック操作の基準点](block_controller.md#ブロック操作の基準点)の形状番号を direction で指定すると、ここで書かれている相対座標が返される。
 
 ### getCoords method
 
-getCoords メソッドは さらに x,y を引数に持ち、x,y を基準点に置いたテトリミノの絶対座標を返します。
+getCoords メソッドは さらに x,y を引数に持ち、x,y を基準点に置いたテトリミノの絶対座標を返す。
 
 ### getBoundingOffsets method
 
-getBoundingOffsets メソッドはテトリミノの基準点からの最大 x, y 最小x, y を取得します。
-direction で回転方向を指定し、minX, maxX, minY, maxY が返ってきます。
+getBoundingOffsets メソッドはテトリミノの基準点からの最大 x, y 最小x, y を取得する。
+direction で回転方向を指定し、minX, maxX, minY, maxY が返ってくる。
 
 
 
