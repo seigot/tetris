@@ -370,6 +370,8 @@ class Game_Manager(QMainWindow):
                     if isExchangeHoldShape == False:
                         # if isExchangeHoldShape is False, this means no holdshape exists. 
                         # so it needs to return immediately to use new shape.
+                        # init nextMove
+                        self.nextMove = None
                         return
 
                 k = 0
