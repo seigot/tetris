@@ -139,6 +139,13 @@ cd tetris
 python start.py  # ここでtetrisが表示されればOK
 ```
 
+プログラム内部の説明については以下など参照ください
+
+[ブロック操作用サンプルプログラムについて](./block_controller_sample.md)  
+[AIについて](./ai.md)  
+[tetris artについて](./art.md)  
+[README.md](https://github.com/seigot/tetris#%E5%AE%9F%E8%A1%8C%E6%96%B9%E6%B3%95)  
+
 ### option. エディタのインストール
 
 最近流行りのエディタである`visual studio code`をインストールしておくと後のコード編集に便利である  

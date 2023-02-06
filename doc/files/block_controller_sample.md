@@ -3,6 +3,12 @@
 
 # ブロック操作用サンプルプログラム
 
+実行方法
+
+```
+python start.py -m sample
+```
+
 一般的に、テトリスは他ゲーム同様に組合せ最適化問題と捉える事が可能であり、過去に様々なアルゴリズムが提案されている。（例えば下記）<br>
 - [ニューラルネットワークと遺伝的アルゴリズムを用いた テトリスコントローラの開発](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwiKn83IqIPxAhWSK5QKHUWVC0cQFjACegQIAxAD&url=https%3A%2F%2Fipsj.ixsq.nii.ac.jp%2Fej%2F%3Faction%3Drepository_action_common_download%26item_id%3D109968%26item_no%3D1%26attribute_id%3D1%26file_no%3D1&usg=AOvVaw0ic6uDC29wGYWl8KKIL8P3)
 - [テトリスにおけるAIの開発](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwiKn83IqIPxAhWSK5QKHUWVC0cQFjAEegQIDhAD&url=https%3A%2F%2Fwww.info.kindai.ac.jp%2F~takasi-i%2Fthesis%2F2016_13-1-037-0113_S_Kawahara.ppt&usg=AOvVaw1tik6miknSKem4wE5bmpFP)
