@@ -133,8 +133,8 @@ style ブロック操作用プログラム fill:#fef
 
 詳細
 - [ブロック操作用プログラムについての説明](doc/files/block_controller.md) <br>
-- [ボード管理用プログラムについての説明](doc/files/board_manager.md)（執筆中） <br>
-- [ゲーム管理用プログラムについての説明](doc/files/game_manager.md)（執筆中） <br>
+- [ボード管理用プログラムについての説明](doc/files/board_manager.md) <br>
+- [ゲーム管理用プログラムについての説明](doc/files/game_manager.md) <br>
 
 ## 手動操作
 

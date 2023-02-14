@@ -49,6 +49,8 @@ def get_python_cmd():
     ret = subprocess.run("python --version", shell=True, \
                          stderr=subprocess.PIPE, encoding="utf-8")
     print(ret)
+    if "not found" in ret.stderr:
+        return "python3"
     if "Python 2" in ret.stderr:
         return "python3"
     return "python"
