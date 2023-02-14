@@ -698,6 +698,9 @@ class Game_Manager(QMainWindow):
                         },
                         "line_score_stat":"none",
                         "shape_info_stat":"none",
+                        "random_seed":"none",
+                        "obstacle_height":"none",
+                        "obstacle_probability":"none",
                       },
                   "judge_info":
                       {
@@ -735,6 +738,9 @@ class Game_Manager(QMainWindow):
         status["debug_info"]["shape_info"]["shapeS"]["color"] = "blue"
         status["debug_info"]["shape_info"]["shapeZ"]["index"] = Shape.shapeZ
         status["debug_info"]["shape_info"]["shapeZ"]["color"] = "yellow"
+        status["debug_info"]["random_seed"] = self.random_seed
+        status["debug_info"]["obstacle_height"] = self.obstacle_height
+        status["debug_info"]["obstacle_probability"] = self.obstacle_probability
         ## judge_info
         status["judge_info"]["elapsed_time"] = round(time.time() - self.tboard.start_time, 3)
         status["judge_info"]["game_time"] = self.game_time
