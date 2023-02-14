@@ -45,14 +45,23 @@ python start.py -l1 -m art --art_config_filepath config/art/art_config_sample3.j
 
 ![Screenshot](../pics/art_sample_cartoon.png)
 
+other sample 
+
 |  name  |  --art_config_filepath  |  note  |
 | ---- | ---- | ---- |
-|  4:heart  |  config/art/art_config_sample4.json  |  -  |
-|  5:hamburger_shop  |  config/art/art_config_sample5.json  |  -  |
-|  6:parking  |  config/art/art_config_sample6.json  |  -  |
-|  7:team rocket  |  config/art/art_config_sample7.json  |  -  |
-|  8:happy_new_year_2023  |  config/art/art_config_sample8.json  |  -  |
-|  9:taka  |  config/art/art_config_sample9.json  |  -  |
+|  4:heart  |  python start.py -l1 -m art  --art_config_filepath config/art/art_config_sample4.json  |  -  |
+|  5:hamburger_shop  |  python start.py -l1 -m art  --art_config_filepath config/art/art_config_sample5.json  |  -  |
+|  6:parking  |  python start.py -l1 -m art  --art_config_filepath config/art/art_config_sample6.json  |  -  |
+|  7:team rocket  |  python start.py -l1 -m art  --art_config_filepath config/art/art_config_sample7.json  |  -  |
+|  8:happy_new_year_2023  |  python start.py -l1 -m art  --art_config_filepath config/art/art_config_sample8.json  |  -  |
+|  9:taka  |  python start.py -l1 -m art  --art_config_filepath config/art/art_config_sample9.json  |  -  |
+|  ...  |  -  |  -  |
+
+contribution
+
+|  name  |  --art_config_filepath  |  thanks  |
+| ---- | ---- | ---- |
+|  mario  |  python start.py -l1 -m art  --art_config_filepath config/art/art_config_sample_tanaka_2.json  |  @tanaken  |
 |  ...  |  -  |  -  |
 
 # configファイルの説明
