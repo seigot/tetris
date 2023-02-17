@@ -264,8 +264,8 @@ class BoardData(object):
         return ShapeClass, ShapeIdx, ShapeRange
 
     ################################
-    # テトリミノの種類番号から shape オブジェクトを返す
-    # ShapeNumber ... テトリミノの種類番号　
+    # 予告テトリミノ配列番号から shape オブジェクトを返す
+    # ShapeNumber ... 予告テトリミノ配列番号　
     ################################
     def getShapeData(self, ShapeNumber):
         ShapeClass = self.ShapeList[ShapeNumber]
