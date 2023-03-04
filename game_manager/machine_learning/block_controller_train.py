@@ -28,9 +28,12 @@ import yaml
 ###################################################
 class Block_Controller(object):
 
+    #First step: hold
+
     ####################################
     # 起動時初期化
-    # init parameter
+    # init parameter 
+
     board_backboard = 0
     board_data_width = 0
     board_data_height = 0
@@ -64,6 +67,8 @@ class Block_Controller(object):
         # predict
         self.init_predict_parameter_flag = False
 
+        self.firstHold = -1
+
     ####################################
     # Yaml パラメータ読み込み
     ####################################
@@ -79,6 +84,7 @@ class Block_Controller(object):
         self.result_warehouse = "outputs/"
         self.latest_dir = self.result_warehouse+"/latest"
         predict_weight2 = None
+
 
         ########
         ## Config Yaml 読み込み
@@ -945,7 +951,7 @@ class Block_Controller(object):
     # piece_id テトリミノ I L J T O S Z
     # currentshape_class = status["field_info"]["backboard"]
     ####################################
-    def get_next_states_v2(self, curr_backboard, piece_id, CurrentShape_class):
+    def get_next_states_v2(self, curr_backboard, piece_id, CurrentShape_class, useHold = 0):
         # 次の状態一覧
         states = {}
 
@@ -993,7 +999,7 @@ class Block_Controller(object):
                 #                 ... -1 の場合 動作対象外
                 #    Value = 画面ボード状態
                 # (action 用)
-                states[(x0, direction0, -1, -1, -1)] = reshape_backboard
+                states[(x0, direction0, -1, -1, -1, useHold)] = reshape_backboard
 
         #print(len(states), end='=>')
 
@@ -1322,10 +1328,13 @@ class Block_Controller(object):
     #報酬を計算(2次元用) 
     #reward_func から呼び出される
     ####################################
-    def step_v2(self, curr_backboard, action, curr_shape_class):
-        x0, direction0, third_y, forth_direction, fifth_x = action
+    def step_v2(self, curr_backboard, action, curr_shape_class, hold_shape_class=None):
+        x0, direction0, third_y, forth_direction, fifth_x, useHold = action
         ## 画面ボードデータをコピーして指定座標にテトリミノを配置し落下させた画面ボードとy座標を返す
-        board, drop_y = self.getBoard(curr_backboard, curr_shape_class, direction0, x0, -1)
+        if useHold == 0:
+            board, drop_y = self.getBoard(curr_backboard, curr_shape_class, direction0, x0, -1)
+        else:
+            board, drop_y = self.getBoard(curr_backboard, hold_shape_class, direction0, x0, -1)
         ##ボードを２次元化
         reshape_board = self.get_reshape_backboard(board)
         #### 報酬計算元の値取得
@@ -1438,12 +1447,19 @@ class Block_Controller(object):
 
         curr_shape_class = GameStatus["block_info"]["currentShape"]["class"]
         next_shape_class= GameStatus["block_info"]["nextShape"]["class"]
+        hold_shape_class= GameStatus["block_info"]["holdShape"]["class"]
 
         ##################
         # next shape info
         self.ShapeNone_index = GameStatus["debug_info"]["shape_info"]["shapeNone"]["index"]
         curr_piece_id =GameStatus["block_info"]["currentShape"]["index"]
         next_piece_id =GameStatus["block_info"]["nextShape"]["index"]
+        hold_piece_id =GameStatus["block_info"]["holdShape"]["index"]
+
+        if hold_piece_id == None:
+            hold_piece_id = next_piece_id
+            hold_shape_class = next_shape_class
+
 
         #reshape_backboard = self.get_reshape_backboard(curr_backboard)
         #print(reshape_backboard)
@@ -1475,6 +1491,9 @@ class Block_Controller(object):
         #                 テトリミノ Move Down 降下 数, テトリミノ追加移動X座標, テトリミノ追加回転)
         #    Value = 画面ボード状態
         next_steps = self.get_next_func(curr_backboard, curr_piece_id, curr_shape_class)
+        next_steps_hold = self.get_next_func(curr_backboard, hold_piece_id, hold_shape_class, 1)
+        next_steps.update(next_steps_hold)
+
         #print (len(next_steps), end='=>')
 
         ###############################################
@@ -1566,9 +1585,10 @@ class Block_Controller(object):
             # 2: 3番目 Y軸降下 (-1: で Drop)
             # 3: 4番目 テトリミノ回転 (Next Turn)
             # 4: 5番目 X軸移動 (Next Turn)
+            # 【追加】5: hold
             action = next_actions[index]
             # step, step_v2 により報酬計算
-            reward = self.reward_func(curr_backboard, action, curr_shape_class)
+            reward = self.reward_func(curr_backboard, action, curr_shape_class, hold_shape_class)
             
             done = False #game over flag
             
@@ -1578,7 +1598,10 @@ class Block_Controller(object):
             #if use double dqn, predicted by main model
             if self.double_dqn:
                 # 画面ボードデータをコピーして 指定座標にテトリミノを配置し落下させた画面ボードとy座標を返す
-                next_backboard, drop_y  = self.getBoard(curr_backboard, curr_shape_class, action[1], action[0], action[2])
+                if action[5] == 0:
+                    next_backboard, drop_y  = self.getBoard(curr_backboard, curr_shape_class, action[1], action[0], action[2])
+                else:
+                    next_backboard, drop_y  = self.getBoard(curr_backboard, hold_shape_class, action[1], action[0], action[2])
                 #画面ボードで テトリミノ回転状態 に落下させたときの次の状態一覧を作成
                 next2_steps = self.get_next_func(next_backboard, next_piece_id, next_shape_class)
                 # 次の状態一覧の action と states で配列化
@@ -1697,6 +1720,11 @@ class Block_Controller(object):
             nextMove["strategy"]["direction"] = action[1]
             # 横方向
             nextMove["strategy"]["x"] = action[0]
+
+            #print(action[5])
+
+            if action[5] == 1:
+                nextMove["strategy"]["use_hold_function"] = "y"
             ###########
             # Drop Down 落下の場合
             if action[2] == -1 and action[3] == -1 and action[4] == -1:
@@ -1811,6 +1839,11 @@ class Block_Controller(object):
             nextMove["strategy"]["direction"] = action[1]
             # 横方向
             nextMove["strategy"]["x"] = action[0]
+
+            print(action[5])
+
+            if action[5] == 1:
+                nextMove["strategy"]["use_hold_function"] = "y"
             ###########
             # Drop Down 落下の場合
             if action[2] == -1 and action[3] == -1 and action[4] == -1:
