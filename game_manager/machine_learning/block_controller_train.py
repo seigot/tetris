@@ -1843,7 +1843,7 @@ class Block_Controller(object):
             # print(action[5])
 
             if action[5] == 1:
-                nextMove["strategy"]["use_hold_function"] = "y"
+                nextMove["strategy"]["use_hold_function"] = "n"
             ###########
             # Drop Down 落下の場合
             if action[2] == -1 and action[3] == -1 and action[4] == -1:
