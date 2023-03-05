@@ -1840,7 +1840,7 @@ class Block_Controller(object):
             # 横方向
             nextMove["strategy"]["x"] = action[0]
 
-            print(action[5])
+            # print(action[5])
 
             if action[5] == 1:
                 nextMove["strategy"]["use_hold_function"] = "y"
