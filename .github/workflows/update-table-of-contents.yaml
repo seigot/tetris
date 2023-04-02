@@ -12,6 +12,7 @@ jobs:
     steps:
       - name: TOC Generator
         uses: technote-space/toc-generator@v3
+        if: github.repository_owner == 'seigot'
         with:
           # 目次を更新するファイル
           TARGET_PATHS: README.md
