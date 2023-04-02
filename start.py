@@ -5,7 +5,7 @@ import sys
 import subprocess
 from argparse import ArgumentParser
 
-def get_option(game_level, game_time, mode, random_seed, drop_interval, resultlogjson, train_yaml, predict_weight, user_name, ShapeListMax, BlockNumMax, art_config_filepath):
+def get_option(game_level, game_time, mode, nextShapeMode, random_seed, drop_interval, resultlogjson, train_yaml, predict_weight, user_name, ShapeListMax, BlockNumMax, art_config_filepath):
     argparser = ArgumentParser()
     argparser.add_argument('-l', '--game_level', type=int,
                            default=game_level,
@@ -16,6 +16,9 @@ def get_option(game_level, game_time, mode, random_seed, drop_interval, resultlo
     argparser.add_argument('-m', '--mode', type=str,
                            default=mode,
                            help='Specify mode (keyboard/gamepad/sample/art/train/predict/train_sample/predict_sample/train_sample2/predict_sample2) if necessary')
+    argparser.add_argument('--nextShapeMode', type=str,
+                           default=nextShapeMode,
+                           help='Specify nextShapeMode (default/hate) if necessary')
     argparser.add_argument('-r', '--random_seed', type=int,
                            default=random_seed,
                            help='Specify random seed if necessary') 
@@ -60,6 +63,7 @@ def start():
     GAME_LEVEL = 1
     GAME_TIME = 180
     IS_MODE = "default"
+    IS_NEXTSHAPEMODE = "default"
     IS_SAMPLE_CONTROLL = "n"
     INPUT_RANDOM_SEED = -1
     INPUT_DROP_INTERVAL = -1
@@ -76,6 +80,7 @@ def start():
     args = get_option(GAME_LEVEL,
                       GAME_TIME,
                       IS_MODE,
+                      IS_NEXTSHAPEMODE,
                       INPUT_RANDOM_SEED,
                       INPUT_DROP_INTERVAL,
                       RESULT_LOG_JSON,
@@ -91,6 +96,8 @@ def start():
         GAME_TIME = args.game_time
     if args.mode in ("keyboard", "gamepad", "sample", "art", "train", "predict", "train_sample", "predict_sample", "train_sample2", "predict_sample2"):
         IS_MODE = args.mode
+    if args.nextShapeMode in ("default", "hate"):
+        IS_NEXTSHAPEMODE = args.nextShapeMode
     if args.random_seed >= 0:
         INPUT_RANDOM_SEED = args.random_seed
     if args.drop_interval > 0:
@@ -142,12 +149,16 @@ def start():
     ## update drop interval
     if INPUT_DROP_INTERVAL > 0:
         DROP_INTERVAL = INPUT_DROP_INTERVAL
+    ## hate mode parameter
+    if IS_NEXTSHAPEMODE == "hate":
+        SHAPE_LIST_MAX = 2
 
     ## print
     print('game_level: ' + str(GAME_LEVEL))
     print('game_time: ' + str(GAME_TIME))
     print('RANDOM_SEED: ' + str(RANDOM_SEED))
     print('IS_MODE :' + str(IS_MODE))
+    print('IS_NEXTSHAPEMODE :' + str(IS_NEXTSHAPEMODE))
     print('OBSTACLE_HEIGHT: ' + str(OBSTACLE_HEIGHT))
     print('OBSTACLE_PROBABILITY: ' + str(OBSTACLE_PROBABILITY))
     print('USER_NAME: ' + str(USER_NAME))
@@ -167,6 +178,7 @@ def start():
         + ' ' + '--obstacle_probability' + ' ' + str(OBSTACLE_PROBABILITY) \
         + ' ' + '--drop_interval' + ' ' + str(DROP_INTERVAL) \
         + ' ' + '--mode' + ' ' + str(IS_MODE) \
+        + ' ' + '--nextShapeMode' + ' ' + str(IS_NEXTSHAPEMODE) \
         + ' ' + '--user_name' + ' ' + str(USER_NAME) \
         + ' ' + '--resultlogjson' + ' ' + str(RESULT_LOG_JSON) \
         + ' ' + '--train_yaml' + ' ' + str(TRAIN_YAML) \

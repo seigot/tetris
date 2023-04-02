@@ -18,7 +18,7 @@ import pprint
 ################################
 # Option 取得
 ###############################
-def get_option(game_time, mode, drop_interval, random_seed, obstacle_height, obstacle_probability, resultlogjson, train_yaml, predict_weight, user_name, ShapeListMax, BlockNumMax, art_config_filepath):
+def get_option(game_time, mode, nextShapeMode, drop_interval, random_seed, obstacle_height, obstacle_probability, resultlogjson, train_yaml, predict_weight, user_name, ShapeListMax, BlockNumMax, art_config_filepath):
     argparser = ArgumentParser()
     argparser.add_argument('--game_time', type=int,
                            default=game_time,
@@ -26,6 +26,9 @@ def get_option(game_time, mode, drop_interval, random_seed, obstacle_height, obs
     argparser.add_argument('--mode', type=str,
                            default=mode,
                            help='Specify mode (keyboard/gamepad/sample/train/art) if necessary')
+    argparser.add_argument('--nextShapeMode', type=str,
+                           default=nextShapeMode,
+                           help='Specify nextShapeMode (default/hate) if necessary')
     argparser.add_argument('--drop_interval', type=int,
                            default=drop_interval,
                            help='Specify drop_interval(s)')
@@ -89,6 +92,7 @@ class Game_Manager(QMainWindow):
         self.game_time = -1
         self.block_index = 0
         self.mode = "default"
+        self.nextShapeMode = "default"
         self.drop_interval = 1000
         self.random_seed = time.time() * 10000000 # 0
         self.obstacle_height = 0
@@ -103,6 +107,7 @@ class Game_Manager(QMainWindow):
         
         args = get_option(self.game_time,
                           self.mode,
+                          self.nextShapeMode,
                           self.drop_interval,
                           self.random_seed,
                           self.obstacle_height,
@@ -118,6 +123,8 @@ class Game_Manager(QMainWindow):
             self.game_time = args.game_time
         if args.mode in ("keyboard", "gamepad", "sample", "art", "train", "predict", "train_sample", "predict_sample", "train_sample2", "predict_sample2"):
             self.mode = args.mode
+        if args.nextShapeMode in ("default", "hate"):
+            self.nextShapeMode = args.nextShapeMode
         if args.drop_interval >= 0:
             self.drop_interval = args.drop_interval
         if args.seed >= 0:
@@ -164,6 +171,7 @@ class Game_Manager(QMainWindow):
         random_seed_Nextshape = self.random_seed
         self.tboard = Board(self, self.gridSize,
                             self.game_time,
+                            self.nextShapeMode,
                             random_seed_Nextshape,
                             self.obstacle_height,
                             self.obstacle_probability,
@@ -910,17 +918,17 @@ class Board(QFrame):
     ###############################################
     # 初期化
     ###############################################
-    def __init__(self, parent, gridSize, game_time, random_seed, obstacle_height, obstacle_probability, ShapeListMax, art_config_filepath):
+    def __init__(self, parent, gridSize, game_time, nextShapeMode, random_seed, obstacle_height, obstacle_probability, ShapeListMax, art_config_filepath):
         super().__init__(parent)
         self.setFixedSize(gridSize * BOARD_DATA.width, gridSize * BOARD_DATA.height)
         self.gridSize = gridSize
         self.game_time = game_time
-        self.initBoard(random_seed, obstacle_height, obstacle_probability, ShapeListMax, art_config_filepath)
+        self.initBoard(nextShapeMode, random_seed, obstacle_height, obstacle_probability, ShapeListMax, art_config_filepath)
 
     ###############################################
     # 画面ボード初期化
     ###############################################
-    def initBoard(self, random_seed_Nextshape, obstacle_height, obstacle_probability, ShapeListMax, art_config_filepath):
+    def initBoard(self, nextShapeMode, random_seed_Nextshape, obstacle_height, obstacle_probability, ShapeListMax, art_config_filepath):
         self.score = 0
         self.dropdownscore = 0
         self.linescore = 0
@@ -932,7 +940,7 @@ class Board(QFrame):
         BOARD_DATA.clear()
         BOARD_DATA.init_randomseed(random_seed_Nextshape)
         BOARD_DATA.init_obstacle_parameter(obstacle_height, obstacle_probability)
-        BOARD_DATA.init_shape_parameter(ShapeListMax)
+        BOARD_DATA.init_shape_parameter(ShapeListMax, nextShapeMode)
         BOARD_DATA.init_art_config(art_config_filepath)
 
     ###############################################

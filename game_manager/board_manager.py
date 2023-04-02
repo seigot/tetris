@@ -146,6 +146,7 @@ class BoardData(object):
         self.nextShapeIndexCnt = 0
         self.nextShapeIndexList = [1,2,3,4,5,6,7]
         self.nextShapeIndexListDXY = [[0,0,1] for _ in range(len(self.nextShapeIndexList))] # for art DXY config data
+        self.nextShapeMode = "default"
         self.colorTable = [0x000000, 0xCC6666, 0x66CC66, 0x6666CC,
                            0xCCCC66, 0xCC66CC, 0x66CCCC, 0xDAAA00]
         self.tryMoveNextCnt = 0
@@ -169,8 +170,9 @@ class BoardData(object):
     #######################################
     ## テトリミノ形状初期化
     #######################################
-    def init_shape_parameter(self, ShapeListMax):
+    def init_shape_parameter(self, ShapeListMax, nextShapeMode):
         self.ShapeListMax = ShapeListMax
+        self.nextShapeMode = nextShapeMode
 
     #######################################
     ## 障害ブロック初期化
@@ -330,6 +332,21 @@ class BoardData(object):
         minX, maxX, minY, maxY = self.nextShape.getBoundingOffsets(0)
         result = False
 
+        # nextShapeMode == "hate" mode
+        if self.nextShapeMode == "hate":
+            self.currentX = 5
+            self.currentY = -minY
+            self.currentDirection = 0
+            # get nextShape
+            self.ShapeList.pop(0)
+            self.ShapeList.append(Shape(self.getNewShapeIndexForHateMode()))
+            self.currentShape = self.ShapeList[1]
+            self.nextShape = self.ShapeList[1]
+            result = True
+            self.shape_info_stat[self.currentShape.shape] += 1
+            return result
+
+        # nextShapeMode == "default" mode
         # check if nextShape can appear
         if self.tryMoveNext(0, 5, -minY):
             self.currentX = 5
@@ -567,5 +584,155 @@ class BoardData(object):
                 tmp_num = np_randomObstacle.random.randint(1, 100)
                 if tmp_num <= obstacle_probability:
                     self.backBoard[x + y * BoardData.width] = np_randomObstaclePiece.random.randint(1, 8)
+
+    #################################################
+    # 次のテトリミノの取得(HateMode用)
+    #################################################
+    def getNewShapeIndexForHateMode(self):
+        # テトリミノの現状形状取得
+
+        LatestHateEvalValue = 100000000
+        for ShapeIndex in range(1,8):
+            LatestEvalValue = 0
+            Shape_class = Shape(ShapeIndex)
+            _, _, CurrentShapeDirectionRange = self.getShapeDataFromShapeClass(Shape_class)
+            # search with current block Shape
+            for direction0 in CurrentShapeDirectionRange:
+                # search with x range
+                x0Min, x0Max = self.getSearchXRange(Shape_class, direction0)
+                for x0 in range(x0Min, x0Max):
+                    # get board data, as if dropdown block
+                    board = self.getBoard(self.backBoard, Shape_class, direction0, x0)
+                    EvalValue = self.calcEvaluationValueSample(board)
+                    if EvalValue > LatestEvalValue:
+                        strategy = (direction0, x0, 1, 1)
+                        LatestEvalValue = EvalValue
+            # save worst shape
+            if LatestEvalValue < LatestHateEvalValue:
+                HateShapeIndex = Shape_class.shape
+                LatestHateEvalValue = LatestEvalValue
+        return HateShapeIndex
+
+    def getSearchXRange(self, Shape_class, direction):
+        # get x range from shape direction.
+        width = self.width
+        minX, maxX, _, _ = Shape_class.getBoundingOffsets(direction) # get shape x offsets[minX,maxX] as relative value.
+        xMin = -1 * minX
+        xMax = width - maxX
+        return xMin, xMax
+
+    def getShapeCoordArray(self, Shape_class, direction, x, y):
+        # get coordinate array by given shape.
+        coordArray = Shape_class.getCoords(direction, x, y) # get array from shape direction, x, y.
+        return coordArray
+
+    def getBoard(self, board_backboard, Shape_class, direction, x):
+        # get new board.
+        # copy backboard data to make new board.
+        # if not, original backboard data will be updated later.
+        board = copy.deepcopy(board_backboard)
+        return self.dropDownOnBoard(board, Shape_class, direction, x)
+
+    def dropDownOnBoard(self, board, Shape_class, direction, x):
+        # internal function of getBoard.
+        # -- drop down the shape on the board.
+        width = self.width
+        height = self.height
+        dy = 22 - 1
+        coordArray = self.getShapeCoordArray(Shape_class, direction, x, 0)
+        # update dy
+        for _x, _y in coordArray:
+            _yy = 0
+            while _yy + _y < height and (_yy + _y < 0 or board[(_y + _yy) * width + _x] == 0):
+                _yy += 1
+            _yy -= 1
+            if _yy < dy:
+                dy = _yy
+        # get new board
+        _board = self.dropDownWithDy(board, Shape_class, direction, x, dy)
+        return _board
+
+    def dropDownWithDy(self, board, Shape_class, direction, x, dy):
+        # internal function of dropDown.
+        width = self.width
+        _board = board
+        coordArray = self.getShapeCoordArray(Shape_class, direction, x, 0)
+        for _x, _y in coordArray:
+            _board[(_y + dy) * width + _x] = Shape_class.shape
+        return _board
+
+    def calcEvaluationValueSample(self, board):
+        # sample function of evaluate board.
+        width = self.width
+        height = self.height
+
+        # evaluation paramters
+        ## lines to be removed
+        fullLines = 0
+        ## number of holes or blocks in the line.
+        nHoles, nIsolatedBlocks = 0, 0
+        ## absolute differencial value of MaxY
+        absDy = 0
+        ## how blocks are accumlated
+        BlockMaxY = [0] * width
+        holeCandidates = [0] * width
+        holeConfirm = [0] * width
+
+        ### check board
+        # each y line
+        for y in range(height - 1, 0, -1):
+            hasHole = False
+            hasBlock = False
+            # each x line
+            for x in range(width):
+                ## check if hole or block..
+                if board[y * self.width + x] == 0:
+                    # hole
+                    hasHole = True
+                    holeCandidates[x] += 1  # just candidates in each column..
+                else:
+                    # block
+                    hasBlock = True
+                    BlockMaxY[x] = height - y                # update blockMaxY
+                    if holeCandidates[x] > 0:
+                        holeConfirm[x] += holeCandidates[x]  # update number of holes in target column..
+                        holeCandidates[x] = 0                # reset
+                    if holeConfirm[x] > 0:
+                        nIsolatedBlocks += 1                 # update number of isolated blocks
+
+            if hasBlock == True and hasHole == False:
+                # filled with block
+                fullLines += 1
+            elif hasBlock == True and hasHole == True:
+                # do nothing
+                pass
+            elif hasBlock == False:
+                # no block line (and ofcourse no hole)
+                pass
+
+        # nHoles
+        for x in holeConfirm:
+            nHoles += abs(x)
+
+        ### absolute differencial value of MaxY
+        BlockMaxDy = []
+        for i in range(len(BlockMaxY) - 1):
+            val = BlockMaxY[i] - BlockMaxY[i+1]
+            BlockMaxDy += [val]
+        for x in BlockMaxDy:
+            absDy += abs(x)
+
+        #### maxDy
+        maxDy = max(BlockMaxY) - min(BlockMaxY)
+        #### maxHeight
+        maxHeight = max(BlockMaxY) - fullLines
+
+        # calc Evaluation Value
+        score = 0
+        score = score + fullLines * 100.0            # try to delete line 
+        score = score - nHoles * 1.0                 # try not to make hole
+        score = score - nIsolatedBlocks * 1.0        # try not to make isolated block
+        score = score - maxHeight * 1                # maxHeight
+        return score
 
 BOARD_DATA = BoardData()
