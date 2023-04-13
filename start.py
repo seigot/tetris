@@ -187,10 +187,9 @@ def start():
         + ' ' + '--BlockNumMax' + ' ' + str(BLOCK_NUM_MAX) \
         + ' ' + '--art_config_filepath' + ' ' + str(ART_CONFIG)
 
-    ret = subprocess.run(cmd, shell=True)
+    ret = subprocess.run(cmd, shell=True, capture_output=True, text=True)
     if ret.returncode != 0:
-        print('error: subprocess failed.', file=sys.stderr)
-        sys.exit(1)
+        raise Exception(ret.stderr)
     #p = subprocess.Popen(cmd, shell=True)
     #try:
     #    p.wait()
