@@ -321,31 +321,19 @@ class Block_Controller(object):
         ####################
         # 推論の場合 推論ウェイトを torch　で読み込み model に入れる。
         if self.mode=="predict" or self.mode=="predict_sample":
-            if not predict_weight=="None":
-                if os.path.exists(predict_weight):
-                    print("Load {}...".format(predict_weight))
-                    # 推論インスタンス作成
-                    self.model = torch.load(predict_weight)
-                    # インスタンスを推論モードに切り替え
-                    self.model.eval()    
-                else:
-                    print("{} is not existed!!".format(predict_weight))
-                    exit()
-            else:
-                print("Please set predict_weight!!")
-                exit()
+            print("Load {}...".format(predict_weight))
+            # 推論インスタンス作成
+            self.model = torch.load(predict_weight)
+            # インスタンスを推論モードに切り替え
+            self.model.eval()
 
             ## 第2 model
             if self.weight2_available and (not predict_weight2=="None"):
-                if os.path.exists(predict_weight2):
-                    print("Load2 {}...".format(predict_weight2))
-                    # 推論インスタンス作成
-                    self.model2 = torch.load(predict_weight2)
-                    # インスタンスを推論モードに切り替え
-                    self.model2.eval()    
-                else:
-                    print("{} is not existed!!(predict 2)".format(predict_weight))
-                    exit()
+                print("Load2 {}...".format(predict_weight2))
+                # 推論インスタンス作成
+                self.model2 = torch.load(predict_weight2)
+                # インスタンスを推論モードに切り替え
+                self.model2.eval()
 
         ####################
         #### finetune の場合

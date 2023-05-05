@@ -105,17 +105,9 @@ class Block_Controller(object):
             self.reward_weight = cfg["train"]["reward_weight"]
 
         if self.mode=="predict" or self.mode=="predict_sample":
-            if not predict_weight=="None":
-                if os.path.exists(predict_weight):
-                    print("Load {}...".format(predict_weight))
-                    self.model = torch.load(predict_weight)
-                    self.model.eval()    
-                else:
-                    print("{} is not existed!!".format(predict_weight))
-                    exit()
-            else:
-                print("Please set predict_weight!!")
-                exit()
+            print("Load {}...".format(predict_weight))
+            self.model = torch.load(predict_weight)
+            self.model.eval()
         elif cfg["model"]["finetune"]:
             self.ft_weight = cfg["common"]["ft_weight"]
             if not self.ft_weight is None:
