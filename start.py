@@ -187,7 +187,7 @@ def start():
         + ' ' + '--BlockNumMax' + ' ' + str(BLOCK_NUM_MAX) \
         + ' ' + '--art_config_filepath' + ' ' + str(ART_CONFIG)
 
-    ret = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+    ret = subprocess.run(cmd, shell=True, stderr=subprocess.PIPE, text=True)
     if ret.returncode != 0:
         raise Exception(ret.stderr)
     #p = subprocess.Popen(cmd, shell=True)
