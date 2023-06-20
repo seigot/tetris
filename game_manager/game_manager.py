@@ -1002,7 +1002,7 @@ class Board(QFrame):
         font.setPixelSize(30);
         painter.setFont(font);
 
-        # Draw removed_line/hold/all_block_clear
+        # Draw removed_line/LEN/hold/all_block_clear
         blank_text = "              "
         text = blank_text
         # removed_line
@@ -1010,14 +1010,22 @@ class Board(QFrame):
             val = self.line_score_stat_len[i]
             if val != 0:
                 text = str(i+1) + 'LINE !!'
-                text += '(' + str(val) + 'LEN)' 
+                linen = "line" + str(i+1)
+                text += '+' + str(GAME_MANEGER.getGameStatus()["debug_info"]["line_score"][linen])
                 break
         painter.drawText(10, 120, text);
-        # hold
+        # LEN
+        text = blank_text
+        for i in range(4):
+            val = self.line_score_stat_len[i]
+            if val > 1:
+                text = str(val) + 'LEN!!'
+        painter.drawText(65, 155, text);
+        # Hold
         text = blank_text
         if self.hold_isdone == True:
             text = 'HOLD !!'
-        painter.drawText(65, 155, text);
+        painter.drawText(65, 190, text);
         # all_block_clear
         text = blank_text
         if self.allblockclear_isdone == True:
