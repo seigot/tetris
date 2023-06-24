@@ -4,7 +4,7 @@
 import sys
 from PyQt5.QtWidgets import QMainWindow, QFrame, QDesktopWidget, QApplication, QHBoxLayout, QLabel
 from PyQt5.QtCore import Qt, QBasicTimer, pyqtSignal
-from PyQt5.QtGui import QPainter, QColor
+from PyQt5.QtGui import QPainter, QColor, QFont
 
 from board_manager import BOARD_DATA, Shape
 from block_controller import BLOCK_CONTROLLER
@@ -78,6 +78,7 @@ class Game_Manager(QMainWindow):
     LINE_SCORE_3 = 700
     LINE_SCORE_4 = 1300
     GAMEOVER_SCORE = -500
+    ALL_BLOCK_CLEAR_SCORE = 0  # need to tuning
 
     ###############################################
     # 初期化
@@ -264,6 +265,7 @@ class Game_Manager(QMainWindow):
         self.tboard.linescore = 0
         self.tboard.line = 0
         self.tboard.line_score_stat = [0, 0, 0, 0]
+        self.tboard.line_score_stat_len = [0, 0, 0, 0]
         self.tboard.start_time = time.time()
         ##画面ボードと現テトリミノ情報をクリア
         BOARD_DATA.clear()
@@ -373,7 +375,9 @@ class Game_Manager(QMainWindow):
                 use_hold_function = self.nextMove["strategy"]["use_hold_function"]
 
                 # if use_hold_function
+                self.tboard.hold_isdone = False
                 if use_hold_function == "y":
+                    self.tboard.hold_isdone = True
                     isExchangeHoldShape = BOARD_DATA.exchangeholdShape()
                     if isExchangeHoldShape == False:
                         # if isExchangeHoldShape is False, this means no holdshape exists. 
@@ -482,6 +486,19 @@ class Game_Manager(QMainWindow):
         # 同時消去数をカウント
         if removedlines > 0:
             self.tboard.line_score_stat[removedlines - 1] += 1
+            self.tboard.line_score_stat_len[removedlines - 1] += 1
+        else:
+            # 連続して消去していない場合の初期化
+            self.tboard.line_score_stat_len = [0, 0, 0, 0]
+        # perfect clear判定
+        self.tboard.allblockclear_isdone = False
+        if removedlines > 0:
+            width = BOARD_DATA.width
+            height = BOARD_DATA.height
+            data = BOARD_DATA.getData()
+            if data.count(0) == width*height:
+                self.tboard.allblockclear_isdone = True
+                self.tboard.score += Game_Manager.ALL_BLOCK_CLEAR_SCORE
 
     ###############################################
     # ゲーム情報の取得
@@ -576,6 +593,7 @@ class Game_Manager(QMainWindow):
                           },
                         },
                         "line_score_stat":"none",
+                        "line_score_stat_len":"none",
                         "shape_info_stat":"none",
                         "random_seed":"none",
                         "obstacle_height":"none",
@@ -630,7 +648,10 @@ class Game_Manager(QMainWindow):
         status["debug_info"]["dropdownscore"] = self.tboard.dropdownscore
         status["debug_info"]["linescore"] = self.tboard.linescore
         status["debug_info"]["line_score_stat"] = self.tboard.line_score_stat
+        status["debug_info"]["line_score_stat_len"] = self.tboard.line_score_stat_len
         status["debug_info"]["shape_info_stat"] = BOARD_DATA.shape_info_stat
+        status["debug_info"]["hold_isdone"] = self.tboard.hold_isdone
+        status["debug_info"]["allblockclear_isdone"] = self.tboard.allblockclear_isdone
         status["debug_info"]["line_score"]["line1"] = Game_Manager.LINE_SCORE_1
         status["debug_info"]["line_score"]["line2"] = Game_Manager.LINE_SCORE_2
         status["debug_info"]["line_score"]["line3"] = Game_Manager.LINE_SCORE_3
@@ -705,7 +726,10 @@ class Game_Manager(QMainWindow):
                           },
                         },
                         "line_score_stat":"none",
+                        "line_score_stat_len":"none",
                         "shape_info_stat":"none",
+                        "hold_isdone":"none",
+                        "allblockclear_isdone":"none",
                         "random_seed":"none",
                         "obstacle_height":"none",
                         "obstacle_probability":"none",
@@ -725,7 +749,10 @@ class Game_Manager(QMainWindow):
         # update status
         ## debug_info
         status["debug_info"]["line_score_stat"] = self.tboard.line_score_stat
+        status["debug_info"]["line_score_stat_len"] = self.tboard.line_score_stat_len
         status["debug_info"]["shape_info_stat"] = BOARD_DATA.shape_info_stat
+        status["debug_info"]["hold_isdone"] = self.tboard.hold_isdone
+        status["debug_info"]["allblockclear_isdone"] = self.tboard.allblockclear_isdone
         status["debug_info"]["line_score"]["line1"] = Game_Manager.LINE_SCORE_1
         status["debug_info"]["line_score"]["line2"] = Game_Manager.LINE_SCORE_2
         status["debug_info"]["line_score"]["line3"] = Game_Manager.LINE_SCORE_3
@@ -802,6 +829,8 @@ class Game_Manager(QMainWindow):
             # 消去ライン数と落下数によりスコア計算
             self.UpdateScore(removedlines, dropdownlines)
         elif key == Qt.Key_C:
+            print("cc!!")
+            self.tboard.hold_isdone = True
             BOARD_DATA.exchangeholdShape()
         else:
             # スタート前はキーキャプチャしない
@@ -896,6 +925,7 @@ class SidePanel(QFrame):
         painter.drawLine(0, height_offset,
                          self.width(), height_offset)
         painter.drawText(0, self.height(), 'HOLD');
+        # draw
         holdShapeClass, holdShapeIdx, holdShapeRange = BOARD_DATA.getholdShapeData()
         if holdShapeClass != None:
             # if holdShape exists, try to draw
@@ -934,6 +964,9 @@ class Board(QFrame):
         self.linescore = 0
         self.line = 0
         self.line_score_stat = [0, 0, 0, 0]
+        self.line_score_stat_len = [0, 0, 0, 0]
+        self.hold_isdone = False
+        self.allblockclear_isdone = False
         self.reset_cnt = 0
         self.start_time = time.time() 
         ##画面ボードと現テトリミノ情報をクリア
@@ -965,6 +998,41 @@ class Board(QFrame):
         painter.drawLine(self.width()-1, 0, self.width()-1, self.height())
         painter.setPen(QColor(0xCCCCCC))
         painter.drawLine(self.width(), 0, self.width(), self.height())
+        # Draw text
+        painter.setPen(QColor(0x777777))
+        font = painter.font();
+        font.setPixelSize(30);
+        painter.setFont(font);
+
+        # Draw removed_line/LEN/hold/all_block_clear
+        blank_text = "              "
+        text = blank_text
+        # removed_line
+        for i in range(4):
+            val = self.line_score_stat_len[i]
+            if val != 0:
+                text = str(i+1) + 'LINE !!'
+                linen = "line" + str(i+1)
+                text += '+' + str(GAME_MANEGER.getGameStatus()["debug_info"]["line_score"][linen])
+                break
+        painter.drawText(10, 120, text);
+        # LEN
+        text = blank_text
+        for i in range(4):
+            val = self.line_score_stat_len[i]
+            if val > 1:
+                text = str(val) + 'LEN!!'
+        painter.drawText(65, 155, text);
+        # Hold
+        text = blank_text
+        if self.hold_isdone == True:
+            text = 'HOLD !!'
+        painter.drawText(65, 190, text);
+        # all_block_clear
+        text = blank_text
+        if self.allblockclear_isdone == True:
+            text = 'All Block Clear !!'
+        painter.drawText(10, 190, text);
 
     ###############################################
     # ログファイル出力
