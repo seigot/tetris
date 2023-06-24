@@ -78,6 +78,7 @@ class Game_Manager(QMainWindow):
     LINE_SCORE_3 = 700
     LINE_SCORE_4 = 1300
     GAMEOVER_SCORE = -500
+    ALL_BLOCK_CLEAR_SCORE = 0  # need to tuning
 
     ###############################################
     # 初期化
@@ -497,6 +498,7 @@ class Game_Manager(QMainWindow):
             data = BOARD_DATA.getData()
             if data.count(0) == width*height:
                 self.tboard.allblockclear_isdone = True
+                self.tboard.score += Game_Manager.ALL_BLOCK_CLEAR_SCORE
 
     ###############################################
     # ゲーム情報の取得
