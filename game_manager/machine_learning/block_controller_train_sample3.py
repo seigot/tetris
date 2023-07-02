@@ -2046,4 +2046,4 @@ class Block_Controller(object):
             #center_x, center_y の 画面ボードにブロックを配置して、その画面ボードデータを返す
             _board[(_y + center_y) * self.board_data_width + _x] = Shape_class.shape
         return _board
-BLOCK_CONTROLLER_TRAIN = Block_Controller()
+BLOCK_CONTROLLER_TRAIN_SAMPLE3 = Block_Controller()
