@@ -121,6 +121,7 @@ def start():
     RANDOM_SEED = 0            # random seed for field
     OBSTACLE_HEIGHT = 0        # obstacle height (blocks)
     OBSTACLE_PROBABILITY = 0   # obstacle probability (percent)
+    ALL_BLOCK_CLEAR_SCORE = 0  # all block clear score (score point)
 
     ## update field parameter level
     if GAME_LEVEL == 0:   # level0
@@ -136,6 +137,7 @@ def start():
         BLOCK_NUM_MAX = 180
         OBSTACLE_HEIGHT = 10
         OBSTACLE_PROBABILITY = 40
+        ALL_BLOCK_CLEAR_SCORE = 4000
         if GAME_LEVEL == 4:
             BLOCK_NUM_MAX = -1
             DROP_INTERVAL=1
@@ -161,6 +163,7 @@ def start():
     print('IS_NEXTSHAPEMODE :' + str(IS_NEXTSHAPEMODE))
     print('OBSTACLE_HEIGHT: ' + str(OBSTACLE_HEIGHT))
     print('OBSTACLE_PROBABILITY: ' + str(OBSTACLE_PROBABILITY))
+    print('ALL_BLOCK_CLEAR_SCORE: ' + str(ALL_BLOCK_CLEAR_SCORE))
     print('USER_NAME: ' + str(USER_NAME))
     print('SHAPE_LIST_MAX: ' + str(SHAPE_LIST_MAX))
     print('BLOCK_NUM_MAX: ' + str(BLOCK_NUM_MAX))
@@ -176,6 +179,7 @@ def start():
         + ' ' + '--seed' + ' ' + str(RANDOM_SEED) \
         + ' ' + '--obstacle_height' + ' ' + str(OBSTACLE_HEIGHT) \
         + ' ' + '--obstacle_probability' + ' ' + str(OBSTACLE_PROBABILITY) \
+        + ' ' + '--all_block_clear_score' + ' ' + str(ALL_BLOCK_CLEAR_SCORE) \
         + ' ' + '--drop_interval' + ' ' + str(DROP_INTERVAL) \
         + ' ' + '--mode' + ' ' + str(IS_MODE) \
         + ' ' + '--nextShapeMode' + ' ' + str(IS_NEXTSHAPEMODE) \

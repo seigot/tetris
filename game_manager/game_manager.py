@@ -18,7 +18,7 @@ import pprint
 ################################
 # Option 取得
 ###############################
-def get_option(game_time, mode, nextShapeMode, drop_interval, random_seed, obstacle_height, obstacle_probability, resultlogjson, train_yaml, predict_weight, user_name, ShapeListMax, BlockNumMax, art_config_filepath):
+def get_option(game_time, mode, nextShapeMode, drop_interval, random_seed, obstacle_height, obstacle_probability, all_block_clear_score, resultlogjson, train_yaml, predict_weight, user_name, ShapeListMax, BlockNumMax, art_config_filepath):
     argparser = ArgumentParser()
     argparser.add_argument('--game_time', type=int,
                            default=game_time,
@@ -41,6 +41,9 @@ def get_option(game_time, mode, nextShapeMode, drop_interval, random_seed, obsta
     argparser.add_argument('--obstacle_probability', type=int,
                            default=obstacle_probability,
                            help='Specify obstacle probability')
+    argparser.add_argument('--all_block_clear_score', type=int,
+                           default=all_block_clear_score,
+                           help='Specify all_block_clear_score')
     argparser.add_argument('--resultlogjson', type=str,
                            default=resultlogjson,
                            help='result json log file path')
@@ -78,7 +81,7 @@ class Game_Manager(QMainWindow):
     LINE_SCORE_3 = 700
     LINE_SCORE_4 = 1300
     GAMEOVER_SCORE = -500
-    ALL_BLOCK_CLEAR_SCORE = 0  # need to tuning
+    ALL_BLOCK_CLEAR_SCORE = 0 # specified by execute option
 
     ###############################################
     # 初期化
@@ -113,6 +116,7 @@ class Game_Manager(QMainWindow):
                           self.random_seed,
                           self.obstacle_height,
                           self.obstacle_probability,
+                          self.ALL_BLOCK_CLEAR_SCORE,
                           self.resultlogjson,
                           self.train_yaml,
                           self.predict_weight,
@@ -134,6 +138,8 @@ class Game_Manager(QMainWindow):
             self.obstacle_height = args.obstacle_height
         if args.obstacle_probability >= 0:
             self.obstacle_probability = args.obstacle_probability
+        if args.all_block_clear_score != 0:
+            self.ALL_BLOCK_CLEAR_SCORE = args.all_block_clear_score
         if len(args.resultlogjson) != 0:
             self.resultlogjson = args.resultlogjson
         if len(args.user_name) != 0:
@@ -498,7 +504,8 @@ class Game_Manager(QMainWindow):
             data = BOARD_DATA.getData()
             if data.count(0) == width*height:
                 self.tboard.allblockclear_isdone = True
-                self.tboard.score += Game_Manager.ALL_BLOCK_CLEAR_SCORE
+                self.tboard.score += self.ALL_BLOCK_CLEAR_SCORE
+                self.tboard.all_block_clear_cnt += 1
 
     ###############################################
     # ゲーム情報の取得
@@ -541,6 +548,7 @@ class Game_Manager(QMainWindow):
                         "elapsed_time":"none",
                         "game_time":"none",
                         "gameover_count":"none",
+                        "all_block_clear_count":"none",
                         "score":"none",
                         "line":"none",
                         "block_index":"none",
@@ -557,6 +565,7 @@ class Game_Manager(QMainWindow):
                           "line3":"none",
                           "line4":"none",
                           "gameover":"none",
+                          "all_block_clear":"none",
                         },
                         "shape_info": {
                           "shapeNone": {
@@ -639,6 +648,7 @@ class Game_Manager(QMainWindow):
         status["judge_info"]["elapsed_time"] = round(time.time() - self.tboard.start_time, 3)
         status["judge_info"]["game_time"] = self.game_time
         status["judge_info"]["gameover_count"] = self.tboard.reset_cnt
+        status["judge_info"]["all_block_clear_count"] = self.tboard.all_block_clear_cnt
         status["judge_info"]["score"] = self.tboard.score
         status["judge_info"]["line"] = self.tboard.line
         status["judge_info"]["block_index"] = self.block_index
@@ -657,6 +667,7 @@ class Game_Manager(QMainWindow):
         status["debug_info"]["line_score"]["line3"] = Game_Manager.LINE_SCORE_3
         status["debug_info"]["line_score"]["line4"] = Game_Manager.LINE_SCORE_4
         status["debug_info"]["line_score"]["gameover"] = Game_Manager.GAMEOVER_SCORE
+        status["debug_info"]["line_score"]["all_block_clear"] = self.ALL_BLOCK_CLEAR_SCORE
         status["debug_info"]["shape_info"]["shapeNone"]["index"] = Shape.shapeNone
         status["debug_info"]["shape_info"]["shapeI"]["index"] = Shape.shapeI
         status["debug_info"]["shape_info"]["shapeI"]["color"] = "red"
@@ -690,6 +701,7 @@ class Game_Manager(QMainWindow):
                           "line3":"none",
                           "line4":"none",
                           "gameover":"none",
+                          "all_block_clear":"none",
                         },
                         "shape_info": {
                           "shapeNone": {
@@ -739,6 +751,7 @@ class Game_Manager(QMainWindow):
                         "elapsed_time":"none",
                         "game_time":"none",
                         "gameover_count":"none",
+                        "all_block_clear_count":"none",
                         "score":"none",
                         "line":"none",
                         "block_index":"none",
@@ -758,6 +771,7 @@ class Game_Manager(QMainWindow):
         status["debug_info"]["line_score"]["line3"] = Game_Manager.LINE_SCORE_3
         status["debug_info"]["line_score"]["line4"] = Game_Manager.LINE_SCORE_4
         status["debug_info"]["line_score"]["gameover"] = Game_Manager.GAMEOVER_SCORE
+        status["debug_info"]["line_score"]["all_block_clear"] = self.ALL_BLOCK_CLEAR_SCORE
         status["debug_info"]["shape_info"]["shapeNone"]["index"] = Shape.shapeNone
         status["debug_info"]["shape_info"]["shapeI"]["index"] = Shape.shapeI
         status["debug_info"]["shape_info"]["shapeI"]["color"] = "red"
@@ -780,6 +794,7 @@ class Game_Manager(QMainWindow):
         status["judge_info"]["elapsed_time"] = round(time.time() - self.tboard.start_time, 3)
         status["judge_info"]["game_time"] = self.game_time
         status["judge_info"]["gameover_count"] = self.tboard.reset_cnt
+        status["judge_info"]["all_block_clear_count"] = self.tboard.all_block_clear_cnt
         status["judge_info"]["score"] = self.tboard.score
         status["judge_info"]["line"] = self.tboard.line
         status["judge_info"]["block_index"] = self.block_index
@@ -967,6 +982,7 @@ class Board(QFrame):
         self.line_score_stat_len = [0, 0, 0, 0]
         self.hold_isdone = False
         self.allblockclear_isdone = False
+        self.all_block_clear_cnt = 0
         self.reset_cnt = 0
         self.start_time = time.time() 
         ##画面ボードと現テトリミノ情報をクリア
@@ -1087,6 +1103,7 @@ class Board(QFrame):
             line_score_stat = GameStatus["debug_info"]["line_score_stat"]
             line_Score = GameStatus["debug_info"]["line_score"]
             gameover_count = GameStatus["judge_info"]["gameover_count"]
+            all_block_clear_count = GameStatus["judge_info"]["all_block_clear_count"]
             score = GameStatus["judge_info"]["score"]
             dropdownscore = GameStatus["debug_info"]["dropdownscore"]
             print("  1 line: " + str(line_Score["line1"]) + " * " + str(line_score_stat[0]) + " = " + str(line_Score["line1"] * line_score_stat[0]))
@@ -1095,6 +1112,7 @@ class Board(QFrame):
             print("  4 line: " + str(line_Score["line4"]) + " * " + str(line_score_stat[3]) + " = " + str(line_Score["line4"] * line_score_stat[3]))
             print("  dropdownscore: " + str(dropdownscore))
             print("  gameover: : " + str(line_Score["gameover"]) + " * " + str(gameover_count) + " = " + str(line_Score["gameover"] * gameover_count))
+            print("  all_block_clear : " + str(line_Score["all_block_clear"]) + " * " + str(all_block_clear_count) + " = " + str(line_Score["all_block_clear"] * all_block_clear_count))
 
             print("##### ###### #####")
             print("")
