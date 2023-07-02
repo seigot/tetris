@@ -333,7 +333,12 @@ nextShapeIndex = np_randomShape.random.randint(1, 8)
 ### 競争要素の追加
 
 例えば、AI学習を目的としたルールのアップデート、火力ボーナス、などが該当する  
-[https://github.com/seigot/tetris/issues/67](https://github.com/seigot/tetris/issues/67)
+[issues](https://github.com/seigot/tetris/issues/67)
+
+### 学習要素の追加
+
+例えば、文法、アルゴリズム、AI要素、などが該当する  
+[issues]([https://github.com/seigot/tetris/issues/67](https://github.com/seigot/tetris/issues/120))
 
 ## LICENSE
 
