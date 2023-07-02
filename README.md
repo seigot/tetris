@@ -5,18 +5,18 @@
 - [Tetris](#tetris)
   - [実行環境準備](#%E5%AE%9F%E8%A1%8C%E7%92%B0%E5%A2%83%E6%BA%96%E5%82%99)
       - [Mac環境](#mac%E7%92%B0%E5%A2%83)
-      - [Ubuntu/JetsonNano環境](#ubuntujetsonnano%E7%92%B0%E5%A2%83)
       - [windows環境](#windows%E7%92%B0%E5%A2%83)
+      - [Ubuntu/JetsonNano環境](#ubuntujetsonnano%E7%92%B0%E5%A2%83)
       - [docker環境](#docker%E7%92%B0%E5%A2%83)
   - [実行方法](#%E5%AE%9F%E8%A1%8C%E6%96%B9%E6%B3%95)
-  - [ファイル構成](#%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E6%A7%8B%E6%88%90)
-      - [ファイル一覧](#%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E4%B8%80%E8%A6%A7)
-      - [詳細](#%E8%A9%B3%E7%B4%B0)
-  - [手動操作](#%E6%89%8B%E5%8B%95%E6%93%8D%E4%BD%9C)
-  - [スコアアタック用サンプルコード](#%E3%82%B9%E3%82%B3%E3%82%A2%E3%82%A2%E3%82%BF%E3%83%83%E3%82%AF%E7%94%A8%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AB%E3%82%B3%E3%83%BC%E3%83%89)
+      - [サンプルコード](#%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AB%E3%82%B3%E3%83%BC%E3%83%89)
+      - [手動操作](#%E6%89%8B%E5%8B%95%E6%93%8D%E4%BD%9C)
   - [Play rules](#play-rules)
     - [Score](#score)
     - [game level](#game-level)
+  - [ファイル構成](#%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E6%A7%8B%E6%88%90)
+      - [ファイル一覧](#%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E4%B8%80%E8%A6%A7)
+      - [詳細](#%E8%A9%B3%E7%B4%B0)
   - [コード作成のはじめかた](#%E3%82%B3%E3%83%BC%E3%83%89%E4%BD%9C%E6%88%90%E3%81%AE%E3%81%AF%E3%81%98%E3%82%81%E3%81%8B%E3%81%9F)
     - [本リポジトリのfork](#%E6%9C%AC%E3%83%AA%E3%83%9D%E3%82%B8%E3%83%88%E3%83%AA%E3%81%AEfork)
     - [実行](#%E5%AE%9F%E8%A1%8C)
@@ -47,28 +47,29 @@
 
 #### Mac環境
 
-Finder→Application→Utility→Terminalから、ターミナルを起動して以下コマンドを実行する。
+Finder→Application→Utility→Terminalから、ターミナルを起動して以下コマンドを実行する。  
+install成功後、[実行方法](https://github.com/seigot/tetris/tree/master#実行方法)によりゲーム開始すればOK  
 
 ```
 # install pyqt5 and NumPy
 brew install python3
-pip3 install pyqt5
-pip3 install numpy
+brew install pyqt5
+brew install numpy
 # install other packages
 brew install git
 ```
 
-[doc/files/install_mac.md](./doc/files/install_mac.md)に上記手順を記載
-
-#### Ubuntu/JetsonNano環境
-
-[doc/files/install_ubuntu.md](./doc/files/install_ubuntu.md)に手順を記載
+[doc/files/install_mac.md](./doc/files/install_mac.md)に手順を記載
 
 #### windows環境
 
 [windowsのpowershellを使ってテトリス環境を構築する場合](./doc/files/install_windows_powershell.md)の手順<br>
 [WSL(Windows Subsystem for Linux)を使う場合](./doc/files/install_windows_wsl.md)の手順<br>
 [Docker for Windowsを使う場合](./doc/files/install_windows.md)の手順<br>
+
+#### Ubuntu/JetsonNano環境
+
+[doc/files/install_ubuntu.md](./doc/files/install_ubuntu.md)に手順を記載
 
 #### docker環境
 
@@ -91,6 +92,76 @@ python start.py
 ```
 
 ![Screenshot](doc/pics/screenshot_02.png)
+
+#### サンプルコード
+
+実行時、以下のようにオプションを与えることで、スコアアタック用サンプルコードの実行が可能です。<br>
+サンプルコードの詳細は、[ブロック操作用サンプルプログラム](https://github.com/seigot/tetris/blob/master/doc/files/block_controller_sample.md)を参照下さい。<br>
+
+```shell
+python start.py -m sample
+```
+
+#### 手動操作
+
+実行時、以下のようにオプションを与えることで、手動操作が可能です。
+操作方法は、PC操作準拠とゲーム機コントローラ準拠の2種類を選択できるようにしています。
+
+|  手動操作  |  PC操作準拠  |  ゲーム機コントローラ準拠  |
+| ---- | ---- | ---- |
+|  実行コマンド  |  python start.py -m keyboard  |  python start.py -m gamepad  |
+|  *up* key  |  回転  |  落下  |
+|  *left* key  |  左に移動  |  左に移動  |
+|  *right* key   |  右に移動  |  右に移動  |
+|  *m* key  |  下に移動  |  下に移動  |
+|  *space* key  |  落下  |  回転  |
+|  *P* key  |  Pause  |  Pause  |
+|  *c* key  |  hold  |  hold  |
+
+`--nextShapeMode hate`オプション付きで実行すると[hateモード(手動操作で遊ぶ用)](https://manabitimes.jp/math/795)になります。
+
+```
+python3 start.py -m keyboard --nextShapeMode hate
+```
+
+## Play rules
+
+制限時間内の獲得スコアを評価します。
+
+### Score
+
+加点
+
+|  項目  |  得点  |  備考  |
+| ---- | ---- |  ---- |
+|  1ライン消し  |  + 100点  |  -  |
+|  2ライン消し  |  + 300点  |  -  |
+|  3ライン消し  |  + 700点  |  -  |
+|  4ライン消し  |  + 1300点  |  -  |
+|  落下ボーナス  |  + 落下したブロック数を得点に加算  |  -  |
+|  全消しボーナス  |  + 全消し時に得点  |  -  |
+
+減点
+
+|  項目  |  得点  |  備考  |
+| ---- | ---- |  ---- |
+|  gameover  |  - 500点  | ブロック出現時にフィールドが埋まっていたらgameover
+
+### game level
+
+実行時、オプションを与えることで、難易度（レベル）を指定できます。<br>
+
+|     |  level1  |  level2  |  level3  |  level4  | 
+| --- | --- | --- | --- | --- | 
+|  実行方法  | python start.py | python start.py -l2  | python start.py -l3 | python start.py -l4 | 
+|  制限時間  |  180秒  |  180秒  |  180秒  |  180秒  | 
+|  ブロックの順番  |  固定(1-7まで順番に繰り返し)  |  ランダム  |  ランダム  |  ランダム  |
+|  フィールドの初期ブロック  |  なし  |  なし  |  あり  |  あり  | 
+|  フレーム更新頻度  |  約1秒  |  約1秒  |  約1秒  |  約0.001秒  | 
+|  全消しボーナス  |  +0  |  +0  |  +4000  |  +4000  | 
+|  備考  |  -  |  -  |  -  |  -  | 
+
+[各レベルの参考スコア](doc/files/reference_score.md)
 
 ## ファイル構成
 
@@ -135,70 +206,6 @@ style ブロック操作用プログラム fill:#fef
 - [ブロック操作用プログラムについての説明](doc/files/block_controller.md) <br>
 - [ボード管理用プログラムについての説明](doc/files/board_manager.md) <br>
 - [ゲーム管理用プログラムについての説明](doc/files/game_manager.md) <br>
-
-## 手動操作
-
-実行時、以下のようにオプションを与えることで、手動操作が可能です。
-操作方法は、PC操作準拠とゲーム機コントローラ準拠の2種類を選択できるようにしています。
-
-|  手動操作  |  PC操作準拠  |  ゲーム機コントローラ準拠  |
-| ---- | ---- | ---- |
-|  実行コマンド  |  python start.py -m keyboard  |  python start.py -m gamepad  |
-|  *up* key  |  回転  |  落下  |
-|  *left* key  |  左に移動  |  左に移動  |
-|  *right* key   |  右に移動  |  右に移動  |
-|  *m* key  |  下に移動  |  下に移動  |
-|  *space* key  |  落下  |  回転  |
-|  *P* key  |  Pause  |  Pause  |
-|  *c* key  |  hold  |  hold  |
-
-## スコアアタック用サンプルコード
-
-実行時、以下のようにオプションを与えることで、スコアアタック用サンプルコードの実行が可能です。<br>
-サンプルコードについて[ブロック操作用サンプルプログラム](https://github.com/seigot/tetris/blob/master/doc/files/block_controller_sample.md)を参照下さい。<br>
-
-```shell
-python start.py -m sample
-```
-
-## Play rules
-
-制限時間内の獲得スコアを評価します。
-
-### Score
-
-加点
-
-|  項目  |  得点  |  備考  |
-| ---- | ---- |  ---- |
-|  1ライン消し  |  + 100点  |  -  |
-|  2ライン消し  |  + 300点  |  -  |
-|  3ライン消し  |  + 700点  |  -  |
-|  4ライン消し  |  + 1300点  |  -  |
-|  落下ボーナス  |  + 落下したブロック数を得点に加算  |  -  |
-|  全消しボーナス  |  + 全消し時に得点  |  -  |
-
-減点
-
-|  項目  |  得点  |  備考  |
-| ---- | ---- |  ---- |
-|  gameover  |  - 500点  | ブロック出現時にフィールドが埋まっていたらgameover
-
-### game level
-
-実行時、オプションを与えることで、難易度（レベル）を指定できます。<br>
-
-|     |  level1  |  level2  |  level3  |  level4  | 
-| --- | --- | --- | --- | --- | 
-|  実行方法  | python start.py | python start.py -l2  | python start.py -l3 | python start.py -l4 | 
-|  制限時間  |  180秒  |  180秒  |  180秒  |  180秒  | 
-|  ブロックの順番  |  固定(1-7まで順番に繰り返し)  |  ランダム  |  ランダム  |  ランダム  |
-|  フィールドの初期ブロック  |  なし  |  なし  |  あり  |  あり  | 
-|  フレーム更新頻度  |  約1秒  |  約1秒  |  約1秒  |  約0.001秒  | 
-|  全消しボーナス  |  +0  |  +0  |  +4000  |  +4000  | 
-|  備考  |  -  |  -  |  -  |  -  | 
-
-[各レベルの参考スコア](doc/files/reference_score.md)
 
 ## コード作成のはじめかた
 
@@ -290,6 +297,8 @@ git push                                                   # 変更を反映
 [https://github.com/seigot/tetris_game (2021.12時点まで使用)](https://github.com/seigot/tetris_game)<br>
 [http://zetcode.com/gui/pyqt5/tetris/](http://zetcode.com/gui/pyqt5/tetris/)<br>
 [テトリスの歴史を「ブロックが落ちるルール」の進化から学ぶ](https://gigazine.net/news/20191116-tetris-algorithm/)<br>
+[『テトリスでPythonを学ぼうv4』優勝コード解説](https://qiita.com/mozziemagnet/private/b6839c9b7b438cbdb1b1)<br>
+
 
 ## 今後の課題
 

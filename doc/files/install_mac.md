@@ -5,8 +5,10 @@ Finder→Application→Utility→Terminalから、ターミナル画面を起動
 ```
 # install pyqt5 and NumPy
 brew install python3
-pip3 install pyqt5
-pip3 install numpy
+brew install pyqt5
+brew install numpy
+#pip3 install pyqt5
+#pip3 install numpy
 # install other packages
 brew install git
 ```
@@ -18,5 +20,20 @@ Mac(M1)環境等では`pip3 install pyqt5`でエラーになることがある�
 brew install pyqt5
 ```
 
-もし他にも足りないことがあれば教えて頂けると助かります
+`pytorch`を使う場合は以下のようにすればOK  
+[MacBook Pro (Apple Silicon, M1 PRO, 2021) でPython開発環境を整える #49](https://github.com/seigot/tetris/issues/49)  
+[AIについて]([https://github.com/seigot/tetris/blob/master/doc/files/install_mac.md](https://github.com/seigot/tetris/blob/master/doc/files/ai.md)  
+
+```
+# install
+pip3 install -U pip
+pip3 install torch
+pip3 install tensorboardX
+python3 -c "import torch"
+# 実行例 (詳細は"AIについて"リンク参照)
+python3 start.py -m train_sample -d 1 -l 2 -t -1
+python3 start.py -m predict_sample -l 2 --predict_weight weight/DQN/sample_weight.pt
+```
+
+もし他にも足りないことがあれば`pull request`頂けると助かります
 
