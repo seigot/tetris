@@ -93,6 +93,74 @@ python start.py
 
 ![Screenshot](doc/pics/screenshot_02.png)
 
+#### サンプルコード
+
+実行時、以下のようにオプションを与えることで、スコアアタック用サンプルコードの実行が可能です。<br>
+サンプルコードの詳細は、[ブロック操作用サンプルプログラム](https://github.com/seigot/tetris/blob/master/doc/files/block_controller_sample.md)を参照下さい。<br>
+
+```shell
+python start.py -m sample
+```
+
+#### 手動操作
+
+実行時、以下のようにオプションを与えることで、手動操作が可能です。
+操作方法は、PC操作準拠とゲーム機コントローラ準拠の2種類を選択できるようにしています。
+
+|  手動操作  |  PC操作準拠  |  ゲーム機コントローラ準拠  |
+| ---- | ---- | ---- |
+|  実行コマンド  |  python start.py -m keyboard  |  python start.py -m gamepad  |
+|  *up* key  |  回転  |  落下  |
+|  *left* key  |  左に移動  |  左に移動  |
+|  *right* key   |  右に移動  |  右に移動  |
+|  *m* key  |  下に移動  |  下に移動  |
+|  *space* key  |  落下  |  回転  |
+|  *P* key  |  Pause  |  Pause  |
+|  *c* key  |  hold  |  hold  |
+
+`--nextShapeMode hate`オプション付きで実行すると[hateモード(手動操作で遊ぶ用)](https://manabitimes.jp/math/795)になります。
+
+```
+python3 start.py -m keyboard --nextShapeMode hate
+```
+
+## Play rules
+
+制限時間内の獲得スコアを評価します。
+
+### Score
+
+加点
+
+|  項目  |  得点  |  備考  |
+| ---- | ---- |  ---- |
+|  1ライン消し  |  + 100点  |  -  |
+|  2ライン消し  |  + 300点  |  -  |
+|  3ライン消し  |  + 700点  |  -  |
+|  4ライン消し  |  + 1300点  |  -  |
+|  落下ボーナス  |  + 落下したブロック数を得点に加算  |  -  |
+
+減点
+
+|  項目  |  得点  |  備考  |
+| ---- | ---- |  ---- |
+|  gameover  |  - 500点  | ブロック出現時にフィールドが埋まっていたらgameover
+
+### game level
+
+実行時、オプションを与えることで、難易度（レベル）を指定できます。<br>
+
+|     |  level1  |  level2  |  level3  |  level4  | 
+| --- | --- | --- | --- | --- | 
+|  実行方法  | python start.py | python start.py -l2  | python start.py -l3 | python start.py -l4 | 
+|  制限時間  |  180秒  |  180秒  |  180秒  |  180秒  | 
+|  ブロックの順番  |  固定(1-7まで順番に繰り返し)  |  ランダム  |  ランダム  |  ランダム  |
+|  フィールドの初期ブロック  |  なし  |  なし  |  あり  |  あり  | 
+|  フレーム更新頻度  |  約1秒  |  約1秒  |  約1秒  |  約0.001秒  | 
+|  備考  |  -  |  -  |  -  |  -  | 
+
+[各レベルの参考スコア](doc/files/reference_score.md)
+
 ## ファイル構成
 
 #### ファイル一覧
@@ -136,68 +204,6 @@ style ブロック操作用プログラム fill:#fef
 - [ブロック操作用プログラムについての説明](doc/files/block_controller.md) <br>
 - [ボード管理用プログラムについての説明](doc/files/board_manager.md) <br>
 - [ゲーム管理用プログラムについての説明](doc/files/game_manager.md) <br>
-
-## 手動操作
-
-実行時、以下のようにオプションを与えることで、手動操作が可能です。
-操作方法は、PC操作準拠とゲーム機コントローラ準拠の2種類を選択できるようにしています。
-
-|  手動操作  |  PC操作準拠  |  ゲーム機コントローラ準拠  |
-| ---- | ---- | ---- |
-|  実行コマンド  |  python start.py -m keyboard  |  python start.py -m gamepad  |
-|  *up* key  |  回転  |  落下  |
-|  *left* key  |  左に移動  |  左に移動  |
-|  *right* key   |  右に移動  |  右に移動  |
-|  *m* key  |  下に移動  |  下に移動  |
-|  *space* key  |  落下  |  回転  |
-|  *P* key  |  Pause  |  Pause  |
-|  *c* key  |  hold  |  hold  |
-
-## スコアアタック用サンプルコード
-
-実行時、以下のようにオプションを与えることで、スコアアタック用サンプルコードの実行が可能です。<br>
-サンプルコードについて[ブロック操作用サンプルプログラム](https://github.com/seigot/tetris/blob/master/doc/files/block_controller_sample.md)を参照下さい。<br>
-
-```shell
-python start.py -m sample
-```
-
-## Play rules
-
-制限時間内の獲得スコアを評価します。
-
-### Score
-
-加点
-
-|  項目  |  得点  |  備考  |
-| ---- | ---- |  ---- |
-|  1ライン消し  |  + 100点  |  -  |
-|  2ライン消し  |  + 300点  |  -  |
-|  3ライン消し  |  + 700点  |  -  |
-|  4ライン消し  |  + 1300点  |  -  |
-|  落下ボーナス  |  + 落下したブロック数を得点に加算  |  -  |
-
-減点
-
-|  項目  |  得点  |  備考  |
-| ---- | ---- |  ---- |
-|  gameover  |  - 500点  | ブロック出現時にフィールドが埋まっていたらgameover
-
-### game level
-
-実行時、オプションを与えることで、難易度（レベル）を指定できます。<br>
-
-|     |  level1  |  level2  |  level3  |  level4  | 
-| --- | --- | --- | --- | --- | 
-|  実行方法  | python start.py | python start.py -l2  | python start.py -l3 | python start.py -l4 | 
-|  制限時間  |  180秒  |  180秒  |  180秒  |  180秒  | 
-|  ブロックの順番  |  固定(1-7まで順番に繰り返し)  |  ランダム  |  ランダム  |  ランダム  |
-|  フィールドの初期ブロック  |  なし  |  なし  |  あり  |  あり  | 
-|  フレーム更新頻度  |  約1秒  |  約1秒  |  約1秒  |  約0.001秒  | 
-|  備考  |  -  |  -  |  -  |  -  | 
-
-[各レベルの参考スコア](doc/files/reference_score.md)
 
 ## コード作成のはじめかた
 
