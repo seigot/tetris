@@ -124,6 +124,21 @@ python start.py -m sample
 python3 start.py -m keyboard --nextShapeMode hate
 ```
 
+#### AI実装
+
+実行方法、サンプルコードを用意しています  
+詳細は[AIについて](doc/files/ai.md)を参照下さい。
+
+#### art
+
+実行方法、サンプルコードを用意しています  
+詳細は[artについて](doc/files/art.md)を参照下さい。
+
+#### 自動評価サーバ  
+
+表題のサーバを有志で用意しています
+https://github.com/ChallengeClub/tetris_score_server
+
 ## Play rules
 
 制限時間内の獲得スコアを評価します。
@@ -313,16 +328,6 @@ git push                                                   # 変更を反映
 ```
 nextShapeIndex = np_randomShape.random.randint(1, 8)
 ```
-
-### AI実装
-[AIについて](doc/files/ai.md)
-
-### 自動評価
-スコアアタック用サーバ  
-https://github.com/seigot/tetris_score_server
-
-### art
-[artについて](doc/files/art.md)
 
 ## LICENSE
 
