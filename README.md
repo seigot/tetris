@@ -47,28 +47,29 @@
 
 #### Mac環境
 
-Finder→Application→Utility→Terminalから、ターミナルを起動して以下コマンドを実行する。
+Finder→Application→Utility→Terminalから、ターミナルを起動して以下コマンドを実行する。  
+install成功後、[実行方法](https://github.com/seigot/tetris/tree/master#実行方法)によりゲーム開始すればOK  
 
 ```
 # install pyqt5 and NumPy
 brew install python3
-pip3 install pyqt5
-pip3 install numpy
+brew install pyqt5
+brew install numpy
 # install other packages
 brew install git
 ```
 
-[doc/files/install_mac.md](./doc/files/install_mac.md)に上記手順を記載
-
-#### Ubuntu/JetsonNano環境
-
-[doc/files/install_ubuntu.md](./doc/files/install_ubuntu.md)に手順を記載
+[doc/files/install_mac.md](./doc/files/install_mac.md)に手順を記載
 
 #### windows環境
 
 [windowsのpowershellを使ってテトリス環境を構築する場合](./doc/files/install_windows_powershell.md)の手順<br>
 [WSL(Windows Subsystem for Linux)を使う場合](./doc/files/install_windows_wsl.md)の手順<br>
 [Docker for Windowsを使う場合](./doc/files/install_windows.md)の手順<br>
+
+#### Ubuntu/JetsonNano環境
+
+[doc/files/install_ubuntu.md](./doc/files/install_ubuntu.md)に手順を記載
 
 #### docker環境
 
