@@ -31,6 +31,7 @@
   - [今後の課題](#%E4%BB%8A%E5%BE%8C%E3%81%AE%E8%AA%B2%E9%A1%8C)
     - [次のブロックのランダム性](#%E6%AC%A1%E3%81%AE%E3%83%96%E3%83%AD%E3%83%83%E3%82%AF%E3%81%AE%E3%83%A9%E3%83%B3%E3%83%80%E3%83%A0%E6%80%A7)
     - [競争要素の追加](#%E7%AB%B6%E4%BA%89%E8%A6%81%E7%B4%A0%E3%81%AE%E8%BF%BD%E5%8A%A0)
+    - [学習要素の追加](#%E5%AD%A6%E7%BF%92%E8%A6%81%E7%B4%A0%E3%81%AE%E8%BF%BD%E5%8A%A0)
   - [LICENSE](#license)
   - [Finnaly](#finnaly)
 
