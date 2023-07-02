@@ -136,7 +136,7 @@ python3 start.py -m keyboard --nextShapeMode hate
 
 #### 自動評価サーバ  
 
-表題のサーバを有志で用意しています
+表題のサーバを有志で用意しています  
 https://github.com/ChallengeClub/tetris_score_server
 
 ## Play rules
@@ -328,6 +328,11 @@ git push                                                   # 変更を反映
 ```
 nextShapeIndex = np_randomShape.random.randint(1, 8)
 ```
+
+### 競争要素の追加
+
+例えば、AI学習を目的としたルールのアップデート、火力ボーナス、などが該当する  
+[https://github.com/seigot/tetris/issues/67](https://github.com/seigot/tetris/issues/67)
 
 ## LICENSE
 
