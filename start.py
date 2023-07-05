@@ -15,7 +15,7 @@ def get_option(game_level, game_time, mode, nextShapeMode, random_seed, drop_int
                            help='Specify game time(s), if specify -1, do endless loop')
     argparser.add_argument('-m', '--mode', type=str,
                            default=mode,
-                           help='Specify mode (keyboard/gamepad/sample/art/train/predict/train_sample/predict_sample/train_sample2/predict_sample2) if necessary')
+                           help='Specify mode (keyboard/gamepad/sample/art/train/predict/train_sample/predict_sample/train_sample2/predict_sample2/train_sample3/predict_sample3) if necessary')
     argparser.add_argument('--nextShapeMode', type=str,
                            default=nextShapeMode,
                            help='Specify nextShapeMode (default/hate) if necessary')
@@ -64,7 +64,6 @@ def start():
     GAME_TIME = 180
     IS_MODE = "default"
     IS_NEXTSHAPEMODE = "default"
-    IS_SAMPLE_CONTROLL = "n"
     INPUT_RANDOM_SEED = -1
     INPUT_DROP_INTERVAL = -1
     DROP_INTERVAL = 1000          # drop interval
@@ -94,9 +93,9 @@ def start():
         GAME_LEVEL = args.game_level
     if args.game_time >= 0 or args.game_time == -1:
         GAME_TIME = args.game_time
-    if args.mode in ("keyboard", "gamepad", "sample", "art", "train", "predict", "train_sample", "predict_sample", "train_sample2", "predict_sample2"):
+    if len(args.mode) != 0:
         IS_MODE = args.mode
-    if args.nextShapeMode in ("default", "hate"):
+    if len(args.nextShapeMode) != 0:
         IS_NEXTSHAPEMODE = args.nextShapeMode
     if args.random_seed >= 0:
         INPUT_RANDOM_SEED = args.random_seed
@@ -116,6 +115,13 @@ def start():
         PREDICT_WEIGHT = args.predict_weight
     if len(args.art_config_filepath) != 0:
         ART_CONFIG = args.art_config_filepath
+
+    if IS_MODE not in ("default", "keyboard", "gamepad", "sample", "art", "train", "predict", "train_sample", "predict_sample", "train_sample2", "predict_sample2", "train_sample3", "predict_sample3"):
+        print("invalid mode: ", IS_MODE)
+        return
+    if IS_NEXTSHAPEMODE not in ("default", "hate"):
+        print("invalid nextshapemode: ", IS_NEXTSHAPEMODE)
+        return
 
     ## set field parameter for level 1
     RANDOM_SEED = 0            # random seed for field

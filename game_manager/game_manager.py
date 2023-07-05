@@ -126,7 +126,7 @@ class Game_Manager(QMainWindow):
                           self.art_config_filepath)
         if args.game_time >= 0:
             self.game_time = args.game_time
-        if args.mode in ("keyboard", "gamepad", "sample", "art", "train", "predict", "train_sample", "predict_sample", "train_sample2", "predict_sample2"):
+        if args.mode in ("keyboard", "gamepad", "sample", "art", "train", "predict", "train_sample", "predict_sample", "train_sample2", "predict_sample2", "train_sample3", "predict_sample3"):
             self.mode = args.mode
         if args.nextShapeMode in ("default", "hate"):
             self.nextShapeMode = args.nextShapeMode
@@ -335,6 +335,12 @@ class Game_Manager(QMainWindow):
                     # import block_controller_train_sample, it's necessary to install pytorch to use.
                     from machine_learning.block_controller_train_sample2 import BLOCK_CONTROLLER_TRAIN_SAMPLE2 as BLOCK_CONTROLLER_TRAIN
                     self.nextMove = BLOCK_CONTROLLER_TRAIN.GetNextMove(nextMove, GameStatus,yaml_file="config/train_sample2.yaml",weight=self.predict_weight)
+                    
+                elif self.mode == "train_sample3" or self.mode == "predict_sample3":
+                    # sample train/predict
+                    # import block_controller_train_sample, it's necessary to install pytorch to use.
+                    from machine_learning.block_controller_train_sample3 import BLOCK_CONTROLLER_TRAIN_SAMPLE3 as BLOCK_CONTROLLER_TRAIN
+                    self.nextMove = BLOCK_CONTROLLER_TRAIN.GetNextMove(nextMove, GameStatus,yaml_file=self.train_yaml,weight=self.predict_weight)
                     
                 elif self.mode == "train" or self.mode == "predict":
                     # train/predict
