@@ -129,9 +129,11 @@ def start():
     elif GAME_LEVEL == 1: # level1
         RANDOM_SEED = 0
         BLOCK_NUM_MAX = 180
+        ALL_BLOCK_CLEAR_SCORE = 500
     elif GAME_LEVEL == 2: # level2
         RANDOM_SEED = -1
         BLOCK_NUM_MAX = 180
+        ALL_BLOCK_CLEAR_SCORE = 500
     elif GAME_LEVEL == 3 or GAME_LEVEL == 4: # level3 or level4
         RANDOM_SEED = -1
         BLOCK_NUM_MAX = 180
