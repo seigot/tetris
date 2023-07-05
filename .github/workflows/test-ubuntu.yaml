@@ -86,4 +86,20 @@ jobs:
           echo "SCORE: $SCORE"
           if [ $SCORE -lt 0 ]; then echo "error";exit 1; fi
 
+      - name: tetris_DQN_sample3
+        working-directory: target_dir
+        run: |
+          # QT display off
+          export QT_QPA_PLATFORM=offscreen
+          # run tetris
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          if [ -f requirements.pytorch.txt ]; then pip install -r requirements.pytorch.txt; fi
+          python start.py -m predict_sample3 -l 2 -t 5 --predict_weight weight/DQN/sample_weight.pt -f $HOME/result_dqn.json
+          # check result
+          jq . $HOME/result_dqn.json
+          SCORE=`jq ."judge_info"."score" $HOME/result_dqn.json`
+          echo "SCORE: $SCORE"
+          if [ $SCORE -lt 0 ]; then echo "error";exit 1; fi
+
+
 
