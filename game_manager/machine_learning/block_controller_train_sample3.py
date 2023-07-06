@@ -90,7 +90,7 @@ class Block_Controller(object):
 
         ########
         ## 学習の場合
-        if self.mode=="train" or self.mode=="train_sample" or self.mode=="train_sample2":
+        if self.mode=="train" or self.mode=="train_sample" or self.mode=="train_sample2" or self.mode=="train_sample3":
             # ouput dir として日付ディレクトリ作成
             dt = datetime.now()
             self.output_dir = self.result_warehouse+ dt.strftime("%Y-%m-%d-%H-%M-%S")
@@ -141,7 +141,7 @@ class Block_Controller(object):
         # ログファイル設定
         ########
         # 推論の場合
-        if self.mode=="predict" or self.mode=="predict_sample":
+        if self.mode=="predict" or self.mode=="predict_sample" or self.mode=="predict_sample2" or self.mode=="predict_sample3":
             self.log = self.output_dir+"/log_predict.txt"
             self.log_score = self.output_dir+"/score_predict.txt"
             self.log_reward = self.output_dir+"/reward_predict.txt"
@@ -320,7 +320,7 @@ class Block_Controller(object):
 
         ####################
         # 推論の場合 推論ウェイトを torch　で読み込み model に入れる。
-        if self.mode=="predict" or self.mode=="predict_sample":
+        if self.mode=="predict" or self.mode=="predict_sample" or self.mode=="predict_sample2" or self.mode=="predict_sample3":
             print("Load {}...".format(predict_weight))
             # 推論インスタンス作成
             self.model = torch.load(predict_weight)
@@ -479,7 +479,7 @@ class Block_Controller(object):
     # 経験学習のために episode_memory を replay_memory 追加
     ####################################
     def stack_replay_memory(self):
-        if self.mode=="train" or self.mode=="train_sample" or self.mode=="train_sample2":
+        if self.mode=="train" or self.mode=="train_sample" or self.mode=="train_sample2" or self.mode=="train_sample3":
             self.score += self.score_list[5]
 
             #[next_state, reward, next2_state, done]
@@ -506,7 +506,7 @@ class Block_Controller(object):
         ##############################
         ## 学習の場合
         ##############################
-        if self.mode=="train" or self.mode=="train_sample" or self.mode=="train_sample2":
+        if self.mode=="train" or self.mode=="train_sample" or self.mode=="train_sample2" or self.mode=="train_sample3":
             # リセット時にスコア計算し episode memory に penalty 追加
             # replay_memory に episode memory 追加
             self.stack_replay_memory()
@@ -705,7 +705,7 @@ class Block_Controller(object):
     ####################################
     def reset_state(self):
         ## 学習の場合
-        if self.mode=="train" or self.mode=="train_sample" or self.mode=="train_sample2": 
+        if self.mode=="train" or self.mode=="train_sample" or self.mode=="train_sample2" or self.mode=="train_sample3": 
             ## 最高点,500 epoch おきに保存
             if self.score > self.max_score or self.epoch % 500 == 0:
                 torch.save(self.model, "{}/tetris_epoch{}_score{}.pt".format(self.weight_dir,self.epoch,self.score))
@@ -1482,7 +1482,7 @@ class Block_Controller(object):
         # 学習の場合
         ###############################################
         ###############################################
-        if self.mode=="train" or self.mode=="train_sample" or self.mode=="train_sample2":
+        if self.mode=="train" or self.mode=="train_sample" or self.mode=="train_sample2" or self.mode=="train_sample3":
             #### init parameter
             # epsilon = 学習結果から乱数で変更する割合対象
             # num_decay_epochs より前までは比例で初期 epsilon から減らしていく
@@ -1734,7 +1734,7 @@ class Block_Controller(object):
         # 推論 の場合
         ###############################################
         ###############################################
-        elif self.mode == "predict" or self.mode == "predict_sample":
+        elif self.mode == "predict" or self.mode == "predict_sample" or self.mode=="predict_sample2" or self.mode=="predict_sample3":
             ##############
             # model 切り替え
             if self.weight2_available:
