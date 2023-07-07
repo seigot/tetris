@@ -328,7 +328,7 @@ class Game_Manager(QMainWindow):
                     # sample train/predict
                     # import block_controller_train_sample, it's necessary to install pytorch to use.
                     from machine_learning.block_controller_train_sample import BLOCK_CONTROLLER_TRAIN_SAMPLE as BLOCK_CONTROLLER_TRAIN
-                    self.nextMove = BLOCK_CONTROLLER_TRAIN.GetNextMove(nextMove, GameStatus,yaml_file=self.train_yaml,weight=self.predict_weight)
+                    self.nextMove = BLOCK_CONTROLLER_TRAIN.GetNextMove(nextMove, GameStatus,yaml_file="config/train_sample.yaml",weight=self.predict_weight)
                     
                 elif self.mode == "train_sample2" or self.mode == "predict_sample2":
                     # sample train/predict
@@ -340,7 +340,7 @@ class Game_Manager(QMainWindow):
                     # sample train/predict
                     # import block_controller_train_sample, it's necessary to install pytorch to use.
                     from machine_learning.block_controller_train_sample3 import BLOCK_CONTROLLER_TRAIN_SAMPLE3 as BLOCK_CONTROLLER_TRAIN
-                    self.nextMove = BLOCK_CONTROLLER_TRAIN.GetNextMove(nextMove, GameStatus,yaml_file=self.train_yaml,weight=self.predict_weight)
+                    self.nextMove = BLOCK_CONTROLLER_TRAIN.GetNextMove(nextMove, GameStatus,yaml_file="config/train_sample3.yaml",weight=self.predict_weight)
                     
                 elif self.mode == "train" or self.mode == "predict":
                     # train/predict
