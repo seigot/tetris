@@ -1,0 +1,88 @@
+
+common:
+  #### 学習用Weight
+  ## File 指定
+  ft_weight: outputs/YYYY-MM-DD-hh-mm-ss/trained_model/best_weight.pt
+  log_path: tensorboard
+  time_disp: False
+  #### 推論用Weight
+  # File 指定
+  predict_weight: outputs/YYYY-MM-DD-hh-mm-ss/trained_model/best_weight.pt
+
+  #### 第2model 有効
+  #weight2_available: False
+  #### 第2model
+  #predict_weight2: outputs/YYYY-MM-DD-hh-mm-ss/trained_model/best_weight.pt
+
+  #### model 切り替えポイント (最も高い穴の位置が下記より低いとき)
+  #predict_weight2_enable_index: 5
+  #### model 戻しポイント (最も高い穴の位置下記より高いとき)
+  #predict_weight2_disable_index: 10
+model:
+  name: DQN # 学習方式 (MLP DQN)
+  finetune: False # 以前の学習結果を利用する (True False)
+state:
+  dim: 4
+train:
+  optimizer: Adam # Optimizer (Adam SGD)
+  lr: 1.0e-3 # 学習率 (0 to 1.0 指数表記は末尾にe-数字)
+  lr_gamma: 0.1 # SGD 用 ... Step Size 進んだ EPOCH で gammma が学習率に乗算される (0 to 1.0)
+  lr_momentum: 0.99 # SGD 用 ... モーメンタム... 今までの移動とこれから動くべき移動の平均をとり振動を防ぐための関数 (0 to 1.0)
+  lr_step_size: 1000 # SGD 用 ... step size 学習率更新タイミングの EPOCH 数  (1 to num_epoch)
+  num_epoch: 10000 # 試行回数 (lr_step_size to num_epoch)
+  num_decay_epochs: 3500 # ε収束させる試行回数
+  initial_epsilon: 1.0 # ε... 学習が局所解にならないように乱数で動かして最適値する。学習初期は 1, 初期値 Fine Tune の場合は小さめに  (0 to 1.0)
+  final_epsilon: 1.0e-3 # 上記εを漸減させたときの最終値 num_decay_epochs 試行後  (0 to final_epsilon)
+  batch_size: 512 # バッチサイズ　確率的勾配降下法における、全パラメータのうちランダム抽出して勾配を求めるパラメータの数 (2^n)
+  gamma: 0.8 # 割引率 ... t+1 の報酬をどの程度割り引いて考えるか (0 to 1.0)
+  max_penalty: -1 # 正規化する場合の最小報酬 ( to 0)
+  target_net: True #Target net, double_dqn 有効の場合は無条件で有効  (True False) 
+  target_copy_intarval: 500 # Target Net をロードする EPOCH 数間隔  (1 to num_epoch)
+  replay_memory_size: 30000  # (1 to num_epoch*10)
+  double_dqn: True # Dobule DQN 有効化 #DQN限定 (True False)
+  reward_clipping: True # 報酬を 1 で正規化、ただし消去報酬のみ
+  prioritized_replay: True # 優先順位つき再生学習 有効化 (True False)
+  multi_step_learning: False # Multi Step Lerning 有効化 (True False)
+  multi_step_num: 3 # Multi Step Lerning 数
+
+  reward_list: #These parameter are not normalized. 消去報酬の配分
+    - 0  #survival
+    - 500 #0 #1block
+    - 1500 #2block
+    - 5000 #3block
+    - 10000 #4block
+    - -10000 #game over
+  height_line_reward: 3 #低いところの消去ほど有効とする設定(10000 くらいでほぼ無効 大きい値ほど報酬小さい)
+  reward_weight: # 形状報酬の配分
+    - 0.0005 #1 #bampiness 
+    - 0.01 #1 #max height
+    - 0.001 #1 #hole_num
+  bumpiness_left_side_relax: 1 # 左端のでこぼこだけどこまで許容するか
+  max_height_relax: 14 # 高さをどこまで許容するか(左記より大きい)
+
+  tetris_fill_reward: 0.0001 # 左端以外を埋める報酬率 #DQN限定 #DQN限定
+  tetris_fill_height: 11 # 左端以外を埋める報酬有効化上限高さ #DQN限定
+  left_side_height_penalty: 0.00001 # 左端を tetris_fill_height 以上積んだ時の penalty #DQN限定
+
+  hole_top_limit_reward: 0.00001  # 穴の上の積み上げペナルティ #DQN限定
+  hole_top_limit_height: 5 # 穴の上の積み上げペナルティ下限絶対高さ、この高さより上のときのみペナルティ有効 (22: 無効, -1:制限なし)
+  hole_top_limit: 1 # 穴の上の積み上げペナルティ 穴の位置が左記の相対高さより高いときのみ
+
+  move_down_flag: 0 # Move Down 有効化 #DQN限定
+
+  #predict_next_flag: 1 # 次のテトリミノ予測有効化 # 20220831 無効
+  predict_next_num: 0 # 次のテトリミノ予測数 (0: 無効) #DQN限定
+  predict_next_steps: 5 #  1つの手番で候補手をいくつ探すか #DQN限定
+  predict_next_num_train: 0 # 次のテトリミノ予測有効化 (学習時) (0: 無効) #DQN限定
+  predict_next_steps_train: 3 #  1つの手番で候補手をいくつ探すか (学習時) #DQN限定
+tetris:
+  board_height: 22 # 画面ボード高さ 22 固定
+  board_width: 10 # 画面ボード幅 10 固定
+  score_list: # 学習用スコア
+    - 0
+    - 100
+    - 300
+    - 700
+    - 1300
+    - -500
+  max_tetrominoes: 300 # 1 EPOCH のテトリミノ学習数
