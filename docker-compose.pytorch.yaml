@@ -1,16 +1,16 @@
-version: '1'
+version: '3'
 
 services:
   tetris:
-    container_name: tetris-container
+    container_name: tetris-pytorch-container
     build:
       context: .
       dockerfile: ./docker/Dockerfile.pytorch
     volumes:
       - type: bind
-        source: "."
-        target: "/tetris"
+        source: .
+        target: /tetris
     environment:
-    - DISPLAY=host.docker.internal:0.0
+      - DISPLAY=host.docker.internal:0.0
     tty: true
     shm_size: 512m
