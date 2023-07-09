@@ -11,13 +11,13 @@
 tetris ディレクトリで以下を実行する。
 
 ```
-docker-compose up
+docker compose up
 ```
 
 `pytorch`インストール済コンテナを使いたい場合、上記の代わりに以下を実行する。<br>
 
 ```
-docker-compose -f docker-compose.pytorch.yaml up
+docker compose -f docker-compose.pytorch.yaml up
 ```
 
 ## step2. docker コンテナにアクセスする
@@ -59,7 +59,7 @@ python start.py
 ホスト OS 側の tetris ディレクトリから以下を実行する。
 
 ```
-docker-compose stop
+docker compose stop
 ```
 
 この場合には、コンテナは削除されずに残ります。
@@ -69,7 +69,7 @@ docker-compose stop
 ホスト OS 側の tetris ディレクトリから以下を実行する。
 
 ```
-docker-compose down
+docker compose down
 ```
 
 この場合には、コンテナは削除されます。
