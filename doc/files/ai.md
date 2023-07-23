@@ -35,6 +35,12 @@ python start.py -m train_sample -d 1 -l 2 -t -1
 python start.py -m train_sample2 -d 1 -l 2 -t -1
 ```
 
+-  DQN using block prediction (強いテトリスAI）を使う場合
+```
+python start.py -m train_sample3 -d 1 -l 2 -t -1
+```
+
+
 ## 2.2推論の実行
 
 - DQN(Deep Q Network)を使う場合

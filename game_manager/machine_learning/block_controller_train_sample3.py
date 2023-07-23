@@ -1356,7 +1356,7 @@ class Block_Controller(object):
             reward -= (left_side_height - self.bumpiness_left_side_relax) * self.left_side_height_penalty
         # 3以上の段差を作った場合の罰
         reward -= over3_diff_count * self.over3_diff_penalty
-        print(over3_diff_count * self.over3_diff_penalty)
+        #print(over3_diff_count * self.over3_diff_penalty)
 
         self.epoch_reward += reward 
 
