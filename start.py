@@ -71,6 +71,7 @@ def start():
     USER_NAME = "window_sample"
     SHAPE_LIST_MAX = 6
     BLOCK_NUM_MAX = -1
+    INPUT_BLOCK_NUM_MAX = -1
     TRAIN_YAML = "config/default.yaml"
     PREDICT_WEIGHT = "outputs/latest/best_weight.pt"
     ART_CONFIG = "default.json"
@@ -108,7 +109,7 @@ def start():
     if args.ShapeListMax > 1:
         SHAPE_LIST_MAX = args.ShapeListMax
     if args.BlockNumMax > 1:
-        BLOCK_NUM_MAX = args.BlockNumMax
+        INPUT_BLOCK_NUM_MAX = args.BlockNumMax
     if len(args.train_yaml) != 0:
         TRAIN_YAML = args.train_yaml
     if args.predict_weight != None:
@@ -159,6 +160,9 @@ def start():
     ## update drop interval
     if INPUT_DROP_INTERVAL > 0:
         DROP_INTERVAL = INPUT_DROP_INTERVAL
+    ## update block num max
+    if INPUT_BLOCK_NUM_MAX > 0:
+        BLOCK_NUM_MAX = INPUT_BLOCK_NUM_MAX
     ## hate mode parameter
     if IS_NEXTSHAPEMODE == "hate":
         SHAPE_LIST_MAX = 2
