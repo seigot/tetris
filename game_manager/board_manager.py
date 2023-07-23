@@ -202,8 +202,8 @@ class BoardData(object):
             self.nextShapeIndexList = [ block_order[ii][0] for ii in range(len(block_order))]
             self.nextShapeIndexListDXY = [[block_order[ii][1],block_order[ii][2],block_order[ii][3]] for ii in range(len(block_order))]
         except Exception as e:
-            #print(e)
-            pass
+            print(e)
+            exit()
 
     #######################################
     ## 画面ボードデータを返す
