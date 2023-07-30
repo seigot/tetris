@@ -56,8 +56,13 @@ other sample
 |  8:happy_new_year_2023  |  python start.py -l1 -m art  --art_config_filepath config/art/art_config_sample8.json  |  -  |
 |  9:taka  |  python start.py -l1 -m art  --art_config_filepath config/art/art_config_sample9.json  |  -  |
 |  10:python_logo  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample10.json -d100 --BlockNumMax 500  |  -  |
-|  11:yoshi  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample11.json -d100 --BlockNumMax 900  |  -  |
+|  11:yoshi  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample11.json -d100 --BlockNumMax 900  |  -  
 |  12:neko  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample12.json -d100 --BlockNumMax 900  |  -  |
+|  13:kyubei  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample13.json -d100 --BlockNumMax 900  |  -  |
+|  14:question_block  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample14.json -d100 --BlockNumMax 900  |  -  |
+|  15:coin  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample15.json -d100 --BlockNumMax 900  |  -  |
+|  16:clefairy  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample16.json -d100 --BlockNumMax 900  |  -  |
+|  17:jigglypuff  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample17.json -d100 --BlockNumMax 900  |  -  |
 |  ...  |  -  |  -  |
 
 contribution
