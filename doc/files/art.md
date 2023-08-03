@@ -63,6 +63,7 @@ other sample
 |  15:coin  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample15.json -d100 --BlockNumMax 900  |  -  |
 |  16:clefairy  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample16.json -d100 --BlockNumMax 900  |  -  |
 |  17:jigglypuff  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample17.json -d100 --BlockNumMax 900  |  -  |
+|  18:docker  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample18.json -d100 --BlockNumMax 900  |  -  |
 |  ...  |  -  |  -  |
 
 contribution
