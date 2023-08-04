@@ -71,6 +71,7 @@ other sample
 |  23:gopher  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample23.json -d100 --BlockNumMax 900  |  -  |
 |  24:goomba  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample24.json -d100 --BlockNumMax 900  |  -  |
 |  25:toad  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample25.json -d100 --BlockNumMax 900  |  -  |
+|  26:super_star  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample26.json -d100 --BlockNumMax 900  |  -  |
 |  ...  |  -  |  -  |
 
 contribution
