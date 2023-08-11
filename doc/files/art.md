@@ -75,6 +75,10 @@ other sample
 |  27:fire_flower  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample27.json -d100 --BlockNumMax 900  |  -  |
 |  28:ie_logo  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample28.json -d100 --BlockNumMax 900  |  -  |
 |  29:edge_logo  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample29.json -d100 --BlockNumMax 900  |  -  |
+|  30:puyo_green  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample30.json -d100 --BlockNumMax 900  |  -  |
+|  31:puyo_red  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample31.json -d100 --BlockNumMax 900  |  -  |
+|  32:puyo_yellow  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample32.json -d100 --BlockNumMax 900  |  -  |
+|  33:puyo_blue  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample33.json -d100 --BlockNumMax 900  |  -  |
 |  ...  |  -  |  -  |
 
 contribution
