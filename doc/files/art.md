@@ -79,6 +79,7 @@ other sample
 |  31:puyo_red  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample31.json -d100 --BlockNumMax 900  |  -  |
 |  32:puyo_yellow  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample32.json -d100 --BlockNumMax 900  |  -  |
 |  33:puyo_blue  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample33.json -d100 --BlockNumMax 900  |  -  |
+|  34:tweet  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample34.json -d 100 --BlockNumMax 900  |  -  |
 |  ...  |  -  |  -  |
 
 contribution
