@@ -56,6 +56,33 @@ other sample
 |  8:happy_new_year_2023  |  python start.py -l1 -m art  --art_config_filepath config/art/art_config_sample8.json  |  -  |
 |  9:taka  |  python start.py -l1 -m art  --art_config_filepath config/art/art_config_sample9.json  |  -  |
 |  10:python_logo  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample10.json -d100 --BlockNumMax 500  |  -  |
+|  11:yoshi  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample11.json -d100 --BlockNumMax 900  |  -  
+|  12:neko  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample12.json -d100 --BlockNumMax 900  |  -  |
+|  13:kyubei  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample13.json -d100 --BlockNumMax 900  |  -  |
+|  14:question_block  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample14.json -d100 --BlockNumMax 900  |  -  |
+|  15:coin  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample15.json -d100 --BlockNumMax 900  |  -  |
+|  16:clefairy  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample16.json -d100 --BlockNumMax 900  |  -  |
+|  17:jigglypuff  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample17.json -d100 --BlockNumMax 900  |  -  |
+|  18:docker  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample18.json -d100 --BlockNumMax 900  |  -  |
+|  19:tux  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample19.json -d100 --BlockNumMax 900  |  -  |
+|  20:droid  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample20.json -d100 --BlockNumMax 900  |  -  |
+|  21:jenkins  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample21.json -d100 --BlockNumMax 900  |  -  |
+|  22:firefox  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample22.json -d100 --BlockNumMax 900  |  -  |
+|  23:gopher  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample23.json -d100 --BlockNumMax 900  |  -  |
+|  24:goomba  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample24.json -d100 --BlockNumMax 900  |  -  |
+|  25:toad  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample25.json -d100 --BlockNumMax 900  |  -  |
+|  26:super_star  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample26.json -d100 --BlockNumMax 900  |  -  |
+|  27:fire_flower  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample27.json -d100 --BlockNumMax 900  |  -  |
+|  28:ie_logo  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample28.json -d100 --BlockNumMax 900  |  -  |
+|  29:edge_logo  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample29.json -d100 --BlockNumMax 900  |  -  |
+|  30:puyo_green  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample30.json -d100 --BlockNumMax 900  |  -  |
+|  31:puyo_red  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample31.json -d100 --BlockNumMax 900  |  -  |
+|  32:puyo_yellow  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample32.json -d100 --BlockNumMax 900  |  -  |
+|  33:puyo_blue  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample33.json -d100 --BlockNumMax 900  |  -  |
+|  34:tweet  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample34.json -d 100 --BlockNumMax 900  |  -  |
+|  35:art  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample35.json -d 100 --BlockNumMax 900  |  -  |
+|  36:toypoodle  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample36.json -d 100 --BlockNumMax 900  |  -  |
+|  37:pome  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample37.json -d 100 --BlockNumMax 900  |  -  |
 |  ...  |  -  |  -  |
 
 contribution
