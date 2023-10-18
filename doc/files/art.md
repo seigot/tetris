@@ -83,6 +83,8 @@ other sample
 |  35:art  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample35.json -d 100 --BlockNumMax 900  |  -  |
 |  36:toypoodle  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample36.json -d 100 --BlockNumMax 900  |  -  |
 |  37:pome  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample37.json -d 100 --BlockNumMax 900  |  -  |
+|  38:karaage-san(r)  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample38.json -d 100 --BlockNumMax 900  |  -  |
+|  39:karaage-san(l)  |  python start.py -l1 -m art --art_config_filepath config/art/art_config_sample39.json -d 100 --BlockNumMax 900  |  -  |
 |  ...  |  -  |  -  |
 
 contribution
