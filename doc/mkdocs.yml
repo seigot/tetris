@@ -1,0 +1,10 @@
+site_name: Tetris Documentation
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - Usage Guide: usage-guide.md
+  - API Reference: api-reference.md
+  - FAQ: faq.md
+  - Contribution Guidelines: contribution-guidelines.md
+theme:
+  name: material
