@@ -55,7 +55,7 @@ install成功後、[実行方法](https://github.com/seigot/tetris/tree/master#�
 ```
 # install pyqt5 and NumPy
 brew install python3
-brew install pyqt5
+brew install pyqt6
 brew install numpy
 # install other packages
 brew install git
