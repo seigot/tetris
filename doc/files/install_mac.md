@@ -5,7 +5,7 @@ Finder→Application→Utility→Terminalから、ターミナル画面を起動
 ```
 # install pyqt5 and NumPy
 brew install python3
-brew install pyqt5
+brew install pyqt6
 brew install numpy
 #pip3 install pyqt5
 #pip3 install numpy
