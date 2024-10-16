@@ -5,7 +5,7 @@ services:
     container_name: tetris-pytorch-container
     build:
       context: .
-      dockerfile: ./docker/Dockerfile.pytorch
+      dockerfile: ./docker/Dockerfile
     volumes:
       - type: bind
         source: .
