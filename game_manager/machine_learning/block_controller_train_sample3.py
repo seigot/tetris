@@ -1,3 +1,13 @@
+class Block_Controller_Train_Sample3:
+    def __init__(self):
+        self.held_tetromino = None
+
+    def hold_tetromino(self, current_tetromino):
+        if self.held_tetromino is None:
+            self.held_tetromino = current_tetromino
+            return None
+        else:
+            self.held_tetromino, current_tetromino = current_tetromino, self.held_tetromino
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
