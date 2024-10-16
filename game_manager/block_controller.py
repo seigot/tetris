@@ -1,3 +1,13 @@
+import pprint
+import random
+
+class Block_Controller(object):
+
+    # init parameter
+    board_backboard = 0
+
+    def hold_tetromino(self):
+        pass
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
