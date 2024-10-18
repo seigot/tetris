@@ -124,7 +124,7 @@ python --version
 必要なパッケージをインストールする
 
 ```
-pip install pyqt5
+pip install pyqt6
 pip install numpy
 ```
 
