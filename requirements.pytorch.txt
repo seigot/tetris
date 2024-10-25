@@ -1,4 +1,4 @@
-numpy==1.21.0
+numpy==1.22.0
 pyqt6==6.7.1
 hydra-core
 torch 
