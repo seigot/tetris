@@ -40,6 +40,7 @@ jobs:
           pip3 install --upgrade pip
           sudo apt-get install -y git
           sudo apt-get install -y jq
+          sudo apt-get install -y libegl1-mesa
 
       - name: tetris_sample
         working-directory: target_dir

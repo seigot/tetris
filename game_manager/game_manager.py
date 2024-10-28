@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 
 import sys
-from PyQt5.QtWidgets import QMainWindow, QFrame, QDesktopWidget, QApplication, QHBoxLayout, QLabel
-from PyQt5.QtCore import Qt, QBasicTimer, pyqtSignal
-from PyQt5.QtGui import QPainter, QColor, QFont
+from PyQt6.QtWidgets import QMainWindow, QFrame, QApplication, QHBoxLayout, QLabel
+from PyQt6.QtCore import Qt, QBasicTimer, pyqtSignal
+from PyQt6.QtGui import QPainter, QColor, QFont
 
 from board_manager import BOARD_DATA, Shape
 from block_controller import BLOCK_CONTROLLER
@@ -171,7 +171,7 @@ class Game_Manager(QMainWindow):
         self.speed = self.drop_interval # block drop speed
 
         self.timer = QBasicTimer()
-        self.setFocusPolicy(Qt.StrongFocus)
+        self.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
 
         hLayout = QHBoxLayout()
 
@@ -209,7 +209,7 @@ class Game_Manager(QMainWindow):
     # Window を中心へ移動
     ###############################################
     def center(self):
-        screen = QDesktopWidget().screenGeometry()
+        screen = self.screen().availableGeometry()
         size = self.geometry()
         self.move((screen.width() - size.width()) // 2, (screen.height() - size.height()) // 2)
 
@@ -827,29 +827,29 @@ class Game_Manager(QMainWindow):
         #  "keyboard" : PC keyboard controller
         #  "gamepad" : game controller. KeyUp, space are different
 
-        if key == Qt.Key_P:
+        if key == Qt.Key.Key_P:
             self.pause()
             return
             
         if self.isPaused:
             return
-        elif key == Qt.Key_Left:
+        elif key == Qt.Key.Key_Left:
             BOARD_DATA.moveLeft()
-        elif key == Qt.Key_Right:
+        elif key == Qt.Key.Key_Right:
             BOARD_DATA.moveRight()
-        elif (key == Qt.Key_Up and self.mode == 'keyboard') or (key == Qt.Key_Space and self.mode == 'gamepad'):
+        elif (key == Qt.Key.Key_Up and self.mode == 'keyboard') or (key == Qt.Key.Key_Space and self.mode == 'gamepad'):
             BOARD_DATA.rotateLeft()
-        elif key == Qt.Key_M:
+        elif key == Qt.Key.Key_M:
             ## テノリミノを1つ落とし消去ラインとテトリミノ落下数を返す
             removedlines, movedownlines = BOARD_DATA.moveDown()
             # 消去ライン数によりスコア計算
             self.UpdateScore(removedlines, 0)
-        elif (key == Qt.Key_Space and self.mode == 'keyboard') or (key == Qt.Key_Up and self.mode == 'gamepad'):
+        elif (key == Qt.Key.Key_Space and self.mode == 'keyboard') or (key == Qt.Key.Key_Up and self.mode == 'gamepad'):
             ## テトリミノを一番下まで落とす
             removedlines, dropdownlines = BOARD_DATA.dropDown()
             # 消去ライン数と落下数によりスコア計算
             self.UpdateScore(removedlines, dropdownlines)
-        elif key == Qt.Key_C:
+        elif key == Qt.Key.Key_C:
             print("cc!!")
             self.tboard.hold_isdone = True
             BOARD_DATA.exchangeholdShape()
@@ -1130,4 +1130,4 @@ class Board(QFrame):
 if __name__ == '__main__':
     app = QApplication([])
     GAME_MANEGER = Game_Manager()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())
