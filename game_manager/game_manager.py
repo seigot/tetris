@@ -6,6 +6,7 @@ def check_perfect_clear(field):
     parser.add_argument('--perfect_clear_bonus', type=int, default=1000, help='Bonus points for a perfect clear')
 
 import sys
+        self.field = [[0] * self.width for _ in range(self.height)]
 from PyQt6.QtWidgets import QMainWindow, QFrame, QApplication, QHBoxLayout, QLabel
 from PyQt6.QtCore import Qt, QBasicTimer, pyqtSignal
 from PyQt6.QtGui import QPainter, QColor, QFont
