@@ -7,7 +7,7 @@ def check_perfect_clear(field):
 import sys
 from PyQt6.QtWidgets import QMainWindow, QFrame, QApplication, QHBoxLayout, QLabel
 from PyQt6.QtCore import Qt, QBasicTimer, pyqtSignal
-    self.field = [[0] * self.width for _ in range(self.height)]
+        self.field = [[0] * self.width for _ in range(self.height)]
 from PyQt6.QtGui import QPainter, QColor, QFont
 
 def check_perfect_clear(field):
