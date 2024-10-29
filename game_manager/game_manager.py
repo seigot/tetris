@@ -3,6 +3,7 @@ def check_perfect_clear(field):
 
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
+    parser.add_argument('--perfect_clear_bonus', type=int, default=1000, help='Bonus points for a perfect clear')
 
 import sys
 from PyQt6.QtWidgets import QMainWindow, QFrame, QApplication, QHBoxLayout, QLabel
