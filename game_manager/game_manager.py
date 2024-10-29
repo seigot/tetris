@@ -1,3 +1,6 @@
+def check_perfect_clear(field):
+    return all(tile == 0 for row in field for tile in row)
+
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
@@ -8,6 +11,9 @@ from PyQt6.QtGui import QPainter, QColor, QFont
 
 from board_manager import BOARD_DATA, Shape
 from block_controller import BLOCK_CONTROLLER
+    if check_perfect_clear(self.field):
+        self.award_bonus_points()
+
 from block_controller_sample import BLOCK_CONTROLLER_SAMPLE
 
 from argparse import ArgumentParser
@@ -18,6 +24,9 @@ import pprint
 ################################
 # Option 取得
 ###############################
+def award_bonus_points(self):
+    self.score += 1000  # Example bonus points
+
 def get_option(game_time, mode, nextShapeMode, drop_interval, random_seed, obstacle_height, obstacle_probability, all_block_clear_score, resultlogjson, train_yaml, predict_weight, user_name, ShapeListMax, BlockNumMax, art_config_filepath):
     argparser = ArgumentParser()
     argparser.add_argument('--game_time', type=int,
