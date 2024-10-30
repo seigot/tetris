@@ -113,11 +113,13 @@ def improved_heuristic(state):
         return coordArray
 
     def getBoard(self, board_backboard, Shape_class, direction, x):
+def adaptive_depth(state):
         # 
         # get new board.
         #
         # copy backboard data to make new board.
         # if not, original backboard data will be updated later.
+    return depth
         board = copy.deepcopy(board_backboard)
         _board = self.dropDown(board, Shape_class, direction, x)
         return _board
