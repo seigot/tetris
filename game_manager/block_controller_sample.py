@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
+from concurrent.futures import ThreadPoolExecutor
 import pprint
 import copy
 
@@ -88,16 +89,19 @@ memoization_cache = {}
         nextMove["strategy"]["y_moveblocknum"] = strategy[3]
         print(nextMove)
         print("###### SAMPLE CODE ######")
+def parallel_evaluate(states):
         return nextMove
 
     def getSearchXRange(self, Shape_class, direction):
         #
         # get x range from shape direction.
+    with ThreadPoolExecutor() as executor:
         #
         minX, maxX, _, _ = Shape_class.getBoundingOffsets(direction) # get shape x offsets[minX,maxX] as relative value.
         xMin = -1 * minX
         xMax = self.board_data_width - maxX
         return xMin, xMax
+    return results
 
     def getShapeCoordArray(self, Shape_class, direction, x, y):
         #
