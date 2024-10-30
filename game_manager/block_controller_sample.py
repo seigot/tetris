@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
+from concurrent.futures import ThreadPoolExecutor
 import pprint
 import copy
 
@@ -48,31 +49,41 @@ class Block_Controller(object):
         strategy = None
         LatestEvalValue = -100000
         # search with current block Shape
+def alpha_beta_pruning(node, depth, alpha, beta, maximizingPlayer):
         for direction0 in CurrentShapeDirectionRange:
             # search with x range
             x0Min, x0Max = self.getSearchXRange(self.CurrentShape_class, direction0)
             for x0 in range(x0Min, x0Max):
                 # get board data, as if dropdown block
-                board = self.getBoard(self.board_backboard, self.CurrentShape_class, direction0, x0)
+                if maximizingPlayer:
+                    
+                    board = self.getBoard(self.board_backboard, self.CurrentShape_class, direction0, x0)
 
                 # evaluate board
                 EvalValue = self.calcEvaluationValueSample(board)
                 # update best move
+            alpha = max(alpha, eval)
+                if EvalValue > bestEvalValue:
                 if EvalValue > LatestEvalValue:
                     strategy = (direction0, x0, 1, 1)
                     LatestEvalValue = EvalValue
+            beta = min(beta, eval)
 
                 ###test
+    return bestValue
+memoization_cache = {}
                 ###for direction1 in NextShapeDirectionRange:
                 ###  x1Min, x1Max = self.getSearchXRange(self.NextShape_class, direction1)
                 ###  for x1 in range(x1Min, x1Max):
                 ###        board2 = self.getBoard(board, self.NextShape_class, direction1, x1)
                 ###        EvalValue = self.calcEvaluationValueSample(board2)
+    if state in memoization_cache:
                 ###        if EvalValue > LatestEvalValue:
                 ###            strategy = (direction0, x0, 1, 1)
                 ###            LatestEvalValue = EvalValue
         # search best nextMove <--
 
+    memoization_cache[state] = result
         print("===", datetime.now() - t1)
         nextMove["strategy"]["direction"] = strategy[0]
         nextMove["strategy"]["x"] = strategy[1]
@@ -80,30 +91,37 @@ class Block_Controller(object):
         nextMove["strategy"]["y_moveblocknum"] = strategy[3]
         print(nextMove)
         print("###### SAMPLE CODE ######")
+def parallel_evaluate(states):
         return nextMove
 
     def getSearchXRange(self, Shape_class, direction):
         #
         # get x range from shape direction.
+    with ThreadPoolExecutor() as executor:
         #
         minX, maxX, _, _ = Shape_class.getBoundingOffsets(direction) # get shape x offsets[minX,maxX] as relative value.
         xMin = -1 * minX
         xMax = self.board_data_width - maxX
         return xMin, xMax
+    return results
 
+def improved_heuristic(state):
     def getShapeCoordArray(self, Shape_class, direction, x, y):
         #
         # get coordinate array by given shape.
         #
         coordArray = Shape_class.getCoords(direction, x, y) # get array from shape direction, x, y.
+    return heuristic_value
         return coordArray
 
     def getBoard(self, board_backboard, Shape_class, direction, x):
+def adaptive_depth(state):
         # 
         # get new board.
         #
         # copy backboard data to make new board.
         # if not, original backboard data will be updated later.
+    return depth
         board = copy.deepcopy(board_backboard)
         _board = self.dropDown(board, Shape_class, direction, x)
         return _board
