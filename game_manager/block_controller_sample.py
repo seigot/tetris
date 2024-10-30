@@ -103,11 +103,13 @@ def parallel_evaluate(states):
         return xMin, xMax
     return results
 
+def improved_heuristic(state):
     def getShapeCoordArray(self, Shape_class, direction, x, y):
         #
         # get coordinate array by given shape.
         #
         coordArray = Shape_class.getCoords(direction, x, y) # get array from shape direction, x, y.
+    return heuristic_value
         return coordArray
 
     def getBoard(self, board_backboard, Shape_class, direction, x):
