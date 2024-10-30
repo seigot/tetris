@@ -68,16 +68,19 @@ def alpha_beta_pruning(node, depth, alpha, beta, maximizingPlayer):
 
                 ###test
     return bestValue
+memoization_cache = {}
                 ###for direction1 in NextShapeDirectionRange:
                 ###  x1Min, x1Max = self.getSearchXRange(self.NextShape_class, direction1)
                 ###  for x1 in range(x1Min, x1Max):
                 ###        board2 = self.getBoard(board, self.NextShape_class, direction1, x1)
                 ###        EvalValue = self.calcEvaluationValueSample(board2)
+    if state in memoization_cache:
                 ###        if EvalValue > LatestEvalValue:
                 ###            strategy = (direction0, x0, 1, 1)
                 ###            LatestEvalValue = EvalValue
         # search best nextMove <--
 
+    memoization_cache[state] = result
         print("===", datetime.now() - t1)
         nextMove["strategy"]["direction"] = strategy[0]
         nextMove["strategy"]["x"] = strategy[1]
