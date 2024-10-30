@@ -55,7 +55,7 @@ def alpha_beta_pruning(node, depth, alpha, beta, maximizingPlayer):
             x0Min, x0Max = self.getSearchXRange(self.CurrentShape_class, direction0)
             for x0 in range(x0Min, x0Max):
                 # get board data, as if dropdown block
-                if maximizingPlayer:
+                    if maximizingPlayer:
                 board = self.getBoard(self.board_backboard, self.CurrentShape_class, direction0, x0)
 
                 # evaluate board
