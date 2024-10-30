@@ -62,6 +62,7 @@ def alpha_beta_pruning(node, depth, alpha, beta, maximizingPlayer):
                 EvalValue = self.calcEvaluationValueSample(board)
                 # update best move
             alpha = max(alpha, eval)
+                if EvalValue > bestEvalValue:
                 if EvalValue > LatestEvalValue:
                     strategy = (direction0, x0, 1, 1)
                     LatestEvalValue = EvalValue
