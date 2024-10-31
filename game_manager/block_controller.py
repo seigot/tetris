@@ -4,15 +4,10 @@ import random
 #!/usr/bin/python3
 class Block_Controller(object):
 # -*- coding: utf-8 -*-
-    # init parameter
 
-    board_backboard = 0
 from datetime import datetime
-    def __init__(self):
 import pprint
-        self.block_sequence = self.generate_block_sequence()
 import random
-        self.current_block_index = 0
 
     def generate_block_sequence(self):
 class Block_Controller(object):
