@@ -1,26 +1,65 @@
+import pprint
+import random
+
 #!/usr/bin/python3
-# -*- coding: utf-8 -*-
 
 from datetime import datetime
 import pprint
 import random
+    def __init__(self):
+        self.block_sequence = self.generate_block_sequence()
+        self.current_block_index = 0
 
-class Block_Controller(object):
 
-    # init parameter
+    def generate_block_sequence(self):
+        # Generate a fixed sequence of 180 blocks for level 1
+
+        sequence = []
+        for _ in range(25):  # 25 full cycles of 7 blocks
     board_backboard = 0
-    board_data_width = 0
-    board_data_height = 0
-    ShapeNone_index = 0
-    CurrentShape_class = 0
-    NextShape_class = 0
+    def generate_block_sequence(self):
+        # Generate a fixed sequence of 180 blocks for level 1
+        sequence = []
+        for _ in range(25):  # 25 full cycles of 7 blocks
+            sequence.extend([1, 2, 3, 4, 5, 6, 7])
+        sequence.extend([1, 2, 3, 4, 5])  # Add 5 more to make 180
+        return sequence
 
+    def GetNextMove(self, nextMove, GameStatus):
+            sequence.extend([1, 2, 3, 4, 5, 6, 7])
+    board_data_width = 0
+        next_block = self.block_sequence[self.current_block_index]
+        self.current_block_index += 1
+        # Implement logic to determine the move for the next block
+        # This is a placeholder for the actual move logic
+        # GameStatus : this data include all field status,
+        nextMove['rotate'] = 0
+        nextMove['move'] = 0
+        nextMove['drop'] = 1
+        return nextMove
+        sequence.extend([1, 2, 3, 4, 5])  # Add 5 more to make 180
+    board_data_height = 0
+        return sequence
+    ShapeNone_index = 0
+    def GetNextMove(self, nextMove, GameStatus):
+    CurrentShape_class = 0
+        # Use the pre-generated block sequence
+    NextShape_class = 0
+        next_block = self.block_sequence[self.current_block_index]
+
+        self.current_block_index += 1
     # GetNextMove is main function.
+        # Implement logic to determine the move for the next block
     # input
+        # This is a placeholder for the actual move logic
     #    GameStatus : this data include all field status, 
+        nextMove['rotate'] = 0
     #                 in detail see the internal GameStatus data.
+        nextMove['move'] = 0
     # output
+        nextMove['drop'] = 1
     #    nextMove : this data include next shape position and the other,
+        return nextMove
     #               if return None, do nothing to nextMove.
     def GetNextMove(self, nextMove, GameStatus):
 
