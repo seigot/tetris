@@ -2,8 +2,6 @@ import pprint
 import random
 
 #!/usr/bin/python3
-class Block_Controller(object):
-# -*- coding: utf-8 -*-
 
 from datetime import datetime
 import pprint
