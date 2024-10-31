@@ -7,8 +7,6 @@ from datetime import datetime
 import pprint
 import random
 class Block_Controller(object):
-
-
     def __init__(self):
         self.block_sequence = self.generate_block_sequence()
         self.current_block_index = 0
