@@ -14,6 +14,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 WORKDIR /tetris
 ADD ../ .
 RUN pip install -r requirements.pytorch.txt
+RUN pip install torch==1.10.0+cpu torchvision==0.11.1+cpu torchaudio==0.10.0+cpu -f https://download.pytorch.org/whl/torch_stable.html \
 
 # dependencies for GUI
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
