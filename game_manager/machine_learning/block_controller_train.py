@@ -52,6 +52,10 @@ class Block_Controller(object):
     ####################################
     def set_parameter(self,yaml_file=None,predict_weight=None):
         
+        if predict_weight is not None:
+            self.model = torch.load(predict_weight)
+        else:
+            self.model = self.initialize_default_model()
         ########
         ## 保存するフォルダの作成、保存す流ファイル名の設定
         self.result_warehouse = "outputs/"
