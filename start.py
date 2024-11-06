@@ -1,3 +1,5 @@
+import os
+os.environ['QT_QPA_PLATFORM_PLUGIN_PATH'] = r'C:\Users\YourUsername\AppData\Local\Programs\Python\Python39\Lib\site-packages\PyQt5\Qt\plugins\platforms'
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
