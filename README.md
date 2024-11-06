@@ -1,3 +1,12 @@
+# Setting Up the Environment for Qt Applications
+
+To ensure that the Qt platform plugins are correctly located, set the `QT_QPA_PLATFORM_PLUGIN_PATH` environment variable. This can be done by adding the following lines to your `start.py` script:
+
+```python
+import os
+os.environ['QT_QPA_PLATFORM_PLUGIN_PATH'] = r'C:\Users\YourUsername\AppData\Local\Programs\Python\Python39\Lib\site-packages\PyQt5\Qt\plugins\platforms'
+```
+Ensure that PyQt5 is installed and up-to-date by running `pip install --upgrade pyqt5`.
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
