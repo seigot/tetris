@@ -5,9 +5,26 @@ on:
       branches: [master]
     pull_request:
         paths-ignore:
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up MSBuild
+        uses: microsoft/setup-msbuild@v1.0.2
+
+
+      - name: Build with MSBuild
+        shell: powershell
           - '.gitignore'
           - 'LICENSE'
+          if (${{ matrix.arch }} -eq "x64") {
+            $msbuildPlatform = "x64"
+          } else {
           - '**.md'
+            $msbuildPlatform = "Win32"
+          }
+
+          msbuild -version
 
 # 環境変数
 env:
