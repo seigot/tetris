@@ -13,7 +13,7 @@ from block_controller_sample import BLOCK_CONTROLLER_SAMPLE
 from argparse import ArgumentParser
 import time
 import json
-        self.t_spin_label = QLabel(self)
+    self.t_spin_label = QLabel(self)
 import pprint
 
 ################################
