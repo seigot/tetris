@@ -1,3 +1,13 @@
+# Running Tetris on Google Colab
+
+To run Tetris in a Google Colab environment, follow these steps:
+
+1. **Clone the Repository**: Use `!git clone <repository-url>` to clone the repository into your Colab environment.
+2. **Install Dependencies**: Execute `!pip install -r requirements.txt` to install necessary dependencies.
+3. **Set Environment Variables**: Configure the environment by running `!export QT_QPA_PLATFORM=offscreen` to ensure PyQt5 operates correctly.
+4. **Run Tetris**: Execute the main script to start the game.
+
+Ensure you have the necessary permissions and access tokens if you plan to push changes back to the repository.
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
