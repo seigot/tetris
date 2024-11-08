@@ -22,8 +22,11 @@ import pprint
 ################################
 # Option 取得
 ###############################
-        self.t_spin_label.setText('T-Spin!')
-        self.t_spin_label.hide()
+
+    def show_t_spin_notification(self):
+        self.t_spin_label.show()
+        QTimer.singleShot(2000, self.t_spin_label.hide)  # Hide after 2 seconds
+
 def get_option(game_time, mode, nextShapeMode, drop_interval, random_seed, obstacle_height, obstacle_probability, all_block_clear_score, resultlogjson, train_yaml, predict_weight, user_name, ShapeListMax, BlockNumMax, art_config_filepath):
     argparser = ArgumentParser()
     argparser.add_argument('--game_time', type=int,
