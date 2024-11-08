@@ -14,6 +14,9 @@ from argparse import ArgumentParser
 import time
 import json
     self.t_spin_label = QLabel(self)
+        self.t_spin_label = QLabel(self)
+        self.t_spin_label.setText('T-Spin!')
+        self.t_spin_label.hide()
 import pprint
 
 ################################
