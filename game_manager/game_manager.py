@@ -31,9 +31,6 @@ def get_option(game_time, mode, nextShapeMode, drop_interval, random_seed, obsta
     argparser.add_argument('--game_time', type=int,
                            default=game_time,
                            help='Specify game time(s)')
-    def show_t_spin_notification(self):
-        self.t_spin_label.show()
-        QTimer.singleShot(2000, self.t_spin_label.hide)  # Hide after 2 seconds
 
     # Call this method when a T-Spin is detected
     argparser.add_argument('--mode', type=str,
