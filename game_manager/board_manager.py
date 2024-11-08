@@ -3,21 +3,29 @@
 
 import numpy as np_randomShape
 import numpy as np_randomObstacle
+from game_manager.t_spin_logic import TSpinLogic
 import numpy as np_randomObstaclePiece
 import copy
 
 #####################################
 #####################################
+        self.t_spin_logic = TSpinLogic()
 # テトリミノ形状
 # Shape manager
 #####################################
 #####################################
 class Shape(object):
+    def calculate_t_spin_score(self, block_position, rotation_state):
+        if self.t_spin_logic.is_t_spin(block_position, rotation_state):
+            return 400  # Example T-Spin score
+        return 0
     shapeNone = 0
     shapeI = 1
     shapeL = 2
     shapeJ = 3
     shapeT = 4
+        t_spin_score = self.calculate_t_spin_score(block_position, rotation_state)
+        score += t_spin_score
     shapeO = 5
     shapeS = 6
     shapeZ = 7
