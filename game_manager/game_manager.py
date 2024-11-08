@@ -13,16 +13,24 @@ from block_controller_sample import BLOCK_CONTROLLER_SAMPLE
 from argparse import ArgumentParser
 import time
 import json
+        self.t_spin_label = QLabel(self)
 import pprint
 
 ################################
 # Option 取得
 ###############################
+        self.t_spin_label.setText('T-Spin!')
+        self.t_spin_label.hide()
 def get_option(game_time, mode, nextShapeMode, drop_interval, random_seed, obstacle_height, obstacle_probability, all_block_clear_score, resultlogjson, train_yaml, predict_weight, user_name, ShapeListMax, BlockNumMax, art_config_filepath):
     argparser = ArgumentParser()
     argparser.add_argument('--game_time', type=int,
                            default=game_time,
                            help='Specify game time(s)')
+    def show_t_spin_notification(self):
+        self.t_spin_label.show()
+        QTimer.singleShot(2000, self.t_spin_label.hide)  # Hide after 2 seconds
+
+    # Call this method when a T-Spin is detected
     argparser.add_argument('--mode', type=str,
                            default=mode,
                            help='Specify mode (keyboard/gamepad/sample/train/art) if necessary')
