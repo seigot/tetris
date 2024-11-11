@@ -1,3 +1,10 @@
+## Setting up the Python Environment
+
+Instead of using `pyenv`, we recommend using Python's built-in `venv` for creating virtual environments. This approach is more compatible and aligns with Python's official recommendations.
+
+### Creating a Virtual Environment with venv
+
+```bash
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
