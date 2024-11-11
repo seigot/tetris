@@ -1,7 +1,9 @@
 FROM python:3.10-slim-bullseye
 LABEL maintainer="@EndoNrak"
 
+RUN python3 -m venv /venv
 # setup
+RUN /venv/bin/pip install -r requirements.txt
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     apt update && \
     apt upgrade -y && \
@@ -13,8 +15,6 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     mkdir /tetris
 WORKDIR /tetris
 ADD ../ .
-RUN pip install -r requirements.txt
-
 # dependencies for GUI
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     apt install -y \
