@@ -32,8 +32,11 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
+      - name: Set up virtual environment
         run: |
+        run: python3 -m venv venv
           sudo apt-get update
+        run: source venv/bin/activate
           python -m pip install --upgrade pip
           pip install flake8 pytest
           sudo apt-get install -y python3-pip
@@ -49,7 +52,7 @@ jobs:
           # QT display off
           export QT_QPA_PLATFORM=offscreen
           # run tetris
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          if [ -f requirements.txt ]; then venv/bin/pip install -r requirements.txt; fi
           python start.py -m sample -t 3 -f $HOME/result.json
           # check result
           jq . $HOME/result.json
@@ -63,8 +66,8 @@ jobs:
           # QT display off
           export QT_QPA_PLATFORM=offscreen
           # run tetris
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          if [ -f requirements.pytorch.txt ]; then pip install -r requirements.pytorch.txt; fi
+          if [ -f requirements.txt ]; then venv/bin/pip install -r requirements.txt; fi
+          if [ -f requirements.pytorch.txt ]; then venv/bin/pip install -r requirements.pytorch.txt; fi
           python start.py -m predict_sample -l 2 -t 5 --predict_weight weight/DQN/sample_weight.pt -f $HOME/result_dqn.json
           # check result
           jq . $HOME/result_dqn.json
@@ -78,8 +81,8 @@ jobs:
           # QT display off
           export QT_QPA_PLATFORM=offscreen
           # run tetris
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          if [ -f requirements.pytorch.txt ]; then pip install -r requirements.pytorch.txt; fi
+          if [ -f requirements.txt ]; then venv/bin/pip install -r requirements.txt; fi
+          if [ -f requirements.pytorch.txt ]; then venv/bin/pip install -r requirements.pytorch.txt; fi
           python start.py -m predict_sample2 -l 2 -t 5 --predict_weight weight/MLP/sample_weight.pt -f $HOME/result_mlp.json
           # check result
           jq . $HOME/result_mlp.json
@@ -93,8 +96,8 @@ jobs:
           # QT display off
           export QT_QPA_PLATFORM=offscreen
           # run tetris
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          if [ -f requirements.pytorch.txt ]; then pip install -r requirements.pytorch.txt; fi
+          if [ -f requirements.txt ]; then venv/bin/pip install -r requirements.txt; fi
+          if [ -f requirements.pytorch.txt ]; then venv/bin/pip install -r requirements.pytorch.txt; fi
           python start.py -m predict_sample3 -l 2 -t 5 --predict_weight weight/DQN/sample_weight.pt -f $HOME/result_dqn.json
           # check result
           jq . $HOME/result_dqn.json
