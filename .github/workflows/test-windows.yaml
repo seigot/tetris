@@ -32,9 +32,13 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
+      - name: Set up virtual environment
+        shell: powershell
         shell: powershell
         run: |
+        run: python -m venv venv
           git --version
+        run: .\venv\Scripts\Activate.ps1
           python --version
           python -m pip install --upgrade pip
 
@@ -46,7 +50,7 @@ jobs:
           # QT display off
           $Env:QT_QPA_PLATFORM = 'offscreen'
           # run tetris
-          if( Test-Path .\requirements.txt ){ pip install -r requirements.txt }
+          if( Test-Path .\requirements.txt ){ .\venv\Scripts\pip install -r requirements.txt }
           python start.py -m sample -t 3 -f $HOME/result.json
 
       - name: tetris_DQN_sample
@@ -56,8 +60,8 @@ jobs:
           # QT display off
           $Env:QT_QPA_PLATFORM = 'offscreen'
           # run tetris
-          if( Test-Path .\requirements.txt ){ pip install -r requirements.txt }
-          if( Test-Path .\requirements.pytorch.txt ){ pip install -r requirements.pytorch.txt }
+          if( Test-Path .\requirements.txt ){ .\venv\Scripts\pip install -r requirements.txt }
+          if( Test-Path .\requirements.pytorch.txt ){ .\venv\Scripts\pip install -r requirements.pytorch.txt }
           python start.py -m predict_sample -l 2 -t 5 --predict_weight weight/DQN/sample_weight.pt -f $HOME/result_dqn.json
 
       - name: tetris_MLP_sample
@@ -67,7 +71,7 @@ jobs:
           # QT display off
           $Env:QT_QPA_PLATFORM = 'offscreen'
           # run tetris
-          if( Test-Path .\requirements.txt ){ pip install -r requirements.txt }
-          if( Test-Path .\requirements.pytorch.txt ){ pip install -r requirements.pytorch.txt }
+          if( Test-Path .\requirements.txt ){ .\venv\Scripts\pip install -r requirements.txt }
+          if( Test-Path .\requirements.pytorch.txt ){ .\venv\Scripts\pip install -r requirements.pytorch.txt }
           python start.py -m predict_sample2 -l 2 -t 5 --predict_weight weight/MLP/sample_weight.pt -f $HOME/result_mlp.json
 
