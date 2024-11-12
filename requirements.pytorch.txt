@@ -1,6 +1,7 @@
 numpy==1.22.0
 pyqt6==6.7.1
 hydra-core
+pandas
 torch 
 torchvision 
 torchaudio
