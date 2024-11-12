@@ -1,3 +1,13 @@
+## OpenMP Runtime Duplication Issue
+
+If you encounter an error related to multiple initializations of `libomp.dylib`, follow these steps:
+
+1. **Use a Virtual Environment**: Set up a Python virtual environment to manage dependencies in isolation.
+2. **Set Environment Variable**: As a temporary workaround, set the environment variable `KMP_DUPLICATE_LIB_OK=TRUE` before running your script:
+   ```
+   export KMP_DUPLICATE_LIB_OK=TRUE
+   ```
+   Use this with caution as it may lead to crashes or incorrect results.
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
