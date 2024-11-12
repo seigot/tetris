@@ -1,6 +1,7 @@
 version: '3'
 
 services:
+  app:
   tetris:
     container_name: tetris-pytorch-container
     build:
@@ -11,6 +12,9 @@ services:
         source: .
         target: /tetris
     environment:
+      - FRAMEWORK=pytorch
       - DISPLAY=host.docker.internal:0.0
     tty: true
+    ports:
     shm_size: 512m
+      - "5000:5000"
