@@ -1,2 +1,4 @@
 numpy==1.22.0
 PyQt6==6.7.1
+# Ensure no static linking of OpenMP to prevent multiple initializations
+# Adjust dependencies to avoid conflicts with OpenMP
