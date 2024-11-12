@@ -1,3 +1,10 @@
+# AI Frameworks Overview
+
+This project supports multiple AI frameworks, including PyTorch, Keras, and TensorFlow. Below is a summary of each framework's key differences, strengths, and use cases:
+
+- **PyTorch**: Known for its dynamic computation graph and ease of use, especially in research settings.
+- **Keras**: Offers a simple interface for building neural networks, often used for quick prototyping.
+- **TensorFlow**: Provides a comprehensive ecosystem for deploying machine learning models at scale.
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
