@@ -1,3 +1,14 @@
+sudo apt update -y
+sudo apt upgrade -y
+
+### GWSL設定の詳細
+GWSLを使用する際は、設定画面で「Display/Audio Auto Exporting」を有効にしてください。
+
+### WSLgの利用
+最新のWindows環境ではWSLgを使用して、GUIアプリケーションを実行できます。
+### ユーザーコメントの反映
+cd /usr/bin
+ln -s python3 python
 # 実行環境 (Windows WSLを使う場合)
 
 Windows WSLを使って開発環境を立ち上げる方法を説明する。
