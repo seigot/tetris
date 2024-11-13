@@ -10,10 +10,13 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
         curl \
         git \
         build-essential && \
+        valgrind 
     mkdir /tetris
 WORKDIR /tetris
 ADD ../ .
 RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir --upgrade pip setuptools wheel
+RUN pip install --no-cache-dir -r requirements.txt
 
 # dependencies for GUI
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
@@ -24,4 +27,4 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
         libxkbcommon-x11-0 \
         libdbus-1-3
 
-ENTRYPOINT ["python", "./start.py"]
+ENTRYPOINT ["valgrind", "--leak-check=full", "python", "./start.py"]
