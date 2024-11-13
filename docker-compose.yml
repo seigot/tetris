@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  ai_service:
+    build: .
+    command: python start.py -l2 -t3 -m predict --predict_weight weight/DQN/sample_weight.pt
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 256M
