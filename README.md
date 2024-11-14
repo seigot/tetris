@@ -1,3 +1,13 @@
+# MacBook Pro (Apple Silicon) Setup Instructions
+
+To set up the Python development environment on a MacBook Pro (Apple Silicon, M1 PRO, 2021), follow these steps:
+
+1. Run the setup script:
+   ```sh
+   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+   brew install python pyqt5 numpy
+   pip3 install -U pip
+   pip3 install torch tensorboardX
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
