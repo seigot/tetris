@@ -33,15 +33,16 @@ class Block_Controller(object):
     Returns:
         None: If no move is to be made.
     """
-        t1 = datetime.now()
 
-        # print GameStatus
-        print("=================================================>")
-        pprint.pprint(GameStatus, width = 61, compact = True)
+    t1 = datetime.now()
 
-        # get data from GameStatus
-        # current shape info
-        CurrentShapeDirectionRange = GameStatus["block_info"]["currentShape"]["direction_range"]
+    # print GameStatus
+    print("=================================================>")
+    pprint.pprint(GameStatus, width = 61, compact = True)
+
+    # get data from GameStatus
+    # current shape info
+    CurrentShapeDirectionRange = GameStatus["block_info"]["currentShape"]["direction_range"]
         self.CurrentShape_class = GameStatus["block_info"]["currentShape"]["class"]
         # next shape info
         NextShapeDirectionRange = GameStatus["block_info"]["nextShape"]["direction_range"]
