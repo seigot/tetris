@@ -758,10 +758,16 @@ class Block_Controller(object):
     # 次の動作取得: ゲームコントローラから毎回呼ばれる
     ####################################
     def GetNextMove(self, nextMove, GameStatus,yaml_file=None,weight=None):
+        start_time = time.time()
 
         t1 = datetime.now()
         # RESET 関数設定 callback function 代入 (Game Over 時)
         nextMove["option"]["reset_callback_function_addr"] = self.update
+        end_time = time.time()
+        execution_time = end_time - start_time
+        if execution_time > 1:
+            print("Warning: GetNextMove execution time exceeded 1 second.")
+            # Apply penalty logic here (e.g., reduce score)
         
         # mode の取得
         self.mode = GameStatus["judge_info"]["mode"]
