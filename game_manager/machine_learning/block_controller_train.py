@@ -48,6 +48,8 @@ class Block_Controller(object):
         return cfg
 
     ####################################
+if torch.cuda.is_available():
+    next_states = next_states.cuda()
     # 初期 parameter を設定
     ####################################
     def set_parameter(self,yaml_file=None,predict_weight=None):
