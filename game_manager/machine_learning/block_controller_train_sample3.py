@@ -1752,6 +1752,8 @@ class Block_Controller(object):
                 #debug
                 print (GameStatus["judge_info"]["block_index"], self.weight2_enable, max_highest_hole)
 
+if torch.cuda.is_available():
+    next_states = next_states.cuda()
 
             ##############
             # model 指定
