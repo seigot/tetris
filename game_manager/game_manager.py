@@ -1,13 +1,22 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+import time
 import sys
 from PyQt6.QtWidgets import QMainWindow, QFrame, QApplication, QHBoxLayout, QLabel
 from PyQt6.QtCore import Qt, QBasicTimer, pyqtSignal
 from PyQt6.QtGui import QPainter, QColor, QFont
 
+        # Existing callback function logic
+
+
 from board_manager import BOARD_DATA, Shape
 from block_controller import BLOCK_CONTROLLER
+        end_time = time.time()
+        execution_time = end_time - start_time
+        if execution_time > 1:
+            print("Warning: Callback execution time exceeded 1 second.")
+            # Apply penalty logic here (e.g., reduce score)
 from block_controller_sample import BLOCK_CONTROLLER_SAMPLE
 
 from argparse import ArgumentParser
@@ -16,6 +25,16 @@ import json
 import pprint
 
 ################################
+
+def callback_with_timing(callback_func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = callback_func(*args, **kwargs)
+        end_time = time.time()
+        execution_time = end_time - start_time
+        if execution_time > 1:
+            print("Warning: Callback execution time exceeded 1 second.")
+        return result
 # Option 取得
 ###############################
 def get_option(game_time, mode, nextShapeMode, drop_interval, random_seed, obstacle_height, obstacle_probability, all_block_clear_score, resultlogjson, train_yaml, predict_weight, user_name, ShapeListMax, BlockNumMax, art_config_filepath):
