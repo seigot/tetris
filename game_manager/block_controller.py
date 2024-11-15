@@ -19,9 +19,18 @@ class Block_Controller(object):
     # input
     #    GameStatus : this data include all field status, 
     #                 in detail see the internal GameStatus data.
-    # output
+    """
+    Determines the next move based on the current game status.
+
+    Args:
+        nextMove: Data structure to include the next shape position and other details.
     #    nextMove : this data include next shape position and the other,
     #               if return None, do nothing to nextMove.
+        GameStatus: The current status of the game.
+
+    Returns:
+        None: If no move is to be made.
+    """
     def GetNextMove(self, nextMove, GameStatus):
 
         t1 = datetime.now()
