@@ -205,7 +205,7 @@ def start():
 
     ret = subprocess.run(cmd, shell=True, stderr=subprocess.PIPE, text=True)
     if ret.returncode != 0:
-        raise Exception(ret.stderr)
+        raise Exception(ret.stderr if ret.stderr else "An unknown error occurred during execution.")
     #p = subprocess.Popen(cmd, shell=True)
     #try:
     #    p.wait()
