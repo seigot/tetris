@@ -21,9 +21,18 @@ class Block_Controller(object):
     #    GameStatus : block/field/judge/debug information. 
     #                 in detail see the internal GameStatus data.
     # output
-    #    nextMove : nextMove structure which includes next shape position and the other.
+    """
+    Determines the next move based on the current game status.
+
+    Args:
+        nextMove: Data structure to include the next shape position and other details.
     def GetNextMove(self, nextMove, GameStatus):
 
+        GameStatus: The current status of the game.
+
+    Returns:
+        None: If no move is to be made.
+    """
         t1 = datetime.now()
 
         # print GameStatus
