@@ -33,7 +33,7 @@ class Block_Controller(object):
     Returns:
         None: If no move is to be made.
     """
-        t1 = datetime.now()
+    t1 = datetime.now()
 
         # print GameStatus
         print("=================================================>")
