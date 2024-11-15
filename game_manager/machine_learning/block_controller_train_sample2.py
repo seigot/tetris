@@ -823,8 +823,8 @@ class Block_Controller(object):
             next_actions, next_states = zip(*next_steps.items())
             # next_states (画面ボード状態 一覧) のテンソルを連結 (画面ボード状態のlist の最初の要素に状態が追加された)
             next_states = torch.stack(next_states)
-            if torch.cuda.is_available():
-                next_states = next_states.cuda()
+if torch.cuda.is_available():
+    next_states = next_states.cuda()
 
             # 学習モードに変更
             self.model.train()
