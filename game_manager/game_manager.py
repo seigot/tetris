@@ -1,4 +1,9 @@
 #!/usr/bin/python3
+"""
+This module manages the game state and flow.
+
+Contains classes and functions to initialize, update, and manage the game.
+"""
 # -*- coding: utf-8 -*-
 
 import sys

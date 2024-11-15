@@ -3,7 +3,7 @@ name: test-ubuntu
 on: 
 # push/pullrequest時にci実行
     push:
-      branches: [master]
+      branches: [main]
     pull_request:
         paths-ignore:
           - '.gitignore'
@@ -12,7 +12,7 @@ on:
 
 # 環境変数
 env:
-  BRANCH_NAME : "master"
+  BRANCH_NAME : "main"
 
 jobs:
   build:
