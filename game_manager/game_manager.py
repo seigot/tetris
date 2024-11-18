@@ -476,6 +476,8 @@ class Game_Manager(QMainWindow):
     # 消去ライン数と落下数によりスコア計算
     ###############################################
     def UpdateScore(self, removedlines, dropdownlines):
+        elapsed_time = round(time.time() - self.tboard.start_time, 3)
+        time_factor = 1 + (elapsed_time // 60) * 0.1
         # calculate and update current score
         # 消去ライン数で計算
         if removedlines == 1:
@@ -493,7 +495,7 @@ class Game_Manager(QMainWindow):
         self.tboard.dropdownscore += dropdownscore
         # 合計計算
         self.tboard.linescore += linescore
-        self.tboard.score += ( linescore + dropdownscore )
+        self.tboard.score += ( linescore + dropdownscore ) * time_factor
         self.tboard.line += removedlines
         # 同時消去数をカウント
         if removedlines > 0:
