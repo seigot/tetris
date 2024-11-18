@@ -422,7 +422,13 @@ class BoardData(object):
             moveDownlines += 1
         # 動かせなくなったら確定
         else:
+            self.start_persistence_timer()
             ##画面ボードに固着したテトリミノを書き込む
+    def start_persistence_timer(self):
+        # Logic to start a timer for block persistence
+        QTimer.singleShot(5000, self.finalize_block)
+
+    def finalize_block(self):
             self.mergePiece()
             ## 画面ボードの消去できるラインを探して消去し、画面ボードを更新、そして消した Line を返す
             removedlines = self.removeFullLines()
