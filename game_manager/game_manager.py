@@ -228,6 +228,7 @@ class Game_Manager(QMainWindow):
         BOARD_DATA.createNewPiece()
         self.tboard.msg2Statusbar.emit(str(self.tboard.score))
         self.timer.start(self.speed, self)
+        self.update_speed()
 
     ###############################################
     # ポーズ
@@ -243,6 +244,11 @@ class Game_Manager(QMainWindow):
             self.tboard.msg2Statusbar.emit("paused")
         else:
             self.timer.start(self.speed, self)
+    def update_speed(self):
+        elapsed_time = round(time.time() - self.tboard.start_time, 3)
+        speed_increment = (elapsed_time // 60) * 0.1
+        self.speed = max(1, self.drop_interval - speed_increment)
+        self.timer.start(self.speed, self)
 
         self.updateWindow()
 
