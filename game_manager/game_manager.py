@@ -1056,8 +1056,14 @@ class Board(QFrame):
         # Hold
         text = blank_text
         if self.hold_isdone == True:
+        self.hold_block()
             text = 'HOLD !!'
         painter.drawText(65, 190, text);
+    def hold_block(self):
+        if not self.tboard.hold_isdone:
+            BOARD_DATA.exchangeholdShape()
+            self.tboard.hold_isdone = True
+            self.updateWindow()
         # all_block_clear
         text = blank_text
         if self.allblockclear_isdone == True:
