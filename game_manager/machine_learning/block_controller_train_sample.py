@@ -165,7 +165,7 @@ class Block_Controller(object):
         # 推論の場合 推論ウェイトを torch で読み込み model に入れる。
         if self.mode=="predict" or self.mode=="predict_sample" or self.mode == "predict_sample2":
             print("Load {}...".format(predict_weight))
-            self.model = torch.load(predict_weight)
+            self.model = torch.load(predict_weight, map_location=torch.device('cpu'))
             self.model.eval()
 
         # Finuetuningの場合  学習済みの weight ファイルを読み込み model に入れる。
