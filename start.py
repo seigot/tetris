@@ -18,7 +18,7 @@ def get_option(game_level, game_time, mode, nextShapeMode, random_seed, drop_int
                            help='Specify mode (keyboard/gamepad/sample/art/train/predict/train_sample/predict_sample/train_sample2/predict_sample2/train_sample3/predict_sample3) if necessary')
     argparser.add_argument('--nextShapeMode', type=str,
                            default=nextShapeMode,
-                           help='Specify nextShapeMode (default/hate) if necessary')
+                           help='Specify nextShapeMode (normal/hate) if necessary')
     argparser.add_argument('-r', '--random_seed', type=int,
                            default=random_seed,
                            help='Specify random seed if necessary') 
