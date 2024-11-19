@@ -128,7 +128,7 @@ class Game_Manager(QMainWindow):
             self.game_time = args.game_time
         if args.mode in ("keyboard", "gamepad", "sample", "art", "train", "predict", "train_sample", "predict_sample", "train_sample2", "predict_sample2", "train_sample3", "predict_sample3"):
             self.mode = args.mode
-        if args.nextShapeMode in ("default", "hate"):
+        if args.nextShapeMode in ("normal", "hate"):
             self.nextShapeMode = args.nextShapeMode
         if args.drop_interval >= 0:
             self.drop_interval = args.drop_interval
