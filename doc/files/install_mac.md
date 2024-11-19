@@ -13,6 +13,22 @@ brew install numpy
 brew install git
 ```
 
+# Mac (M1) Installation Instructions
+
+For Mac users with an M1 chip, follow these steps to set up your environment:
+
+1. Open the terminal without Rosetta 2.
+2. Create a virtual environment using the native Python:
+   ```
+   /usr/bin/python3 -m venv env
+   source env/bin/activate
+   ```
+3. Upgrade pip:
+   ```
+   pip install --upgrade pip
+   ```
+4. Install PyQt6:
+
 Mac(M1)環境等では`pip3 install pyqt5`でエラーになることがある。`brew`を使うことで解決することがある。  
 [Mac(M1)にpip3 install pyqt5でpyqt5をインストールしようしようとするとエラーになる（Preparing metadata (pyproject.toml) ... error）](https://qiita.com/seigot/items/c779d187982268cf8b12)  
 
