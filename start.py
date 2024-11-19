@@ -53,8 +53,14 @@ def get_python_cmd():
                          stderr=subprocess.PIPE, encoding="utf-8")
     print(ret)
     if "not found" in ret.stderr:
+        print("'python3' command not found. Please install it using: sudo apt install python-is-python3")
+        exit(1)
+
         return "python3"
     if "Python 2" in ret.stderr:
+        print("'python3' command not found. Please install it using: sudo apt install python-is-python3")
+        exit(1)
+
         return "python3"
     return "python"
 
