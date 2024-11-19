@@ -27,6 +27,7 @@ train:
   optimizer: Adam # Optimizer (Adam SGD)
   lr: 1.0e-3 # 学習率 (0 to 1.0 指数表記は末尾にe-数字)
   lr_gamma: 0.1 # SGD 用 ... Step Size 進んだ EPOCH で gammma が学習率に乗算される (0 to 1.0)
+  hate_mode: False # Enable hate mode specific configurations
   lr_momentum: 0.99 # SGD 用 ... モーメンタム... 今までの移動とこれから動くべき移動の平均をとり振動を防ぐための関数 (0 to 1.0)
   lr_step_size: 1000 # SGD 用 ... step size 学習率更新タイミングの EPOCH 数  (1 to num_epoch)
   num_epoch: 10000 # 試行回数 (lr_step_size to num_epoch)
