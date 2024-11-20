@@ -119,6 +119,8 @@ def start():
 
     if IS_MODE not in ("default", "keyboard", "gamepad", "sample", "art", "train", "predict", "train_sample", "predict_sample", "train_sample2", "predict_sample2", "train_sample3", "predict_sample3"):
     
+        print("invalid mode: ", IS_MODE)
+        return
     if IS_MODE not in Config().get_available_arts():
         print("invalid mode: ", IS_MODE)
         return
