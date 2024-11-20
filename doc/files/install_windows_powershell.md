@@ -137,6 +137,7 @@ cd work
 git clone https://github.com/seigot/tetris
 cd tetris
 python start.py  # ここでtetrisが表示されればOK
+python start.py -m sample  # サンプルを実行
 ```
 
 プログラム内部の説明については以下など参照ください

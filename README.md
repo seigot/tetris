@@ -86,6 +86,7 @@ cd $HOME
 git clone https://github.com/seigot/tetris
 ```
 
+python start.py -m sample  # サンプルを実行
 ゲーム開始用スクリプトを実行
 
 ```shell
