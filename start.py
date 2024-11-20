@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+from config import Config
 # -*- coding: utf-8 -*-
 
 import sys
