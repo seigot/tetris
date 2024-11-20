@@ -118,6 +118,7 @@ def start():
         ART_CONFIG = args.art_config_filepath
 
     if IS_MODE not in ("default", "keyboard", "gamepad", "sample", "art", "train", "predict", "train_sample", "predict_sample", "train_sample2", "predict_sample2", "train_sample3", "predict_sample3"):
+    if IS_MODE not in Config().get_available_arts():
         print("invalid mode: ", IS_MODE)
         return
     if IS_NEXTSHAPEMODE not in ("default", "hate"):
