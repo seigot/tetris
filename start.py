@@ -121,6 +121,8 @@ def start():
     if IS_MODE not in ("default", "keyboard", "gamepad", "sample", "art", "train", "predict", "train_sample", "predict_sample", "train_sample2", "predict_sample2", "train_sample3", "predict_sample3"):
     
         print("invalid mode: ", IS_MODE)
+        print("invalid mode: ", IS_MODE)
+        return
         return
     if IS_NEXTSHAPEMODE not in ("default", "hate"):
         print("invalid nextshapemode: ", IS_NEXTSHAPEMODE)
