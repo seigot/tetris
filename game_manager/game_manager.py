@@ -823,6 +823,11 @@ class Game_Manager(QMainWindow):
             return
 
         key = event.key()
+        if key == Qt.Key.Key_C:
+            # Example: Change block color to blue when 'C' is pressed
+            self.block_color_manager.set_user_defined_color('blue')
+            print('Block color changed to blue')
+
         
         # key event handle process.
         # depends on self.mode, it's better to make key config file.
