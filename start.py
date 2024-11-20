@@ -121,9 +121,6 @@ def start():
     
         print("invalid mode: ", IS_MODE)
         return
-    if IS_MODE not in Config().get_available_arts():
-        print("invalid mode: ", IS_MODE)
-        return
     if IS_NEXTSHAPEMODE not in ("default", "hate"):
         print("invalid nextshapemode: ", IS_NEXTSHAPEMODE)
         return
