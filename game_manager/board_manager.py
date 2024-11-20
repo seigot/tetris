@@ -1,3 +1,9 @@
+class BlockColorManager:
+    def __init__(self):
+        self.user_defined_colors = []
+    def set_user_defined_color(self, color):
+        self.user_defined_colors.append(color)
+
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 

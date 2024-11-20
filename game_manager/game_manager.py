@@ -7,6 +7,7 @@ from PyQt6.QtCore import Qt, QBasicTimer, pyqtSignal
 from PyQt6.QtGui import QPainter, QColor, QFont
 
 from board_manager import BOARD_DATA, Shape
+from board_manager import BlockColorManager
 from block_controller import BLOCK_CONTROLLER
 from block_controller_sample import BLOCK_CONTROLLER_SAMPLE
 
@@ -87,6 +88,7 @@ class Game_Manager(QMainWindow):
     # 初期化
     ###############################################
     def __init__(self):
+        self.block_color_manager = BlockColorManager()
         super().__init__()
         self.isStarted = False
         self.isPaused = False
@@ -821,6 +823,11 @@ class Game_Manager(QMainWindow):
             return
 
         key = event.key()
+        if key == Qt.Key.Key_C:
+            # Example: Change block color to blue when 'C' is pressed
+            self.block_color_manager.set_user_defined_color('blue')
+            print('Block color changed to blue')
+
         
         # key event handle process.
         # depends on self.mode, it's better to make key config file.
