@@ -6,6 +6,7 @@ import numpy as np_randomObstacle
 import numpy as np_randomObstaclePiece
 import copy
 
+import yaml
 #####################################
 #####################################
 # テトリミノ形状
