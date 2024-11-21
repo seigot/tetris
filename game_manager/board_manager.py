@@ -123,7 +123,7 @@ class Shape(object):
 #####################################################################
 #####################################################################
 class BoardData(object):
-import yaml
+    import yaml
 import yaml
 
 with open('config/settings.yaml', 'r') as file:
