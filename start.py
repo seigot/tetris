@@ -109,6 +109,9 @@ def start():
     if args.ShapeListMax > 1:
         SHAPE_LIST_MAX = args.ShapeListMax
     if args.BlockNumMax > 1:
+    if len(args.resultlogjson) != 0:
+        with open(args.resultlogjson, 'r') as file:
+            random_seed = json.load(file).get('random_seed', None)
         INPUT_BLOCK_NUM_MAX = args.BlockNumMax
     if len(args.train_yaml) != 0:
         TRAIN_YAML = args.train_yaml
