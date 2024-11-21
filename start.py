@@ -109,6 +109,8 @@ def start():
     if args.ShapeListMax > 1:
         SHAPE_LIST_MAX = args.ShapeListMax
     if args.BlockNumMax > 1:
+        with open(args.resultlogjson, 'r') as file:
+            random_seed = json.load(file).get('random_seed', None)
     if len(args.resultlogjson) != 0:
         with open(args.resultlogjson, 'r') as file:
             random_seed = json.load(file).get('random_seed', None)
