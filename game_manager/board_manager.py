@@ -131,7 +131,10 @@ class BoardData(object):
     ##  board manager 初期化
     #######################################
     def __init__(self):
-        self.backBoard = [0] * BoardData.width * BoardData.height # initialize board matrix
+        BoardData.width = config['board_width']
+        BoardData.height = config['board_height']
+
+        self.backBoard = [0] * BoardData.width * BoardData.height
 
         self.currentX = -1
         self.currentY = -1
