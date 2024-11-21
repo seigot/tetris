@@ -971,7 +971,7 @@ class Board(QFrame):
     ###############################################
     def __init__(self, parent, gridSize, game_time, nextShapeMode, random_seed, obstacle_height, obstacle_probability, ShapeListMax, art_config_filepath):
         super().__init__(parent)
-        self.setFixedSize(gridSize * BOARD_DATA.width, gridSize * BOARD_DATA.height)
+        self.setFixedSize(gridSize * config['board_width'], gridSize * config['board_height'])
         self.gridSize = gridSize
         self.game_time = game_time
         self.initBoard(nextShapeMode, random_seed, obstacle_height, obstacle_probability, ShapeListMax, art_config_filepath)
