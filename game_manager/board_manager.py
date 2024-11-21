@@ -6,6 +6,7 @@ import numpy as np_randomObstacle
 import numpy as np_randomObstaclePiece
 import copy
 
+import yaml
 #####################################
 #####################################
 # テトリミノ形状
@@ -123,15 +124,25 @@ class Shape(object):
 #####################################################################
 #####################################################################
 class BoardData(object):
+import yaml
 
-    width = 10
-    height = 22
+with open('config/settings.yaml', 'r') as file:
+
+with open('config/settings.yaml', 'r') as file:
+    config = yaml.safe_load(file)
+    config = yaml.safe_load(file)
+
+    width = 0
+    height = 0
 
     #######################################
     ##  board manager 初期化
     #######################################
     def __init__(self):
-        self.backBoard = [0] * BoardData.width * BoardData.height # initialize board matrix
+        BoardData.width = config['board_width']
+        BoardData.height = config['board_height']
+
+        self.backBoard = [0] * BoardData.width * BoardData.height
 
         self.currentX = -1
         self.currentY = -1
