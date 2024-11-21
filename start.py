@@ -112,6 +112,8 @@ def start():
     if len(args.resultlogjson) != 0:
         with open(args.resultlogjson, 'r') as file:
             random_seed = json.load(file).get('random_seed', None)
+        with open(args.resultlogjson, 'r') as file:
+            random_seed = json.load(file).get('random_seed', None)
         if len(args.resultlogjson) != 0:
             with open(args.resultlogjson, 'r') as file:
                 random_seed = json.load(file).get('random_seed', None)
