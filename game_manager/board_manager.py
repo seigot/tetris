@@ -124,8 +124,8 @@ class Shape(object):
 #####################################################################
 class BoardData(object):
 
-    width = 10
-    height = 22
+    width = 0
+    height = 0
 
     #######################################
     ##  board manager 初期化
