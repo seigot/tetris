@@ -123,6 +123,10 @@ class Shape(object):
 #####################################################################
 #####################################################################
 class BoardData(object):
+import yaml
+
+with open('config/settings.yaml', 'r') as file:
+    config = yaml.safe_load(file)
 
     width = 0
     height = 0
