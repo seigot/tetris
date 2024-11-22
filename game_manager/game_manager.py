@@ -1026,6 +1026,9 @@ class Board(QFrame):
         painter.drawLine(self.width(), 0, self.width(), self.height())
         # Draw text
         painter.setPen(QColor(0x777777))
+        if self.last_action_time and (datetime.now() - self.last_action_time).total_seconds() < 1:
+            painter.drawText(10, 50, self.current_action_message)
+
         font = painter.font();
         font.setPixelSize(30);
         painter.setFont(font);
