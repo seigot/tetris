@@ -1046,7 +1046,7 @@ class Board(QFrame):
                 linen = "line" + str(i+1)
                 text += '+' + str(GAME_MANEGER.getGameStatus()["debug_info"]["line_score"][linen])
         self.last_action_time = None
-                break
+        break
         painter.drawText(10, 120, text);
         # LEN
         text = blank_text
