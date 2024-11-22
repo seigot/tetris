@@ -1040,8 +1040,8 @@ class Board(QFrame):
         for i in range(4):
             val = self.line_score_stat_len[i]
             if val != 0:
-            self.current_action_message = ""
-        self.current_action_message = ""
+                self.current_action_message = ""
+                self.current_action_message = ""
                 text = str(i+1) + 'LINE !!'
                 linen = "line" + str(i+1)
                 text += '+' + str(GAME_MANEGER.getGameStatus()["debug_info"]["line_score"][linen])
