@@ -556,6 +556,9 @@ class BoardData(object):
             # 画面ボードに書き込む
             self.backBoard[x + y * BoardData.width] = self.currentShape.shape
 
+        self.current_action_message = "HOLD!!"
+        self.last_action_time = datetime.now()
+
         # 現テトリミノ情報を初期化
         self.currentX = -1
         self.currentY = -1
