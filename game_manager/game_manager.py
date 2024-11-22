@@ -696,7 +696,11 @@ class Game_Manager(QMainWindow):
             print("warning: current shape is none !!!")
 
         return status
+        if self.last_action_time and (datetime.now() - self.last_action_time).total_seconds() < 1:
+            status["action_message"] = self.current_action_message
+        else:
 
+            status["action_message"] = ""
     def getGameStatusJson(self):
         status = {
                   "debug_info":
