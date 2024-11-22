@@ -541,6 +541,9 @@ class BoardData(object):
                 lines += 1
         if lines > 0:
             self.backBoard = newBackBoard
+        if lines > 0:
+            self.current_action_message = f"{lines} LINE!!"
+            self.last_action_time = datetime.now()
         return lines
 
 
@@ -552,6 +555,9 @@ class BoardData(object):
         for x, y in self.currentShape.getCoords(self.currentDirection, self.currentX, self.currentY):
             # 画面ボードに書き込む
             self.backBoard[x + y * BoardData.width] = self.currentShape.shape
+
+        self.current_action_message = "HOLD!!"
+        self.last_action_time = datetime.now()
 
         # 現テトリミノ情報を初期化
         self.currentX = -1

@@ -696,7 +696,11 @@ class Game_Manager(QMainWindow):
             print("warning: current shape is none !!!")
 
         return status
+        if self.last_action_time and (datetime.now() - self.last_action_time).total_seconds() < 1:
+            status["action_message"] = self.current_action_message
+        else:
 
+            status["action_message"] = ""
     def getGameStatusJson(self):
         status = {
                   "debug_info":
@@ -1022,6 +1026,9 @@ class Board(QFrame):
         painter.drawLine(self.width(), 0, self.width(), self.height())
         # Draw text
         painter.setPen(QColor(0x777777))
+        if self.last_action_time and (datetime.now() - self.last_action_time).total_seconds() < 1:
+            painter.drawText(10, 50, self.current_action_message)
+
         font = painter.font();
         font.setPixelSize(30);
         painter.setFont(font);
@@ -1033,9 +1040,12 @@ class Board(QFrame):
         for i in range(4):
             val = self.line_score_stat_len[i]
             if val != 0:
+                self.current_action_message = ""
+                self.current_action_message = ""
                 text = str(i+1) + 'LINE !!'
                 linen = "line" + str(i+1)
                 text += '+' + str(GAME_MANEGER.getGameStatus()["debug_info"]["line_score"][linen])
+        self.last_action_time = None
                 break
         painter.drawText(10, 120, text);
         # LEN
