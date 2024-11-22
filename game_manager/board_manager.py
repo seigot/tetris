@@ -541,6 +541,9 @@ class BoardData(object):
                 lines += 1
         if lines > 0:
             self.backBoard = newBackBoard
+        if lines > 0:
+            self.current_action_message = f"{lines} LINE!!"
+            self.last_action_time = datetime.now()
         return lines
 
 
