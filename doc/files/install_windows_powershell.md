@@ -145,6 +145,7 @@ python start.py  # ここでtetrisが表示されればOK
 [AIについて](./ai.md)  
 [tetris artについて](./art.md)  
 [README.md](https://github.com/seigot/tetris#%E5%AE%9F%E8%A1%8C%E6%96%B9%E6%B3%95)  
+[English README.md](https://github.com/seigot/tetris/doc/en/README.md) is also available.
 
 ### option. エディタのインストール
 
