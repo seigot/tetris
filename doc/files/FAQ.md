@@ -11,6 +11,7 @@
 |  Mac  |  [こちら](https://github.com/seigot/tetris/blob/master/doc/files/install_mac.md)  |
 |  Windows+powershell  |  [こちら](https://github.com/seigot/tetris/blob/master/doc/files/install_windows_powershell.md)  |
 |  Windows+Docker  |  [こちら](https://github.com/seigot/tetris/blob/master/docker/README.md)  |
+|  English Documentation  |  [here](https://github.com/seigot/tetris/doc/en/README.md)  |
 |  JetsonNano  |  （動作未確認だがおそらく動くはず）  |
 |  RaspberryPi  |  （動作未確認だがおそらく動くはず）  |
 |  Windows+GoogleChrome+ubuntu-free-online-linux  |  [chrome webstore URL](https://chrome.google.com/webstore/detail/ubuntu-free-online-linux/pmaonbjcobmgkemldgcedmpbmmncpbgi?hl=ja)  |
