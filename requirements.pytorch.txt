@@ -6,3 +6,4 @@ torchvision
 torchaudio
 tensorflow-tensorboard
 tensorboardx
+# Python version: 3.12
