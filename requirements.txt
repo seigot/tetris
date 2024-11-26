@@ -1,3 +1,2 @@
-Converted to UTF-8 encoding
 numpy==1.22.0
 PyQt6==6.7.1
