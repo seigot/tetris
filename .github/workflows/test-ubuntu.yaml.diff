@@ -1,0 +1,2 @@
+-          sudo apt-get install -y libegl1-mesa
+          sudo apt-get install -y libegl-mesa0
