@@ -1,0 +1,16 @@
+SPDXVersion: SPDX-2.2
+DataLicense: CC0-1.0
+SPDXID: SPDXRef-DOCUMENT
+DocumentName: Tetris SBOM
+DocumentNamespace: http://spdx.org/spdxdocs/tetris-sbom-2025-02-19
+Creator: Tool: Tetris SBOM Generator
+Created: 2025-02-19T00:00:00Z
+
+##### Package Information #####
+PackageName: Tetris
+SPDXID: SPDXRef-Package-Tetris
+PackageVersion: 1.0.0
+PackageSupplier: Organization: seigot
+PackageDownloadLocation: NOASSERTION
+FilesAnalyzed: false
+PackageLicenseDeclared: NOASSERTION
