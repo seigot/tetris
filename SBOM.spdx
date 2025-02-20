@@ -1,0 +1,15 @@
+SPDXVersion: SPDX-2.2
+DataLicense: CC0-1.0
+SPDXID: SPDXRef-DOCUMENT
+DocumentName: Tetris Software Bill Of Materials
+DocumentNamespace: http://spdx.org/spdxdocs/tetris-bom-2025-02-20
+Creator: Organization: seigot
+Created: 2025-02-20T00:00:00Z
+
+##### Package Information #####
+PackageName: tetris
+SPDXID: SPDXRef-Package-tetris
+PackageVersion: master
+PackageDownloadLocation: NOASSERTION
+FilesAnalyzed: false
+PackageVerificationCode: NOASSERTION
